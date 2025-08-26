@@ -1,0 +1,21 @@
+\section{Anwendungen auf Zeitreihen}
+
+\subsection{Kalibrierung}
+Aus einem Datensatz lassen sich die Parameter $\mu$ und $\sigma$ der
+geometrischen Brownschen Bewegung schätzen. 
+Für reale Werte ist $\Delta t \gt 0$ und $n$ ist die (endliche) Anzahl von Datenpunkten. 
+Zur Schätzung von $\mu$ und $\sigma$ werden die log-Rendite
+$$r_j := \log S_j - \log S_{j-1}= \big(\mu - \tfrac12 \sigma^2\big)\Delta t + \sigma (W_j - W_{j-1})$$
+genutzt. Da $W_j - W_{j-1} \sim N(0, \Delta t)$ folgt
+$$r_j \sim N((\mu - \tfrac12 \sigma^2)\Delta t, \sqrt{\sigma} \Delta t).$$
+Man berechnet also die log-Rendite $\hat r_j$ des Datensatzes, 
+und davon den empirischen Erwartungswert $m$ (den Durchschnitt) und die empirische Varianz $s^2$. 
+Dann folgt $$\sigma \approx s,\quad \mu \approx m + \frac{1}{2} s^2.$$
+Die Schätzung der Parameter kann in R wie folgt durchgeführt werden:
+
+\begin{lstlisting}
+log_returns <- diff(log(dax$Price)) # tägliche Werte
+sigma <- sd(log_returns)
+mu <- mean(log_returns) + 0.5 * sigma^2
+\end{lstlisting}
+

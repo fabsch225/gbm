@@ -1,0 +1,144 @@
+\section{Stochastische Prozesse}
+
+In einer einführenden Vorlesung zur Stochastik betrachtet man zunächst einzelne Zufallsvariablen, 
+etwa das Ergebnis eines Würfelwurfs. In dieser Arbeit stehen hingegen Folgen von 
+Zufallsvariablen im Mittelpunkt. Solche Folgen erlauben es, zeitliche Entwicklungen zu modellieren,
+beispielsweise Veränderungen eines Systems, die zu bestimmten Zeitpunkten $t_0, t_1, \dots$ gemessen werden.
+Man spricht dann von einem zeitdiskreten stochastischen Prozess. Eine natürliche 
+Verallgemeinerung bilden zeitstetige stochastische Prozesse: Hierbei definiert man eine 
+Familie von Zufallsvariablen $(X_t)_{t \in \mathbb{R}_{\ge 0}}$, wobei $t$ kontinuierlich als 
+Zeitparameter interpretiert wird. Im Folgenden werden zwei wichtige Beispiele für stochastische Prozesse 
+vorgestellt, die im restlichen Verlauf der Arbeit immer wieder eine Rolle spielen.
+
+\begin{bsp}[Binomialmodell]
+Das Binomialmodell ist ein simples Modell einer Aktie und deren Preisentwicklung. 
+Man beginnt mit einem Anfangspreis $S_0$. $S_1, S_2, \dots$ sind dann Messungen des Aktienpreises zu einem festen Intervall.
+ Zu einer festen Wahrscheinlichkeit $0 \lt p \lt 1$ steigt die Aktie um den Faktor $d$, oder fällt mit der Wahrscheinlichkeit $1-p$ um den Faktor $u$. Also
+$$S_{t+1} = \begin{cases} d \cdot S_t, \quad  p \\ u \cdot S_t, \quad 1-p\end{cases}.$$
+Der Prozess ist multiplikativ und nicht additiv, da ein Aktienkurs nicht negativ werden kann.
+\end{bsp}
+
+\begin{bsp}[Brownsche Bewegung]
+Die Brownsche Bewegung beschreibt ursprünglich die Bewegung eines Partikels in 
+einer Flüssigkeit. Die Zufallsgröße ist hier die Position des Partikels.
+
+Naturanaloge stochastische Prozesse erfüllen eine Stetigkeitsbedingung: 
+Andernfalls würde sich der Partikel in der Flüssigkeit teleportieren. 
+Konkret: Es bezeichne der $\text{Pfad}( X_t)$ die Menge von Realisierungen der Zufallsvariablen $X_t$. 
+Im obigen Fall ist das der Weg des Partikels. Es wird gefordert, dass die Pfade fast-sicher stetig sind.
+
+\end{bsp}
+
+\subsection{Eigenschaften von stochastischen Prozessen}
+
+Im Folgenden wird stochastische Unabhängigkeit und der Erwartungswert im Bezug auf die Zeit untersucht. 
+Dazu definiert man einen neuen Wahrscheinlichkeitsraum, 
+der alle möglichen Verläufe des Prozesses vereint. 
+Um nicht weiter zwischen zeit-stetigen und -diskreten Prozessen unterscheiden zu müssen, 
+sei $I = \Bbb N_0$ im diskreten und $I = \Bbb R_{\ge 0}$ im stetigen Fall. 
+Des weiteren sei $(\tilde \Omega, \mathcal A_t, \tilde P)$ ein Wahrscheinlichkeitsraum, 
+und $(X_t)_{t \in I}$ ein eine Familie von Zufallsvariablen auf dem Wahrscheinlichkeitsraum, 
+die einen stochastischen Prozess bilden. Im Folgenden wird der Prozess 
+auf dem Produkt-Wahrscheinlichkeitsraum
+$$(\Omega, \mathcal F, P) := \bigtimes_{t \in I}(\tilde \Omega, \mathcal A_t,\tilde P)$$
+betrachtet.
+
+Das Ziel des ersten Teils ist es, Aktienkurse mit einem stochastischen Prozess 
+zu modellieren.
+
+\begin{defi}[Adaptiertheit]
+In der modernen Wahrscheinlichkeitsrechnung wird "Information über den
+Wahrscheinlichkeitsraum $(\Omega, \mathcal F, P)$" als Teil-$\sigma$-Algebra 
+von $\mathcal A$ verschlüsselt (Behrends). Dazu wird der Begriff der Filtration 
+definiert: Eine Familie von $\sigma$-Algebren $\mathcal F_t, t \in I$ heißt *Filtration*, 
+wenn $\mathcal F_s \subset \mathcal F_t$ für alle $s \lt t$ gilt. 
+Der Prozess $(X_t)_{t \in I}$ heißt an die Filtration adaptiert, 
+wenn $X_t$ $\mathcal F_t$-messbar ist für alle $t \in I$. Die Eigenschaft 
+$\mathcal F_s \subset \mathcal F_t$ kann man wie folgt interpretieren: 
+Die Größe des Datensatzes nimmt über die Zeit zu. Anstatt dem Produktraum, kann man 
+die Zufallsvariablen $X_t$ somit auf den Räumen $(\Omega, \mathcal F_t, P)$ definieren, 
+und setzt $\mathcal F = \lim_{t \to \infty} \mathcal F_t$.
+
+\end{defi}
+
+\begin{bsp}[Filtration des Binomialmodells]
+Jeder Zeitschritt im Binomialmodell ist zunächst eine Zufallsvariable auf dem 
+Wahrscheinlichkeitsraum $(\{W, B\}, \sigma(\{W, B\}), P)$ mit 
+$P(\{W \}) = p$, $P(\{B \}) = 1-p$. Hier steht $W$ für den Kursanstieg und $B$ für Kursfall. Die Preisentwicklung bis zum Zeitpunkt $t_0$ fasst man als Produkt-Wahrscheinlichkeitsraum auf.
+Betrachtet man ein dreistufiges Binomialmodell, ergibt sich die folgende Filtration: 
+$$
+\begin{aligned}
+\mathcal F_0 &= \{\emptyset, \Omega\} \\
+\mathcal F_1 &= \{\{WWW, WWB, \dots, WBB \}, \{ BWW, BWB, \dots, BBB \},\emptyset, \Omega \} \\ 
+\mathcal F_2 &= \{ \{WWB, WWW \}, \{WBB, WBW \}, \{BWB, BWW \}, \{BBB, BBW \}, \\ &\{WWW, WWB, \dots, WBB \}, \{ BWW, BWB, \dots, BBB \}, \\ &\emptyset, \Omega \} \\
+\mathcal F_3 &= \text{Pot}(\Omega)
+\end{aligned}
+$$
+Der Prozess $S_t$ ist adaptiert: Im ersten Schritt kann der Kurs entweder steigen oder
+fallen, alle weiteren Kursverläufe sind in dem Ereignis enthalten.
+
+\end{bsp}
+
+\begin{defi}[Bedingter Erwartungswert]
+
+Der bedingte Erwartungswert ist wichtig für die Untersuchung stochastischer Prozesse,
+insbesondere für unseren Anwendungsfall, da historische Entwicklungen in der Praxis 
+meist bekannt sind. Beispiel Poker: Dem Spieler ist seine Hand, und die Karten auf dem 
+Tisch bekannt. Daraus lässt sich die eigene Gewinnwahrscheinlichkeit berechnen.
+
+Sei $B$ ein Ereignis in der Vergangenheit. Dann definiert man
+den \textit{bedingten Erwartungswert} für stetige Zufallsvariablen $$E(X_t|B):=  \frac{1}{P(B)} \int_{B}^{} X_t(\omega) dP(\omega)$$
+und für einen diskreten Wahrscheinlichkeitsraum reicht
+$$E(X_t|B):= \frac{1}{P(B)}\sum_{b \in B} X_t(b) \cdot P(\{ b \})$$
+wobei $P(B) \neq 0$ gilt. Sonst ist $E(X_t|B) :=0$. 
+Mit dem bedingten Erwartungswert wird die Zufallsvariable $E(X_t)$.
+
+\end{defi}
+
+\begin{bsp}[Rechenbeispiel]
+Angenommen, die Kursentwicklung im dreistufigen Binomialmodell ist bis zum 
+Zeitpunkt $t=1$ bekannt, nämlich ist der Preis um den Faktor $d$ gestiegen. 
+Was kann man im Schritt $t=2$ erwarten? Hier ist $B=\{WWW, WWB, \dots, WBB \}$, $P(B)=p$, und gesucht ist $E(S_2|B)$. Aus der Definition folgt
+$$
+\begin{aligned}
+E(S_2|B) &= \frac{1}{P(B)}\sum_{k \in B} S_2(k) \cdot P(\{ k \}) \\ &=\frac{1}{p}(S_2(WWW) \cdot P(WWW)+ \cdots + S_2(WBB) \cdot P(WBB)) \\
+&= \frac{1}{p} (S_0 \cdot d^2 \cdot  p^2 + \cdots + S_0 \cdot d u \cdot p (1-p))
+\end{aligned}
+$$
+Für den Startwert $S_0=10$ und $p=0.25$ so wie $d=\frac{1}{u}=2$ ergibt sich
+$$E(S_2|B)=4 \cdot 10 \cdot \left( 2^2 \cdot 0.25^2 + 2^2 \cdot 0.25^2 + 1 \cdot 0.25\cdot 0.75 + 1 \cdot 0.25\cdot 0.75 \right)=35$$
+Ist die bisherige Kursentwicklung bekannt, hier $S_0=10, S_1 = d \cdot S_0=20$, aber nicht $B$, müsste man zuerst $B:=S_1^{-1}(20)$ berechnen.
+\end{bsp}
+
+\begin{defi}[Martingal]
+Martingale sind Prozesse, die tendenziell weder steigen noch fallen, 
+also "faire" Prozesse. Tendenziell heißt auf den Erwartungswert bezogen. 
+Steigende Prozesse werden Supermartingale genannt, fallende Submartingale. 
+Die mathematische Definitione erfolgt durch den Bedingten Erwartungswert: 
+Ist ein "fairer" Kurs zum aktuellen Zeitpunkt $s$ auf einem bestimmten Wert, 
+liegt der Erwartungswert zur Messzeit $t \gt s$ bei dem selben Wert.
+
+Ein stochastischer Prozess $(X_t)_{t \in I}$ heißt \textit{Submartingal}, wenn 
+$E(X_t|X_s=v) \le v$  für alle $s \lt t$, und alle $v \in \Bbb R$. $(X_t)_{t \in I}$
+ heißt \textit{Supermartingal}, wenn  $(-X_t)_{t \in I}$ ein Submartingal ist, und \textit{Matringal}, 
+ wenn er sowohl Supermartingal als auch Submartingal ist, also $E(X_t|X_s=v) = v$.
+\end{defi}
+
+\begin{lemma}[Martingaleigenschaft des Binomialmodells]
+Das Binomialmodell genau dann ein Martingal, wenn $p=\frac{1-d}{u-d}$ gilt. 
+\textit{Beweis}.
+Zuerst wird der Fall $t = s + 1$ gezeigt:
+Es gilt $S_{s+1}=S_s\,\xi_{s+1}$ für eine Zufallsvariable $\xi$ mit $\mathbb{P}(\xi_{s+1}=u)=p,\ \mathbb{P}(\xi_{s+1}=d)=1-p$. Es folgt
+$$E(S_{s+1}|S_s=v)= v \cdot E(\xi_{s+1})=v(pu+(1-p)d).$$
+Und setzt man die Matringaleigenschaft $E(S_{s+1}|S_s=v)=v$ ein, ergibt sich
+$$pu+(1-p)d=1\\[6pt] \iff p=\frac{1-d}{u-d}.$$
+Seien nun $s \lt t \in \Bbb N_0$ beliebig. Dann gilt $S_t=\xi_{t-1}\cdot \xi_{t-2}\cdots \xi_{s+1}\cdot S_s$. Da die $\xi_i$ unabhängig und identisch verteilt sind, gilt
+$$E(S_t|S_s=v)=v \cdot \prod_{i=s+1}^{t-1} E(\xi_t)=v \cdot E(\xi_{s+1})^{t-s}=v \cdot (pu+(1-p)d)^{s-t}.$$
+$E(S_t|S_s=v)=v$ ist wieder äquivalent zu $p=\frac{1-d}{u-d}$. $\square$
+\end{lemma}
+
+\begin{defi}
+Ein stochastischer Prozess heißt Markovprozess, falls die 
+Zufallsvariablen $X_t$ unabhängig von allen $X_s, s \lt t$ sind. 
+Das Binomialmodell ist wieder ein Beispiel.
+\end{defi}

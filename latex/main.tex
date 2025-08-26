@@ -1,0 +1,181 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{float}
+\usepackage{csquotes}
+\usepackage{amsmath} 
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{lipsum} 
+\usepackage{wrapfig}
+\usepackage{xparse}
+\usepackage{placeins}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{ragged2e}
+\usepackage{xurl}
+\usepackage{hyperref}
+\usepackage{breakurl}
+\usepackage{mathabx}
+
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\renewcommand{\algorithmcfname}{Algorithmus}
+
+\usepackage{caption}
+\usepackage[style=authoryear]{biblatex}
+\addbibresource{misc/literature.bib} 
+
+\title{Die geometrische Brownsche Bewegung und Anwendungen}
+\author{Fabian Schuller}
+\date{Oktober 2025}
+
+\usetikzlibrary{arrows.meta, positioning}
+
+%\usepackage{xcolor}
+%\usepackage[dvipsnames]{xcolor}
+%\pagecolor[rgb]{0,0,0} %black
+%\color[rgb]{0.5,0.5,0.5} %grey 
+
+
+\newtheoremstyle{mystyle}
+  {10pt}                    % Space above
+  {10pt}                    % Space below
+  {\normalfont}             % Body font
+  {}                        % Indent amount
+  {\bfseries}               % Theorem head font
+  {.}                       % Punctuation after theorem head
+  { }                       % Space after theorem head
+  {\thmname{#1}\thmnumber{ #2}\bfseries \thmnote{ (#3)}}
+
+\usepackage{xcolor}
+
+\definecolor{codegray}{gray}{0.95}
+\definecolor{commentgreen}{rgb}{0,0.6,0}
+\definecolor{keywordblue}{rgb}{0,0,1}
+
+
+\theoremstyle{mystyle}
+
+\newtheorem{satz}{Theorem}[subsection]
+\newtheorem{lemma}[satz]{Lemma}
+\newtheorem{korr}[satz]{Korollar}
+\newtheorem{defi}[satz]{Definition}
+\newtheorem{defprop}[satz]{Definition und Lemma}
+\newtheorem{bem}[satz]{Bemerkung}
+\newtheorem{bsp}[satz]{Beispiel}
+
+\newcommand{\lt}{\ensuremath <}
+\newcommand{\gt}{\ensuremath >}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{listings}
+
+\lstdefinelanguage{R}{
+  keywords={if,else,repeat,while,function,for,in,next,break,TRUE,FALSE,NULL,NA,NaN,Inf},
+  otherkeywords={!,!=,~,\*,\&,\%/\%,\%*\%,\%>\%,<-,<<-,->,->>,=,<=,>=,::,:::},
+  sensitive=true,
+  morecomment=[l]{\#},
+  morestring=[b]"
+}
+
+\lstdefinestyle{r-minimal}{
+  language=R,
+  basicstyle=\ttfamily\small,
+  numbers=left,
+  numberstyle=\tiny,
+  numbersep=6pt,
+  stepnumber=1,
+  showstringspaces=false,
+  breaklines=true,
+  keepspaces=true,
+  columns=fullflexible,
+  frame=none,
+  xleftmargin=2em,
+  framexleftmargin=1.5em,
+  literate={ä}{{\"a}}1 {ö}{{\"o}}1 {ü}{{\"u}}1 
+           {Ä}{{\"A}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1 {ß}{{\ss}}1
+}
+
+\lstset{style=r-minimal}
+
+\begin{document}
+
+%\pagecolor{ForestGreen!10!white} % Sets a very light forest green background for all pages
+%\color{NavyBlue}                 % Sets the default text color to Navy Blue for the entire document
+
+\begin{center}
+    \vspace*{2cm}
+    {\LARGE \textbf{Die geometrische Brownsche Bewegung und Anwendungen}}\\[2cm]
+
+    {\large Diese Bachelorarbeit wurde vorgelegt am\\[0.5cm]
+    
+    Fachbereich 9 \\[0.3cm]
+    Medizintechnik und Technomathematik\\[0.3cm]
+    FH Aachen, Campus Jülich\\[0.9cm]
+   
+
+    von\\[0.9cm]
+    Fabian Schuller\\
+    Matrikelnummer: 3646801\\[0.9cm]
+
+    und wurde betreut von\\[0.9cm]
+
+    Erstprüfer: Prof. Dr. habil. Daniel Gaigall\\[0.3cm]
+    Zweitprüfer: Thorsten Adrian, MSc\\[2cm]
+}
+    1. Oktober 2025
+
+    \vfill
+\end{center}
+
+\thispagestyle{empty}
+
+\newpage
+
+\section*{Eidesstattliche Erklärung}
+
+\noindent
+Hiermit versichere ich, dass ich die Bachelorarbeit mit dem Titel \\[0.5cm] \textbf{Die geometrische Brownsche Bewegung und Anwendungen} \\[0.5cm]selbstständig verfasst und keine anderen als die angegebenen Quellen und Hilfsmittel benutzt habe, alle Ausführungen, die anderen Schriften wörtlich oder sinngemäß entnommen wurden, kenntlich gemacht sind und die Arbeit in gleicher oder ähnlicher Fassung noch nicht Bestandteil einer Studien- oder Prüfungsleistung war. Ich verpflichte mich, ein Exemplar der Seminararbeit fünf Jahre aufzubewahren und auf Verlangen dem Prüfungsamt des Fachbereiches Medizintechnik und Technomathematik auszuhändigen.
+\\[2cm]
+
+\noindent
+
+\thispagestyle{empty}
+
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+Aachen, den 1. Oktober 2025 
+& 
+\begin{flushright}
+
+  \rule{6cm}{0.4pt} \\[-1.5cm] % Strich
+  \includegraphics[height=1.8cm]{images/unterschrift.png} \\
+  Fabian Schuller
+\end{flushright}
+
+\end{tabularx}
+
+\newpage
+
+\tableofcontents
+\newpage
+
+\input{chapters/00_motivation.tex}
+
+\input{chapters/05_grundlagen_notation.tex}
+
+\input{chapters/10_stoch_proz.tex}
+
+\input{chapters/15_brownsche_bewegung.tex}
+
+\input{chapters/20_geom_brown_bewegung.tex}
+
+\input{chapters/25_anwendungen_auf_zeitreihen.tex}
+
+\input{chapters/30_optionen.tex}
+
+\input{chapters/60_fazit.tex}
+
+\end{document}
