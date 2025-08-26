@@ -1,1 +1,154 @@
 \section{Die Brownsche Bewegung}
+
+Oft wird die Brownsche Bewegung (oder auch Wiener Prozess) axiomatisch definiert. In dieser Arbeit werden 
+direkt kumulative Normalverteilungen betrachtet. Zuerst wird eine vereinfachte Darstellung des Prozesses eingeführt, 
+die diskrete Brownsche Bewegung.
+
+\subsection{Diskrete Brownsche Bewegung}
+
+\begin{defi}[Diskrete Brownsche Bewegung]
+Die elementare Brownsche Bewegung sei ein stochastischer Prozess, 
+der aus einer Folge von Zufallsvariablen $\xi_n, n \in \Bbb N_0$ besteht, wobei
+$$\xi_n = \sum_{i=1}^n \eta_i, \quad \eta_i \sim N(0,1)$$. 
+Die Zufallsvariablen $\eta_i$ sind unabhängig und identisch verteilt. Nun 
+Nun wird eine stetige Zeitentwicklung durch lineare Interpolation eingeführt:
+$$b^{(1)}(t) := \xi_{\lfloor t \rfloor} + (t - \lfloor t \rfloor)(\xi_{\lfloor t \rfloor + 1} - \xi_{\lfloor t \rfloor}), \quad t \geq 0.$$
+Die Funktion $b{(1)}(t)$ wird diskrete Brownsche Bewegung erster Ordnung genannt.
+Der Name rührt daher, dass in eine Zeiteinheit genau eine Normalverteilung einbezogen wird.
+Im Allgemeinen wird die diskrete Brownsche Bewegung $b^{(N)}(t)$ $N$-ter Ordnung definiert als
+$$b^{(N)}(t) := \frac{1}{\sqrt{N}} \left ( \xi_{\lfloor Nt \rfloor} + (Nt - \lfloor Nt \rfloor)(\xi_{\lfloor Nt \rfloor + 1} - \xi_{\lfloor Nt \rfloor}) \right ), \quad t \geq 0.$$
+Hierbei wird in eine Zeiteinheit $N$ Normalverteilungen einbezogen.
+
+\end{defi}
+
+\begin{bsp}[Visualisierung der diskreten Brownschen Bewegung]
+Das folgende R-Programm (Ausschnitt) generiert eine diskrete Brownsche Bewegung N-ter Ordnung:
+
+\begin{lstlisting}
+  n_points <- N * T_max
+  eta <- rnorm(n_points, mean=0, sd=1)
+  xi <- c(0, cumsum(eta))
+  t_grid <- seq(0, T_max, length.out=steps)
+  k <- floor(N * t_grid)
+  frac <- N * t_grid - k
+  vals <- xi[k+1] + frac * (xi[k+2] - xi[k+1])
+  vals <- vals / sqrt(N)
+\end{lstlisting}
+Für verschiedene Werte von $N$ ergeben sich die folgenden Grafiken:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/disrete_bb.png}
+    \caption{Diskrete Brownsche Bewegung erster, zehnter, fünfzigster und zweihundertster Ordnung}
+    \label{fig:brownian}
+\end{figure}
+
+\end{bsp}
+
+
+\begin{lemma}[Martingal-Eigenschaft der diskreten Brownschen Bewegung]
+Ohne Beschränkung der Allgemeinheit wird der Fall $N=1$ betrachtet, sonst kann die Zeit skaliert werden.
+Ebenso wird nur der Fall $t \in \Bbb N_0$ untersucht: Der Prozess ist also wieder diskret. Das ist
+ausreichend, da im Verlauf der Arbeit der Grenzprozess $N \to \infty$ relevant 
+wird. Dann ist jeder Wert der Brownschen Bewegung beliebig nah an einem der diskreten Werte, 
+und die Martingal-Eigenschaft folgt aus der Stetigkeit des Erwartungswertes. Der stetig interpolierte 
+diskrete Prozess an sich ist nämlich kein Martingal. \textit{Beweis.}
+Zuerst wird der Fall $m=n+1$ betrachtet: zu zeigen ist
+$$E(b^{(1)}(m) | b^{(1)}(n)=v) = v.$$
+Da $b^{(1)}(m) = b^{(1)}(n) + \eta_{n+1}$ folgt
+$$E(b^{(1)}(m) | b^{(1)}(n)=v) = E(v + \eta_{n+1} | b^{(1)}(n)=v) = v + E(\eta_{n+1}) = v.$$
+Nun der allgemeine Fall $m > n+1$: aus dem Satz des iterierten Erwartungswertes folgt
+$$E(b^{(1)}(m) | b^{(1)}(n)=v) = E(E(b^{(1)}(m) | b^{(1)}(m-1)) | b^{(1)}(n)=v).$$
+Da $E(b^{(1)}(m) | b^{(1)}(m-1)) = b^{(1)}(m-1)$ folgt
+$$E(b^{(1)}(m) | b^{(1)}(n)=v) = E(b^{(1)}(m-1) | b^{(1)}(n)=v).$$
+Induktiv folgt die Behauptung. $\hfill \square$ \\
+
+\end{lemma}
+
+\begin{lemma}[Varianz der diskreten Brownschen Bewegung]
+$$
+\begin{aligned}
+V(b^{(N)}(t)) &= \frac{1}{N} \left ( V(\xi_{\lfloor Nt \rfloor}) + (Nt - \lfloor Nt \rfloor)^2 \text{Var}(\xi_{\lfloor Nt \rfloor + 1} - \xi_{\lfloor Nt \rfloor}) \right ) 
+\\ &= \frac{1}{N} (\lfloor Nt \rfloor + (Nt - \lfloor Nt \rfloor)^2)  
+\\ &= \frac{\lfloor Nt \rfloor}{N} + \frac{(Nt - \lfloor Nt \rfloor)^2}{N}.
+\end{aligned}
+$$
+Im Grenzübergang $N \to \infty$ konvergiert $\frac{\lfloor Nt \rfloor}{N} \to t$ und $\frac{(Nt - \lfloor Nt \rfloor)^2}{N} \to 0$.
+\end{lemma}
+
+\subsection{Ausgewählte Ergebnisse aus der Stochastik}
+Im Folgenden Beweis zur Stetigkeit der Pfade werden einige Ergebnisse aus der Stochastik verwendet, die hier zusammengefasst, aber nicht bewiesen werden.
+
+\begin{lemma}[Reihenkriterium für fast sichere Konvergenz]
+Sei $(X_n)_{n \in \Bbb N}$ eine Folge von Zufallsvariablen. Wenn es eine Reihe $\sum_{n=1}^\infty a_n$ mit $a_n \geq 0$ gibt, so dass
+$$P(|X_n| > \varepsilon) \leq a_n \quad \text{für alle } n \in \Bbb N \text{ und jedes } \varepsilon > 0,$$
+dann konvergiert $X_n$ fast sicher gegen $0$, d.h.
+$$P\left(\lim_{n \to \infty} X_n = 0\right) = 1.$$
+\end{lemma}
+
+\begin{lemma}[Kolmogorov-Ungleichung]
+Seien $X_1, X_2, \ldots, X_n$ unabhängige Zufallsvariablen mit $E(X_i) = 0$ und $V(X_i) < \infty$ für alle $i=1, \ldots, n$. Dann gilt für jedes $\varepsilon > 0$
+$$P\left(\max_{1 \leq k \leq n} |S_k| \geq \varepsilon \right) \leq \frac{1}{\varepsilon^2} V(S_n),$$
+wobei $S_k := \sum_{i=1}^k X_i$.
+\end{lemma}
+
+\subsection{Die Brownschen Bewegung als Grenzprozess}
+Nun wird der Grenzprozess $N \to \infty$ betrachtet. Intuitiv wird die Zeit immer feiner aufgelöst,
+und es wird immer mehr Normalverteilungen in eine Zeiteinheit einbezogen. Vorerst ist jedoch unklar, 
+ob der Grenzprozess überhaupt existiert.
+
+\begin{satz}[Existenz der Brownschen Bewegung]
+Es existiert ein stochastischer Prozess $W_t, t \geq 0$, so dass für jedes $t$ die Verteilung von $b^{(N)}(t)$ gegen die Verteilung von $W_t$ konvergiert, wenn $N \to \infty$.
+\textit{Beweis.}
+Fixiere $t \ge 0$ und setze $k:=\lfloor Nt \rfloor$ sowie $\alpha:=Nt-\lfloor Nt \rfloor \in [0,1)$. Dann gilt
+$$
+b^{(N)}(t)=\frac{1}{\sqrt{N}}\big(\xi_k+\alpha(\xi_{k+1}-\xi_k)\big)
+=\frac{1}{\sqrt{N}}\big(\xi_k+\alpha\,\eta_{k+1}\big).
+$$
+Da $\xi_k \sim N(0,k)$ und $\eta_{k+1}\sim N(0,1)$ unabhängig sind, ist $b^{(N)}(t)$ normalverteilt mit Mittelwert $0$ und Varianz
+$$
+\sigma_N^2(t)=\frac{1}{N}\big(k+\alpha^2\big).
+$$
+Damit ist für jedes $x\in\Bbb R$ die Verteilungsfunktion von $b^{(N)}(t)$ gegeben durch
+$$
+F_N(x)=\Bbb P\big(b^{(N)}(t)\le x\big)=\Phi\!\left(\frac{x}{\sigma_N(t)}\right),
+$$
+wobei $\Phi$ die Standardnormalverteilungsfunktion ist. Aus $\sigma_N^2(t)\to t$ folgt $\sigma_N(t)\to \sqrt{t}$ und wegen der Stetigkeit von $\Phi$ daher
+$$
+F_N(x)=\Phi\!\left(\frac{x}{\sigma_N(t)}\right)\;\longrightarrow\;\Phi\!\left(\frac{x}{\sqrt{t}}\right)\quad\text{für alle }x\in\Bbb R.
+$$
+Dies ist die Verteilungsfunktion von $N(0,t)$. Definiere $W_t\sim N(0,t)$. Somit konvergiert für jedes feste $t$ die Verteilung von $b^{(N)}(t)$ gegen die von $W_t$. $\hfill\square$
+\end{satz}
+
+\begin{satz}[Stetigkeit der Pfade]
+Der Pfad $t \mapsto W_t(\omega)$ ist fast sicher stetig.
+\textit{Beweis.}
+Fuer den Beweis wird eine neue Funktionen-Folge $\hat W_t^{(n)}(\omega), n \in \Bbb N$
+definiert, wobei $\hat W_t^{(n)}(\omega)$ die lineare Interpolation der Werte $W_{k/2^n}(\omega), k=0,1,2,\ldots$ ist. 
+Ohne Beschränkung der Allgemeinheit wird das Intervall $[0,1]$ betrachtet. Für $n \in \Bbb N$ und $k=0,\dots,2^n-1$ setze
+$$I_{n,k}:=\big[k2^{-n},(k+1)2^{-n}\big].$$
+Da die $I_{n,k}$ eine Zerlegung von $[0,1]$ bilden, ist
+$$
+\begin{aligned}
+M_n &:=\sup_{t\in[0,1]}\big|\hat W^{(n+1)}_t-\hat W^{(n)}_t\big| 
+\\ &= \max_{0\le k<2^n} \sup_{t\in I_{n,k}} \big|\hat W^{(n+1)}_t-\hat W^{(n)}_t\big| =\max_{0\le k<2^n}|Z_{n,k}|
+\end{aligned}
+$$
+Für die unabhängigen, Inkremente $Z_{n,k}$, wobei
+$$Z_{n,k}\sim N\!\big(0,2^{-(n+2)}\big).$$
+Mit der Kolmogorov-Ungleichung erhält man für jedes $\varepsilon>0$
+$$
+\Bbb P(M_n>\varepsilon) \le \frac{1}{\varepsilon^2} V(Z_{n,0}) = \frac{1}{\varepsilon^2} 2^{-(n+2)}.
+$$
+Wähle nun $\varepsilon_n:=2^{-n/4}$. Dann gilt
+$$
+\sum_{n=1}^\infty \Bbb P\!\big(M_n>\varepsilon_n\big)
+\le \sum_{n=1}^\infty 2^{n/2} \cdot 2^{-(n+2)}<\infty.
+$$
+Nach dem Reihenkriterium für fast sichere Konvergenz folgt, dass $M_n\to 0$ fast sicher.
+Für $m \gt n \ge N$ beliebig gilt
+$$\sup_{t}|\hat W^{(m)}_t - \hat W^{(n)}_t| \leq \sum_{k=n}^{m-1} M_k. \underset{N \to \infty} \longrightarrow 0$$
+Damit ist $\big(\hat W^{(n)}\big)_{n\in\Bbb N}$ fast sicher eine gleichmäßig Konvergent auf $[0,1]$ und konvergiert gleichmäßig 
+gegen einen Grenzpfad $\widetilde W$, der als gleichmäßiger Grenzwert stückweise linearer Funktionen stetig ist. 
+Durch Skalierung gilt die Aussage auf jedem kompakten Zeitintervall. $\hfill \square$
+\end{satz}

@@ -29,7 +29,7 @@ Im obigen Fall ist das der Weg des Partikels. Es wird gefordert, dass die Pfade 
 
 \end{bsp}
 
-\subsection{Eigenschaften von stochastischen Prozessen}
+\subsection{Bedingter Erwartungswert und Filtrationen}
 
 Im Folgenden wird stochastische Unabhängigkeit und der Erwartungswert im Bezug auf die Zeit untersucht. 
 Dazu definiert man einen neuen Wahrscheinlichkeitsraum, 
@@ -87,11 +87,16 @@ meist bekannt sind. Beispiel Poker: Dem Spieler ist seine Hand, und die Karten a
 Tisch bekannt. Daraus lässt sich die eigene Gewinnwahrscheinlichkeit berechnen.
 
 Sei $B$ ein Ereignis in der Vergangenheit. Dann definiert man
-den \textit{bedingten Erwartungswert} für stetige Zufallsvariablen $$E(X_t|B):=  \frac{1}{P(B)} \int_{B}^{} X_t(\omega) dP(\omega)$$
+den \textit{bedingten Erwartungswert} als $$E(X_t|B):=  \frac{1}{P(B)} \int_{B}^{} X_t(\omega) dP(\omega),$$
 und für einen diskreten Wahrscheinlichkeitsraum reicht
 $$E(X_t|B):= \frac{1}{P(B)}\sum_{b \in B} X_t(b) \cdot P(\{ b \})$$
 wobei $P(B) \neq 0$ gilt. Sonst ist $E(X_t|B) :=0$. 
 Mit dem bedingten Erwartungswert wird die Zufallsvariable $E(X_t)$.
+
+Ebenfalls werden die Satze des totalen Erwartungswertes und des iterierten Erwartungswertprinzips bewiesen,
+allerdings nur im diskreten Fall. Das ist ausreichend, da die meisten stetigen 
+Prozesse als Grenzprozesse diskreter Prozesse aufgefasst werden können.
+Dann werden Aussagen durch Grenzwertsätze auf den stetigen Fall übertragen. 
 
 \end{defi}
 
@@ -109,6 +114,34 @@ Für den Startwert $S_0=10$ und $p=0.25$ so wie $d=\frac{1}{u}=2$ ergibt sich
 $$E(S_2|B)=4 \cdot 10 \cdot \left( 2^2 \cdot 0.25^2 + 2^2 \cdot 0.25^2 + 1 \cdot 0.25\cdot 0.75 + 1 \cdot 0.25\cdot 0.75 \right)=35$$
 Ist die bisherige Kursentwicklung bekannt, hier $S_0=10, S_1 = d \cdot S_0=20$, aber nicht $B$, müsste man zuerst $B:=S_1^{-1}(20)$ berechnen.
 \end{bsp}
+
+\begin{satz}[Totaler Erwartungswert]
+Der totale Erwartungswert besagt, dass der Erwartungswert einer Zufallsvariablen
+durch die Summe der bedingten Erwartungswerte über eine Partition des Wahrscheinlichkeitsraumes
+berechnet werden kann. Sei also $(A_i)_{i \in I}$ eine Partition von $\Omega$,
+dann gilt $$E(X_t) = \sum_{i \in I} E(X_t|A_i) \cdot P(A_i).$$
+In dieser Arbeit wird nur der diskrete Fall betrachtet. \textit{Beweis.}
+$$E(X_t) = \sum_{\omega \in \Omega} X_t(\omega) \cdot P(\{\omega\}) = \sum_{i \in I} \sum_{\omega \in A_i} X_t(\omega) \cdot P(\{\omega\}) = \sum_{i \in I} E(X_t|A_i) \cdot P(A_i).$$ $\square$
+
+\end{satz}
+
+\begin{satz}[Iterierter Erwartungswert]
+Für eine Zufallsvariable $X$ und ein Ereignis $B$ mit $P(B) > 0$ gilt:
+$$
+E(E(X|B)) = E(X)
+$$
+\textit{Beweis.} Im diskreten Fall gilt:
+$$
+\begin{aligned}
+E(E(X|B)) &= E\left(\frac{1}{P(B)} \sum_{b \in B} X(b) P(\{b\})\right) 
+\\ &= \frac{1}{P(B)} \sum_{b \in B} X(b) P(\{b\}) \cdot P(B) 
+\\ &= \sum_{b \in B} X(b) P(\{b\}) = E(X \cdot 1_B)
+\end{aligned}
+$$
+Falls $B = \Omega$, folgt $E(X \cdot 1_B) = E(X)$. $\hfill \square$
+\end{satz}
+
+\subsection{Eigenschaften von stochastischen Prozessen}
 
 \begin{defi}[Martingal]
 Martingale sind Prozesse, die tendenziell weder steigen noch fallen, 
@@ -134,7 +167,7 @@ Und setzt man die Matringaleigenschaft $E(S_{s+1}|S_s=v)=v$ ein, ergibt sich
 $$pu+(1-p)d=1\\[6pt] \iff p=\frac{1-d}{u-d}.$$
 Seien nun $s \lt t \in \Bbb N_0$ beliebig. Dann gilt $S_t=\xi_{t-1}\cdot \xi_{t-2}\cdots \xi_{s+1}\cdot S_s$. Da die $\xi_i$ unabhängig und identisch verteilt sind, gilt
 $$E(S_t|S_s=v)=v \cdot \prod_{i=s+1}^{t-1} E(\xi_t)=v \cdot E(\xi_{s+1})^{t-s}=v \cdot (pu+(1-p)d)^{s-t}.$$
-$E(S_t|S_s=v)=v$ ist wieder äquivalent zu $p=\frac{1-d}{u-d}$. $\square$
+$E(S_t|S_s=v)=v$ ist wieder äquivalent zu $p=\frac{1-d}{u-d}$. $\hfill \square$
 \end{lemma}
 
 \begin{defi}
