@@ -21,9 +21,114 @@ mu <- mean(log_returns) + 0.5 * sigma^2
 
 \subsection{Back-Tests}
 
+\begin{lemma}[Metriken für Zeitreihenschätzungen]
+\end{lemma}
+
+
 \subsection{Bootstrap-Verfahren zur Kalibrierung}
 
 \subsection{Berechnung von Konfidenzintervallen}
 
+Da $S_T$ log-normalverteilt ist, reicht es ein Konfidenzintervall für die log-Normalverteilung
+zu berechnen.
+Sei $X \sim N(\mu, \sigma^2)$ eine normalverteilte Zufallsvariable.
+Dann ist $Y := e^X$ log-normalverteilt mit Parametern $\mu$ und $\sigma^2$.
+Ein zweiseitiges Konfidenzintervall für $X$ mit Konfidenzniveau $1-\alpha$ ist
+$$[\mu - z_{\alpha/2} \sigma, \mu + z_{\alpha/2} \sigma],$$
+wobei $z_{\alpha/2}$ das $(1-\alpha/2)$-Quantil der Standardnormalverteilung ist.
+Exponentiell transformiert ergibt sich das Konfidenzintervall für $Y$:
+$$[e^{\mu - z_{\alpha/2} \sigma}, e^{\mu + z_{\alpha/2} \sigma}].$$
+
+\begin{bsp}[Konfidenzintervall für den DAX]
+
+Im folgenden R-Programm (Ausschnitt) wird ein 95\%-Konfidenzintervall für den DAX in einem Jahr von heute (252 Handelstage) berechnet.
+Dazu werden die Parameter $\mu$ und $\sigma$ wie oben aus den täglichen log-Renditen geschätzt.
+
+\begin{lstlisting}
+alpha = 0.05
+T <- 252
+z <- qnorm(c(1 - alpha/2, alpha/2))
+ci <- S0 * exp((mu - 0.5 * sigma^2) * T + z * sigma * sqrt(T))
+\end{lstlisting}
+
+Hier ist $S_0$ der heutige Kurswert des DAX. Das Konfidenzintervall lautet in diesem Fall:
+$$[17217, 40097].$$
+
+\end{bsp}
+
+\begin{bsp}[Konfidenzband für den DAX]
+
+Im folgenden R-Programm (Ausschnitt) wird ein 95\%-Konfidenzband für den DAX im naechsten Jahr (252 Handelstage) berechnet.
+
+\begin{lstlisting}
+alpha = 0.05
+n <- 252
+last_date <- max(dax$Date)
+future_dates <- last_date + 1:n
+
+q_low <- S0 * exp((mu - 0.5 * sigma^2) * (1:n) + qnorm(1 - alpha/2) * sigma * sqrt((1:n)))
+q_hi  <- S0 * exp((mu - 0.5 * sigma^2) * (1:n) + qnorm(alpha/2) * sigma * sqrt((1:n)))
+q_med <- S0 * exp((mu - 0.5 * sigma^2) * (1:n))
+
+band <- data.frame(Date = future_dates, low = q_low, mid = q_med, hi = q_hi)
+\end{lstlisting}
+
+Es folgt eine Visualisierung des Konfidenzbandes im Anschluss an die historischen Daten.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/dax_confidence_band.png}
+    \caption{DAX mit 95\%-Konfidenzband für das nächste Jahr}
+    \label{fig:dax_confidence_band}
+\end{figure}
+
+\end{bsp}
+
 \subsection{Monte-Carlo-Simulation}
 
+Genauso wie man eine Brownsche Bewegung mit summierten Normalverteilungen simuliert, 
+wird eine geometrische Brownsche Bewegung durch exponentiell transformierte
+summierte Normalverteilungen simuliert. 
+
+
+\begin{bsp}[Monte-Carlo-Simulation des DAX]
+Theoretisch liegt das stetige Modell zugrunde, 
+aber in der Praxis wird eine diskrete Approximation verwendet, hier mit täglichen Schritten.
+Der folgende R-Code (Ausschnitt) simuliert 1000 Pfade der geometrischen Brownschen Bewegung
+mit den oben geschätzten Parametern $\mu$ und $\sigma$ für den DAX, wieder für das nächste Jahr (252 Handelstage).
+
+\begin{lstlisting}
+n <- 252
+paths <- 10000
+S0 <- tail(dax$Price, 1)
+
+simulations <- replicate(paths, {
+  W <- c(0, cumsum(rnorm(n, 0, 1)))
+  S0 * exp((mu - 0.5 * sigma^2) *  c(0, (1:n)) + sigma * W)
+})
+\end{lstlisting}
+Es folgt eine Visualisierung der Simulation im Anschluss an die historischen Daten.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/dax_monte_carlo.png}
+    \caption{DAX mit 10 simulierten Pfaden für das nächste Jahr}
+    \label{fig:dax_monte_carlo}
+\end{figure}
+
+\end{bsp}
+
+\begin{bsp}[Vergleich von Konfidenzintervall und Monte-Carlo-Simulation]
+
+Man kann das Konfidenzintervall aus dem vorherigen Beispiel mit den quantilen der Monte-Carlo-Simulation vergleichen.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/ci_comparison.png}
+    \caption{Vergleich von Konfidenzintervall und Monte-Carlo-Simulation für verschiedene Simulationsanzahlen}
+    \label{fig:ci_comparison}
+\end{figure}
+Man erkennt, dass das Konfidenzintervall mit steigender Simulationsanzahl immer besser durch die Quantile der Simulation approximiert wird.
+Das spricht für die Korrektheit der beiden Verfahren.
+
+\end{bsp}

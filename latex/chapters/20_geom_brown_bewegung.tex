@@ -4,6 +4,7 @@ Die geometrische Brownsche Bewegung ist eine Erweiterung der Brownschen Bewegung
 Sie eignet zur Modellierung von Aktienkursen, da sie im Gegensatz zur klassischen 
 Brownschen Bewegung stets positive Werte annimmt.
 
+
 \subsection{Vom Binomialmodell zur Geometrischen Brownschen Bewegung}
 
 Das \textit{Binomialmodell} beschreibt den Aktienkurs $S_t$ in diskreter Zeit: In jedem Zeitschritt ändert sich der Kurs multiplikativ um einen Zufallsfaktor. Es gilt
@@ -19,7 +20,6 @@ mit $\mu$ als Erwartungswert der Rendite (oder auch Drift), $\sigma$ als Volatil
 Im Folgenden wird eine explizite Formel für $S_t$ bewiesen, nämlich
 $$S_T = S_0 \exp\!\Big( (\mu - \tfrac12 \sigma^2)T + \sigma W_T \Big),$$
 wobei $W_T$ eine Brownsche Bewegung ist und $T=n \cdot \Delta t$. \textit{Beweis.}
-
 Man betrachtet den Logarithmus der $S_k$: Nach $n$ Schritten ist der Aktienkurs
 $$
 S_n = S_0 \prod_{j=1}^n (1 + X_j).
@@ -32,7 +32,15 @@ Als nächstes wird die Taylor-Entwicklung der Terme $\log(1+X_j)$ betrachtet. Di
 $$\log(1+x)^{(k)}=(-1)^{k+1} \frac{(k-1)!}{(1+x)^k}.$$
 Setzt man diese in die Taylor-Formel ein ergibt sich
 $$\log(1+x) = \sum_{k=0}^{\infty} \frac{(\log(1+\cdot)^{(k)})(0)}{k!}(x-0)^k= \sum_{k=1}^\infty(-1)^{k+1} \frac{x^k}{k}$$
-Da $X_j \in O(\sqrt{\Delta t})$ ist, reicht die Taylor-Entwicklung bis zum quadratischen Term, denn $(\sqrt{x})^\alpha$ verschwindet bei $x \to 0$ für $\alpha \gt 2$. Da später $\Delta t \to 0$ können wir jetzt schon abschätzen:
+Da $X_j \in O(\sqrt{\Delta t})$ ist, reicht die Taylor-Entwicklung bis zum quadratischen Term: Es gilt
+$$
+X_j^k = (\mu \Delta t + \sigma \sqrt{\Delta t} \varepsilon_j)^k.
+$$
+Durch den Binomischen Lehrsatz ergibt sich:
+$$
+X_j^k = \sum_{m=0}^k \binom{k}{m} (\mu \Delta t)^{k-m} (\sigma \sqrt{\Delta t} \varepsilon_j)^m.
+$$
+Die Terme enthalten Potenzen von $\Delta t$ in der Form $(\Delta t)^{(k-m)/2 + m/2} = (\Delta t)^{k/2}$. Für $k \geq 3$ ist $(\Delta t)^{k/2}$ von höherer Ordnung als $\Delta t$ oder $\sqrt{\Delta t}$ und verschwindet daher im Grenzübergang $\Delta t \to 0$.
 $$
 \log(1+X_j) \approx X_j - \tfrac12 X_j^2.
 $$
@@ -50,11 +58,11 @@ $$
 Im Folgenden wird der Grenzübergang $n \longrightarrow \infty$ bzw. $\Delta t \longrightarrow 0$ durchgeführt. 
 Die erste Summe konvergiert nach dem Zentralen Grenzwertsatz (Verteilungskonvergenz):
 $$
-\sigma \sqrt{\Delta t} \sum_{j=1}^n \varepsilon_j \overset{d}{\underset{n \to \infty}{\longrightarrow}} \xi \sim N(0, \sigma^2 T)
+\sigma \sqrt{\Delta t} \sum_{j=1}^n \varepsilon_j \overset{d}{\underset{n \to \infty}{\longrightarrow}} \xi \sim N(0, \sigma^2 T),
 $$
- also gegen eine Zufallsvariable $\zeta$ die normalverteilt ist, mit Varianz $\sigma^2 T$.  $\xi = \sigma W_T$ ist eine Lösung, 
- weil $W_T \sim N(0, T)$ eine Brownsche Bewegung zur Zeit $T$ ist. 
- Da $\mathbb{E}[\varepsilon_j^2] = 1$ gilt, folgt im Grenzübergang für die zweite Summe nach dem Gesetz der großen Zahlen
+also gegen eine Zufallsvariable $\zeta$ die normalverteilt ist, mit Varianz $\sigma^2 T$.  $\xi = \sigma W_T$ ist eine Lösung, 
+weil $W_T \sim N(0, T)$ eine Brownsche Bewegung zur Zeit $T$ ist. 
+Da $E(\varepsilon_j^2) = 1$ gilt, folgt im Grenzübergang für die zweite Summe nach dem Gesetz der großen Zahlen
 $$
 \frac{1}{2} \sigma^2 \sum_{j=1}^{n} \Delta t \varepsilon_j^2  \longrightarrow \tfrac12 \sigma^2 T.
 $$

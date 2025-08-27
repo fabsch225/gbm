@@ -45,7 +45,6 @@ Für verschiedene Werte von $N$ ergeben sich die folgenden Grafiken:
 
 \end{bsp}
 
-
 \begin{lemma}[Martingal-Eigenschaft der diskreten Brownschen Bewegung]
 Ohne Beschränkung der Allgemeinheit wird der Fall $N=1$ betrachtet, sonst kann die Zeit skaliert werden.
 Ebenso wird nur der Fall $t \in \Bbb N_0$ untersucht: Der Prozess ist also wieder diskret. Das ist
@@ -80,7 +79,7 @@ Im Grenzübergang $N \to \infty$ konvergiert $\frac{\lfloor Nt \rfloor}{N} \to t
 Im Folgenden Beweis zur Stetigkeit der Pfade werden einige Ergebnisse aus der Stochastik verwendet, die hier zusammengefasst, aber nicht bewiesen werden.
 
 \begin{lemma}[Reihenkriterium für fast sichere Konvergenz]
-Sei $(X_n)_{n \in \Bbb N}$ eine Folge von Zufallsvariablen. Wenn es eine Reihe $\sum_{n=1}^\infty a_n$ mit $a_n \geq 0$ gibt, so dass
+Sei $(X_n)_{n \in \Bbb N}$ eine Folge von Zufallsvariablen. Wenn es eine Reihe $\sum_{n=1}^\infty a_n \lt \infty$ mit $a_n \geq 0$ gibt, so dass
 $$P(|X_n| > \varepsilon) \leq a_n \quad \text{für alle } n \in \Bbb N \text{ und jedes } \varepsilon > 0,$$
 dann konvergiert $X_n$ fast sicher gegen $0$, d.h.
 $$P\left(\lim_{n \to \infty} X_n = 0\right) = 1.$$
@@ -148,7 +147,38 @@ $$
 Nach dem Reihenkriterium für fast sichere Konvergenz folgt, dass $M_n\to 0$ fast sicher.
 Für $m \gt n \ge N$ beliebig gilt
 $$\sup_{t}|\hat W^{(m)}_t - \hat W^{(n)}_t| \leq \sum_{k=n}^{m-1} M_k. \underset{N \to \infty} \longrightarrow 0$$
-Damit ist $\big(\hat W^{(n)}\big)_{n\in\Bbb N}$ fast sicher eine gleichmäßig Konvergent auf $[0,1]$ und konvergiert gleichmäßig 
-gegen einen Grenzpfad $\widetilde W$, der als gleichmäßiger Grenzwert stückweise linearer Funktionen stetig ist. 
+Damit ist $\big(\hat W^{(n)}\big)_{n\in\Bbb N}$ fast sicher eine Cauchy-Folge in $\Vert \cdot \Vert_{\infty}$ und somit
+gleichmäßig Konvergent auf $[0,1]$. $\big(\hat W^{(n)}\big)_{n\in\Bbb N}$ konvergiert gleichmäßig 
+gegen einen Grenzpfad $\widetilde W$, der als gleichmäßiger Grenzwert stückweise linearer  (also stetiger) Funktionen wiederum stetig ist. 
 Durch Skalierung gilt die Aussage auf jedem kompakten Zeitintervall. $\hfill \square$
+\end{satz}
+
+\subsection{Eigenschaften der Brownschen Bewegung}
+
+\begin{satz}[Varianz der Brownschen Bewegung]
+Die Brownsche Bewegung $W_t$ hat die Varianz $V(W_t) = t$.
+\textit{Beweis.}
+Aus der gleichmäßigen Konvergenz von $b^{(N)}(t)$ gegen $W_t$ folgt, dass die Verteilung von $b^{(N)}(t)$ für jedes $t$ gegen die Verteilung von $W_t$ konvergiert. Da die Varianz eine Eigenschaft der Verteilung ist, gilt
+$$
+V(W_t) = \lim_{N \to \infty} V(b^{(N)}(t)) = t.
+$$
+$\hfill \square$
+\end{satz}
+
+\begin{satz}[Martingal-Eigenschaft der Brownschen Bewegung]
+Die Brownsche Bewegung $W_t$ ist ein Martingal.
+\textit{Beweis.}
+Die diskrete Brownsche Bewegung $b^{(N)}(t)$ ist ein Martingal, wie bereits gezeigt wurde.
+Außerdem ist die Verteilungskonvergenz von $b^{(N)}(t)$ gegen $W_t$ ist gegeben.
+Verteilungskonvergenz impliziert Konvergenz des Erwartungswertes (Henze), also
+$$
+E(W_t) = \lim_{N \to \infty} E(b^{(N)}(t)) = 0.
+$$
+Aus der Selbstähnlichkeit der Brownschen Bewegung $$W_t - W_s \sim N(0, t-s)$$
+folgt, dass $W_t - W_s$ unabhängig von $W_s$ ist. Somit gilt
+$$
+E(W_t | W_s = v) = E(W_t - W_s + v | W_s = v) = E(W_t - W_s) + v = v.
+$$
+
+Damit ist $W_t$ ein Martingal. $\hfill \square$
 \end{satz}
