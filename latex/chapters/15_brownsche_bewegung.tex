@@ -78,14 +78,14 @@ Im Grenzübergang $N \to \infty$ konvergiert $\frac{\lfloor Nt \rfloor}{N} \to t
 \subsection{Ausgewählte Ergebnisse aus der Stochastik}
 Im Folgenden Beweis zur Stetigkeit der Pfade werden einige Ergebnisse aus der Stochastik verwendet, die hier zusammengefasst, aber nicht bewiesen werden.
 
-\begin{lemma}[Reihenkriterium für fast sichere Konvergenz]
+\begin{lemma}[Reihenkriterium für fast sichere Konvergenz, Henze S. 201]
 Sei $(X_n)_{n \in \Bbb N}$ eine Folge von Zufallsvariablen. Wenn es eine Reihe $\sum_{n=1}^\infty a_n \lt \infty$ mit $a_n \geq 0$ gibt, so dass
 $$P(|X_n| > \varepsilon) \leq a_n \quad \text{für alle } n \in \Bbb N \text{ und jedes } \varepsilon > 0,$$
 dann konvergiert $X_n$ fast sicher gegen $0$, d.h.
 $$P\left(\lim_{n \to \infty} X_n = 0\right) = 1.$$
 \end{lemma}
 
-\begin{lemma}[Kolmogorov-Ungleichung]
+\begin{lemma}[Kolmogorov-Ungleichung, Behrends S. 70]
 Seien $X_1, X_2, \ldots, X_n$ unabhängige Zufallsvariablen mit $E(X_i) = 0$ und $V(X_i) < \infty$ für alle $i=1, \ldots, n$. Dann gilt für jedes $\varepsilon > 0$
 $$P\left(\max_{1 \leq k \leq n} |S_k| \geq \varepsilon \right) \leq \frac{1}{\varepsilon^2} V(S_n),$$
 wobei $S_k := \sum_{i=1}^k X_i$.

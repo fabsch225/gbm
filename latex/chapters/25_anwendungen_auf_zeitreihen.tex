@@ -19,14 +19,6 @@ sigma <- sd(log_returns)
 mu <- mean(log_returns) + 0.5 * sigma^2
 \end{lstlisting}
 
-\subsection{Back-Tests}
-
-\begin{lemma}[Metriken für Zeitreihenschätzungen]
-\end{lemma}
-
-
-\subsection{Bootstrap-Verfahren zur Kalibrierung}
-
 \subsection{Berechnung von Konfidenzintervallen}
 
 Da $S_T$ log-normalverteilt ist, reicht es ein Konfidenzintervall für die log-Normalverteilung
@@ -84,6 +76,72 @@ Es folgt eine Visualisierung des Konfidenzbandes im Anschluss an die historische
 
 \end{bsp}
 
+
+\subsection{Back-Tests}
+
+Ein Backtest überprüft im Nachhinein, wie gut ein Modell mit historisch tatsächlich 
+verfügbaren Daten funktioniert hätte.
+
+\begin{bsp}[Back-Test der Kalibrierung auf den DAX]
+Im Fall der DAX-Zeitreihe werden die Parameter $\mu$ und $\sigma$ auf die Daten von 1990 bis 2008 geschätzt.
+Nun wird ein Backtest durchgeführt, indem die Parameter genutzt werden, um die DAX-Entwicklung von 2008 bis 2025 zu simulieren. Insgesamt 
+wird also ein 50/50-Mix aus historischen Daten und simulierten Daten betrachtet. Auserdem 
+werden Konfidenzintervalle zum Niveau 50\% berechnet. Die folgende Abbildung
+\ref{fig:dax_backtest} zeigt die Ergebnisse.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/dax_backtest.png}
+    \caption{DAX Backtest mit 50\% Konfidenzintervall und erwarteter Entwicklung}
+    \label{fig:dax_backtest}
+\end{figure}
+
+In diesem Fall fallen 86\% der historischen Daten in das 50\%-Konfidenzintervall,
+was für die Einfachheit des Modells ein gutes Ergebnis ist. Diese Metrik nennt 
+man \textit{Überdeckungswahrscheinlichkeit}.
+
+\end{bsp}
+
+\begin{lemma}[Metriken für Zeitreihenschätzungen]
+Botchkarev \cite{Botchkarev2018} nennt u. a. folgende Metriken, um die Qualität Prediktionsmodellen zu bewerten:
+\begin{itemize}
+    \item Mean Squared Error (MSE): $$\text{MSE} = \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2$$
+    \item Normalized Root Mean Squared Error (NRMSE) : $$\text{NRMSE} = \frac{\sqrt{\text{MSE}}}{y_{max} - y_{min}}$$
+    \item Mean Absolute Percentage Error (MAPE): $$\text{MAPE} = \frac{100\%}{n} \sum_{i=1}^n \left|\frac{y_i - \hat{y}_i}{y_i}\right|$$
+\end{itemize}
+
+Hierbei sind $y_i$ die tatsächlichen Werte und $\hat{y}_i$ die vorhergesagten Werte.
+Der MSE misst den durchschnittlichen quadratischen Fehler, der bei großen Werten der Zeitreihe schwer 
+zu interpretieren ist. Der NRMSE normiert den MSE auf den Bereich der Zeitreihe,
+wodurch er vergleichbarer wird. Der MAPE gibt den durchschnittlichen prozentualen Fehler an, und ist
+somit ebenfalls anschaulich interpretierbar.
+
+\end{lemma}
+
+\begin{lemma}[Metriken des DAX-Backtests]
+Im obigen Backtest des DAX ergeben sich folgende Metriken:
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{lcc}
+        \toprule
+        Metrik & Wert & Einheit \\
+        \midrule
+        MSE    & 3489387 & Punkte\textsuperscript{2} \\
+        MAPE   & 13.91685   & \% \\
+        NRMSE  & 0.1659164 & - \\
+        \bottomrule
+    \end{tabular}
+    \caption{Fehlermaße der Prognose}
+    \label{tab:metrics}
+\end{table}
+
+\end{lemma}
+
+
+\subsection{Bootstrap-Verfahren zur Kalibrierung}
+
+
 \subsection{Monte-Carlo-Simulation}
 
 Genauso wie man eine Brownsche Bewegung mit summierten Normalverteilungen simuliert, 
@@ -99,7 +157,7 @@ mit den oben geschätzten Parametern $\mu$ und $\sigma$ für den DAX, wieder fü
 
 \begin{lstlisting}
 n <- 252
-paths <- 10000
+paths <- 1000
 S0 <- tail(dax$Price, 1)
 
 simulations <- replicate(paths, {
@@ -112,7 +170,7 @@ Es folgt eine Visualisierung der Simulation im Anschluss an die historischen Dat
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{images/dax_monte_carlo.png}
-    \caption{DAX mit 10 simulierten Pfaden für das nächste Jahr}
+    \caption{DAX mit 4 simulierten Pfaden für das nächste Jahr}
     \label{fig:dax_monte_carlo}
 \end{figure}
 
