@@ -34,19 +34,24 @@ $$
 Das Binomialmodell ist ein simples Modell einer Aktie und deren Preisentwicklung. 
 Man beginnt mit einem Anfangspreis $S_0$. $S_1, S_2, \dots$ sind dann Messungen des Aktienpreises zu einem festen Intervall.
  Zu einer festen Wahrscheinlichkeit $0 \lt p \lt 1$ steigt die Aktie um den Faktor $d$, oder fällt mit der Wahrscheinlichkeit $1-p$ um den Faktor $u$. Also
-$$S_{t+1} = \begin{cases} d \cdot S_t, \quad  p \\ u \cdot S_t, \quad 1-p\end{cases}.$$
-Der Prozess ist multiplikativ und nicht additiv, da ein Aktienkurs nicht negativ werden kann.
-\end{bsp}
+$$S_{t+1} = \begin{cases} 
+    d \cdot S_t, & \text{mit Wahrscheinlichkeit }  p \\ 
+    u \cdot S_t, & \text{mit Wahrscheinlichkeit }  1-p
 
+\end{cases}.$$
+Im Gegensatz zum Zufallsspaziergang sind die Schritte hier nicht additiv, sondern multiplikativ. Daher
+eignet sich das Binomialmodell zur Modellierung von Aktienkursen, da keine negativen Preise möglich sind.
+
+\end{bsp}
 \begin{bsp}[Brownsche Bewegung]
 Die Brownsche Bewegung beschreibt ursprünglich die Bewegung eines Partikels in 
 einer Flüssigkeit. Die Zufallsgröße ist hier die Position des Partikels.
 
 Naturanaloge stochastische Prozesse erfüllen eine Stetigkeitsbedingung: 
 Andernfalls würde sich der Partikel in der Flüssigkeit teleportieren. 
-Konkret: Es bezeichne der $\text{Pfad}( X_t)$ die Menge von Realisierungen der Zufallsvariablen $X_t$. 
-Im obigen Fall ist das der Weg des Partikels. Es wird gefordert, dass die Pfade fast-sicher stetig sind.
-
+Konkret: Es bezeichne der $\text{Pfad}: t \mapsto X_t$ die Realisierungen der Zufallsvariablen $X_t$ unter 
+der Zeit $t$. Dann wird gefordert, dass die Pfade fast-sicher stetig sind, also 
+$$P(\{\omega \in \Omega | t \mapsto X_t(\omega) \text{ ist stetig}\}) = 1.$$ 
 \end{bsp}
 
 \subsection{Bedingter Erwartungswert und Filtrationen}
@@ -193,7 +198,9 @@ $E(S_t|S_s=v)=v$ ist wieder äquivalent zu $p=\frac{1-d}{u-d}$. \qed
 
 \begin{defi}[Markovprozess]
 Ein stochastischer Prozess heißt Markovprozess, falls die 
-Zufallsvariablen $X_t$ unabhängig von allen $X_s, s \lt t$ sind.
+Zufallsvariablen $X_t$ lediglich vom unmittelbaren Vorgänger $X_s, s \lt t$ abhängen.
+Konkret: Für alle $r \lt s \lt t$ und alle $u, v, w \in \Bbb R$ gilt
+$$P(X_t \le w | X_s = v, X_r=u) = P(X_t \le w|X_s=v).$$
 \end{defi}
 
 \begin{bsp}

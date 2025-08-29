@@ -85,7 +85,7 @@ dann konvergiert $X_n$ fast sicher gegen $0$, d.h.
 $$P\left(\lim_{n \to \infty} X_n = 0\right) = 1.$$
 \end{lemma}
 
-\begin{lemma}[Kolmogorov-Ungleichung, Behrends S. 70]
+\begin{lemma}[Kolmogorov-Ungleichung, Henze S. 207]
 Seien $X_1, X_2, \ldots, X_n$ unabhängige Zufallsvariablen mit $E(X_i) = 0$ und $V(X_i) < \infty$ für alle $i=1, \ldots, n$. Dann gilt für jedes $\varepsilon > 0$
 $$P\left(\max_{1 \leq k \leq n} |S_k| \geq \varepsilon \right) \leq \frac{1}{\varepsilon^2} V(S_n),$$
 wobei $S_k := \sum_{i=1}^k X_i$.
@@ -93,7 +93,7 @@ wobei $S_k := \sum_{i=1}^k X_i$.
 
 \subsection{Die Brownschen Bewegung als Grenzprozess}
 Nun wird der Grenzprozess $N \to \infty$ betrachtet. Intuitiv wird die Zeit immer feiner aufgelöst,
-und es wird immer mehr Normalverteilungen in eine Zeiteinheit einbezogen. Vorerst ist jedoch unklar, 
+und es werden immer mehr Normalverteilungen in eine Zeiteinheit einbezogen. Vorerst ist jedoch unklar, 
 ob der Grenzprozess überhaupt existiert.
 
 \begin{satz}[Existenz der Brownschen Bewegung]
@@ -116,13 +116,14 @@ wobei $\Phi$ die Standardnormalverteilungsfunktion ist. Aus $\sigma_N^2(t)\to t$
 $$
 F_N(x)=\Phi\!\left(\frac{x}{\sigma_N(t)}\right)\;\longrightarrow\;\Phi\!\left(\frac{x}{\sqrt{t}}\right)\quad\text{für alle }x\in\Bbb R.
 $$
-Dies ist die Verteilungsfunktion von $N(0,t)$. Definiere $W_t\sim N(0,t)$. Somit konvergiert für jedes feste $t$ die Verteilung von $b^{(N)}(t)$ gegen die von $W_t$. $\hfill\square$
+Dies ist die Verteilungsfunktion von $N(0,t)$. Definiere $W_t\sim N(0,t)$. Somit konvergiert für jedes feste $t$ die Verteilung von $b^{(N)}(t)$ gegen die von $W_t$. 
+\qed
 \end{satz}
 
 \begin{satz}[Stetigkeit der Pfade]
 Der Pfad $t \mapsto W_t(\omega)$ ist fast sicher stetig.
 \textit{Beweis.}
-Fuer den Beweis wird eine neue Funktionen-Folge $\hat W_t^{(n)}(\omega), n \in \Bbb N$
+Für den Beweis wird eine neue Funktionen-Folge $\hat W_t^{(n)}(\omega), n \in \Bbb N$
 definiert, wobei $\hat W_t^{(n)}(\omega)$ die lineare Interpolation der Werte $W_{k/2^n}(\omega), k=0,1,2,\ldots$ ist. 
 Ohne Beschränkung der Allgemeinheit wird das Intervall $[0,1]$ betrachtet. Für $n \in \Bbb N$ und $k=0,\dots,2^n-1$ setze
 $$I_{n,k}:=\big[k2^{-n},(k+1)2^{-n}\big].$$
@@ -147,10 +148,9 @@ $$
 Nach dem Reihenkriterium für fast sichere Konvergenz folgt, dass $M_n\to 0$ fast sicher.
 Für $m \gt n \ge N$ beliebig gilt
 $$\sup_{t}|\hat W^{(m)}_t - \hat W^{(n)}_t| \leq \sum_{k=n}^{m-1} M_k. \underset{N \to \infty} \longrightarrow 0$$
-Damit ist $\big(\hat W^{(n)}\big)_{n\in\Bbb N}$ fast sicher eine Cauchy-Folge in $\Vert \cdot \Vert_{\infty}$ und somit
-gleichmäßig Konvergent auf $[0,1]$. $\big(\hat W^{(n)}\big)_{n\in\Bbb N}$ konvergiert gleichmäßig 
-gegen einen Grenzpfad $\widetilde W$, der als gleichmäßiger Grenzwert stückweise linearer  (also stetiger) Funktionen wiederum stetig ist. 
-Durch Skalierung gilt die Aussage auf jedem kompakten Zeitintervall. \qed
+Weil jedes $\big(\hat W^{(n)}\big)_{n\in\Bbb N}$ eine stückweise lineare Funktion ist, folgt
+dass $\big(\hat W^{(n)}\big)_{n\in\Bbb N}$ fast sicher eine Cauchy-Folge in $C([0,1])$, $\Vert \cdot \Vert_{\infty}$ ist.
+$\big(\hat W^{(n)}\big)_{n\in\Bbb N}$ konvergiert also gleichmäßig gegen den Grenzpfad $\widetilde W$, der stetig ist. \qed
 \end{satz}
 
 \subsection{Eigenschaften der Brownschen Bewegung}

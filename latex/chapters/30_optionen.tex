@@ -1,6 +1,6 @@
 \section{Aktienoptionen}
 
-\subsection{Grundlagen aus der Wirtschaft}
+\subsection{Finanzmathematische Grundlagen}
 
 Aktienoptionen sind Finanzderivate, die dem Inhaber das Recht, aber nicht die Pflicht geben, 
 eine Aktie zu einem vorher festgelegten Preis (dem Ausübungspreis) zu kaufen (Call-Option) 
@@ -73,7 +73,10 @@ q = \frac{e^{r \Delta t} - d}{u - d}.
 $$
 Zum Vergleich: im klassischen Binomialmodell ist 
 $$p = \frac{1 - d}{u - d}$$
-die "risikoneutrale Wahrscheinlichkeit".
+die "risikoneutrale Wahrscheinlichkeit". Anders als zuvor
+wurde aber lediglich eine schwächere Aussage gezeigt (nur ein Schritt). 
+Das wird am Folgenden jedoch nachgezogen.
+
 \end{lemma}
 
 \begin{defi}[Risikoneutrales Maß]
@@ -83,8 +86,45 @@ wobei $Q(\text{up})=q$ und $Q(\text{down})=1-q$ gilt. In der Finanzmathematik ka
 riskoneutrale Maß oft nicht explizit angegeben werden, sondern über Existenz- und Eindeutigkeitstheoreme
 charakterisiert werden, zum Beispiel mit dem Satz von Radon-Nikodym (XXX). Im Folgenden gilt:
 $Q$ ist das Maß, für das das erweiterte Binomialmodell ein arbitragefreies Modell ist, das 
-heißt der zugehörige stochastische Prozess ein Martingal ist.
+heißt der zugehörige stochastische Prozess ein Martingal ist. Die Existenz und Eindeutigkeit
+wird hier nicht bewiesen.
 \end{defi}
+
+\begin{lemma}[Diskontierter Aktienkurs ist unter $Q$ ein Martingal]
+Setze $X_n := e^{-r n \Delta t}\, S_n$. Unter dem risikoneutralen Maß $Q$ mit 
+$q=\frac{e^{r\Delta t}-d}{u-d}$ ist $(X_n)_{n\in\mathbb N_0}$ ein Martingal.
+
+\textit{Beweis.} Schreibe $S_{n+1}=S_n\,\xi_{n+1}$ mit 
+$\mathbb P_Q(\xi_{n+1}=u)=q$ und $\mathbb P_Q(\xi_{n+1}=d)=1-q$. Für einen Schritt gilt
+$$
+\begin{aligned}
+E_Q(X_{n+1}\mid S_n=v)
+&= E_Q\!\big(e^{-r(n+1)\Delta t} S_{n+1}\mid S_n=v\big) \\
+&= e^{-r(n+1)\Delta t}\, v \, E_Q(\xi_{n+1})
+= e^{-rn\Delta t}\, v \cdot \big(e^{-r\Delta t}(q u + (1-q)d)\big).
+\end{aligned}
+$$
+Mit der Wahl von $q$ ist $e^{-r\Delta t}(q u + (1-q)d)=1$, also 
+$$E_Q(X_{n+1}\mid S_n=v)=e^{-rn\Delta t} v = X_n.$$
+Für $s<t$ beliebig und wegen Unabhängigkeit der Schritte:
+$$
+X_t
+= e^{-rt\Delta t} S_t
+= e^{-rt\Delta t} S_s \prod_{i=s+1}^{t} \xi_i,
+$$
+also
+$$
+\begin{aligned}
+E_Q(X_t\mid S_s=v)
+&= e^{-rt\Delta t}\, v \prod_{i=s+1}^{t} E_Q(\xi_i)
+= e^{-rt\Delta t}\, v \big(q u + (1-q)d\big)^{t-s} \\
+&= e^{-rt\Delta t}\, v \big(e^{r\Delta t}\big)^{t-s}
+= e^{-rs\Delta t}\, v
+= X_s.
+\end{aligned}
+$$
+Damit ist $(X_n)$ ein Martingal. \qed
+\end{lemma}
 
 \begin{satz}[Bewertung von europäischen Optionen im Binomialmodell]
 Der Preis einer Option durch rekursive Rückwärtsinduktion bestimmt. 
@@ -95,99 +135,367 @@ C_n = e^{-r \Delta t} \left( q C_{n+1}^\text{up} + (1-q) C_{n+1}^\text{down} \ri
 $$
 wobei $C_{n+1}^\text{up}$ und $C_{n+1}^\text{down}$ die Optionswerte im nächsten Schritt nach Auf- bzw. Abbewegung sind.
 Damit lässt sich der Optionspreis am Anfangszeitpunkt $C_0$ bestimmen. Die Formel leitet
-sich aus dem Ewartungswert unter dem risikoneutralen Maß $\mathbb{Q}$ ab:
-$$
-C_0 = e^{-r T} E_Q(f(S_T)).
-$$
+sich aus dem Ewartungswert unter dem risikoneutralen Maß $Q$ ab, dessen Verhalten im ein-stufigen Fall ja explizit bekannt ist.
 Der faire Preis der Option ist der Erwartungswert der diskontierten Auszahlung (unter dem risikoneutralen Maß).
 \end{satz}
 
+\begin{bsp}
+Seien $S_0 = 100\,€$, $u=1.2$, $d=0.8$, $r=0.05$, $\Delta t=1$ Jahr, $K=100\,€$ und $T=2$ Jahre.
+Die risikoneutrale Wahrscheinlichkeit ist $q = \frac{e^{0.05}-0.8}{1.2-0.8} \approx 0.628$.
+Die möglichen Aktienkurse zum Zeitpunkt $T$ sind:
+\begin{tikzpicture}[x=3.2cm,y=1.4cm,>=stealth]
+    % styles
+    \tikzset{price/.style={circle,draw,minimum size=6mm,inner sep=0pt,font=\small}}
+    % nodes
+    \node[price] (S0)  at (0,0)   {100};
+    \node[price] (Su)  at (1,1)   {120};
+    \node[price] (Sd)  at (1,-1)  {80};
+    \node[price] (Suu) at (2,2)   {144};
+    \node[price] (Sud) at (2,0)   {96};
+    \node[price] (Sdd) at (2,-2)  {64};
+
+    % edges with risk-neutral probabilities
+    \draw[->] (S0) -- node[sloped,above] {$q$} (Su);
+    \draw[->] (S0) -- node[sloped,below] {$1-q$} (Sd);
+
+    \draw[->] (Su) -- node[sloped,above] {$q$} (Suu);
+    \draw[->] (Su) -- node[sloped,below] {$1-q$} (Sud);
+
+    \draw[->] (Sd) -- node[sloped,above] {$q$} (Sud);
+    \draw[->] (Sd) -- node[sloped,below] {$1-q$} (Sdd);
+
+    % time axis labels
+    \node[font=\scriptsize] at (0,-2.4) {Zeit 0};
+    \node[font=\scriptsize] at (1,-2.4) {Zeit 1};
+    \node[font=\scriptsize] at (2,-2.4) {Zeit 2 = T};
+
+    % parameter box
+    \node[anchor=west, align=left, font=\scriptsize] at (2.6,2.0) {Parameter:\\
+        $u=1.2,\; d=0.8$\\
+        $r=0.05,\; \Delta t=1$\\
+        $q \approx 0.628$
+    };
+\end{tikzpicture} \\ Die Auszahlungen der Call-Option zum Zeitpunkt $T$ sind:
+$$
+\begin{aligned}
+C_{T,\text{up}} &= \max(144 - 100, 0) = 44\,€, \\
+C_{T,\text{mid}} &= \max(96 - 100, 0) = 0\,€, \\
+C_{T,\text{down}} &= \max(64 - 100, 0) = 0\,€.
+\end{aligned}
+$$
+Rückwärtsinduktion:
+$$
+\begin{aligned}
+C_{1,\text{up}} &= e^{-0.05} \left( q \cdot 44 + (1-q) \cdot 0 \right) \approx 26.28\,€, \\
+C_{1,\text{down}} &= e^{-0.05} \left( q \cdot 0 + (1-q) \cdot 0 \right) = 0\,€, \\
+C_0 &= e^{-0.05} \left( q \cdot 23.99 + (1-q) \cdot 0 \right) \approx 15.7\,€.
+\end{aligned}
+$$
+Der faire Preis der Call-Option ist also etwa 15.7\,€.
+\end{bsp}
+
 \subsection{Das Black-Scholes-Modell als Grenzfall des Binomialmodells}
 Ziel ist es zu zeigen, dass die Optionspreise im Binomialmodell
-beim Verfeinern der Zeitdiskretisierung gegen die Black–Scholes-Formel konvergieren.
+beim Verfeinern der Zeitdiskretisierung gegen die geometrische Brownsche Bewegung konvergieren.
+Dieses Modell wird auch als Black-Scholes-Modell bezeichnet. Die Herleitung unterscheidet sich
+von der Herleitung in Kapitel 2. Hier wird der Grenzübergang im risikoneutralen Maß durchgeführt.
 
-\paragraph{Grenzfall des Binomialmodell unter dem risikoneutralen Maß}
+\paragraph{Vereinfachung der risikoneutralen Wahrscheinlichkeit im Grenzübergang}
 Wähle für Zeitschritt $\Delta t$ die Sprunggrößen
 $
 u = e^{\sigma \sqrt{\Delta t}},\quad d = e^{-\sigma \sqrt{\Delta t}}
 $
 und den risikoneutralen Schritt $q(\Delta t)$ aus dem Martingal-Kriterium
-$
+$$
 q(\Delta t) = \frac{e^{r \Delta t} - d}{u - d}
 = \frac{e^{r \Delta t} - e^{-\sigma \sqrt{\Delta t}}}{e^{\sigma \sqrt{\Delta t}} - e^{-\sigma \sqrt{\Delta t}}}.
-$
-Eine Taylor-Entwicklung liefert
-$
-q(\Delta t) = \tfrac12 + \frac{r - \tfrac12 \sigma^2}{2\sigma}\,\sqrt{\Delta t} + o(\sqrt{\Delta t}).
-$
+$$
+\\ Durch eine Taylor-Entwicklung um $0$ werden die Funktionen wieder vereinfacht. Analog zum Beweis aus Kapitel 2
+sollen höhere Potenzen von $\Delta t$ im Grenzwert verschwinden. Da es sich um einen Quotienten handelt,
+kann man die Abschätzung aber nicht direkt anwenden. Stattdessen werden Zähler und Nenner separat entwickelt:
+$$
+e^{r\Delta t} = 1 + r\Delta t + o(\Delta t),\quad
+e^{\pm \sigma\sqrt{\Delta t}} = 1 \pm \sigma \sqrt{\Delta t} + \tfrac12 \sigma^2 \Delta t + o(\Delta t).
+$$
+Damit
+$$
+\begin{aligned}
+\text{Zähler} &= e^{r \Delta t} - e^{-\sigma \sqrt{\Delta t}}
+= \big(1 + r\Delta t + o(\Delta t)\big) - \big(1 - \sigma \sqrt{\Delta t} + \tfrac12 \sigma^2 \Delta t + o(\Delta t)\big) \\
+&= \sigma \sqrt{\Delta t} + \big(r - \tfrac12 \sigma^2\big)\Delta t + o(\Delta t), \\
+\text{Nenner} &= e^{\sigma \sqrt{\Delta t}} - e^{-\sigma \sqrt{\Delta t}}
+= \big(1 + \sigma \sqrt{\Delta t} + \tfrac12 \sigma^2 \Delta t + o(\Delta t)\big) \\
+&\qquad\qquad\qquad - \big(1 - \sigma \sqrt{\Delta t} + \tfrac12 \sigma^2 \Delta t + o(\Delta t)\big)
+= 2\sigma \sqrt{\Delta t} + o(\sqrt{\Delta t}).
+\end{aligned}
+$$
+Insgesamt folgt damit:
+$$
+q(\Delta t) = \frac{\sigma \sqrt{\Delta t} + \big(r - \tfrac12 \sigma^2\big)\Delta t + o(\Delta t)}{2\sigma \sqrt{\Delta t} + o(\sqrt{\Delta t})}
+= \tfrac12 + \frac{r - \tfrac12 \sigma^2}{2\sigma}\,\sqrt{\Delta t} + o(\sqrt{\Delta t}).
+$$
 
 \paragraph{Erneute Herleitung der geometrischen Brownschen Bewegung}
-Für $n=T/\Delta t$ und $N_u$ Aufwärtsbewegungen gilt unter $Q$:
-$
+An dieser Stelle ist wichtig, dass die Anzahl der Schritte $N_u$ in denen die Aktie steigt, binomialverteilt ist.
+Und zwar zur Anzahl der Schritte $n=T/\Delta t$ mit festen Wahrscheinlichkeit $q(\Delta t)$.
+Dann gilt
+$$
 S_T^{(n)} = S_0\, u^{N_u}\, d^{n-N_u}
-= S_0 \exp\!\big(\sigma \sqrt{\Delta t}\,(2N_u - n)\big).
-$
-Mit $N_u \sim \mathrm{Bin}(n, q(\Delta t))$ und dem ZGWS ergibt sich
-$
-2N_u - n
-= (2q(\Delta t)-1)\,n + 2\sqrt{n\,q(\Delta t)(1-q(\Delta t))}\,Z_n,
-$
-wobei $Z_n \Rightarrow Z \sim \mathcal N(0,1)$. Multipliziert mit $\sigma \sqrt{\Delta t}$ folgt wegen $n\Delta t = T$:
+\approx S_0 \exp\!\big(\sigma \sqrt{\Delta t}\,(2N_u - n)\big).
+$$
+Und somit
 $$
 \log S_T^{(n)}
-= \log S_0 + \big(r - \tfrac12 \sigma^2\big)T + \sigma \sqrt{T}\,Z_n + o(1)
+= \log S_0 + \sigma \sqrt{\Delta t}\,(2N_u - n).
+$$
+Es wird eine 0 addiert:
+$$
+2N_u - n
+= 2\big(N_u - n q(\Delta t)\big) + n\big(2q(\Delta t)-1\big).
+$$
+Zwischenfazit:
+$$
+\log S_T^{(n)}
+= \log S_0 + \sigma \sqrt{\Delta t}\, n\big(2q(\Delta t)-1\big)
++ \sigma \sqrt{\Delta t}\, 2\big(N_u - n q(\Delta t)\big).
+$$
+Zuerst wird der stochastische Term (rechts) untersucht: Da die Binomialverteilung eine Summe von unabhängigen Bernoulli-Verteilungen ist, kann der zentrale Grenzwertsatz angewendet werden:
+$$
+\lim_{n\to\infty} N_u = \lim_{n \to \infty} \sum_{k=0}^{n}\text{Ber}(q(\Delta t)) \sim \mathcal N\big(n q(\Delta t), n q(\Delta t)(1-q(\Delta t))\big).
+$$
+Das ist äquivalent zu
+$$
+\frac{N_u - n q(\Delta t)}{\sqrt{n\,q(\Delta t)(1-q(\Delta t))}} \longrightarrow Z\sim \mathcal N(0,1),
+$$
+also
+$$
+2\big(N_u - n q(\Delta t)\big) = 2\sqrt{n\,q(\Delta t)(1-q(\Delta t))}\,Z_n,
+$$
+wobei $Z_n\longrightarrow Z$.
+Schließlich folgt aus $q(\Delta t)\to \tfrac12$ für $\Delta t\to 0$:
+$$
+\begin{aligned}
+\sigma \sqrt{\Delta t}\cdot 2\sqrt{n\,q(\Delta t)(1-q(\Delta t))}\,Z_n
+&= 2\sigma \sqrt{n\Delta t}\,\sqrt{q(\Delta t)(1-q(\Delta t))}\,Z_n \\
+&= 2\sigma \sqrt{T}\,\sqrt{\tfrac14 + o(1)}\,Z_n
+= \sigma \sqrt{T}\,Z_n + o(1).
+\end{aligned}
+$$
+Nun wird der deterministische Term (mittig) untersucht:
+\\ Multipliziere mit $\sigma \sqrt{\Delta t}$ und benutze $n\Delta t=T$ sowie $q(\Delta t)=\tfrac12 + \alpha \sqrt{\Delta t} + o(\sqrt{\Delta t})$ mit
+$\alpha=\frac{r-\frac12\sigma^2}{2\sigma}$:
+$$
+\begin{aligned}
+\sigma \sqrt{\Delta t}\, n\big(2q(\Delta t)-1\big)
+&= \sigma \sqrt{\Delta t}\, n\big(2\alpha \sqrt{\Delta t} + o(\sqrt{\Delta t})\big)
+= \sigma\, n \big(2\alpha \Delta t + o(\Delta t)\big) \\
+&= \sigma \cdot 2\alpha \cdot (n\Delta t) + o(1)
+= \big(r - \tfrac12 \sigma^2\big)T + o(1).
+\end{aligned}
+$$
+Zwischenfazit:
+$$
+\log S_T^{(n)}
+= \log S_0 + \big(r - \tfrac12 \sigma^2\big)T + \sigma \sqrt{T}\,Z_n + o(1).
 $$
 Im Grenzwert $n\to\infty$ (bzw.\ $\Delta t \to 0$) folgt damit
 $$
-\log S_T \sim \mathcal N\!\Big(\log S_0 + \big(r - \tfrac12 \sigma^2\big)T,\;\sigma^2 T\Big).
+\log S_T \sim \mathcal N\!\Big(\log S_0 + \big(r - \tfrac12 \sigma^2\big)T,\;\sigma^2 T\Big),
 $$
-Damit konvergiert unter $Q$ der diskrete Prozess gegen 
-die geometrische Brownsche Bewegung.
+d.\,h.\ unter $Q$ konvergiert der diskrete Prozess gegen die geometrische Brownsche Bewegung.
+\qed
 
-\begin{bsp}[Black–Scholes-Formel für europäische Call-Optionen]
+\begin{satz}[Black–Scholes-Formel für europäische Call-Optionen]
 Sei $C_0^{(n)}$ der Preis der europäischen Call-Option mit Laufzeit $T$ und Strike $K$
 im $n$-stufigen Binomialmodell unter Diskontierung mit $r$. Dann gilt
-\[
+$$
 \lim_{n\to\infty} C_0^{(n)}
 = C_0^{\mathrm{BS}}
 = S_0\,\Phi(d_1) - K e^{-rT}\,\Phi(d_2),
-\]
+$$
 wobei
-\[
+$$
 d_1 = \frac{\ln(S_0/K) + \big(r + \tfrac12 \sigma^2\big)T}{\sigma \sqrt{T}},
 \qquad
 d_2 = d_1 - \sigma \sqrt{T},
-\]
+$$
 und $\Phi$ die Verteilungsfunktion der Standardnormalverteilung ist.
-\textit{Beweis}.
-
-Risikoneutrale Bewertung im Binomialmodell liefert
-$
-C_0^{(n)} = e^{-rT}\,E_Q\!\left[(S_T^{(n)} - K)^+\right].
-$
+\\ \textit{Beweis}. Risikoneutrale Bewertung im Binomialmodell liefert
+$$
+C_0^{(n)} = e^{-rT}\,E\!\left[(S_T^{(n)} - K)^+\right].
+$$
 Die obige Verteilungskonvergenz impliziert
-$
-S_T^{(n)} \Rightarrow S_T = S_0 \exp\!\big((r-\tfrac12\sigma^2)T + \sigma \sqrt{T}\,Z\big).
-$
-Da $(x\mapsto (x-K)^+)$ beschränkt wachsend ist und die Familie $(S_T^{(n)})_n$ integrierbar bleibt,
-darf Grenzübergang und Erwartungswert vertauscht werden (z.\,B.\ über gleichgradige Integrierbarkeit):
 $$
-\lim_{n\to\infty} C_0^{(n)} = e^{-rT}\,E_Q\!\left[(S_T - K)^+\right].
+S_T^{(n)} \longrightarrow S_T = S_0 \exp\!\big((r-\tfrac12\sigma^2)T + \sigma \sqrt{T}\,Z\big).
 $$
-Die rechte Seite ist die Lognormal-Erwartung und ergibt nach elementarer Rechnung die genannte Formel:
-\begin{align*}
-E_Q\!\left[(S_T - K)^+\right]
-&= \int_{\log(K/S_0)}^\infty (S_0 e^{(r-\frac12\sigma^2)T + \sigma \sqrt{T} x} - K)\,\varphi(x)\,dx \\
-&= S_0 e^{rT} \Phi(d_1) - K \Phi(d_2),
-\end{align*}
-wobei $\varphi$ die Dichte der Standardnormalverteilung ist.
+Da $h : x\mapsto (x-K)^+$ stetig und (auf $\text{Bild}(S_T), T \lt \infty$) beschränkt ist, und die Verteilungskonvergenz $S_T^{(n)}\longrightarrow S_T$ gilt,
+darf man den Limes in den Erwartungswert ziehen (Henze S. 215):
+$$
+\lim_{n\to\infty} C_0^{(n)} = e^{-rT}\,E\!\left[ h(\lim_{n\to\infty} S_T^{(n)}) \right] = e^{-rT}\,E_Q\!\left[(S_T - K)^+\right].
+$$
+Nun wird die rechte Seite explizit berechnet: Seien
+$$
+m := \big(r-\tfrac12\sigma^2\big)T,\qquad v:=\sigma \sqrt{T},\qquad Z\sim \mathcal N(0,1),
+$$
+also $S_T = S_0 e^{m + v Z}$. Dann gilt
+$$
+E\big[(S_T - K)^+\big]
+= E\big[S_T\,\mathbf 1_{\{S_T\ge K\}}\big] - K\,P(S_T\ge K).
+$$
+Aus Kapitel 2 ist bekannt, das $S_T$ lognormalverteilt ist. Die Schranke $S_T\ge K$ ist daher äquivalent zu $m + vZ \ge \ln(K/S_0)$, also
+$$
+Z \ge a := \frac{\ln(K/S_0) - m}{v}.
+$$
+Damit ergibt sich für den zweiten Term
+$$
+P(S_T\ge K) = P(Z\ge a) = \Phi(-a).
+$$
+Für den ersten Term wird die Dichte $\varphi$ von $Z$ genutzt:
+$$
+\begin{aligned}
+E\big[S_T\,\mathbf 1_{\{Z\ge a\}}\big]
+&= S_0 e^{m}\int_a^\infty e^{v x}\,\varphi(x)\,dx
+= S_0 e^{m}\int_a^\infty e^{v x}\,\frac{1}{\sqrt{2\pi}}e^{-x^2/2}\,dx \\
+&= S_0 e^{m}\int_a^\infty \frac{1}{\sqrt{2\pi}}
+\exp\!\Big(-\tfrac12(x^2 - 2 v x)\Big)\,dx \\
+&= S_0 e^{m}\int_a^\infty \frac{1}{\sqrt{2\pi}}
+\exp\!\Big(-\tfrac12(x - v)^2 + \tfrac12 v^2\Big)\,dx \\
+&= S_0 e^{m + \frac12 v^2}\int_a^\infty \varphi(x - v)\,dx.
+\end{aligned}
+$$
+Mit der Substitution $y=x-v$ folgt
+$$
+\int_a^\infty \varphi(x - v)\,dx = \int_{a-v}^\infty \varphi(y)\,dy = \Phi(v-a).
+$$
+Zwischenfazit:
+$$
+E\big[S_T\,\mathbf 1_{\{S_T\ge K\}}\big]
+= S_0 e^{m + \frac12 v^2}\,\Phi(v-a).
+$$
+Setze $m+\tfrac12 v^2 = rT$ und beachte
+$$
+v-a = \frac{\ln(S_0/K) + (r+\tfrac12\sigma^2)T}{\sigma \sqrt{T}} = d_1,
+\qquad
+-a = \frac{\ln(S_0/K) + (r-\tfrac12\sigma^2)T}{\sigma \sqrt{T}} = d_2.
+$$
+Damit gilt
+$$
+E\big[(S_T - K)^+\big]
+= S_0 e^{rT}\,\Phi(d_1) - K\,\Phi(d_2),
+$$
+und folglich
+$$
+C_0^{\mathrm{BS}} = e^{-rT}\,E\big[(S_T - K)^+\big]
+= S_0\,\Phi(d_1) - K e^{-rT}\,\Phi(d_2).
+$$
 \qed
-\end{bsp}
+\end{satz}
 
 \begin{bem}
 Für den europäischen Put folgt analog
-$
+$$
 P_0^{\mathrm{BS}} = K e^{-rT}\,\Phi(-d_2) - S_0\,\Phi(-d_1),
-$
-oder per Put-Call-Parität. Zudem konvergieren die ganzen Preisbäume des CRR-Modells lokal gegen die Lösung der Black–Scholes-PDE.
+$$
+oder per Put-Call-Parität.
+
 \end{bem}
+\begin{bem}
+
+Der Drift $\mu$ der Aktie spielt im in der Formel keine Rolle.
+Eine Option "wettet" ja nicht auf den tatsächlichen (erwarteten) Kursverlauf, sondern darauf,
+dass der Kurs über oder unter dem Ausübungspreis liegt.
+
+\end{bem}
+
+\begin{bsp}[Call-Option auf den DAX]
+Mit der zuvor geschätzten Volatilität ($\sigma$) des DAX kann
+man nun den Preis einer Call-Option auf den DAX berechnen. Das folgende
+R-Programm (Ausschnitt) berechnet den Preis einer Call-Option abhängig
+vom Ausübungspreis $K$.
+
+\begin{lstlisting}
+d1 <- (log(S0/K) + (r + 0.5 * sigma^2) * T) / (sigma * sqrt(T))
+d2 <- d1 - sigma * sqrt(T)
+C <- S0 * pnorm(d1) - K * exp(-r*T) * pnorm(d2)
+\end{lstlisting}
+Ein Beispiel mit $r = 0.02, T = 1$ Jahr und dem DAX-Stand $S_0 = 24290$ wird in
+der folgenden Grafik dargestellt. Der faire Preis der Option
+fällt (erwartungsgemäß) mit dem Ausübungspreis $K$.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/call_dax_bs.png}
+    \caption{Preis einer Call-Option auf den DAX in Abhängigkeit vom Ausübungspreis $K$}
+    \label{fig:call_dax_bs}
+\end{figure}
+
+\end{bsp}
+
+\subsection{Bewertung von Aktienoptionen mit Monte-Carlo-Verfahren}
+Der letzte Beweis zeigt, dass explizite Formeln für Optionspreise nur mit hohem
+Aufwand hergeleitet werden können. Man bedenke, dass es sich um eine 
+vergleichsweise simple Option gehandelt hat. Für komplexere Derivate
+gibt es meist keine geschlossenen Formeln. Stattdessen werden numerische Verfahren
+verwendet, um den Erwartungswert der diskontierten Auszahlung zu approximieren.
+
+\begin{defprop}[Monte-Carlo-Verfahren]
+Monte-Carlo-Verfahren sind stochastische Simulationsmethoden, die zur numerischen
+Lösung von Problemen verwendet werden, insbesondere zur Berechnung von Integralen
+und Erwartungswerten. Sie basieren auf der Erzeugung von Zufallszahlen und
+der statistischen Analyse der Ergebnisse. Man verwendet den \textit{Monte-Carlo-Schätzer}
+$$
+\hat{I}_n = \frac{1}{n} \sum_{i=1}^n f(X_i),
+$$
+wobei $X_1, X_2, \ldots, X_n$ unabhängige und identisch verteilte Zufallsvariablen
+sind, die der Verteilung von $X$ folgen. Der Schätzer konvergiert fast sicher
+gegen den wahren Erwartungswert $I = E[f(X)]$, wenn $n \to \infty$.
+\textit{Beweis.} Nach dem Gesetz der großen Zahlen gilt
+$$\hat{I}_n \longrightarrow E[f(X)] = I. \quad \text{fast sicher}$$
+\qed
+\end{defprop}
+
+\begin{lemma}[Anwendung auf Optionspreise]
+Um allgemeine Optionen zu bewerten, muss die Auszahlungsfunktion $f$
+nicht bloß relle Zahlen auf relle Zahlen abbilden, sondern des gesamten Pfad
+$S_t$, $t\in[0,T]$ auf reelle Zahlen Abbilden. Bei z. B. asiatischen Optionen ist
+der Durchschnittskurs über die Laufzeit relevant.
+Sei also im Folgenden 
+$$f: C([0,T]) \to \mathbb R, \tilde S_T \mapsto f(\tilde S_T)$$
+eine Auszahlungsfunktion. Der faire Option mit Auszahlung $f(S_T)$
+unter dem risikoneutralen Maß $Q$ ist
+$$
+C_0 = e^{-rT} E_Q[f(S_T)].
+$$
+Der Monte-Carlo-Schätzer für $C_0$ ist somit
+$$
+\hat{C}_0^{(n)} = e^{-rT} \frac{1}{n} \sum_{i=1}^n f(S_T^{(i)}),
+$$
+wobei $S_T^{(i)}$, $i=1,\ldots,n$ unabhängige Realisierungen des Prozesses $S_T$ sind.
+
+\end{lemma}
+
+\begin{bsp}[Monte-Carlo-Simulation einer Call-Option auf den DAX]
+
+Das folgende R-Programm simuliert den Preis einer Call-Option auf den DAX
+mit dem Monte-Carlo-Verfahren. Dabei wird die geometrische Brownsche Bewegung
+simuliert und der Erwartungswert der diskontierten Auszahlung approximiert.
+
+\begin{lstlisting}
+  Z <- rnorm(n)
+  ST <- S0 * exp((r - 0.5*sigma^2)*T + sigma*sqrt(T)*Z)
+  payoff <- pmax(ST - K, 0) # Bewertungsfunktion
+  C <- exp(-r*T) * mean(payoff)
+\end{lstlisting}
+Nun wird der simulierte Preis mit dem Preis aus der Black-Scholes-Formel verglichen. 
+Die folgende Grafik zeigt den Vergleich für verschiedene Ausübungspreise $K$.
+Je höher die Anzahl der Simulationen $n$, desto genauer ist die Approximation.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/call_dax_mc.png}
+    \caption{Preis einer Call-Option auf den DAX in Abhängigkeit der Simulationsanzahl $n$ im Vergleich zur Black-Scholes-Formel}
+    \label{fig:call_dax_mc}
+\end{figure}
+
+\end{bsp}
