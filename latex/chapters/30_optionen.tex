@@ -305,6 +305,15 @@ $$
 d.\,h.\ unter $Q$ konvergiert der diskrete Prozess gegen die geometrische Brownsche Bewegung.
 \qed
 
+\begin{satz}[Satz von Pratt, Elstrod S. 280, vereinfacht]
+Dieser technische Satz erlaubt es, den Grenzübergang und den Erwartungswert zu vertauschen, und
+kommt im Folgenden bei der Herleitung der Black-Scholes-Formel zum Einsatz.
+Sei $(X_n) \longrightarrow X$ eine Folge von Zufallsvariablen, die fast-überall konvergiert,
+und $(Y_n) \longrightarrow Y$, $(Z_n) \longrightarrow Z$ ebenfalls.
+Gilt (1) $Y_n \le X_n \le Z_n$ und (2) $E(Y_n) \longrightarrow E(Y)$, $E(Z_n) \longrightarrow E(Z)$,
+dann folgt $E(X_n) \longrightarrow E(X)$. Wird hier nicht bewiesen. \qed
+\end{satz}
+
 \begin{satz}[Black–Scholes-Formel für europäische Call-Optionen]
 Sei $C_0^{(n)}$ der Preis der europäischen Call-Option mit Laufzeit $T$ und Strike $K$
 im $n$-stufigen Binomialmodell unter Diskontierung mit $r$. Dann gilt
@@ -328,8 +337,7 @@ Die obige Verteilungskonvergenz impliziert
 $$
 S_T^{(n)} \longrightarrow S_T = S_0 \exp\!\big((r-\tfrac12\sigma^2)T + \sigma \sqrt{T}\,Z\big).
 $$
-Da $h : x\mapsto (x-K)^+$ stetig und (auf $\text{Bild}(S_T), T \lt \infty$) beschränkt ist, und die Verteilungskonvergenz $S_T^{(n)}\longrightarrow S_T$ gilt,
-darf man den Limes in den Erwartungswert ziehen (Henze S. 215):
+Nun wird der Satz von Pratt angewendet, um den Grenzübergang und den Erwartungswert zu vertauschen. Eine untere Schranke ist $Y_n=0$ und eine obere Schranke ist $Z_n = (S_T^{(n)})^+ = S_T^{(n)}$. 
 $$
 \lim_{n\to\infty} C_0^{(n)} = e^{-rT}\,E\!\left[ h(\lim_{n\to\infty} S_T^{(n)}) \right] = e^{-rT}\,E_Q\!\left[(S_T - K)^+\right].
 $$
