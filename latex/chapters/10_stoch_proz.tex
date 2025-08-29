@@ -141,7 +141,8 @@ durch die Summe der bedingten Erwartungswerte über eine Partition des Wahrschei
 berechnet werden kann. Sei also $(A_i)_{i \in I}$ eine Partition von $\Omega$,
 dann gilt $$E(X_t) = \sum_{i \in I} E(X_t|A_i) \cdot P(A_i).$$
 In dieser Arbeit wird nur der diskrete Fall betrachtet. \textit{Beweis.}
-$$E(X_t) = \sum_{\omega \in \Omega} X_t(\omega) \cdot P(\{\omega\}) = \sum_{i \in I} \sum_{\omega \in A_i} X_t(\omega) \cdot P(\{\omega\}) = \sum_{i \in I} E(X_t|A_i) \cdot P(A_i).$$ $\square$
+$$E(X_t) = \sum_{\omega \in \Omega} X_t(\omega) \cdot P(\{\omega\}) = \sum_{i \in I} \sum_{\omega \in A_i} X_t(\omega) \cdot P(\{\omega\}) = \sum_{i \in I} E(X_t|A_i) \cdot P(A_i).$$
+\qed
 
 \end{satz}
 
@@ -158,7 +159,7 @@ E(E(X|B)) &= E\left(\frac{1}{P(B)} \sum_{b \in B} X(b) P(\{b\})\right)
 \\ &= \sum_{b \in B} X(b) P(\{b\}) = E(X \cdot 1_B)
 \end{aligned}
 $$
-Falls $B = \Omega$, folgt $E(X \cdot 1_B) = E(X)$. $\hfill \square$
+Falls $B = \Omega$, folgt $E(X \cdot 1_B) = E(X)$. \qed
 \end{satz}
 
 \subsection{Eigenschaften von stochastischen Prozessen}
@@ -187,7 +188,7 @@ Und setzt man die Matringaleigenschaft $E(S_{s+1}|S_s=v)=v$ ein, ergibt sich
 $$pu+(1-p)d=1\\[6pt] \iff p=\frac{1-d}{u-d}.$$
 Seien nun $s \lt t \in \Bbb N_0$ beliebig. Dann gilt $S_t=\xi_{t-1}\cdot \xi_{t-2}\cdots \xi_{s+1}\cdot S_s$. Da die $\xi_i$ unabhängig und identisch verteilt sind, gilt
 $$E(S_t|S_s=v)=v \cdot \prod_{i=s+1}^{t-1} E(\xi_t)=v \cdot E(\xi_{s+1})^{t-s}=v \cdot (pu+(1-p)d)^{s-t}.$$
-$E(S_t|S_s=v)=v$ ist wieder äquivalent zu $p=\frac{1-d}{u-d}$. $\hfill \square$
+$E(S_t|S_s=v)=v$ ist wieder äquivalent zu $p=\frac{1-d}{u-d}$. \qed
 \end{lemma}
 
 \begin{defi}[Markovprozess]

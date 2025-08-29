@@ -15,7 +15,10 @@ für eine Zufallsvariable $X_{k+1}$ die die relative Kursänderung im Schritt $k
 $$
 X_{k+1} = \mu  \Delta t + \sigma \sqrt{\Delta t}\varepsilon_{k+1},
 $$
-mit $\mu$ als Erwartungswert der Rendite (oder auch Drift), $\sigma$ als Volatilität, und $\varepsilon_{k+1}$ unabhängig, identisch verteilten Zufallsvariablen mit Erwartungswert $0$ und Varianz $1$. Das bildet die Modellannahme für den Rest dieser Arbeit.
+mit $\mu$ als Erwartungswert der Rendite (oder auch Drift), $\sigma$ als Volatilität, und $\varepsilon_{k+1}$ unabhängig, identisch verteilten Zufallsvariablen mit Erwartungswert $0$ und Varianz $1$. 
+(An dieser Stelle ist unwichtig, wie die $\varepsilon_{k+1}$ verteilt sind, es reicht, dass sie diese Momente besitzen. 
+Die Information über die Verteilung wird in einem Grenzübergang verloren gehen.)
+Das bildet die Modellannahme für den Rest dieser Arbeit.
 
 Im Folgenden wird eine explizite Formel für $S_t$ bewiesen, nämlich
 $$S_T = S_0 \exp\!\Big( (\mu - \tfrac12 \sigma^2)T + \sigma W_T \Big),$$

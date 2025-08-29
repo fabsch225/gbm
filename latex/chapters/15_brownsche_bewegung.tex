@@ -60,7 +60,7 @@ Nun der allgemeine Fall $m > n+1$: aus dem Satz des iterierten Erwartungswertes 
 $$E(b^{(1)}(m) | b^{(1)}(n)=v) = E(E(b^{(1)}(m) | b^{(1)}(m-1)) | b^{(1)}(n)=v).$$
 Da $E(b^{(1)}(m) | b^{(1)}(m-1)) = b^{(1)}(m-1)$ folgt
 $$E(b^{(1)}(m) | b^{(1)}(n)=v) = E(b^{(1)}(m-1) | b^{(1)}(n)=v).$$
-Induktiv folgt die Behauptung. $\hfill \square$ \\
+Induktiv folgt die Behauptung. \qed \\
 
 \end{lemma}
 
@@ -150,7 +150,7 @@ $$\sup_{t}|\hat W^{(m)}_t - \hat W^{(n)}_t| \leq \sum_{k=n}^{m-1} M_k. \underset
 Damit ist $\big(\hat W^{(n)}\big)_{n\in\Bbb N}$ fast sicher eine Cauchy-Folge in $\Vert \cdot \Vert_{\infty}$ und somit
 gleichmäßig Konvergent auf $[0,1]$. $\big(\hat W^{(n)}\big)_{n\in\Bbb N}$ konvergiert gleichmäßig 
 gegen einen Grenzpfad $\widetilde W$, der als gleichmäßiger Grenzwert stückweise linearer  (also stetiger) Funktionen wiederum stetig ist. 
-Durch Skalierung gilt die Aussage auf jedem kompakten Zeitintervall. $\hfill \square$
+Durch Skalierung gilt die Aussage auf jedem kompakten Zeitintervall. \qed
 \end{satz}
 
 \subsection{Eigenschaften der Brownschen Bewegung}
@@ -162,7 +162,7 @@ Aus der gleichmäßigen Konvergenz von $b^{(N)}(t)$ gegen $W_t$ folgt, dass die 
 $$
 V(W_t) = \lim_{N \to \infty} V(b^{(N)}(t)) = t.
 $$
-$\hfill \square$
+\qed
 \end{satz}
 
 \begin{satz}[Martingal-Eigenschaft der Brownschen Bewegung]
@@ -180,5 +180,5 @@ $$
 E(W_t | W_s = v) = E(W_t - W_s + v | W_s = v) = E(W_t - W_s) + v = v.
 $$
 
-Damit ist $W_t$ ein Martingal. $\hfill \square$
+Damit ist $W_t$ ein Martingal. \qed
 \end{satz}

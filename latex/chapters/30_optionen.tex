@@ -29,7 +29,7 @@ Marktpreis bei 170\,€/Tonne. Der Landwirt übt die Option aus und verkauft sei
 Weizen zum höheren Preis von 200\,€/Tonne, obwohl der Marktpreis niedriger ist. 
 Sein Vorteil beträgt 30\,€ pro Tonne (abzüglich der Optionsprämie).
 \end{bsp}
-
+% 
 \subsection{Bewertung von Aktienoptionen im Binomialmodell}
 
 Das Binomialmodell wird erweitert. Zusätzlich zur Aktie und deren Kurs gibt es nun die Bank, die einen risikofreien Zinssatz $r$ anbietet.
@@ -76,6 +76,16 @@ $$p = \frac{1 - d}{u - d}$$
 die "risikoneutrale Wahrscheinlichkeit".
 \end{lemma}
 
+\begin{defi}[Risikoneutrales Maß]
+Die soeben berechnete Wahrscheinlichkeit $q$ wird als risikoneutrales Maß bezeichnet.
+Es handelt sich um ein diskretes Wahrscheinlichkeitsmaß $Q$ auf dem Wahrscheinlichkeitsraum des Binomialmodells,
+wobei $Q(\text{up})=q$ und $Q(\text{down})=1-q$ gilt. In der Finanzmathematik kann das
+riskoneutrale Maß oft nicht explizit angegeben werden, sondern über Existenz- und Eindeutigkeitstheoreme
+charakterisiert werden, zum Beispiel mit dem Satz von Radon-Nikodym (XXX). Im Folgenden gilt:
+$Q$ ist das Maß, für das das erweiterte Binomialmodell ein arbitragefreies Modell ist, das 
+heißt der zugehörige stochastische Prozess ein Martingal ist.
+\end{defi}
+
 \begin{satz}[Bewertung von europäischen Optionen im Binomialmodell]
 Der Preis einer Option durch rekursive Rückwärtsinduktion bestimmt. 
 Der Wert einer europäischen Option am Endzeitpunkt $T$ ist durch die Auszahlungsfunktion $f(S_T)$ gegeben, z.\,B.\ für eine Call-Option $f(S_T) = \max(S_T - K, 0)$.
@@ -84,14 +94,19 @@ $$
 C_n = e^{-r \Delta t} \left( q C_{n+1}^\text{up} + (1-q) C_{n+1}^\text{down} \right),
 $$
 wobei $C_{n+1}^\text{up}$ und $C_{n+1}^\text{down}$ die Optionswerte im nächsten Schritt nach Auf- bzw. Abbewegung sind.
-Damit lässt sich der Optionspreis am Anfangszeitpunkt $C_0$ bestimmen.
+Damit lässt sich der Optionspreis am Anfangszeitpunkt $C_0$ bestimmen. Die Formel leitet
+sich aus dem Ewartungswert unter dem risikoneutralen Maß $\mathbb{Q}$ ab:
+$$
+C_0 = e^{-r T} E_Q(f(S_T)).
+$$
+Der faire Preis der Option ist der Erwartungswert der diskontierten Auszahlung (unter dem risikoneutralen Maß).
 \end{satz}
 
-\subsection{Das Black-Scholes-Modell}
-Ziel ist es zu zeigen, dass die Optionspreise im Cox–Ross–Rubinstein-(CRR-)Binomialmodell
+\subsection{Das Black-Scholes-Modell als Grenzfall des Binomialmodells}
+Ziel ist es zu zeigen, dass die Optionspreise im Binomialmodell
 beim Verfeinern der Zeitdiskretisierung gegen die Black–Scholes-Formel konvergieren.
 
-\paragraph{CRR-Skalierung und risikoneutrales Maß}
+\paragraph{Grenzfall des Binomialmodell unter dem risikoneutralen Maß}
 Wähle für Zeitschritt $\Delta t$ die Sprunggrößen
 $
 u = e^{\sigma \sqrt{\Delta t}},\quad d = e^{-\sigma \sqrt{\Delta t}}
@@ -106,8 +121,8 @@ $
 q(\Delta t) = \tfrac12 + \frac{r - \tfrac12 \sigma^2}{2\sigma}\,\sqrt{\Delta t} + o(\sqrt{\Delta t}).
 $
 
-\paragraph{Grenzwert des Aktienprozesses}
-Für $n=T/\Delta t$ und $N_u$ Aufwärtsbewegungen gilt unter $\mathbb Q$:
+\paragraph{Erneute Herleitung der geometrischen Brownschen Bewegung}
+Für $n=T/\Delta t$ und $N_u$ Aufwärtsbewegungen gilt unter $Q$:
 $
 S_T^{(n)} = S_0\, u^{N_u}\, d^{n-N_u}
 = S_0 \exp\!\big(\sigma \sqrt{\Delta t}\,(2N_u - n)\big).
@@ -118,21 +133,20 @@ $
 = (2q(\Delta t)-1)\,n + 2\sqrt{n\,q(\Delta t)(1-q(\Delta t))}\,Z_n,
 $
 wobei $Z_n \Rightarrow Z \sim \mathcal N(0,1)$. Multipliziert mit $\sigma \sqrt{\Delta t}$ folgt wegen $n\Delta t = T$:
-\[
+$$
 \log S_T^{(n)}
 = \log S_0 + \big(r - \tfrac12 \sigma^2\big)T + \sigma \sqrt{T}\,Z_n + o(1)
-\longrightarrow_{n\to\infty}
+$$
+Im Grenzwert $n\to\infty$ (bzw.\ $\Delta t \to 0$) folgt damit
+$$
 \log S_T \sim \mathcal N\!\Big(\log S_0 + \big(r - \tfrac12 \sigma^2\big)T,\;\sigma^2 T\Big).
-\]
-Damit konvergiert unter $\mathbb Q$ der diskrete Prozess gegen die Lösung der SDE
-$
-dS_t = r S_t\,dt + \sigma S_t\,dW_t
-$
-(geometrische Brownsche Bewegung).
+$$
+Damit konvergiert unter $Q$ der diskrete Prozess gegen 
+die geometrische Brownsche Bewegung.
 
-\begin{satz}[Black–Scholes-Formel als Grenzwert des diskontierten Binomialmodells]
+\begin{bsp}[Black–Scholes-Formel für europäische Call-Optionen]
 Sei $C_0^{(n)}$ der Preis der europäischen Call-Option mit Laufzeit $T$ und Strike $K$
-im $n$-stufigen CRR-Modell unter Diskontierung mit $r$. Dann gilt
+im $n$-stufigen Binomialmodell unter Diskontierung mit $r$. Dann gilt
 \[
 \lim_{n\to\infty} C_0^{(n)}
 = C_0^{\mathrm{BS}}
@@ -145,10 +159,11 @@ d_1 = \frac{\ln(S_0/K) + \big(r + \tfrac12 \sigma^2\big)T}{\sigma \sqrt{T}},
 d_2 = d_1 - \sigma \sqrt{T},
 \]
 und $\Phi$ die Verteilungsfunktion der Standardnormalverteilung ist.
-\textit{Beweis}-
+\textit{Beweis}.
+
 Risikoneutrale Bewertung im Binomialmodell liefert
 $
-C_0^{(n)} = e^{-rT}\,\mathbb E_{\mathbb Q}\!\left[(S_T^{(n)} - K)^+\right].
+C_0^{(n)} = e^{-rT}\,E_Q\!\left[(S_T^{(n)} - K)^+\right].
 $
 Die obige Verteilungskonvergenz impliziert
 $
@@ -156,11 +171,18 @@ S_T^{(n)} \Rightarrow S_T = S_0 \exp\!\big((r-\tfrac12\sigma^2)T + \sigma \sqrt{
 $
 Da $(x\mapsto (x-K)^+)$ beschränkt wachsend ist und die Familie $(S_T^{(n)})_n$ integrierbar bleibt,
 darf Grenzübergang und Erwartungswert vertauscht werden (z.\,B.\ über gleichgradige Integrierbarkeit):
-\[
-\lim_{n\to\infty} C_0^{(n)} = e^{-rT}\,\mathbb E_{\mathbb Q}\!\left[(S_T - K)^+\right].
-\]
-Die rechte Seite ist die Lognormal-Erwartung und ergibt nach elementarer Rechnung die genannte Formel.
-\end{satz}
+$$
+\lim_{n\to\infty} C_0^{(n)} = e^{-rT}\,E_Q\!\left[(S_T - K)^+\right].
+$$
+Die rechte Seite ist die Lognormal-Erwartung und ergibt nach elementarer Rechnung die genannte Formel:
+\begin{align*}
+E_Q\!\left[(S_T - K)^+\right]
+&= \int_{\log(K/S_0)}^\infty (S_0 e^{(r-\frac12\sigma^2)T + \sigma \sqrt{T} x} - K)\,\varphi(x)\,dx \\
+&= S_0 e^{rT} \Phi(d_1) - K \Phi(d_2),
+\end{align*}
+wobei $\varphi$ die Dichte der Standardnormalverteilung ist.
+\qed
+\end{bsp}
 
 \begin{bem}
 Für den europäischen Put folgt analog
