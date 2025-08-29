@@ -8,7 +8,9 @@ oder zu verkaufen (Put-Option). Europäische Optionen können nur am Fälligkeit
 werden, während amerikanische Optionen während der gesamten Laufzeit bis zum Verfallsdatum 
 ausgeübt werden können. Ein zentrales Konzept ist die Put-Call-Parität, die eine Beziehung 
 zwischen dem Preis einer europäischen Call- und Put-Option mit identischem Basiswert, 
-Ausübungspreis und Laufzeit herstellt.
+Ausübungspreis und Laufzeit herstellt. Den fairen Preis einer Option zu bestimmen ist eine Herausforderung,
+die man mit Hilfe der geometrischen Brownschen Bewegung lösen kann. Im Folgenden wird dazu das Black-Scholes-Modell 
+vorgestellt.
 
 \begin{bsp}
 \textit{Beispiel Call-Option.} 
@@ -30,4 +32,140 @@ Sein Vorteil beträgt 30\,€ pro Tonne (abzüglich der Optionsprämie).
 
 \subsection{Bewertung von Aktienoptionen im Binomialmodell}
 
+Das Binomialmodell wird erweitert. Zusätzlich zur Aktie und deren Kurs gibt es nun die Bank, die einen risikofreien Zinssatz $r$ anbietet.
+
+\begin{defi}[Arbitrage-Prinzip]
+Es wird angenommen, dass man keine risikolosen Gewinne erzielen kann, ohne Kapital zu investieren.
+\end{defi}
+
+\begin{defi}[Europäische Optionen]
+    Europäische Optionen sind Finanzderivate, die dem Inhaber das Recht geben, 
+    einen Basiswert zu einem festgelegten Preis (dem Ausübungspreis) nur am 
+    Fälligkeitstag zu kaufen (Call-Option) oder zu verkaufen (Put-Option).
+\end{defi}
+
+
+\begin{lemma}[Risikoneutrale Wahrscheinlichkeit für einen Schritt]
+Da in diesem Fall die Aussicht auf Zinsen berücksichtigt werden muss,
+werden mögliche Aktiengewinne mit dem Faktor $e^{r \Delta t}$ verkleinert (diskontiert).
+Der diskontierte Aktienkurs zum Zeitpunkt $n$ ist $e^{-r n \Delta t} S_n$.
+Im Folgenden wird berechnet, für welche Wahrscheinlichkeit der neue diskontierte Prozess
+ein Martingal ist. Das Martingal-Kriterium lautet: $E(X_{n+1} \mid X_n = l) = l$, wobei $X_n = e^{-r n \Delta t} S_n$.
+Einsetzen von $X_{n+1} = e^{-r (n+1) \Delta t} S_{n+1}$ und $X_n = e^{-r n \Delta t} S_n$ ergibt
+$$
+E(e^{-r (n+1) \Delta t} S_{n+1} \mid S_n = v) = e^{-r n \Delta t} v
+$$
+Aus der Linearität des Erwartungswerts folgt
+$$
+E(e^{-r \Delta t} S_{n+1} \mid S_n=v) = v.
+$$
+Setzt man die möglichen Werte für $S_{n+1}$ ein ($S_{n+1} = u S_n$ mit Wahrscheinlichkeit $q$, $S_{n+1} = d S_n$ mit Wahrscheinlichkeit $1-q$) folgt
+$$
+e^{-r \Delta t} \left( q u S_n + (1-q) d S_n \right) = v.
+$$
+Teilt man durch $S_n = v$ ($v > 0$) ergibt sich
+$$
+e^{-r \Delta t} \left( q u + (1-q) d \right) = 1.
+$$
+Das ist äquivalent zu
+$$
+q = \frac{e^{r \Delta t} - d}{u - d}.
+$$
+Zum Vergleich: im klassischen Binomialmodell ist 
+$$p = \frac{1 - d}{u - d}$$
+die "risikoneutrale Wahrscheinlichkeit".
+\end{lemma}
+
+\begin{satz}[Bewertung von europäischen Optionen im Binomialmodell]
+Der Preis einer Option durch rekursive Rückwärtsinduktion bestimmt. 
+Der Wert einer europäischen Option am Endzeitpunkt $T$ ist durch die Auszahlungsfunktion $f(S_T)$ gegeben, z.\,B.\ für eine Call-Option $f(S_T) = \max(S_T - K, 0)$.
+Die Bewertung erfolgt rekursiv rückwärts:
+$$
+C_n = e^{-r \Delta t} \left( q C_{n+1}^\text{up} + (1-q) C_{n+1}^\text{down} \right),
+$$
+wobei $C_{n+1}^\text{up}$ und $C_{n+1}^\text{down}$ die Optionswerte im nächsten Schritt nach Auf- bzw. Abbewegung sind.
+Damit lässt sich der Optionspreis am Anfangszeitpunkt $C_0$ bestimmen.
+\end{satz}
+
 \subsection{Das Black-Scholes-Modell}
+Ziel ist es zu zeigen, dass die Optionspreise im Cox–Ross–Rubinstein-(CRR-)Binomialmodell
+beim Verfeinern der Zeitdiskretisierung gegen die Black–Scholes-Formel konvergieren.
+
+\paragraph{CRR-Skalierung und risikoneutrales Maß}
+Wähle für Zeitschritt $\Delta t$ die Sprunggrößen
+$
+u = e^{\sigma \sqrt{\Delta t}},\quad d = e^{-\sigma \sqrt{\Delta t}}
+$
+und den risikoneutralen Schritt $q(\Delta t)$ aus dem Martingal-Kriterium
+$
+q(\Delta t) = \frac{e^{r \Delta t} - d}{u - d}
+= \frac{e^{r \Delta t} - e^{-\sigma \sqrt{\Delta t}}}{e^{\sigma \sqrt{\Delta t}} - e^{-\sigma \sqrt{\Delta t}}}.
+$
+Eine Taylor-Entwicklung liefert
+$
+q(\Delta t) = \tfrac12 + \frac{r - \tfrac12 \sigma^2}{2\sigma}\,\sqrt{\Delta t} + o(\sqrt{\Delta t}).
+$
+
+\paragraph{Grenzwert des Aktienprozesses}
+Für $n=T/\Delta t$ und $N_u$ Aufwärtsbewegungen gilt unter $\mathbb Q$:
+$
+S_T^{(n)} = S_0\, u^{N_u}\, d^{n-N_u}
+= S_0 \exp\!\big(\sigma \sqrt{\Delta t}\,(2N_u - n)\big).
+$
+Mit $N_u \sim \mathrm{Bin}(n, q(\Delta t))$ und dem ZGWS ergibt sich
+$
+2N_u - n
+= (2q(\Delta t)-1)\,n + 2\sqrt{n\,q(\Delta t)(1-q(\Delta t))}\,Z_n,
+$
+wobei $Z_n \Rightarrow Z \sim \mathcal N(0,1)$. Multipliziert mit $\sigma \sqrt{\Delta t}$ folgt wegen $n\Delta t = T$:
+\[
+\log S_T^{(n)}
+= \log S_0 + \big(r - \tfrac12 \sigma^2\big)T + \sigma \sqrt{T}\,Z_n + o(1)
+\longrightarrow_{n\to\infty}
+\log S_T \sim \mathcal N\!\Big(\log S_0 + \big(r - \tfrac12 \sigma^2\big)T,\;\sigma^2 T\Big).
+\]
+Damit konvergiert unter $\mathbb Q$ der diskrete Prozess gegen die Lösung der SDE
+$
+dS_t = r S_t\,dt + \sigma S_t\,dW_t
+$
+(geometrische Brownsche Bewegung).
+
+\begin{satz}[Black–Scholes-Formel als Grenzwert des diskontierten Binomialmodells]
+Sei $C_0^{(n)}$ der Preis der europäischen Call-Option mit Laufzeit $T$ und Strike $K$
+im $n$-stufigen CRR-Modell unter Diskontierung mit $r$. Dann gilt
+\[
+\lim_{n\to\infty} C_0^{(n)}
+= C_0^{\mathrm{BS}}
+= S_0\,\Phi(d_1) - K e^{-rT}\,\Phi(d_2),
+\]
+wobei
+\[
+d_1 = \frac{\ln(S_0/K) + \big(r + \tfrac12 \sigma^2\big)T}{\sigma \sqrt{T}},
+\qquad
+d_2 = d_1 - \sigma \sqrt{T},
+\]
+und $\Phi$ die Verteilungsfunktion der Standardnormalverteilung ist.
+\textit{Beweis}-
+Risikoneutrale Bewertung im Binomialmodell liefert
+$
+C_0^{(n)} = e^{-rT}\,\mathbb E_{\mathbb Q}\!\left[(S_T^{(n)} - K)^+\right].
+$
+Die obige Verteilungskonvergenz impliziert
+$
+S_T^{(n)} \Rightarrow S_T = S_0 \exp\!\big((r-\tfrac12\sigma^2)T + \sigma \sqrt{T}\,Z\big).
+$
+Da $(x\mapsto (x-K)^+)$ beschränkt wachsend ist und die Familie $(S_T^{(n)})_n$ integrierbar bleibt,
+darf Grenzübergang und Erwartungswert vertauscht werden (z.\,B.\ über gleichgradige Integrierbarkeit):
+\[
+\lim_{n\to\infty} C_0^{(n)} = e^{-rT}\,\mathbb E_{\mathbb Q}\!\left[(S_T - K)^+\right].
+\]
+Die rechte Seite ist die Lognormal-Erwartung und ergibt nach elementarer Rechnung die genannte Formel.
+\end{satz}
+
+\begin{bem}
+Für den europäischen Put folgt analog
+$
+P_0^{\mathrm{BS}} = K e^{-rT}\,\Phi(-d_2) - S_0\,\Phi(-d_1),
+$
+oder per Put-Call-Parität. Zudem konvergieren die ganzen Preisbäume des CRR-Modells lokal gegen die Lösung der Black–Scholes-PDE.
+\end{bem}
