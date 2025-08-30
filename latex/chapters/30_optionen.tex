@@ -312,7 +312,7 @@ $$
 d.\,h.\ unter $Q$ konvergiert der diskrete Prozess gegen die geometrische Brownsche Bewegung.
 \qed
 
-\begin{satz}[Satz von Pratt, Elstrod S. 280, vereinfacht]
+\begin{satz}[Satz von Pratt, \cite{elstrod} S. 280, vereinfacht]
 Dieser technische Satz erlaubt es, den Grenzübergang und den Erwartungswert zu vertauschen, und
 kommt im Folgenden bei der Herleitung der Black-Scholes-Formel zum Einsatz.
 Sei $(X_n) \longrightarrow X$ eine Folge von Zufallsvariablen, die fast-überall konvergiert,
@@ -336,7 +336,7 @@ d_1 = \frac{\ln(S_0/K) + \big(r + \tfrac12 \sigma^2\big)T}{\sigma \sqrt{T}},
 d_2 = d_1 - \sigma \sqrt{T},
 $$
 und $\Phi$ die Verteilungsfunktion der Standardnormalverteilung ist.
-\\ \textit{Beweis}. Risikoneutrale Bewertung im Binomialmodell liefert
+\\ \textit{Beweis}\footnote{Der Beweis ist angelehnt an die Argumentation in \cite{hull}, S. 347}. Risikoneutrale Bewertung im Binomialmodell liefert
 $$
 C_0^{(n)} = e^{-rT}\,E\!\left[(S_T^{(n)} - K)^+\right].
 $$
@@ -346,7 +346,7 @@ S_T^{(n)} \longrightarrow S_T = S_0 \exp\!\big((r-\tfrac12\sigma^2)T + \sigma \s
 $$
 Nun wird der Satz von Pratt angewendet, um den Grenzübergang und den Erwartungswert zu vertauschen. Eine untere Schranke ist $Y_n=0$ und eine obere Schranke ist $Z_n = (S_T^{(n)})^+ = S_T^{(n)}$. 
 $$
-\lim_{n\to\infty} C_0^{(n)} = e^{-rT}\,E\!\left[ h(\lim_{n\to\infty} S_T^{(n)}) \right] = e^{-rT}\,E_Q\!\left[(S_T - K)^+\right].
+\lim_{n\to\infty} C_0^{(n)} = e^{-rT}\,E\!\left[ (\lim_{n\to\infty} S_T^{(n)}-K)^+ \right] = e^{-rT}\,E_Q\!\left[(S_T - K)^+\right].
 $$
 Nun wird die rechte Seite explizit berechnet: Seien
 $$
@@ -436,13 +436,19 @@ C <- S0 * pnorm(d1) - K * exp(-r*T) * pnorm(d2)
 Ein Beispiel mit $r = 0.02, T = 1$ Jahr und dem DAX-Stand $S_0 = 24290$ wird in
 der folgenden Grafik dargestellt. Der faire Preis der Option
 fällt (erwartungsgemäß) mit dem Ausübungspreis $K$.
+Aus der Call-Put-Parität folgt, dass der Preis einer Put-Option
+sich durch
 
+\begin{lstlisting}
+P <- C - S0 + K * exp(-r * T)
+\end{lstlisting}
+berechnet.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/call_dax_bs.png}
+    \includegraphics[width=0.9\textwidth]{images/dax_bs.png}
     \caption{Preis einer Call-Option auf den DAX in Abhängigkeit vom Ausübungspreis $K$}
-    \label{fig:call_dax_bs}
+    \label{fig:dax_bs}
 \end{figure}
 
 \end{bsp}
@@ -466,7 +472,7 @@ wobei $X_1, X_2, \ldots, X_n$ unabhängige und identisch verteilte Zufallsvariab
 sind, die der Verteilung von $X$ folgen. Der Schätzer konvergiert fast sicher
 gegen den wahren Erwartungswert $I = E[f(X)]$, wenn $n \to \infty$.
 \textit{Beweis.} Nach dem Gesetz der großen Zahlen gilt
-$$\hat{I}_n \longrightarrow E[f(X)] = I. \quad \text{fast sicher}$$
+$$\hat{I}_n \longrightarrow E[f(X)] = I, \quad \text{fast sicher.}$$
 \qed
 \end{defprop}
 

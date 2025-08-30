@@ -1,1 +1,70 @@
 \section{Fazit}
+
+\subsection{Zusammenfassung}
+
+Die Arbeit spannte den Bogen von elementaren stochastischen Prozessen über das Binomialmodell und die diskrete Brownsche 
+Bewegung bis zur geometrischen Brownschen Bewegung (GBM) als kontinuierlichem Grenzfall. Zentrale stochastische Begriffe wie 
+Filtration, bedingter Erwartungswert und Martingal wurden eingeführt und im diskreten Setting verankert. Über eine 
+Logarithmierung und eine systematische Taylor-Approximation der diskreten Renditen wurde gezeigt, dass im Grenzübergang 
+$\Delta t \to 0$ die Kursdynamik durch
+$S_T = S_0 \exp\!\big((\mu - \tfrac12\sigma^2)T + \sigma W_T\big)$
+beschrieben wird, sodass $\log S_T$ normal- und $S_T$ log-normalverteilt ist. Im erweiterten Binomialmodell 
+wurde der diskontierte Aktienkurs als Martingal unter einem risikoneutralen Maß konstruiert und die Optionsbewertung 
+via Rückwärtsinduktion hergeleitet; im Grenzfall führt dies zum Black–Scholes-Modell. Empirisch wurden die GBM-Parameter aus 
+Log-Renditen geschätzt, daraus Konfidenzintervalle und -bänder abgeleitet und mittels Monte-Carlo-Simulation validiert. 
+Ein Backtest auf DAX-Daten zeigte eine hohe Überdeckungsrate im 50\%-Band und nachvollziehbare Fehlermaße (MSE, MAPE, NRMSE) \cite{botchkarev_performance_2019}, 
+was die Praxistauglichkeit trotz der Modellvereinfachungen unterstreicht.
+
+\paragraph{Monte-Carlo-Simulation}
+Monte-Carlo diente als universelles Werkzeug zur Approximation risikoneutraler 
+Erwartungswerte, sowohl für Endwert-Auszahlungen als auch für pfadabhängige Produkte. 
+Für GBM lassen sich Endwerte unter dem risikoneutralen Maß exakt ziehen; bei Pfadabhängigkeiten 
+wird zeitlich diskretisiert. Die beobachtete Annäherung der empirischen Quantile an die 
+analytischen Lognormal-Quantile mit wachsender Pfadzahl bestätigt Konsistenz und Korrektheit 
+der Implementierung. In der Praxis bestimmen Schrittweitenwahl (Diskretisierungsfehler) und 
+Varianzreduktion die Effizienz; der Vergleich analytischer Konfidenzbänder mit 
+Simulationsquantilen ist ein einfacher, robuster Plausibilitätscheck.
+
+\subsection{Weiterführende mathematische Aspekte}
+Eine gründliche Auseinandersetzung liefert \cite{shreve}.
+
+\paragraph{Maßtheorie}
+Eine strengere Ausarbeitung würde die risikoneutrale Bewertung explizit maßtheoretisch fassen: 
+Arbitragefreiheit entspricht der Existenz eines äquivalenten Martingalmaßes, Bewertung erfolgt als 
+Erwartungswert der diskontierten Auszahlung unter diesem Maß. Technisch geschieht der 
+Maßwechsel über die Radon–Nikodym-Ableitung. Dieses Ergebnis wird auch Fundamentalsatz der Arbitragepreistheorie genannt. 
+In kontinuierlicher Zeit vermittelt der Satz von Girsanov die Driftelimination. Diese Arbeit entschied sich zugunsten einer anschaulichen, aber 
+konsistenten Herleitung.
+
+\paragraph{Stochastische Analysis}
+Die GBM ist die Lösung der stochastischen Differentialgleichung
+$dS_t=\mu S_t\,dt+\sigma S_t\,dW_t$ mit $S_0=s_0$,
+und die Black–Scholes-Bewertung lässt sich äquivalent über It\^o-Kalkül, Feynman–Kac und die Black–Scholes-PDE
+$\partial_t V+\tfrac12\sigma^2 S^2 \partial_{SS}V + r S \partial_S V - r V=0$
+begründen. Die vorliegende Darstellung ersetzte It\^o-Lemma und stochastische Integrale durch Taylor-Entwicklungen, Grenzwertbetrachtungen und 
+Verteilungskonvergenz; beide Zugänge sind kompatibel, der SDE/PDE-Ansatz ist der etablierte Standard. 
+Zur Klarstellung: Unter allgemeinem Drift gilt $E(S_T)=S_0 e^{\mu T}$ und $\mathrm{Var}(S_T)=S_0^2 e^{2\mu T}\big(e^{\sigma^2 T}-1\big)$, 
+und für Schrittweite $\Delta t$ sind die Log-Renditen normalverteilt mit Mittelwert $(\mu-\tfrac12\sigma^2)\Delta t$ und 
+Varianz $\sigma^2 \Delta t$ (Standardabweichung $\sigma\sqrt{\Delta t}$).
+
+\paragraph{Numerische Lösung stochastischer Differentialgleichungen}
+Für GBM sind Endwerte unter dem risikoneutralen Maß direkt samplbar; allgemein werden SDEs über 
+zeitdiskrete Verfahren wie Euler–Maruyama (stark Ordnung 0{,}5, schwach 1) oder 
+Milstein (stark Ordnung 1) approximiert. Für die Black–Scholes-PDE sind 
+Finite-Differenzen-Verfahren (explizit, implizit, Crank–Nicolson) etabliert. Die Wahl zwischen 
+Monte Carlo und PDE hängt von Dimension, Randbedingungen und Pfadabhängigkeit ab; in höheren 
+Dimensionen und bei komplexen Auszahlungsprofilen ist Monte Carlo oft überlegen, während 
+PDE-Ansätze für niedrigdimensionale, glatte Probleme sehr effizient sind.
+
+\subsection{Ausblick}
+
+Alternative Modelle adressieren beobachtete Abweichungen der GBM-Annahmen wie konstante Volatilität
+und dünne Tails. Stochastische Volatilität (z.\,B.\ Heston) bildet Volatilitäts-Cluster und 
+Smile-Effekte ab, Sprung-Diffusion (Merton, Kou) modelliert diskontinuierliche Bewegungen und 
+schwere Schwänze, lokale Volatilität (Dupire) kalibriert Marktkonsistenz in der Volatilitätsfläche,
+und Regimewechsel- oder GARCH-Modelle fangen Nichtstationaritäten in diskreter Zeit ein. 
+Methodisch bieten Varianzreduktion und Quasi–Monte–Carlo Effizienzgewinne, Longstaff–Schwartz 
+erleichtert die Bewertung amerikanischer Optionen, und Bootstrap-Verfahren 
+quantifizieren Kalibrierungsunsicherheit. Für die empirische Anwendung empfiehlt sich eine 
+robuste, rollierende Kalibrierung, systematische Backtests über verschiedene Marktphasen und die 
+Berücksichtigung mehrerer Gütemaße (\cite{Botchkarev}), um Prognosegüte und Modellrisiken transparent zu machen.

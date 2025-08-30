@@ -28,7 +28,31 @@ T <- 1
 strikes <- seq(0.7*S0, 1.3*S0, length.out = 50)
 call_prices <- sapply(strikes, function(K) bs_call(S0, K, r, T, sigma))
 
-df_calls <- data.frame(Strike = strikes, CallPrice = call_prices)
+put_prices <- sapply(strikes, function(K) {
+  bs_call(S0, K, r, T, sigma) - S0 + K * exp(-r * T)
+})
+
+
+df_options <- data.frame(
+  Strike = strikes,
+  CallPrice = call_prices,
+  PutPrice = put_prices
+)
+
+# Plot both Call and Put
+ggplot(df_options, aes(x = Strike)) +
+  geom_line(aes(y = CallPrice, color = "Call"), size = 1) +
+  geom_line(aes(y = PutPrice, color = "Put"), size = 1) +
+  labs(title = "Europäische Call- und Put-Optionen auf den DAX (Black-Scholes)",
+       subtitle = paste("S0 =", round(S0,0),
+                        ", sigma =", round(sigma,4),
+                        ", r =", r,
+                        ", T =", T, "Jahr"),
+       x = "Strike K",
+       y = "Optionspreis") +
+  scale_color_manual(values = c("Call" = "blue", "Put" = "red")) +
+  theme_minimal(base_size = 14) +
+  theme(legend.title = element_blank())
 
 ggplot(df_calls, aes(x = Strike, y = CallPrice)) +
   geom_line(color = "blue", size = 1) +

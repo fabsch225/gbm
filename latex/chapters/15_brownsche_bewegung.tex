@@ -78,14 +78,14 @@ Im Grenzübergang $N \to \infty$ konvergiert $\frac{\lfloor Nt \rfloor}{N} \to t
 \subsection{Ausgewählte Ergebnisse aus der Stochastik}
 Im Folgenden Beweis zur Stetigkeit der Pfade werden einige Ergebnisse aus der Stochastik verwendet, die hier zusammengefasst, aber nicht bewiesen werden.
 
-\begin{lemma}[Reihenkriterium für fast sichere Konvergenz, Henze S. 201]
+\begin{lemma}[Reihenkriterium für fast sichere Konvergenz, \cite{henze} S. 201]
 Sei $(X_n)_{n \in \Bbb N}$ eine Folge von Zufallsvariablen. Wenn es eine Reihe $\sum_{n=1}^\infty a_n \lt \infty$ mit $a_n \geq 0$ gibt, so dass
 $$P(|X_n| > \varepsilon) \leq a_n \quad \text{für alle } n \in \Bbb N \text{ und jedes } \varepsilon > 0,$$
 dann konvergiert $X_n$ fast sicher gegen $0$, d.h.
 $$P\left(\lim_{n \to \infty} X_n = 0\right) = 1.$$
 \end{lemma}
 
-\begin{lemma}[Kolmogorov-Ungleichung, Henze S. 207]
+\begin{lemma}[Kolmogorov-Ungleichung, \cite{henze} S. 207]
 Seien $X_1, X_2, \ldots, X_n$ unabhängige Zufallsvariablen mit $E(X_i) = 0$ und $V(X_i) < \infty$ für alle $i=1, \ldots, n$. Dann gilt für jedes $\varepsilon > 0$
 $$P\left(\max_{1 \leq k \leq n} |S_k| \geq \varepsilon \right) \leq \frac{1}{\varepsilon^2} V(S_n),$$
 wobei $S_k := \sum_{i=1}^k X_i$.
@@ -99,16 +99,20 @@ ob der Grenzprozess überhaupt existiert.
 \begin{satz}[Existenz der Brownschen Bewegung]
 Es existiert ein stochastischer Prozess $W_t, t \geq 0$, so dass für jedes $t$ die Verteilung von $b^{(N)}(t)$ gegen die Verteilung von $W_t$ konvergiert, wenn $N \to \infty$.
 \textit{Beweis.}
-Fixiere $t \ge 0$ und setze $k:=\lfloor Nt \rfloor$ sowie $\alpha:=Nt-\lfloor Nt \rfloor \in [0,1)$. Dann gilt
-$$
-b^{(N)}(t)=\frac{1}{\sqrt{N}}\big(\xi_k+\alpha(\xi_{k+1}-\xi_k)\big)
+Da 
+$$b^{(N)}(t) = \frac{1}{\sqrt{N}}\big(\xi_k+\alpha(\xi_{k+1}-\xi_k)\big)
 =\frac{1}{\sqrt{N}}\big(\xi_k+\alpha\,\eta_{k+1}\big).
 $$
-Da $\xi_k \sim N(0,k)$ und $\eta_{k+1}\sim N(0,1)$ unabhängig sind, ist $b^{(N)}(t)$ normalverteilt mit Mittelwert $0$ und Varianz
+ist $b^{(N)}(t)$ eine lineare Kombination von Normalverteilungen, und daher widerum 
+normalverteilt. Erwartungswert und Varianz wurden bereits berechnet:
 $$
-\sigma_N^2(t)=\frac{1}{N}\big(k+\alpha^2\big).
+E(b^{(N)}(t)) = 0, \quad V(b^{(N)}(t)) = \sigma_N^2(t) = \frac{1}{N}\big(k+\alpha^2\big),
 $$
-Damit ist für jedes $x\in\Bbb R$ die Verteilungsfunktion von $b^{(N)}(t)$ gegeben durch
+wobei $k=\lfloor Nt \rfloor$ und $\alpha=Nt-k\in[0,1)$. Damit gilt
+$$
+b^{(N)}(t) \sim N\left(0,\frac{1}{N}\big(k+\alpha^2\big)\right).
+$$
+Die Verteilungsfunktion ist gegeben durch
 $$
 F_N(x)=\Bbb P\big(b^{(N)}(t)\le x\big)=\Phi\!\left(\frac{x}{\sigma_N(t)}\right),
 $$
@@ -134,7 +138,7 @@ M_n &:=\sup_{t\in[0,1]}\big|\hat W^{(n+1)}_t-\hat W^{(n)}_t\big|
 \\ &= \max_{0\le k<2^n} \sup_{t\in I_{n,k}} \big|\hat W^{(n+1)}_t-\hat W^{(n)}_t\big| =\max_{0\le k<2^n}|Z_{n,k}|
 \end{aligned}
 $$
-Für die unabhängigen, Inkremente $Z_{n,k}$, wobei
+Für die unabhängigen Inkremente $Z_{n,k}$ mit
 $$Z_{n,k}\sim N\!\big(0,2^{-(n+2)}\big).$$
 Mit der Kolmogorov-Ungleichung erhält man für jedes $\varepsilon>0$
 $$
@@ -157,6 +161,35 @@ $t \mapsto W_t(\omega)$ wurde eine (reellwertige) Folge von stetigen Funktionen 
 \end{satz}
 
 \subsection{Eigenschaften der Brownschen Bewegung}
+
+\begin{satz}[Selbstähnlichkeit der Brownschen Bewegung]
+Für jedes $c > 0$ gilt
+$$
+\begin{aligned}
+W_{ct}(\omega) &\stackrel{d}{=} \sqrt{c} W_t(\omega) \quad \text{für alle } t \ge 0.
+\end{aligned}
+$$
+und für alle $s \lt t$ gilt
+$$
+W_t - W_s \sim N(0, t-s).
+$$
+\textit{Beweis der ersten Behauptung.}
+Für $t \ge 0$ sei $k = \lfloor Nt \rfloor$ und $\alpha = Nt - k \in [0,1)$. Dann gilt
+$$
+W_{ct}(\omega) = \lim_{N \to \infty} b^{(N)}_{ct}(\omega) = \lim_{N \to \infty} \frac{1}{\sqrt{N}} \left( \xi_k + \alpha (\xi_{k+1} - \xi_k) \right) = \sqrt{c} W_t(\omega).
+$$
+\textit{Beweis der zweiten Behauptung.}
+Für $s < t$ gilt
+$$
+W_t - W_s = \lim_{N \to \infty} \left( b^{(N)}(t) - b^{(N)}(s) \right).
+$$
+Da $b^{(N)}(t) - b^{(N)}(s)$ eine Normalverteilung mit Erwartungswert $0$ und Varianz $t-s$ hat, folgt aus der Verteilungskonvergenz, dass
+$$
+W_t - W_s \sim N(0, t-s).
+$$
+\qed
+
+\end{satz}
 
 \begin{satz}[Varianz der Brownschen Bewegung]
 Die Brownsche Bewegung $W_t$ hat die Varianz $V(W_t) = t$.
