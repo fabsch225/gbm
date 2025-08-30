@@ -42,6 +42,13 @@ Es wird angenommen, dass man keine risikolosen Gewinne erzielen kann, ohne Kapit
     Europäische Optionen sind Finanzderivate, die dem Inhaber das Recht geben, 
     einen Basiswert zu einem festgelegten Preis (dem Ausübungspreis) nur am 
     Fälligkeitstag zu kaufen (Call-Option) oder zu verkaufen (Put-Option).
+    Der Wert einer europäischen Call-Option am Endzeitpunkt $T$ ist durch die Auszahlungsfunktion
+    $$f(S_T) = \max(S_T - K, 0) = (S_T - K)^+$$
+    gegeben, wobei $K$ der Ausübungspreis ist.
+    Für eine Put-Option ist die Auszahlungsfunktion
+    $$\tilde f(S_T) = \max(K - S_T, 0) = (K - S_T)^+.$$
+Das entspricht der \textit{Call-Put-Parität}
+    $f(S_T) - \tilde f(S_T) = S_T - K$.
 \end{defi}
 
 
@@ -505,5 +512,28 @@ Je höher die Anzahl der Simulationen $n$, desto genauer ist die Approximation.
     \caption{Preis einer Call-Option auf den DAX in Abhängigkeit der Simulationsanzahl $n$ im Vergleich zur Black-Scholes-Formel}
     \label{fig:call_dax_mc}
 \end{figure}
+
+\end{bsp}
+
+\begin{bsp}[Asiatische Optionen]
+Asiatische Optionen sind Finanzderivate, bei denen die Auszahlung auf dem Durchschnittspreis
+des Basiswerts über einen bestimmten Zeitraum basiert, anstatt auf dem Preis zu einem einzigen Zeitpunkt.
+Die Auszahlung einer asiatischen Call-Option mit Ausübungspreis $K$ und Laufzeit $T$ ist
+$$f(S_T) = \max\left(\frac{1}{T} \int_0^T S_t\,dt - K, 0\right).$$
+Die Bewertung erfolgt mit dem Monte-Carlo-Verfahren, da es keine geschlossene Formel wie bei der Black-Scholes-Formel gibt.
+Die Implementierung in R könnte wie folgt aussehen:
+
+\begin{lstlisting}
+Z <- matrix(rnorm(N * m), nrow=N, ncol=m) # N Pfade mit m Zeitschritten
+dt <- T / m
+S <- matrix(0, nrow=N, ncol=m)
+S[,1] <- S0
+for (j in 2:m) {
+  S[,j] <- S[,j-1] * exp((r - 0.5*sigma^2)*dt + sigma*sqrt(dt)*Z[,j])
+}
+avg_price <- rowMeans(S) # Durchschnittspreis für jeden Pfad
+payoff <- pmax(avg_price - K, 0) # Bewertungsfunktion
+C <- exp(-r*T) * mean(payoff) # diskontierter Monte-Carlo-Schätzer
+\end{lstlisting}
 
 \end{bsp}

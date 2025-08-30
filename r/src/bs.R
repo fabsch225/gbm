@@ -70,3 +70,17 @@ ggplot(df, aes(x = n, y = MC)) +
            label = paste("BS-Preis ≈", round(C_bs,2)),
            vjust = -1, hjust = 1, color = "red") +
   theme_minimal(base_size = 14)
+# Asian Option via Monte Carlo
+m <- 1000
+N <- 100
+
+Z <- matrix(rnorm(N * m), nrow=N, ncol=m) # n Pfade mit m Zeitschritten
+dt <- T / m
+S <- matrix(0, nrow=N, ncol=m)
+S[,1] <- S0
+for (j in 2:m) {
+  S[,j] <- S[,j-1] * exp((r - 0.5*sigma^2)*dt + sigma*sqrt(dt)*Z[,j])
+}
+avg_price <- rowMeans(S) # Durchschnittspreis für jeden Pfad
+payoff <- pmax(avg_price - K, 0) # Bewertungsfunktion
+C <- exp(-r*T) * mean(payoff) # Monte-Carlo-Schätzer
