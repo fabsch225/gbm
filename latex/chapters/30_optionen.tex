@@ -205,13 +205,15 @@ Der faire Preis der Call-Option ist also etwa 15.7\,€.
 Ziel ist es zu zeigen, dass die fairen Optionspreise
 beim Verfeinern der Zeitdiskretisierung gegen die geometrische Brownsche Bewegung konvergieren.
 Dieses Modell wird auch als Black-Scholes-Modell bezeichnet. Hier wird der Grenzübergang im risikoneutralen Maß durchgeführt,
-die Modellannahme aus Kapitel 2 wird übernommen:
+die Modellannahme aus Kapitel 5 wird übernommen:
 $$
 S_t = S_0 \cdot e^{(\mu - \frac{1}{2}\sigma^2)t + \sigma W_t}
 $$
 und durch Zeitdiskretisierung:
 $$
-S_{t+\Delta t} = S_t \cdot e^{(\mu - \frac{1}{2}\sigma^2)\Delta t + \sigma W_{t+\Delta t}}
+\begin{aligned}
+S_{t+\Delta t} &= S_t \cdot e^{(\mu - \frac{1}{2}\sigma^2)\Delta t + \sigma W_{t+\Delta t}}
+\end{aligned}
 $$
 \paragraph{die risikoneutrale Wahrscheinlichkeit im Grenzübergang}
 Zur Vereinfachung der zeitdiskreten Sprunggrößen $u$ und $d$ wird der Drift $\mu$ vernachlässigt.
