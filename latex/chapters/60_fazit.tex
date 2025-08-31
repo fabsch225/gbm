@@ -3,7 +3,7 @@
 \subsection{Zusammenfassung}
 
 Die Arbeit spannte den Bogen von elementaren stochastischen Prozessen über das Binomialmodell und die diskrete Brownsche 
-Bewegung bis zur geometrischen Brownschen Bewegung (GBM) als kontinuierlichem Grenzfall. Zentrale stochastische Begriffe wie 
+Bewegung bis zur geometrischen Brownschen Bewegung als kontinuierlichem Grenzfall. Zentrale stochastische Begriffe wie 
 Filtration, bedingter Erwartungswert und Martingal wurden eingeführt und in diskreten Wahrscheinlichkeitsräumen verankert. 
 Durch Grenzwertbetrachtungen werden die Konzepte dann auf kontinuierliche Wahrscheinlichkeitsräume übertragen. Über eine 
 Logarithmierung und eine systematische Taylor-Approximation der diskreten Renditen wurde gezeigt, dass im Grenzübergang 
@@ -11,17 +11,17 @@ $\Delta t \to 0$ die Kursdynamik durch
 $S_T = S_0 \exp\!\big((\mu - \tfrac12\sigma^2)T + \sigma W_T\big)$
 beschrieben wird, sodass $\log S_T$ normal- und $S_T$ log-normalverteilt ist. Im erweiterten Binomialmodell 
 wurde der diskontierte Aktienkurs als Martingal unter einem risikoneutralen Maß konstruiert und die Optionsbewertung 
-via Rückwärtsinduktion hergeleitet; im Grenzfall führt dies zum Black–Scholes-Modell. Empirisch wurden die GBM-Parameter aus 
+via Rückwärtsinduktion hergeleitet; im Grenzfall führt dies zum Black–Scholes-Modell. Empirisch wurden die Parameter aus 
 Log-Renditen geschätzt, daraus Konfidenzintervalle und -bänder abgeleitet und mittels Monte-Carlo-Simulation validiert. 
 Ein Backtest auf DAX-Daten zeigte eine hohe Überdeckungsrate im 50\%-Band und nachvollziehbare Fehlermaße (MSE, MAPE, NRMSE), 
 was die Praxistauglichkeit trotz der Modellvereinfachungen unterstreicht.
 
 \paragraph{Monte-Carlo-Simulation}
-Monte-Carlo diente als universelles Werkzeug zur Approximation risikoneutraler 
-Erwartungswerte, sowohl für Endwert-Auszahlungen als auch für pfadabhängige Produkte. 
-Für GBM lassen sich Endwerte unter dem risikoneutralen Maß exakt ziehen; bei Pfadabhängigkeiten 
-wird zeitlich diskretisiert. Die beobachtete Annäherung der empirischen Quantile an die 
-analytischen Lognormal-Quantile mit wachsender Pfadzahl bestätigt Konsistenz und Korrektheit 
+Monte-Carlo diente als universelles Werkzeug zur Approximation risikoneutraler
+Erwartungswerte, sowohl für Endwert-Auszahlungen als auch für pfadabhängige Produkte.
+Für die geometrische Brownsche Bewegung lassen sich Endwerte unter dem risikoneutralen Maß exakt ziehen; bei Pfadabhängigkeiten
+wird zeitlich diskretisiert. Die beobachtete Annäherung der empirischen Quantile an die
+analytischen Lognormal-Quantile mit wachsender Pfadzahl bestätigt Konsistenz und Korrektheit
 der Implementierung. Der Vergleich analytischer Konfidenzbänder mit 
 Simulationsquantilen ist ein einfacher, robuster Plausibilitätscheck.
 
@@ -29,11 +29,11 @@ Simulationsquantilen ist ein einfacher, robuster Plausibilitätscheck.
 \paragraph{Methodik}
 Methodisch verbindet die Arbeit diskrete Grenzwert- und Martingalargumente mit 
 reproduzierbarer Empirie in R. Als Beispiel dient ein Datensatz von DAX-Renditen.
-Die GBM wird über Logarithmierung, Taylor-Entwicklung bis Ordnung zwei sowie Gesetz der großen Zahlen und 
+Die geometrische Brownsche Bewegung wird über Logarithmierung, Taylor-Entwicklung bis Ordnung zwei sowie Gesetz der großen Zahlen und 
 zentralen Grenzwertsatz hergeleitet. Zudem kommen die Sätze von Kolmogorov, und Pratt zum Einsatz, 
 genauso wie das "Reihenkriterium für fast sichere Konvergenz", welches 
 ein Korollar zum Lemma von Borel-Cantelli ist (vgl. \cite{henze}). Insbesondere wurde
-das Kalkül der stochastischen Differentialgleichung (SDEs) vermieden. Einen Einblick in die Thematik bietet der
+das Kalkül der stochastischen Differentialgleichung vermieden. Einen Einblick in die Thematik bietet der
 folgende Abschnitt.
 
 \subsection{Weiterführende mathematische Aspekte}
@@ -48,41 +48,41 @@ In kontinuierlicher Zeit vermittelt der Satz von Girsanov die Driftelimination. 
 konsistenten Herleitung.
 
 \paragraph{Stochastische Analysis}
-Stochastische Differentialgleichungen (SDEs) modellieren zeitstetige Zufallsdynamiken in der 
+Stochastische Differentialgleichungen modellieren zeitstetige Zufallsdynamiken in der 
 Form $dX_t = a(t,X_t)\,dt + b(t,X_t)\,dW_t$, wobei der stochastische Term über das It\^o-Integral interpretiert wird.
 Das It\^o-Integral $\int_0^t \phi_s\,dW_s$ wird zunächst für elementare, an die natürliche Filtration adaptierte 
 Treppenfunktionen $\phi_s = \sum_k \phi_k\,\mathbf{1}_{(t_k,t_{k+1}]}(s)$ definiert durch $\sum_k \phi_k\,(W_{t_{k+1}}-W_{t_k})$; 
 mittels It\^o-Isometrie $E\!\left[\left(\int_0^t \phi_s\,dW_s\right)^2\right] = E\!\left[\int_0^t \phi_s^2\,ds\right]$ erfolgt dann die 
-Fortsetzung auf quadratintegrable, vorhersagbare Prozesse als $L^2$-Abschluss. Lösungen von SDEs werden im Integralsinn 
+Fortsetzung auf quadratintegrable, vorhersagbare Prozesse als $L^2$-Abschluss. Lösungen von stochastischen Differentialgleichungen werden im Integralsinn 
 verstanden, $X_t = X_0 + \int_0^t a(s,X_s)\,ds + \int_0^t b(s,X_s)\,dW_s$; 
 unter Lipschitz- und Linearwachstumsbedingungen existieren eindeutige starke Lösungen. Eine zugängliche
 Herleitung bietet \cite{behrends}.
 
-Die GBM ist die Lösung der stochastischen Differentialgleichung
+Die geometrische Brownsche Bewegung ist die Lösung der stochastischen Differentialgleichung
 $dS_t=\mu S_t\,dt+\sigma S_t\,dW_t$ mit $S_0=s_0$,
-und die Black–Scholes-Bewertung lässt sich äquivalent über It\^o-Kalkül, Feynman–Kac und die Black–Scholes-PDE
+und die Black–Scholes-Bewertung lässt sich äquivalent über It\^o-Kalkül, Feynman–Kac und die Black–Scholes-PDE (partiellen Differentialgleichung)
 $\partial_t V+\tfrac12\sigma^2 S^2 \partial_{SS}V + r S \partial_S V - r V=0$
 begründen. Die vorliegende Darstellung ersetzte It\^o-Lemma und stochastische Integrale durch Taylor-Entwicklungen, Grenzwertbetrachtungen und 
-Verteilungskonvergenz; beide Zugänge sind kompatibel, der SDE/PDE-Ansatz ist der etablierte Standard. 
+Verteilungskonvergenz; beide Zugänge sind kompatibel, der Differentialgleichungs-Ansatz ist der etablierte Standard. 
 
 \paragraph{Numerische Lösung stochastischer Differentialgleichungen}
-Für GBM sind Endwerte unter dem risikoneutralen Maß direkt simulierbar. Allgemein werden SDEs über 
+Für die geometrische Brownsche Bewegung sind Endwerte unter dem risikoneutralen Maß direkt simulierbar. Allgemein werden stochastische Differentialgleichungen über 
 zeitdiskrete Verfahren wie Euler–Maruyama (stark Ordnung 0{,}5, schwach 1) oder 
 Milstein (stark Ordnung 1) approximiert. Für die Black–Scholes-PDE sind 
 Finite-Differenzen-Verfahren (explizit, implizit, Crank–Nicolson) etabliert. Die Wahl zwischen 
-Monte Carlo und PDE hängt von Dimension, Randbedingungen und Pfadabhängigkeit ab; in höheren 
+Monte Carlo und partiellen Differentialgleichungen hängt von Dimension, Randbedingungen und Pfadabhängigkeit ab; in höheren 
 Dimensionen und bei komplexen Auszahlungsprofilen ist Monte Carlo oft überlegen, während 
-PDE-Ansätze für niedrigdimensionale, glatte Probleme sehr effizient sind.
+Differentialgleichungs-Ansätze für niedrigdimensionale, glatte Probleme sehr effizient sind.
 
 \subsection{Ausblick}
 
-Alternative Modelle adressieren beobachtete Abweichungen der GBM-Annahmen wie konstante Volatilität
-und dünne Tails. Stochastische Volatilität (z.\,B.\ Heston) bildet Volatilitäts-Cluster und 
+Alternative Modelle adressieren beobachtete Abweichungen von der geometrischen Brownschen Bewegung wie variable Volatilität
+und dünne Tails (Ränder). Stochastische Volatilität (z.\,B.\ Heston) bildet Volatilitäts-Cluster und 
 Smile-Effekte ab, Sprung-Diffusion (Merton, Kou) modelliert diskontinuierliche Bewegungen und 
-schwere Schwänze, lokale Volatilität (Dupire) kalibriert Marktkonsistenz in der Volatilitätsfläche,
+schwere Ränder, lokale Volatilität (Dupire) kalibriert Marktkonsistenz in der Volatilitätsfläche,
 und Regimewechsel- oder GARCH-Modelle fangen Nichtstationaritäten in diskreter Zeit ein. 
 Methodisch bieten Varianzreduktion und Quasi–Monte–Carlo Effizienzgewinne, Longstaff–Schwartz 
 erleichtert die Bewertung amerikanischer Optionen, und Bootstrap-Verfahren 
-quantifizieren Kalibrierungsunsicherheit. Für die empirische Anwendung empfiehlt sich eine 
+quantifizieren Kalibrierungsunsicherheiten. Für die empirische Anwendung empfiehlt sich eine 
 robuste, rollierende Kalibrierung, systematische Backtests über verschiedene Marktphasen und die 
 Berücksichtigung mehrerer Gütemaße, um Prognosegüte und Modellrisiken transparent zu machen.

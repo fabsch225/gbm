@@ -7,8 +7,8 @@ beispielsweise Veränderungen eines Systems, die zu bestimmten Zeitpunkten $t_0,
 Man spricht dann von einem zeitdiskreten stochastischen Prozess. Eine natürliche 
 Verallgemeinerung bilden zeitstetige stochastische Prozesse: Hierbei definiert man eine 
 Familie von Zufallsvariablen $(X_t)_{t \in \mathbb{R}_{\ge 0}}$, wobei $t$ kontinuierlich als 
-Zeitparameter interpretiert wird. Im Folgenden werden zwei wichtige Beispiele für stochastische Prozesse 
-vorgestellt, die im restlichen Verlauf der Arbeit immer wieder eine Rolle spielen.
+Zeitparameter interpretiert wird. Ziel dieser Arbeit ist es, Aktienkurse und später Optionswerte mit einem stochastischen Prozess 
+zu modellieren.
 
 \begin{bsp}[Zufallsspaziergang]
 Ein einfacher stochastischer Prozess ist der \textit{Zufallsspaziergang} (random walk).
@@ -44,14 +44,14 @@ eignet sich das Binomialmodell zur Modellierung von Aktienkursen, da keine negat
 
 \end{bsp}
 \begin{bsp}[Brownsche Bewegung]
-Die Brownsche Bewegung beschreibt ursprünglich die Bewegung eines Partikels in 
-einer Flüssigkeit. Die Zufallsgröße ist hier die Position des Partikels.
-
+Die Brownsche Bewegung beschreibt die Bewegung eines Partikels in 
+einer Flüssigkeit \cite{webster_bb}. Die Zufallsgröße ist hier die Position des Partikels.
 Naturanaloge stochastische Prozesse erfüllen eine Stetigkeitsbedingung: 
 Andernfalls würde sich der Partikel in der Flüssigkeit teleportieren. 
 Konkret: Es bezeichne der $\text{Pfad}: t \mapsto X_t$ die Realisierungen der Zufallsvariablen $X_t$ unter 
 der Zeit $t$. Dann wird gefordert, dass die Pfade fast-sicher stetig sind, also 
 $$P(\{\omega \in \Omega | t \mapsto X_t(\omega) \text{ ist stetig}\}) = 1.$$ 
+Im nächsten Kapitel wird die Brownsche Bewegung formal definiert.
 \end{bsp}
 
 \subsection{Bedingter Erwartungswert und Filtrationen}
@@ -68,14 +68,11 @@ auf dem Produkt-Wahrscheinlichkeitsraum
 $$(\Omega, \mathcal F, P) := \bigtimes_{t \in I}(\tilde \Omega, \mathcal A_t,\tilde P)$$
 betrachtet.
 
-Das Ziel des ersten Teils ist es, Aktienkurse mit einem stochastischen Prozess 
-zu modellieren.
-
 \begin{defi}[Adaptiertheit]
 In der modernen Wahrscheinlichkeitsrechnung wird "Information über den
 Wahrscheinlichkeitsraum $(\Omega, \mathcal F, P)$" als Teil-$\sigma$-Algebra 
 von $\mathcal A$ verschlüsselt (Behrends). Dazu wird der Begriff der Filtration 
-definiert: Eine Familie von $\sigma$-Algebren $\mathcal F_t, t \in I$ heißt *Filtration*, 
+definiert: Eine Familie von $\sigma$-Algebren $\mathcal F_t, t \in I$ heißt \textit{Filtratio}, 
 wenn $\mathcal F_s \subset \mathcal F_t$ für alle $s \lt t$ gilt. 
 Der Prozess $(X_t)_{t \in I}$ heißt an die Filtration adaptiert, 
 wenn $X_t$ $\mathcal F_t$-messbar ist für alle $t \in I$. Die Eigenschaft 
@@ -109,7 +106,14 @@ fallen, alle weiteren Kursverläufe sind in dem Ereignis enthalten.
 Der bedingte Erwartungswert ist wichtig für die Untersuchung stochastischer Prozesse,
 insbesondere für unseren Anwendungsfall, da historische Entwicklungen in der Praxis 
 meist bekannt sind. Beispiel Poker: Dem Spieler ist seine Hand, und die Karten auf dem 
-Tisch bekannt. Daraus lässt sich die eigene Gewinnwahrscheinlichkeit berechnen.
+Tisch bekannt. Daraus lässt sich die eigene Gewinnwahrscheinlichkeit berechnen. Die Chips auf
+dem Tisch bilden eine Untere Grenze für den erwarteten Gewinn:
+$$
+\begin{aligned}
+E(\text{Chips dieser Runde}|\text{bekannte Karten}) \ge P(\text{Gewinn}|\text{bekannte Karten}) 
+\\ \cdot \text{Chips auf dem Tisch}
+\end{aligned}
+$$
 
 Sei $B$ ein Ereignis in der Vergangenheit. Dann definiert man
 den \textit{bedingten Erwartungswert} als $$E(X_t|B):=  \frac{1}{P(B)} \int_{B}^{} X_t(\omega) dP(\omega),$$
@@ -117,8 +121,11 @@ und für einen diskreten Wahrscheinlichkeitsraum reicht
 $$E(X_t|B):= \frac{1}{P(B)}\sum_{b \in B} X_t(b) \cdot P(\{ b \})$$
 wobei $P(B) \neq 0$ gilt. Sonst ist $E(X_t|B) :=0$. 
 Mit dem bedingten Erwartungswert wird die Zufallsvariable $E(X_t)$.
-
-Ebenfalls werden die Satze des totalen Erwartungswertes und des iterierten Erwartungswertprinzips bewiesen,
+Um das obige Beispiel aufzugreifen: Die zweite Definition ist äquivalent zu
+$$
+E(X_t|B) = \sum_{\omega \in \Omega} X_t(\omega) \cdot P(\{\omega\}|B).
+$$
+Im Folgenden werden die Satze des totalen Erwartungswertes und des iterierten Erwartungswertprinzips bewiesen,
 allerdings nur im diskreten Fall. Das ist ausreichend, da die meisten stetigen 
 Prozesse als Grenzprozesse diskreter Prozesse aufgefasst werden können.
 Dann werden Aussagen durch Grenzwertsätze auf den stetigen Fall übertragen. 

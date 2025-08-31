@@ -13,7 +13,7 @@ $$\xi_n = \sum_{i=1}^n \eta_i, \quad \eta_i \sim N(0,1)$$.
 Die Zufallsvariablen $\eta_i$ sind unabhängig und identisch verteilt. Nun 
 Nun wird eine stetige Zeitentwicklung durch lineare Interpolation eingeführt:
 $$b^{(1)}(t) := \xi_{\lfloor t \rfloor} + (t - \lfloor t \rfloor)(\xi_{\lfloor t \rfloor + 1} - \xi_{\lfloor t \rfloor}), \quad t \geq 0.$$
-Die Funktion $b{(1)}(t)$ wird diskrete Brownsche Bewegung erster Ordnung genannt.
+Die Funktion $b^{(1)}(t)$ wird diskrete Brownsche Bewegung erster Ordnung genannt.
 Der Name rührt daher, dass in eine Zeiteinheit genau eine Normalverteilung einbezogen wird.
 Im Allgemeinen wird die diskrete Brownsche Bewegung $b^{(N)}(t)$ $N$-ter Ordnung definiert als
 $$b^{(N)}(t) := \frac{1}{\sqrt{N}} \left ( \xi_{\lfloor Nt \rfloor} + (Nt - \lfloor Nt \rfloor)(\xi_{\lfloor Nt \rfloor + 1} - \xi_{\lfloor Nt \rfloor}) \right ), \quad t \geq 0.$$
@@ -73,22 +73,24 @@ V(b^{(N)}(t)) &= \frac{1}{N} \left ( V(\xi_{\lfloor Nt \rfloor}) + (Nt - \lfloor
 \end{aligned}
 $$
 Im Grenzübergang $N \to \infty$ konvergiert $\frac{\lfloor Nt \rfloor}{N} \to t$ und $\frac{(Nt - \lfloor Nt \rfloor)^2}{N} \to 0$.
+\qed
 \end{lemma}
 
 \subsection{Ausgewählte Ergebnisse aus der Stochastik}
 Im Folgenden Beweis zur Stetigkeit der Pfade werden einige Ergebnisse aus der Stochastik verwendet, die hier zusammengefasst, aber nicht bewiesen werden.
 
-\begin{lemma}[Reihenkriterium für fast sichere Konvergenz, \cite{henze} S. 201]
+\begin{lemma}[Reihenkriterium für fast sichere Konvergenz, Henze \cite{henze} S. 201]
 Sei $(X_n)_{n \in \Bbb N}$ eine Folge von Zufallsvariablen. Wenn es eine Reihe $\sum_{n=1}^\infty a_n \lt \infty$ mit $a_n \geq 0$ gibt, so dass
 $$P(|X_n| > \varepsilon) \leq a_n \quad \text{für alle } n \in \Bbb N \text{ und jedes } \varepsilon > 0,$$
 dann konvergiert $X_n$ fast sicher gegen $0$, d.h.
 $$P\left(\lim_{n \to \infty} X_n = 0\right) = 1.$$
+Wird hier nicht bewiesen. \qed
 \end{lemma}
 
-\begin{lemma}[Kolmogorov-Ungleichung, \cite{henze} S. 207]
+\begin{lemma}[Kolmogorov-Ungleichung, Henze \cite{henze} S. 207]
 Seien $X_1, X_2, \ldots, X_n$ unabhängige Zufallsvariablen mit $E(X_i) = 0$ und $V(X_i) < \infty$ für alle $i=1, \ldots, n$. Dann gilt für jedes $\varepsilon > 0$
 $$P\left(\max_{1 \leq k \leq n} |S_k| \geq \varepsilon \right) \leq \frac{1}{\varepsilon^2} V(S_n),$$
-wobei $S_k := \sum_{i=1}^k X_i$.
+wobei $S_k := \sum_{i=1}^k X_i$. Wird hier nicht bewiesen. \qed
 \end{lemma}
 
 \subsection{Die Brownschen Bewegung als Grenzprozess}
@@ -162,7 +164,7 @@ $t \mapsto W_t(\omega)$ wurde eine (reellwertige) Folge von stetigen Funktionen 
 
 \subsection{Eigenschaften der Brownschen Bewegung}
 
-\begin{satz}[Selbstähnlichkeit der Brownschen Bewegung]
+\begin{lemma}[Selbstähnlichkeit der Brownschen Bewegung]
 Für jedes $c > 0$ gilt
 $$
 \begin{aligned}
@@ -174,10 +176,14 @@ $$
 W_t - W_s \sim N(0, t-s).
 $$
 \textit{Beweis der ersten Behauptung.}
-Für $t \ge 0$ sei $k = \lfloor Nt \rfloor$ und $\alpha = Nt - k \in [0,1)$. Dann gilt
-$$
-W_{ct}(\omega) = \lim_{N \to \infty} b^{(N)}_{ct}(\omega) = \lim_{N \to \infty} \frac{1}{\sqrt{N}} \left( \xi_k + \alpha (\xi_{k+1} - \xi_k) \right) = \sqrt{c} W_t(\omega).
-$$
+Für $t \ge 0$ sei $k = \lfloor Nt \rfloor$ und $\alpha = Nt - k \in [0,1)$.
+Sei $c>0$. Für festes $t\ge0$ folgt aus dem vorherigen Satz, dass
+$$W_{ct}\sim N(0,ct).$$
+Außerdem gilt für $W_t$ bereits $W_t\sim N(0,t)$, also
+$$\sqrt{c}\,W_t\sim N(0,c t).$$
+Da beide Normalverteilungen denselben Mittelwert $0$ und dieselbe Varianz $ct$ haben, folgt
+$$W_{ct}\stackrel{d}{=}\sqrt{c}\,W_t\qquad\text{für jedes }t\ge0.$$
+\qed \\
 \textit{Beweis der zweiten Behauptung.}
 Für $s < t$ gilt
 $$
@@ -189,7 +195,7 @@ W_t - W_s \sim N(0, t-s).
 $$
 \qed
 
-\end{satz}
+\end{lemma}
 
 \begin{satz}[Varianz der Brownschen Bewegung]
 Die Brownsche Bewegung $W_t$ hat die Varianz $V(W_t) = t$.

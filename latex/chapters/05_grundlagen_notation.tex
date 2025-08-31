@@ -1,1 +1,20 @@
-\section{Grundlagen und Notation}
+\section{Notation}
+\begin{itemize}
+    \item $E(X)$ bzw. $E[X]$ - Erwartungswert
+    \item $V(X)$ bzw. $V[X]$ - Varianz
+    \item $X \sim N(\mu, \sigma^2)$ - normalverteilte Zufallsvariable mit Erwartungswert $\mu$ und Varianz $\sigma^2$
+    \item $(\Omega, \mathcal F, P)$ - Wahrscheinlichkeitsraum
+    \item $W_t$ - Brownsche Bewegung (Wiener-Prozess)
+\end{itemize}
+
+\paragraph{Konvergenzbegriffe}
+
+\begin{itemize}
+    \item $X_n \xrightarrow{pktw.} X$ - punktweise Konvergenz (Für jedes $\omega \in \Omega$ gilt: $X_n(\omega) \to X(\omega)$)
+    \item $X_n \xrightarrow{glm.} X$ - gleichmäßige Konvergenz (Für jede $\epsilon > 0$ gilt: $\sup_{\omega \in \Omega} |X_n(\omega) - X(\omega)| < \epsilon$ für $n$ groß genug)
+    \item $X_n \xrightarrow{d} X$ - Konvergenz in Verteilung (Die Verteilungsfunktion $F_{X_n}$ von $X_n$ konvergiert punktweise gegen die Verteilungsfunktion $F_X$ von $X$, mindestens an den Stetigkeitsstellen von $F_X$)
+    \item $X_n \xrightarrow{p} X$ - Konvergenz in Wahrscheinlichkeit (Für jede $\epsilon > 0$ gilt: $P(|X_n - X| > \epsilon) \to 0$)
+    \item $X_n \xrightarrow{f.s.} X$ - fast sichere Konvergenz (Für fast alle $\omega \in \Omega$ gilt: $X_n(\omega) \to X(\omega)$)
+\end{itemize}
+
+Auf das Verhältnis zwischen den Konvergenzbegriffen wird bei Bedarf eingegangen.
