@@ -42,6 +42,44 @@ $$S_{t+1} = \begin{cases}
 Im Gegensatz zum Zufallsspaziergang sind die Schritte hier nicht additiv, sondern multiplikativ. Daher
 eignet sich das Binomialmodell zur Modellierung von Aktienkursen, da keine negativen Preise möglich sind.
 
+
+\begin{center}
+\begin{tikzpicture}[x=3.2cm,y=1.4cm,>=stealth]
+    % styles
+    \tikzset{price/.style={circle,draw,minimum size=6mm,inner sep=0pt,font=\small}}
+
+    % nodes
+    \node[price] (S0)  at (0,0)   {$S_0$};
+    \node[price] (Su)  at (1,1)   {$u S_0$};
+    \node[price] (Sd)  at (1,-1)  {$d S_0$};
+    \node[price] (Suu) at (2,2)   {$u^2 S_0$};
+    \node[price] (Sud) at (2,0)   {$u d S_0$};
+    \node[price] (Sdd) at (2,-2)  {$d^2 S_0$};
+
+    % edges with probabilities p and 1-p
+    \draw[->] (S0) -- node[sloped,above] {$p$} (Su);
+    \draw[->] (S0) -- node[sloped,below] {$1-p$} (Sd);
+
+    \draw[->] (Su) -- node[sloped,above] {$p$} (Suu);
+    \draw[->] (Su) -- node[sloped,below] {$1-p$} (Sud);
+
+    \draw[->] (Sd) -- node[sloped,above] {$p$} (Sud);
+    \draw[->] (Sd) -- node[sloped,below] {$1-p$} (Sdd);
+
+    % time axis labels
+    \node[font=\scriptsize] at (0,-2.4) {Zeit 0};
+    \node[font=\scriptsize] at (1,-2.4) {Zeit 1};
+    \node[font=\scriptsize] at (2,-2.4) {Zeit 2};
+
+    % parameter box
+    \node[anchor=west, align=left, font=\scriptsize] at (2.6,2.0) {Parameter:\\
+        Aufstieg $u>1$\\
+        Abstieg $0<d<1$\\
+        Wkt. $p\in(0,1)$
+    };
+\end{tikzpicture}
+\end{center}
+
 \end{bsp}
 \begin{bsp}[Brownsche Bewegung]
 Die Brownsche Bewegung beschreibt die Bewegung eines Partikels in 

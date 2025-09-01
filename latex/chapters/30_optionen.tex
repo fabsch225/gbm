@@ -33,6 +33,7 @@ Sein Vorteil beträgt 30\,€ pro Tonne (abzüglich der Optionsprämie).
 \subsection{Bewertung von Aktienoptionen im Binomialmodell mit dem Risikoneutralem Maß}
 
 Das Binomialmodell wird erweitert. Zusätzlich zur Aktie und deren Kurs gibt es nun die Bank, die einen risikofreien Zinssatz $r$ anbietet.
+Zusätzlich wird ein neues Wahrscheinlichkeitsmaß $Q$ eingeführt, das sogenannte risikoneutrale Maß.
 
 \begin{defi}[Arbitrage-Prinzip]
 Es wird angenommen, dass man keine risikolosen Gewinne erzielen kann, ohne Kapital zu investieren.
@@ -87,32 +88,28 @@ Das wird am Folgenden jedoch nachgezogen.
 \end{lemma}
 
 \begin{defi}[Risikoneutrales Maß]
-Die soeben berechnete Wahrscheinlichkeit $q$ wird als risikoneutrales Maß bezeichnet.
-Es handelt sich um ein diskretes Wahrscheinlichkeitsmaß $Q$ auf dem Wahrscheinlichkeitsraum des Binomialmodells,
-wobei $Q(\text{up})=q$ und $Q(\text{down})=1-q$ gilt. In der Finanzmathematik kann das
-riskoneutrale Maß oft nicht explizit angegeben werden, sondern über Existenz- und Eindeutigkeitstheoreme
-charakterisiert werden, zum Beispiel mit dem Satz von Radon-Nikodym (XXX). Im Folgenden gilt:
-$Q$ ist das Maß, für das das erweiterte Binomialmodell ein arbitragefreies Modell ist, das 
-heißt der zugehörige stochastische Prozess ein Martingal ist. Die Existenz und Eindeutigkeit
-wird hier nicht bewiesen.
+Die soeben berechnete Wahrscheinlichkeit $q$ gehört zum risikoneutralen Wahrscheinlichkeitsmaß $Q$.
+Bisher wurde mit dem ursprünglichen Maß $P$ gerechnet. Ab jetzt wird mit $E(X), V(X)$ etc der Erwartungswert
+und die Varianz unter $P$ bezeichnet, während $E^Q(X), V^Q(X)$ etc den Erwartungswert und die Varianz unter $Q$
+bezeichnen. An $Q$ werden folgende Anforderungen gestellt (vgl. Shreve \cite{hull}, S. 270):
+\begin{enumerate}
+    \item $Q$ ist ein Wahrscheinlichkeitsmaß
+    \item $Q$ ist äquivalent zu $P$, das heißt $P(A)=0 \iff Q(A)=0$ für alle Ereignisse $A$ (lediglich die Wahrscheinlichkeiten ändern sich, nicht die möglichen Ereignisse)
+    \item Unter $Q$ ist der diskontierte Aktienkurs ein Martingal, also $E^Q(e^{-r \Delta t} S_{n+1} \mid S_n = v) = v$ für alle $n$ und $v>0$.
+\end{enumerate}
+Im Fall des Binomialmodells handelt es sich um ein diskretes Wahrscheinlichkeitsmaß, 
+wobei die Werte $Q(S_{t + \Delta t} = u \cdot S_t)=q$ und $Q(S_{t + \Delta t} = d \cdot S_t)=1-q$ bekannt sind.
+Oft können Maße in der Stochastik werden nur indirekt über Eigenschaften charakterisiert werden, das gilt auch hier.
 \end{defi}
 
-\begin{lemma}[Diskontierter Aktienkurs ist unter $Q$ ein Martingal]
+\begin{lemma}[Diskontierter Aktienkurs im Binomialmodell ist unter $Q$ ein Martingal]
+Mit der Schrittwahrscheinlichkeit aus dem vorherigen Lemma wird nachgewiesen,
+dass der diskontierte Aktienkurs unter dem risikoneutralen Maß $Q$ ein Martingal ist.
 Setze $X_n := e^{-r n \Delta t}\, S_n$. Unter dem risikoneutralen Maß $Q$ mit 
 $q=\frac{e^{r\Delta t}-d}{u-d}$ ist $(X_n)_{n\in\mathbb N_0}$ ein Martingal.
 
 \textit{Beweis.} Schreibe $S_{n+1}=S_n\,\xi_{n+1}$ mit 
-$\mathbb P_Q(\xi_{n+1}=u)=q$ und $\mathbb P_Q(\xi_{n+1}=d)=1-q$. Für einen Schritt gilt
-$$
-\begin{aligned}
-E_Q(X_{n+1}\mid S_n=v)
-&= E_Q\!\big(e^{-r(n+1)\Delta t} S_{n+1}\mid S_n=v\big) \\
-&= e^{-r(n+1)\Delta t}\, v \, E_Q(\xi_{n+1})
-= e^{-rn\Delta t}\, v \cdot \big(e^{-r\Delta t}(q u + (1-q)d)\big).
-\end{aligned}
-$$
-Mit der Wahl von $q$ ist $e^{-r\Delta t}(q u + (1-q)d)=1$, also 
-$$E_Q(X_{n+1}\mid S_n=v)=e^{-rn\Delta t} v = X_n.$$
+$\mathbb P_Q(\xi_{n+1}=u)=q$ und $\mathbb P_Q(\xi_{n+1}=d)=1-q$. 
 Für $s<t$ beliebig und wegen Unabhängigkeit der Schritte:
 $$
 X_t
@@ -200,6 +197,58 @@ C_0 &= e^{-0.05} \left( q \cdot 23.99 + (1-q) \cdot 0 \right) \approx 15.7\,€.
 $$
 Der faire Preis der Call-Option ist also etwa 15.7\,€.
 \end{bsp}
+
+\subsection{Hedging-Strategie im Binomialmodell}
+Hedging bezeichnet das Absichern des Optionsrisikos durch den Aufbau eines gegenläufigen Portfolios im Basiswert (Aktie) und im risikofreien Konto (Bank). Ziel ist eine Replikation: Das Hedge-Portfolio hat zu jedem Knoten denselben Wert wie die Option. Ist die Replikation möglich und die Strategie selbstfinanzierend, ist der Optionspreis eindeutig bestimmt (keine Arbitrage).
+
+\begin{defi}[Selbstfinanzierende Replikationsstrategie]
+Eine Handelsstrategie $(\varphi_n,\psi_n)_{n=0,\dots,T-\Delta t}$ heißt selbstfinanzierend, wenn ihr Wert
+$V_n=\varphi_n S_n+\psi_n$
+sich nur durch Umschichten zwischen Aktie $S$ und Bankkonto $B_n=e^{rn\Delta t}$ ändert (keine externen Ein- oder Auszahlungen) und sie die Auszahlung der Option $f(S_T)$ exakt trifft, also $V_T=f(S_T)$.
+\end{defi}
+
+\begin{lemma}[Ein-Schritt-Delta-Hedge]
+Im Einstuf-Modell mit $S_{n+1}^{\uparrow}=u\,v$ und $S_{n+1}^{\downarrow}=d\,v$ sowie Fortsetzungswerten
+$C_{n+1}^{\uparrow}=C_{n+1}(u v)$, $C_{n+1}^{\downarrow}=C_{n+1}(d v)$
+repliziert das Portfolio
+\[
+\Delta_n(v)=\frac{C_{n+1}^{\uparrow}-C_{n+1}^{\downarrow}}{(u-d)\,v},
+\qquad
+\Psi_n(v)=e^{-r\Delta t}\,\frac{u\,C_{n+1}^{\downarrow}-d\,C_{n+1}^{\uparrow}}{u-d}
+\]
+die Option im nächsten Schritt, d.\,h.\ 
+$\Delta_n(v)\,S_{n+1}+\Psi_n(v)\,e^{r\Delta t}\in\{C_{n+1}^{\uparrow},C_{n+1}^{\downarrow}\}$.
+Der faire Preis am Knoten $(n,v)$ ist dann
+$C_n(v)=\Delta_n(v)\,v+\Psi_n(v)$.
+\end{lemma}
+
+\begin{bem}[Rolle des risikoneutralen Maßes]
+Unter dem risikoneutralen Maß $Q$ ist der diskontierte Aktienkurs ein Martingal. Daraus folgt für jede replizierbare Auszahlung
+\[
+C_n(v)=e^{-r(T-t_n)}\,E^Q\!\big[f(S_T)\mid S_n=v\big],
+\]
+also Gleichheit von Replikationspreis und risikoneutraler Bewertung. Im Ein-Schritt-Fall ergibt sich dies äquivalent durch Einsetzen von $q=\frac{e^{r\Delta t}-d}{u-d}$ in die obigen Formeln.
+\end{bem}
+
+\begin{satz}[Dynamische Delta-Absicherung im Mehrschritt-Binomialbaum]
+Bestimme die Endwerte $C_T=f(S_T)$ und gehe rückwärts über die Knoten $(n,v)$:
+\begin{enumerate}
+    \item Setze die Fortsetzungswerte $C_{n+1}^{\uparrow}=C_{n+1}(u v)$, $C_{n+1}^{\downarrow}=C_{n+1}(d v)$.
+    \item Berechne die Hedge-Positionen
+    \[
+    \Delta_n(v)=\frac{C_{n+1}^{\uparrow}-C_{n+1}^{\downarrow}}{(u-d)\,v},
+    \qquad
+    \Psi_n(v)=e^{-r\Delta t}\,\frac{u\,C_{n+1}^{\downarrow}-d\,C_{n+1}^{\uparrow}}{u-d}.
+    \]
+    \item Setze den Knotenpreis $C_n(v)=\Delta_n(v)\,v+\Psi_n(v)$.
+\end{enumerate}
+Die so konstruierte Strategie ist selbstfinanzierend und repliziert die Option exakt. Der Startpreis $C_0$ ist eindeutig und fällt mit der risikoneutralen Bewertung zusammen.
+\end{satz}
+
+\begin{bem}
+Für amerikanische Optionen wird in Schritt 1 der Fortsetzungswert mit dem vorzeitigen Ausübungswert verglichen und der größere verwendet.
+Im Grenzfall zum Black–Scholes-Modell führt die fortlaufende Aktualisierung von $\Delta$ zur kontinuierlichen Delta-Absicherung; der drift des Basiswerts wird durch das risikoneutrale Maß auf $r$ ersetzt, weshalb nur $r$ und $\sigma$ in die Preisformel eingehen.
+\end{bem}
 
 \subsection{Das Black-Scholes-Modell als Grenzfall des Binomialmodells}
 Ziel ist es zu zeigen, dass die fairen Optionspreise

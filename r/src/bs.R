@@ -54,16 +54,6 @@ ggplot(df_options, aes(x = Strike)) +
   theme_minimal(base_size = 14) +
   theme(legend.title = element_blank())
 
-ggplot(df_calls, aes(x = Strike, y = CallPrice)) +
-  geom_line(color = "blue", size = 1) +
-  labs(title = "Europäische Call-Option auf den DAX (Black-Scholes)",
-       subtitle = paste("S0 =", round(S0,0),
-                        ", sigma =", round(sigma,4),
-                        ", r =", r,
-                        ", T =", T, "Jahr"),
-       x = "Strike K",
-       y = "Optionspreis C0") +
-  theme_minimal(base_size = 14)
 
 K <- 22000
 C_bs <- bs_call(S0, K, r, T, sigma)

@@ -16,19 +16,11 @@ Log-Renditen geschätzt, daraus Konfidenzintervalle und -bänder abgeleitet und 
 Ein Backtest auf DAX-Daten zeigte eine hohe Überdeckungsrate im 50\%-Band und nachvollziehbare Fehlermaße (MSE, MAPE, NRMSE), 
 was die Praxistauglichkeit trotz der Modellvereinfachungen unterstreicht.
 
-\paragraph{Monte-Carlo-Simulation}
-Monte-Carlo diente als universelles Werkzeug zur Approximation risikoneutraler
-Erwartungswerte, sowohl für Endwert-Auszahlungen als auch für pfadabhängige Produkte.
-Für die geometrische Brownsche Bewegung lassen sich Endwerte unter dem risikoneutralen Maß exakt ziehen; bei Pfadabhängigkeiten
-wird zeitlich diskretisiert. Die beobachtete Annäherung der empirischen Quantile an die
-analytischen Lognormal-Quantile mit wachsender Pfadzahl bestätigt Konsistenz und Korrektheit
-der Implementierung. Der Vergleich analytischer Konfidenzbänder mit 
-Simulationsquantilen ist ein einfacher, robuster Plausibilitätscheck.
-
 
 \paragraph{Methodik}
 Methodisch verbindet die Arbeit diskrete Grenzwert- und Martingalargumente mit 
-reproduzierbarer Empirie in R. Als Beispiel dient ein Datensatz von DAX-Renditen.
+reproduzierbarer Empirie in R. Zudem spielte die Monte-Carlo-Simulation eine zentrale Rolle als universelles Werkzeug zur Approximation risikoneutraler Erwartungswerte, sowohl für Endwert-Auszahlungen als auch für pfadabhängige Produkte. Für die geometrische Brownsche Bewegung wurden Endwerte unter dem risikoneutralen Maß exakt gezogen; bei Pfadabhängigkeiten wurde zeitlich diskretisiert. Die beobachtete Annäherung der empirischen Quantile an die analytischen Lognormal-Quantile mit wachsender Pfadzahl bestätigt Konsistenz und Korrektheit der Implementierung; der Vergleich analytischer Konfidenzbänder mit Simulationsquantilen dient als robuster Plausibilitätscheck.
+Als Beispiel dient ein Datensatz von DAX-Renditen.
 Die geometrische Brownsche Bewegung wird über Logarithmierung, Taylor-Entwicklung bis Ordnung zwei sowie Gesetz der großen Zahlen und 
 zentralen Grenzwertsatz hergeleitet. Zudem kommen die Sätze von Kolmogorov, und Pratt zum Einsatz, 
 genauso wie das "Reihenkriterium für fast sichere Konvergenz", welches 

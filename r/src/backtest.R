@@ -1,8 +1,14 @@
 library(ggplot2)
 
+dax <- read_csv("data/adesso.csv") %>%
+  mutate(Date = mdy(Date),
+         Price = as.numeric(gsub(",", "", Price))) %>%
+  arrange(Date)
+
 #80/20
 n <- nrow(dax)
 split <- floor(0.5 * n)
+
 train <- dax[1:split, ]
 test <- dax[(split+1):n, ]
 
@@ -13,12 +19,15 @@ sigma <- sd(log_ret_train) * sqrt(252)
 S0 <- tail(train$Price, 1)
 T <- (1:nrow(test)) / 252
 
+
+alpha = 0.1
+
 pred_df <- data.frame(
   Date = test$Date,
   Price = test$Price,
   mid = S0 * exp((mu - 0.5 * sigma^2) * T),
-  low = S0 * exp((mu - 0.5 * sigma^2) * T + qnorm(0.25) * sigma * sqrt(T)),
-  hi  = S0 * exp((mu - 0.5 * sigma^2) * T + qnorm(0.75) * sigma * sqrt(T))
+  low = S0 * exp((mu - 0.5 * sigma^2) * T + qnorm(alpha / 2) * sigma * sqrt(T)),
+  hi  = S0 * exp((mu - 0.5 * sigma^2) * T + qnorm(1 - alpha / 2) * sigma * sqrt(T))
 )
 
 ggplot() +
