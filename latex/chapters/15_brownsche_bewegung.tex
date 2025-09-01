@@ -87,18 +87,37 @@ $$P\left(\lim_{n \to \infty} X_n = 0\right) = 1.$$
 Wird hier nicht bewiesen. \qed
 \end{lemma}
 
-\begin{lemma}[Kolmogorov-Ungleichung, Henze \cite{henze} S. 207]
+\begin{satz}[Kolmogorov-Ungleichung, Henze \cite{henze} S. 207]
 Seien $X_1, X_2, \ldots, X_n$ unabhängige Zufallsvariablen mit $E(X_i) = 0$ und $V(X_i) < \infty$ für alle $i=1, \ldots, n$. Dann gilt für jedes $\varepsilon > 0$
 $$P\left(\max_{1 \leq k \leq n} |S_k| \geq \varepsilon \right) \leq \frac{1}{\varepsilon^2} V(S_n),$$
 wobei $S_k := \sum_{i=1}^k X_i$. Wird hier nicht bewiesen. \qed
-\end{lemma}
+\end{satz}
+
+\begin{satz}[Cramér-Wold-Technik, Henze \cite{henze} S. 225]
+Seien $(X_n)_{n \in \Bbb N}$ und $X$ Zufallsvektoren in $\Bbb R^d$. Dann sind folgende Aussagen äquivalent:
+\begin{enumerate}
+    \item $X_n \xrightarrow{d} X$ für $n \to \infty$.
+    \item Für alle $t \in \Bbb R^d$ gilt $t^T X_n \xrightarrow{d} t^T X$ für $n \to \infty$.
+\end{enumerate}
+Wird hier nicht bewiesen. \qed
+\end{satz}
 
 \subsection{Die Brownschen Bewegung als Grenzprozess}
 Nun wird der Grenzprozess $N \to \infty$ betrachtet. Intuitiv wird die Zeit immer feiner aufgelöst,
 und es werden immer mehr Normalverteilungen in eine Zeiteinheit einbezogen. Vorerst ist jedoch unklar, 
-ob der Grenzprozess überhaupt existiert.
+ob der Grenzprozess überhaupt existiert. Um die Konvergenz des Prozesses zu zeigen, wird die Verteilungskonvergenz 
+untersucht. Konvergenz der einzelnen Zeitpunkte (oder endlich-dimensionalen Vektoren) reicht nicht 
+für Konvergenz der Prozesse als Funktionen. Dazwischen könten „Spikes“/hochfrequente Oszillationen liegen,
+die jede feste endliche Stichprobe verfehlen, aber im Supremumsabstand sichtbar bleiben, zum Beispiel könnte der
+Prozess bei irrationalen Zeiten den Wert $\infty$ annehmen (Das ist natürlich nur ein Gedankenexperiment und 
+sehr unintuitiv). Daher wird die Konvergenz in 3 Schritten untersucht:
+\begin{enumerate}
+  \item Verteilungskonvergenz der einzelnen Zeitpunkte
+  \item Verteilungskonvergenz der endlich-dimensionalen Vektoren
+  \item Stetigkeit der Pfade des Grenzprozesses
+\end{enumerate}
 
-\begin{satz}[Existenz der Brownschen Bewegung]
+\begin{lemma}[Verteilungskonvergenz der diskreten Brownschen Bewegung]
 Es existiert ein stochastischer Prozess $W_t, t \geq 0$, so dass für jedes $t$ die Verteilung von $b^{(N)}(t)$ gegen die Verteilung von $W_t$ konvergiert, wenn $N \to \infty$.
 \textit{Beweis.}
 Da 
@@ -124,6 +143,64 @@ F_N(x)=\Phi\!\left(\frac{x}{\sigma_N(t)}\right)\;\longrightarrow\;\Phi\!\left(\f
 $$
 Dies ist die Verteilungsfunktion von $N(0,t)$. Definiere $W_t\sim N(0,t)$. Somit konvergiert für jedes feste $t$ die Verteilung von $b^{(N)}(t)$ gegen die von $W_t$. 
 \qed
+\end{lemma}
+
+\begin{satz}[Verteilungskonvergenz des Pfades der diskreten Brownschen Bewegung]
+Aus der Verteilungskonvergenz der einzelnen Zeitpunkte kann man noch keinen sinnvollen Grenzprozess folgern.
+Die Zeitpunkte $W_t$ sind zwar normalverteilt, aber der Prozess könnte trotzdem sprunghaft sein.
+Nun wird die Verteilungskonvergenz der endlich-dimensionalen Vektoren gezeigt, beziehungsweise
+die Kovarianz der Realisierungen bei benachbarten Zeitpunkten untersucht.
+Sei $0\le t_1\le\cdots\le t_k$ eine Zerlegung. Dann gilt
+$$
+\big(b^{(N)}(t_1), \dots , b^{(N)}(t_k) \big )\;\xrightarrow{N\to\infty}{}\;\big(W_{t_1},\dots,W_{t_k}\big).
+$$
+\textit{Beweis.}\footnote{angelehnt an Henze \cite{henze} S. 225f.}
+Für jedes $N$ ist der Vektor $\big(b^{(N)}(t_1),\dots,b^{(N)}(t_k)\big)$ gemeinsam normalverteilt,
+denn $b^{(N)}(t)$ ist eine lineare Kombination der i.i.d. Standardnormalen $(\eta_i)$.
+
+Es genügt, Mittelwerte und Kovarianzen zu kontrollieren:
+Die Mittelwerte sind Null. Für $s,t\ge0$ mit $k=\lfloor Nt\rfloor$, $\alpha=Nt-k$, 
+$\ell=\lfloor Ns\rfloor$, $\beta=Ns-\ell$ gilt mit $\xi_n=\sum_{i=1}^n\eta_i$:
+$$
+b^{(N)}(t)=\tfrac1{\sqrt N}\big(\xi_k+\alpha\eta_{k+1}\big),\qquad
+b^{(N)}(s)=\tfrac1{\sqrt N}\big(\xi_\ell+\beta\eta_{\ell+1}\big).
+$$
+Unabhängigkeit der $\eta_i$ liefert
+$$
+\mathrm{Cov}\!\big(b^{(N)}(s),b^{(N)}(t)\big)
+=\frac1N\Big(\min(\ell,k)+\alpha\,\mathbf 1_{\{k+1\le \ell\}}+\beta\,\mathbf 1_{\{\ell+1\le k\}}+\alpha\beta\,\mathbf 1_{\{\ell=k\}}\Big).
+$$
+Damit
+$$
+\mathrm{Cov}\!\big(b^{(N)}(s),b^{(N)}(t)\big)
+=\frac{\min(\ell,k)}{N}+O\!\left(\frac1N\right)\xrightarrow[N\to\infty]{}\min(s,t).
+$$
+Folglich konvergiert die Kovarianzmatrix der Vektoren gegen 
+$\Sigma=(\min(t_i,t_j))_{i,j}$.
+Nach der Cramér–Wold-Technik reicht es, lineare Formen zu betrachten. Sei also $a=(a_1,\dots,a_k)^\top\in\Bbb R^k$ und
+$$
+Y_N:=\sum_{i=1}^k a_i\,b^{(N)}(t_i),\qquad
+Y:=\sum_{i=1}^k a_i\,W_{t_i}.
+$$
+Für jedes $N$ ist $Y_N$ zentriert normalverteilt und
+$$
+\mathrm{Var}(Y_N)=\sum_{i,j=1}^k a_i a_j\,\mathrm{Cov}\!\big(b^{(N)}(t_i),b^{(N)}(t_j)\big).
+$$
+Mit der oben gezeigten Kovarianzkonvergenz folgt
+$$
+\mathrm{Var}(Y_N)\xrightarrow[N\to\infty]{}\sum_{i,j=1}^k a_i a_j\,\min(t_i,t_j)=:\sigma^2(a).
+$$
+Damit gilt wegen der Eindeutigkeit zentrierter Normalverteilungen durch ihre Varianz
+$$
+Y_N \xrightarrow[N\to\infty]{} N\!\big(0,\sigma^2(a)\big).
+$$
+Zugleich ist $Y$ normalverteilt mit
+$$
+\mathrm{Var}(Y)=\sum_{i,j=1}^k a_i a_j\,\mathrm{Cov}(W_{t_i},W_{t_j})
+=\sum_{i,j=1}^k a_i a_j\,\min(t_i,t_j)=\sigma^2(a).
+$$
+Also konvergiert für jedes $a$ die Verteilung von $a^\top(b^{(N)}(t_1),\dots,b^{(N)}(t_k))$ gegen die von $a^\top(W_{t_1},\dots,W_{t_k})$.
+Nach Cramér–Wold folgt die behauptete Verteilungskonvergenz des Vektors. \qed
 \end{satz}
 
 \begin{satz}[Stetigkeit der Pfade]
@@ -198,13 +275,9 @@ $$
 \end{lemma}
 
 \begin{satz}[Varianz der Brownschen Bewegung]
-Die Brownsche Bewegung $W_t$ hat die Varianz $V(W_t) = t$.
-\textit{Beweis.}
-Aus der gleichmäßigen Konvergenz von $b^{(N)}(t)$ gegen $W_t$ folgt, dass die Verteilung von $b^{(N)}(t)$ für jedes $t$ gegen die Verteilung von $W_t$ konvergiert. Da die Varianz eine Eigenschaft der Verteilung ist, gilt
-$$
-V(W_t) = \lim_{N \to \infty} V(b^{(N)}(t)) = t.
-$$
-\qed
+Die Brownsche Bewegung $W_t$ hat $V(W_t)=t$.
+\textit{Beweis.} Nach der Konstruktion gilt $W_t\sim N(0,t)$ für jedes $t\ge0$.
+Damit $V(W_t)=t$. \qed
 \end{satz}
 
 \begin{satz}[Martingal-Eigenschaft der Brownschen Bewegung]

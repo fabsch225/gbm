@@ -1,6 +1,6 @@
 library(ggplot2)
 
-dax <- read_csv("data/adesso.csv") %>%
+dax <- read_csv("data/dax.csv") %>%
   mutate(Date = mdy(Date),
          Price = as.numeric(gsub(",", "", Price))) %>%
   arrange(Date)
@@ -20,7 +20,7 @@ S0 <- tail(train$Price, 1)
 T <- (1:nrow(test)) / 252
 
 
-alpha = 0.1
+alpha = 0.75
 
 pred_df <- data.frame(
   Date = test$Date,

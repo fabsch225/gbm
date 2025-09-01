@@ -1,8 +1,124 @@
 \section{Stochastische Analysis und alternative Kursmodelle}
 
-\subsection{Stochastische Differentialgleichungen}
+Dieses Kapitel soll einen Einblick in weiterführende mathematische Aspekte geben, die in dieser Arbeit nicht vertieft wurden.
+Es ersetzt somit den obligatorischen Abschnitt \"Ausblick\" in einer Bachelorarbeit.
 
-\subsection{Alternative Kursmodelle}
+\paragraph{Motivation Stochastischer Differentialgleichungen}
+
+Im Kapitel 5 wurde ein Aktienkurs durch die zeitdiskrete Übergangsgleichung
+$$S_{n+1} = S_n \big(1 + \mu \Delta t + \sigma \sqrt{\Delta t}\,\varepsilon_{n+1}\big)$$
+modelliert. Ziel des folgenden Abschnitts ist es, den Grenzübergang $\Delta t \to 0$ zu betrachten,
+um eine kontinuierliche Beschreibung der Kursdynamik zu erhalten. Dabei soll die stochastische Differentialgleichung
+$$dS_t = \mu S_t\,dt + \sigma S_t\,dW_t$$
+hergeleitet werden, deren Lösung die geometrische Brownsche Bewegung ist. 
+Anschaulich muss man sich nur noch von $\sqrt{\Delta t} \varepsilon_{n+1} \to dW_t$ überzeugen, wobei $W_t$ eine Brownsche Bewegung ist.
+Sei $\Delta t = T/n$ und $(\varepsilon_k)_{k\ge 1}$ i.i.d. mit $\mathbb E[\varepsilon_k]=0$, $\mathbb Var(\varepsilon_k)=1$.
+Definiere den reskalierten Random Walk
+$$
+W^{(n)}(t) := \sqrt{\Delta t}\sum_{k=1}^{\lfloor t/\Delta t\rfloor}\varepsilon_k,\qquad t\in[0,T].
+$$
+Dann gilt für jedes feste $t$ nach dem Zentralen Grenzwertsatz (ZGWS)
+$$
+W^{(n)}(t)\ \to\ \mathcal N(0,t).
+$$
+Und nach Kapitel 4 konvergiert $W^{(n)}$ sogar gegen eine Brownsche Bewegung $W$.
+
+Insbesondere sind die diskreten Inkremente unabhängig und es gilt für $k=\lfloor t/\Delta t\rfloor$
+$$
+W^{(n)}(t+\Delta t)-W^{(n)}(t)\;=\;\sqrt{\Delta t}\,\varepsilon_{k+1}\ \sim\ \mathcal N(0,\Delta t).
+$$
+Mit $W^{(n)}\to W$ folgt damit für jedes $t$ die Verteilungskonvergenz der Inkremente
+$$
+\sqrt{\Delta t}\,\varepsilon_{k+1}
+\;=\;W^{(n)}(t+\Delta t)-W^{(n)}(t)\ \to \ W_{t+\Delta t}-W_t,
+$$
+Durch Missbrauch der Notation erhält man
+$$
+\sqrt{\Delta t}\,\varepsilon_{n+1}\ \to\ dW_t.
+$$
+Insgesamt gilt
+$$\Delta t \to dt, \qquad S_{t + \Delta t} - S_t \to dS_t$$
+und $\sqrt{\Delta t} \varepsilon_{n+1} \to dW_t$
+kann die Übergangsgleichung als stochastische Differentialgleichung interpretiert werden.
+\qed
+
+Formal werden stochastische Differentialgleichungen über das It\^o-Integral eingeführt, das wird 
+im nächsten Abschnitt skizziert, für eine Darstellung sei auf die Literatur verwiesen, z. B. Behrends \cite{behrends} oder Shreve \cite{shreve}.
+
+\subsection{Stochastische Differentialgleichungen}
+TODO: weniger Lehrbuchmäßig formulieren, mehr auf Intuition und Zusammenhang mit dem bisherigen Text eingehen.
+Ziel dieses Abschnitts ist es, die heuristische Schreibweise
+$$
+dS_t \;=\; a(S_t,t)\,dt \;+\; b(S_t,t)\,dW_t
+$$
+zu präzisieren: Wir definieren das Integral gegen Brownsche Bewegung zunächst für \emph{elementare} (stückweise konstante, vorhersagbare) Prozesse, zeigen die It\^o-Isometrie, benutzen die Dichtheit dieser elementaren Prozesse und erhalten so das It\^o-Integral für allgemeine quadratintegrierbare, vorhersagbare Integranden.
+
+\paragraph{Grundaufbau}
+Arbeitsraum ist ein filtrierter Wahrscheinlichkeitsraum
+$$
+(\Omega,\mathcal F,(\mathcal F_t)_{t\ge 0},\mathbb P),
+$$
+der die üblichen Bedingungen erfüllt (Rechtsstetigkeit der Filtration, Vollständigkeit). Eine Standard-\emph{Brownsche Bewegung} $W=(W_t)_{t\ge 0}$ ist ein $(\mathcal F_t)$-adaptierter Prozess mit $W_0=0$, stetigen Pfaden, unabhängigen Zuwächsen und
+$$
+W_t - W_s \sim \mathcal N(0,t-s)\quad\text{für }0\le s<t.
+$$
+Ein Prozess $X=(X_t)_{t\ge 0}$ heißt \emph{vorhersagbar} (predictable), falls er bezüglich der vorhersagbaren $\sigma$-Algebra messbar ist; für die Konstruktion genügt es, zuerst stückweise konstante, adaptierte Prozesse zu betrachten.
+
+\paragraph{Elementare (vorhersagbare) Prozesse und ihr Integral}
+Fixiere $T>0$. Ein Prozess $H$ heißt \emph{elementar vorhersagbar} auf $[0,T]$, wenn es eine Zerlegung $0=t_0<t_1<\dots<t_n=T$ und Zufallsvariablen $\xi_i\in L^2(\Omega,\mathcal F_{t_i},\mathbb P)$, $i=0,\dots,n-1$, gibt mit
+$$
+H_t \;=\; \sum_{i=0}^{n-1} \xi_i\,\mathbf 1_{(t_i,t_{i+1}]}(t),\qquad t\in[0,T].
+$$
+Für solche $H$ definieren wir das \emph{It\^o-Integral} gegen $W$ durch
+$$
+\int_0^T H_s\,dW_s \;:=\; \sum_{i=0}^{n-1} \xi_i\,\big(W_{t_{i+1}}-W_{t_i}\big).
+$$
+Zentrale Eigenschaften (für $H$ wie oben):
+$$
+\mathbb E\!\left[\int_0^T H_s\,dW_s\right] \;=\; 0,\qquad
+\mathbb E\!\left[\Big(\int_0^T H_s\,dW_s\Big)^{\!2}\right] \;=\; \mathbb E\!\left[\int_0^T H_s^2\,ds\right]
+$$
+(dies ist die \emph{It\^o-Isometrie}). Für die zeitabhängige Version definiert man für $t\in[0,T]$
+$$
+\int_0^t H_s\,dW_s \;:=\; \sum_{i=0}^{n-1} \xi_i\,\big(W_{t\wedge t_{i+1}}-W_{t\wedge t_i}\big),
+$$
+und erhält einen $(\mathcal F_t)$-Martingalprozess mit Quadratischer Variation
+$[\!\int_0^\cdot H_s dW_s]_t = \int_0^t H_s^2\,ds$.
+
+\paragraph{Dichtheit der elementaren Prozesse}
+Sei $L^2_{\mathrm{pred}}(\Omega\times[0,T])$ der Raum aller vorhersagbaren Prozesse $X$ mit
+$\|X\|_{2,T}^2 := \mathbb E\!\int_0^T |X_s|^2 ds <\infty$.
+Dann ist die Klasse der elementaren vorhersagbaren Prozesse dicht in $L^2_{\mathrm{pred}}(\Omega\times[0,T])$ bezüglich der Norm $\|\cdot\|_{2,T}$. Siehe etwa die Standardreferenzen: \O{}ksendal, Stochastic Differential Equations (Kap.\ 3), oder Karatzas \& Shreve, Brownian Motion and Stochastic Calculus (Kap.\ 3). Ein Beweis ist hier nicht erforderlich; die Dichtheit erlaubt die Fortsetzung des Integrals durch Abschluss.
+
+\paragraph{Definition des It\^o-Integrals}
+Für einen allgemeinen vorhersagbaren Prozess $X\in L^2_{\mathrm{pred}}(\Omega\times[0,T])$ wähle eine Folge elementarer Prozesse $H^{(n)}$ mit
+$\|H^{(n)}-X\|_{2,T}\to 0$. Dann definieren wir
+$$
+\int_0^T X_s\,dW_s \;:=\; L^2\text{-}\lim_{n\to\infty}\;\int_0^T H^{(n)}_s\,dW_s,
+$$
+wobei der Limes aufgrund der It\^o-Isometrie existiert und nicht von der approximierenden Folge abhängt. Für jedes $t\in[0,T]$ definiert man analog den Prozess
+$$
+\Big(\int_0^t X_s\,dW_s\Big)_{t\in[0,T]},
+$$
+und es gilt weiterhin die It\^o-Isometrie
+$$
+\mathbb E\!\left[\Big(\int_0^T X_s\,dW_s\Big)^{\!2}\right] \;=\; \mathbb E\!\left[\int_0^T X_s^{2}\,ds\right],
+$$
+sowie die Martingaleigenschaft von $M_t:=\int_0^t X_s\,dW_s$. Für lokal quadratintegrierbare $X$ erhält man das Integral durch Lokalisierung via Stoppzeiten.
+
+\paragraph{Verbindung zur heuristischen Notation}
+Mit dieser Konstruktion ist die Schreibweise
+$$
+dS_t \;=\; a(S_t,t)\,dt \;+\; b(S_t,t)\,dW_t
+$$
+präzise zu lesen als Integralgleichung
+$$
+S_t \;=\; S_0 \;+\; \int_0^t a(S_s,s)\,ds \;+\; \int_0^t b(S_s,s)\,dW_s,
+$$
+wobei $b(S_\cdot,\cdot)$ vorhersagbar und quadratintegrierbar sein muss.
+
+
+\subsection{Charakterisierung alternativer Kursmodelle durch stochastische Differentialgleichungen}
 
 \subsection{Numerische Lösung stochastischer Differentialgleichungen}
 
