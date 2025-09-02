@@ -4,7 +4,7 @@ library(lubridate)
 library(ggplot2)
 library(Sim.DiffProc)
 
-dax <- read_csv("data/dax.csv") %>%
+dax <- read_csv("data/lufthansa.csv") %>%
   mutate(Date  = mdy(Date),
          Price = as.numeric(gsub(",", "", Price))) %>%
   arrange(Date)
@@ -15,7 +15,7 @@ dax <- dax %>%
 
 dt_daily = 1 / 252
 n <- nrow(dax)
-split_idx <- floor(n/2)
+split_idx <- floor(n - n/4)
 
 dax_in  <- dax[1:split_idx, ]
 dax_out <- dax[(split_idx+1):n, ]
@@ -37,7 +37,7 @@ fit_cev_in <- fitsde(
   start     = list(theta1 = mu_start,
                    theta2 = sigma_start,
                    theta3 = beta_start),
-  pmle      = "ozaki",
+  pmle      = "euler",
   optim.method = "L-BFGS-B",
   lower     = c(theta1 = -Inf, theta2 = 1e-8, theta3 = 0.0),
   upper     = c(theta1 =  Inf, theta2 =  Inf, theta3 = 3.0)

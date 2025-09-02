@@ -120,7 +120,7 @@ wobei $b(S_\cdot,\cdot)$ vorhersagbar und quadratintegrierbar sein muss.
 
 \subsection{Charakterisierung alternativer Kursmodelle durch stochastische Differentialgleichungen}
 
-Die GBM nimmt konstante Volatilität und lognormale Renditen an; sie erzeugt weder Sprünge noch Volatilitäts-Clustering oder Smile/Skew.
+Die GBM nimmt konstante Volatilität und lognormale Renditen an; sie erzeugt weder Sprünge noch Volatilitäts-Clustering oder kann Konjunkturperioden Modellieren.
 Glasserman \cite{glasserman2003monte} beschreibt verschiedene Ansätze zur Modellierung dieser Phänomene:
 
 \paragraph{Lokale Volatilität}
@@ -204,7 +204,6 @@ $$
 \item $\beta<1$ erhöht die relative Volatilität bei kleinen Preisen (dickere linke Schwänze).
 \item $\beta>1$ verstärkt Schwankungen bei hohen Preisen.
 \end{itemize}
-
 Mit diskreten Beobachtungen $S_{t_i}$ im Abstand $\Delta t$ liefert das Euler‑Schema
 $$
 \Delta S_i \approx \mu S_{t_i}\Delta t + \sigma S_{t_i}^{\beta}\sqrt{\Delta t}\,\varepsilon_i,\quad \varepsilon_i\sim\mathcal N(0,1).
@@ -212,6 +211,11 @@ $$
 Die nächste Herausforderung ist die Kalibrierung (Parameterschätzung) aus gegebenen Daten. Die Arbeit 
 orientiert sich im folgenden an Höök und Lindström \cite{hook2015estimation} (2015). Eine eigene Implementierung in
 R wird danach mit dem Softwarepaket Sim.DiffProc. \cite{iooss2006sde} (2020) verglichen, das auf Monte-Carlo-Simulationen basiert.
+Der Ansatz ist die numerische Maximierung einer Log-Likelihood-Funktion, die im Folgenden für die diskrete Übergangswahrscheinlichkeit hergeleitet wird.
+Das wird durch die Approximation der Übergangsdichte (eine bedingte Dichte) mittels des Euler-Maruyama-Schemas erreicht. Da sich für $\beta=1$ eine klassische geometrische Brownsche Bewegung ergibt, 
+können die bekannten Schätzer für Drift und Volatilität als Spezialfall betrachtet werden. Insbesondere stellen die Parameter der GBM (Drift und Volatilität - leicht zu schätzen) 
+sinnvolle Startwerte für die numerische Optimierung dar.
+
 
 \paragraph{Exkurs: (Quasi) Maximum-Likelihood-Schätzung (MLE, QMLE)}
 Ziel ist die Parameterschätzung aus diskreten Beobachtungen $S_{t_0},\dots,S_{t_n}$ eines SDE
@@ -232,38 +236,60 @@ $$
 Dann wird die (Pseudo‑)Log‑Likelihood aufgestellt, und numerisch maximiert.
 
 \paragraph{Herleitung des Quasi‑MLE (Euler‑Pseudo‑Likelihood).}
-Bei uns ist $\theta$ der Parametervektor $(\mu,\sigma,\beta)$. Der QMLE basiert hier auf der lokalen Gauß‑Approximation der Übergangsdichte via Euler‑Maruyama. Allgemein für
-$dX_t=a(X_t,t)\,dt+b(X_t,t)\,dW_t$ gilt für kleine $\Delta t$ und bedingt auf $X_{t_i}$:
+Ziel ist es, die Parameter des CEV-Modells $(\mu, \sigma, \beta)$ aus diskreten Kursdaten $S_{t_0}, \dots, S_{t_n}$ zu schätzen. Die Maximum-Likelihood-Methode sucht die Parameter, unter denen die beobachteten Daten am wahrscheinlichsten sind. Da die exakte Übergangsdichte des CEV-Modells nicht explizit bekannt ist, verwenden wir eine Approximation mittels Euler-Maruyama-Schema.
+Das CEV-Modell lautet
 $$
-\Delta X_i \mid X_{t_i}\ \approx\ \mathcal N\!\big(a(X_{t_i},t_i)\,\Delta t,\; b^2(X_{t_i},t_i)\,\Delta t\big).
+dS_t = \mu S_t\,dt + \sigma S_t^{\beta}\,dW_t.
 $$
-Damit ergibt sich die (Pseudo‑)Log‑Likelihood
+Für kleine Zeitschritte $\Delta t$ wird die Differentialgleichung diskretisiert:
 $$
-\ell \;=\; -\tfrac12\sum_i \Big[
-\log\!\big(2\pi\,b^2(X_{t_i},t_i)\Delta t\big)
-+\frac{\big(\Delta X_i-a(X_{t_i},t_i)\Delta t\big)^2}{b^2(X_{t_i},t_i)\Delta t}
-\Big].
+S_{t_{i+1}} \approx S_{t_i} + \mu S_{t_i} \Delta t + \sigma S_{t_i}^{\beta} \sqrt{\Delta t}\, \varepsilon_{i+1},
 $$
-Für CEV ($a(s,t)=\mu s$, $b(s,t)=\sigma s^{\beta}$) wird das zu
+wobei $\varepsilon_{i+1} \sim \mathcal N(0,1)$ unabhängig sind.
+Definiere die Inkremente:
 $$
-\ell(\mu,\sigma,\beta)
-= -\tfrac12\sum_i\Big[
-\log\!\big(2\pi\,\sigma^2 S_{t_i}^{2\beta}\Delta t\big)
-+\frac{\big(\Delta S_i-\mu S_{t_i}\Delta t\big)^2}{\sigma^2 S_{t_i}^{2\beta}\Delta t}
-\Big].
+\Delta S_i := S_{t_{i+1}} - S_{t_i}
 $$
-Maximiert man zunächst nach $\mu$ und $\sigma^2$ (für gegebenes $\beta$), erhält man geschlossene Formen:
+Nach obiger Diskretisierung gilt näherungsweise (in die man die deterministischen Terme in die Verteilung von $\varepsilon$ reinzieht):
 $$
-\widehat{\mu}(\beta)
-= \frac{\sum_i \Delta S_i\, S_{t_i}^{\,1-2\beta}}{\sum_i S_{t_i}^{\,2-2\beta}\,\Delta t},
-\qquad
-\widehat{\sigma}^{\,2}(\beta)
-= \frac{1}{n}\sum_i \frac{\big(\Delta S_i-\widehat{\mu}(\beta)\,S_{t_i}\Delta t\big)^2}{S_{t_i}^{\,2\beta}\,\Delta t}.
+\Delta S_i \mid S_{t_i} \sim \mathcal N\left(\mu S_{t_i} \Delta t,\, \sigma^2 S_{t_i}^{2\beta} \Delta t\right)
 $$
-Setze diese in $\ell$ ein (Profil‑Likelihood) und optimiere numerisch über $\beta$.
-Hinweis: Für $\beta=1$ (GBM) fallen die Formeln auf die bekannten MLE‑Schätzer für Drift und Volatilität zurück.
+Das heißt: Für gegebenen Kurs $S_{t_i}$ ist der nächste Schritt normalverteilt mit Mittelwert $\mu S_{t_i} \Delta t$ und Varianz $\sigma^2 S_{t_i}^{2\beta} \Delta t$.
+Die Dichte einer Normalverteilung mit Mittelwert $m$ und Varianz $v$ an der Stelle $x$ ist:
+$$
+p(x) = \frac{1}{\sqrt{2\pi v}} \exp\left(-\frac{(x-m)^2}{2v}\right)
+$$
+Setze $m = \mu S_{t_i} \Delta t$, $v = \sigma^2 S_{t_i}^{2\beta} \Delta t$, $x = \Delta S_i$.
+Die gemeinsame Likelihood für alle Schritte ist das Produkt der Einzeldichten:
+$$
+L(\mu, \sigma, \beta) = \prod_{i=0}^{n-1} p(\Delta S_i \mid S_{t_i})
+$$
+Da Produkte numerisch unhandlich sind, nimmt man den Logarithmus:
+$$
+\ell(\mu, \sigma, \beta) = \sum_{i=0}^{n-1} \log p(\Delta S_i \mid S_{t_i})
+$$
+Setzt die Dichte ergibt sich der Likelihood-Ausdruck:
+\begin{align*}
+\ell(\mu, \sigma, \beta) &= \sum_{i=0}^{n-1} \left[
+    -\frac{1}{2} \log(2\pi \sigma^2 S_{t_i}^{2\beta} \Delta t)
+    -\frac{(\Delta S_i - \mu S_{t_i} \Delta t)^2}{2 \sigma^2 S_{t_i}^{2\beta} \Delta t}
+\right] \\
+&= -\frac{1}{2} \sum_{i=0}^{n-1} \left[
+    \log(2\pi \sigma^2 S_{t_i}^{2\beta} \Delta t)
+    + \frac{(\Delta S_i - \mu S_{t_i} \Delta t)^2}{\sigma^2 S_{t_i}^{2\beta} \Delta t}
+\right]
+\end{align*}
+\textit{Interpretation.} Die Log-Likelihood misst, wie gut die Parameter $(\mu, \sigma, \beta)$ die beobachteten Kursänderungen erklären. Der erste Term bestraft große Varianzen, der zweite Term misst die Abweichung der beobachteten Inkremente von den erwarteten Werten.
+Die Schätzer für die Parameter erhält man durch Maximierung der Log-Likelihood:
+$$
+(\widehat{\mu}, \widehat{\sigma}, \widehat{\beta}) = \arg\max_{\mu, \sigma, \beta} \; \ell(\mu, \sigma, \beta)
+$$
+Da die Funktion keine einfache analytische Lösung hat, wird sie mit numerischen Optimierungsverfahren (z.B. L-BFGS-B) maximiert.
+Die Quasi-Maximum-Likelihood-Schätzung für das CEV-Modell basiert auf der Approximation der Übergangsdichte durch das Euler-Maruyama-Schema. Die beobachteten Kursänderungen werden als normalverteilt angenommen, und die Parameter werden so gewählt, dass die beobachteten Daten unter dem Modell möglichst wahrscheinlich sind.
 
-\paragraph{Implementierung in R mit dem Paket Sim.Diffproc}
+\paragraph{Implementierung in R mit dem Paket Sim Diffproc}
+Die Parameterschätzung für das CEV-Modell kann mit dem R-Paket Sim.DiffProc durchgeführt werden. Die Funktion \texttt{fitsde} erlaubt die Schätzung der Drift- und Diffusionsparameter mittels Pseudo-Maximum-Likelihood auf Basis diskreter Zeitreihen. Das folgende R-Programm (Ausschnitt) zeigt die Anwendung auf DAX-Daten.
+Die Optimierung erfolgt mit dem Algorithmus L-BFGS-B und die Parametergrenzen sind gesetzt, um numerische Probleme zu vermeiden.
 
 \begin{lstlisting}
 S_ts <- ts(dax$Price, deltat = dt_daily)
@@ -283,7 +309,8 @@ fit_cev <- fitsde(
 )
 \end{lstlisting}
 
-Es folgt ein Backtest mit den geschätzten Parametern (vgl. Kapitel 7).
+Es folgt ein Backtest mit den geschätzten Parametern (vgl. Kapitel 7). Hier werden 1000 Pfade mit der
+Euler-Maruyama-Methode simuliert, und dann die empirischen 75\%-Quantile genommen.
 
 \begin{figure}[H]
     \centering
@@ -293,10 +320,11 @@ Es folgt ein Backtest mit den geschätzten Parametern (vgl. Kapitel 7).
 \end{figure}
 
 Die Überdeckungswahrscheinlichkeit liegt bei 82\%. Dieselbe Konfiguration
-lieferte für die gemetrische Brownsche Bewegung eine Überdeckungswahrscheinlichkeit von 86\%.
+lieferte für die gemetrische Brownsche Bewegung eine Überdeckungswahrscheinlichkeit von 86\% (größer ist besser).
 Ein feinerer Vergleich der Kalibrierungen folgt im nächsten Abschnitt. 
 
 \paragraph{Eigene Implementierung in R mit der Euler‑Pseudo‑Likelihood}
+Die eigene Implementierung der Parameterschätzung für das CEV-Modell in R basiert auf der oben hergeleiteten Pseudo-Maximum-Likelihood-Funktion.
 Zur numerischen Optimierung wird das Paket nloptr \cite{nloptr} verwendet.
 
 \begin{lstlisting}
@@ -339,7 +367,37 @@ estimate_cev <- function(S, dt = 1/252) {
 }
 \end{lstlisting}
 
-\subsection{Ergebnisse und Vergleich der Kalibrierungen}
+\paragraph{Vergleich der Kalibrierungen}
+Im Vergleich des Standardpakets mit der eigenen Implementierung zeigt sich, dass die geschätzten Parameter bloß geringe Unterschiede aufweisen.
+Das liegt vermutlich an den unterschiedlichen (numerischen) Optimierungsalgorithmen und anderen Implementierungsdetails. Man kann jedoch
+schließen, dass die Schätzung korrekt implementiert ist.
 
-Die beiden Kalibrierungen werden auf die Aktienkursdaten des DAX, Lufthansa und Adesso angewendet. Zusätzlich werden
-Backtests mit den geschätzten Parametern durchgeführt. Als Vergleich wird die GBM ($\beta=1$) verwendet.
+\begin{table}[H]
+\centering
+\caption{Vergleich der geschätzten Parameter ($\mu$, $\sigma$, $\beta$) für die beiden Schätzprogramme}
+\label{tab:compare_models_ab}
+\begin{tabular}{lcccccc}
+\hline
+ & \multicolumn{3}{c}{Eigene Implementierung} & \multicolumn{3}{c}{Paket} \\
+\cline{2-4}\cline{5-7}
+Kurs & $\mu$ & $\sigma$ & $\beta$ & $\mu$ & $\sigma$ & $\beta$ \\
+\hline
+DAX & $0.0946$ & $0.6545$ & $0.8726$ & $0.0950$ & $0.6524$ & $0.873$ \\
+Lufthansa & $0.003$ & $0.8483$ & $0.6423$ & $0.0035$ & $0.8484$ & $0.6423$ \\
+Adesso & $0.2686$ & $0.4114$ & $1.0031$ & $0.2686$ & $0.4122$ & $1.0026$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Ergebnisse und Vergleich der Modelle}
+
+Nun wird das CEV-Modell (mit der Kalibrierung aus Sim.Diffproc) mit der geometrischen Brownschen Bewegung (GBM) verglichen. Die beiden Modelle werden auf die gleichen Daten angewendet, und dann ein Backtest durchgeführt, um die Leistung der Modelle zu bewerten.
+Der Backtest wird mit verschiedenen Aufteilungen durchgeführt um die Robustheit der Ergebnisse zu versichern.
+Man kann bei den Ergebnissen der Backtests feststellen, dass das CEV-Modell bei große Datenmengen (hohe Weights) eine bessere Leistung zeigt als die GBM, dagegen ist bei niedrigen Datenmengen
+die GBM überlegen, da das Modell simpler und daher weniger anfällig für Überanpassung ist.
+
+\begin{sidewaystable}
+\centering
+\csvautotabular{../r/out_compare.csv}
+\caption{Vergleich der Modelle GBM und CEV über verschiedene Backtests und Metriken: Hitratio - größer ist besser; RMSE - kleiner ist besser; MAPE - kleiner ist besser; NRMSE - kleiner ist besser}
+\end{sidewaystable}

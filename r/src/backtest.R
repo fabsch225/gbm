@@ -1,13 +1,17 @@
 library(ggplot2)
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+library(readr)
 
-dax <- read_csv("data/dax.csv") %>%
+dax <- read_csv("data/lufthansa.csv") %>%
   mutate(Date = mdy(Date),
          Price = as.numeric(gsub(",", "", Price))) %>%
   arrange(Date)
 
 #80/20
 n <- nrow(dax)
-split <- floor(0.5 * n)
+split <- floor(0.75 * n)
 
 train <- dax[1:split, ]
 test <- dax[(split+1):n, ]
@@ -55,10 +59,7 @@ loglik <- sum(dnorm(log_test, mean = mu_t, sd = sigma_t, log = TRUE))
 # MSE
 mse_mid <- mean((pred_df$Price - pred_df$mid)^2)
 
-# MAPE (in Prozent)
 mape_mid <- mean(abs((pred_df$Price - pred_df$mid) / pred_df$Price)) * 100
-
-# NRMSE (relativ zum Mittelwert des Test-Sets)
 nrmse_mid <- rmse_mid / mean(pred_df$Price)
 
 list(
