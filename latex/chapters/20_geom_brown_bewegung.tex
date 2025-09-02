@@ -11,7 +11,7 @@ Das \textit{Binomialmodell} beschreibt den Aktienkurs $S_t$ in diskreter Zeit: I
 $$
 S_{k+1} = S_k \,(1 + X_{k+1}), \qquad k = 0,1,\dots,n-1,
 $$
-für eine Zufallsvariable $X_{k+1}$ die die relative Kursänderung im Schritt $k+1$ repräsentiert. Um eine kontinuierliche Zeitentwicklung zu modellieren, setzt man
+für eine Zufallsvariable $X_{k+1}$ die die relative Kursänderung im Schritt $k+1$ repräsentiert. Um eine kontinuierliche Zeitentwicklung zu modellieren, setzt man\footnote{Dies ist ein Schritt des Euler-Maruyama-Verfahren zur numerischen Lösung der stochastischen Differentialgleichung der geometrischen Brownschen Bewegung.}
 $$
 X_{k+1} = \mu  \Delta t + \sigma \sqrt{\Delta t}\varepsilon_{k+1},
 $$

@@ -123,7 +123,7 @@ wobei $b(S_\cdot,\cdot)$ vorhersagbar und quadratintegrierbar sein muss.
 Die GBM nimmt konstante Volatilität und lognormale Renditen an; sie erzeugt weder Sprünge noch Volatilitäts-Clustering oder Smile/Skew.
 Glasserman \cite{glasserman2003monte} beschreibt verschiedene Ansätze zur Modellierung dieser Phänomene:
 
-\paragraph{Lokale Volatilität (CEV, Dupire)}
+\paragraph{Lokale Volatilität}
 Deterministisch zeit- und zustandsabhängige Volatilität:
 $$
 dS_t \;=\; \mu(t,S_t)\,S_t\,dt \;+\; \sigma_{\mathrm{loc}}(t,S_t)\,S_t\,dW_t.
@@ -134,9 +134,9 @@ dS_t \;=\; \mu S_t\,dt \;+\; \sigma\,S_t^{\beta}\,dW_t,\qquad \beta\in\mathbb R,
 $$
 wodurch die Volatilität bei kleinen/größeren Preisen relativ ansteigt/abnimmt.
 
-\paragraph{Stochastische Volatilität (Heston, SABR, Hull--White)}
-Volatilität ist selbst ein (oft mean-revertierender) Zufallsprozess.
-- Heston:
+\paragraph{Stochastische Volatilität}
+Volatilität ist selbst ein Zufallsprozess.
+Heston:
 $$
 \begin{aligned}
 dS_t &= \mu S_t\,dt + \sqrt{V_t}\,S_t\,dW_t^{(1)},\\
@@ -144,26 +144,14 @@ dV_t &= \kappa(\theta - V_t)\,dt + \xi\sqrt{V_t}\,dW_t^{(2)},\quad d \langle W^{
 \end{aligned}
 $$
 mit Feller-Bedingung $2\kappa\theta\ge \xi^2$ für Positivität von $V_t$.
-- SABR:
-$$
-dS_t = V_t\,S_t^{\beta}\,dW_t^{(1)},\qquad dV_t=\nu V_t\,dW_t^{(2)},\quad d \langle W^{(1)},W^{(2)}\rangle_t=\rho\,dt.
-$$
 
-\paragraph{Sprung-Diffusion (Merton, Kou)}
+\paragraph{Sprung-Diffusions-Modelle}
 Diffusion mit seltenen Sprüngen modelliert durch Poisson-Prozesse.
-- Merton:
+Merton:
 $$
 \frac{dS_t}{S_t} \;=\; \big(\mu - \lambda \kappa_J\big)\,dt \;+\; \sigma\,dW_t \;+\; (J_t-1)\,dN_t,
 $$
 wobei $N_t$ Poisson mit Intensität $\lambda$ ist, $J_t$ die Sprunggröße (z.\,B. lognormal) und $\kappa_J=\mathbb E[J_t-1]$; der Driftterm kompensiert die Sprünge.
-- Kou: wie oben, aber doppelt-exponentielle Sprungverteilung für realistischere Asymmetrien/Schwänze.
-
-\paragraph{Lokale-stochastische Volatilität (LSV)}
-Kombination aus lokaler und stochastischer Volatilität:
-$$
-dS_t = \mu S_t\,dt + \sigma_{\mathrm{loc}}(t,S_t)\sqrt{V_t}\,S_t\,dW_t^{(1)},\qquad
-dV_t = \kappa(\theta - V_t)\,dt + \xi g(V_t)\,dW_t^{(2)}.
-$$
 
 \paragraph{Regimewechsel-Modelle}
 Parameter schalten gemäß einer (verborgenen) Markov-Kette $X_t$:
@@ -172,66 +160,186 @@ dS_t \;=\; \mu_{X_t} S_t\,dt \;+\; \sigma_{X_t} S_t\,dW_t.
 $$
 Erfasst Phasen wie Krisen und ruhige Märkte.
 
-\subsection{Modell nach Ornstein-Uhlenbeck}
+\subsection{Simulation stochastischer Differentialgleichungen}
+Zu einer SDE
+$$
+dX_t \;=\; a(X_t,t)\,dt \;+\; b(X_t,t)\,dW_t,\quad t\in[0,T],
+$$
+wird ein Zeitschrittgitter $t_n=n\Delta t$ eingeführt und der kontinuierliche Prozess durch eine zeitdiskrete Approximation ersetzt. Erwartungswerte werden via Monte‑Carlo über viele simulierte Pfade geschätzt. Der Gesamtfehler setzt sich aus Diskretisierungsfehler (Bias) und Monte‑Carlo‑Fehler $O(M^{-1/2})$ zusammen.
 
-\paragraph{SDE und (Fokker--Planck-)PDE}
-SDE:
+Die Differentialgleichung wird mit Euler (deterministisch) und Euler–Maruyama (stochastisch) diskretisiert (vgl. Bärwolff \cite{Baerwolff2025} u. a. S. 269, 466f.).
+Für die ODE $\dot x(t)=a(x(t),t)$ liefert das explizite Euler‑Schema
 $$
-dX_t \;=\; \kappa(\theta - X_t)\,dt \;+\; \sigma\,dW_t,\quad \kappa>0,\ \sigma>0.
+x_{n+1} \;=\; x_n \;+\; a(x_n,t_n)\,\Delta t.
 $$
-Generator $\mathcal L f = \kappa(\theta - x)f_x + \tfrac{\sigma^2}{2}f_{xx}$.
-Backward PDE für Preise $u(t,x)=\mathbb E[g(X_T)\mid X_t=x]$:
+Ersetzt man nun formal $dW_t$ durch $\Delta W_n:=W_{t_{n+1}}-W_{t_n}\sim \mathcal N(0,\Delta t)$, erhält man die natürliche stochastische Erweiterung, das Euler–Maruyama‑Schema:
 $$
-\partial_t u + \kappa(\theta-x)\partial_x u + \tfrac{\sigma^2}{2}\partial_{xx}u = 0,\quad u(T,x)=g(x).
+X_{n+1} \;=\; X_n \;+\; a(X_n,t_n)\,\Delta t \;+\; b(X_n,t_n)\,\Delta W_n
+\;=\; X_n \;+\; a(X_n,t_n)\,\Delta t \;+\; b(X_n,t_n)\,\sqrt{\Delta t}\,\varepsilon_{n+1},
 $$
-Dichte $p(t,x)$ löst die Fokker--Planck-PDE:
-$$
-\partial_t p = \kappa\partial_x\!\big((x-\theta)p\big) + \tfrac{\sigma^2}{2}\partial_{xx}p.
-$$
+mit i.i.d. $\varepsilon_{n}\sim\mathcal N(0,1)$. 
+Ähnlich wurde im Hauptteil die geometrische Brownsche Bewegung hergeleitet.
+Es folgt ein R-Programm zur Simulation eines CEV-Modells (s. u.).
 
-\paragraph{Exakte Übergänge (AR(1)-Form)}
-Für äquidistante Beobachtungen $t_i=i\Delta$ gilt genau
-$$
-X_{i} = \theta + \phi \,(X_{i-1}-\theta) + \varepsilon_i,\quad
-\phi=e^{-\kappa\Delta},\quad
-\varepsilon_i\sim \mathcal N\!\left(0,\ v\right),\ 
-v=\tfrac{\sigma^2}{2\kappa}(1-\phi^2).
-$$
-Damit ist $X_i = a + b X_{i-1} + \varepsilon_i$ mit
-$a=\theta(1-\phi)$ und $b=\phi$.
+\begin{lstlisting}
+simulate_cev_paths <- function(S0, mu, sigma, beta, dt, nsteps, npaths) {
+  S <- matrix(NA, nrow = nsteps + 1, ncol = npaths)
+  S[1, ] <- S0
+  for (i in 1:nsteps) {
+    Z <- rnorm(npaths)
+    S[i+1, ] <- S[i, ] + mu * S[i, ] * dt + sigma * (S[i, ]^beta) * sqrt(dt) * Z
+    S[i+1, ][S[i+1, ] <= 0] <- 1e-8
+  }
+  return(S)
+}
+\end{lstlisting}
 
-\paragraph{Explizite MLE via OLS auf AR(1)}
-Gegeben Beobachtungen $(X_0,\dots,X_n)$, $\Delta$ konstant.
-1) OLS-Regression $X_i = a + b X_{i-1} + \varepsilon_i$:
+\subsection{Fallstudie: CEV (Constant Elasticity of Variance) Modell}
+Das CEV-Modell ist ein Spezialfall der lokalen Volatilität mit
 $$
-\hat b=\frac{\sum_{i=1}^n(X_{i-1}-\bar X_{-})(X_i-\bar X)}
-{\sum_{i=1}^n(X_{i-1}-\bar X_{-})^2},\quad
-\hat a=\bar X - \hat b\,\bar X_{-},
+dS_t \;=\; \mu\,S_t\,dt \;+\; \sigma\,S_t^{\beta}\,dW_t,\qquad \beta\in\mathbb R.
 $$
-mit $\bar X=\tfrac1n\sum_{i=1}^n X_i$, $\bar X_{-}=\tfrac1n\sum_{i=1}^n X_{i-1}$.
-Residualvarianz
-$$
-\hat s_\varepsilon^2=\tfrac1{n-1}\sum_{i=1}^n (X_i-\hat a-\hat b X_{i-1})^2.
-$$
-2) Parameter-Rücktransformation:
-$$
-\hat\kappa \;=\; -\tfrac1\Delta \ln \hat b,\qquad
-\hat\theta \;=\; \tfrac{\hat a}{1-\hat b},\qquad
-\hat\sigma^2 \;=\; \frac{2\hat\kappa\,\hat s_\varepsilon^2}{1-\hat b^2}.
-$$
-Diese Schätzer sind die exakten MLEs unter Normalität der Übergänge.
+\begin{itemize}
+\item $\beta=1$ ergibt GBM. 
+\item $\beta<1$ erhöht die relative Volatilität bei kleinen Preisen (dickere linke Schwänze).
+\item $\beta>1$ verstärkt Schwankungen bei hohen Preisen.
+\end{itemize}
 
-\paragraph{Algorithmus (kurz)}
-- Input: $(X_0,\dots,X_n)$, Schrittweite $\Delta$.
-- Führe OLS von $X_i$ auf $(1,X_{i-1})$ aus, erhalte $(\hat a,\hat b,\hat s_\varepsilon^2)$.
-- Berechne $(\hat\kappa,\hat\theta,\hat\sigma)$ per Formeln oben.
-- Praktische Checks: $0<\hat b<1$ (sonst auf $(0,1)$ projizieren), $\hat\kappa>0$, $\hat\sigma>0$.
+Mit diskreten Beobachtungen $S_{t_i}$ im Abstand $\Delta t$ liefert das Euler‑Schema
+$$
+\Delta S_i \approx \mu S_{t_i}\Delta t + \sigma S_{t_i}^{\beta}\sqrt{\Delta t}\,\varepsilon_i,\quad \varepsilon_i\sim\mathcal N(0,1).
+$$
+Die nächste Herausforderung ist die Kalibrierung (Parameterschätzung) aus gegebenen Daten. Die Arbeit 
+orientiert sich im folgenden an Höök und Lindström \cite{hook2015estimation} (2015). Eine eigene Implementierung in
+R wird danach mit dem Softwarepaket Sim.DiffProc. \cite{iooss2006sde} (2020) verglichen, das auf Monte-Carlo-Simulationen basiert.
 
-\paragraph{Hinweise}
-- Ungleichmäßige Abstände: nutze exakte Übergänge mit $\phi_i=e^{-\kappa\Delta_i}$, $v_i=\frac{\sigma^2}{2\kappa}(1-\phi_i^2)$ und maximiere die (konvexe) Normal-Loglikelihood numerisch.
-- Anwendung: als Zinsmodell (Vasicek), für Log-Volatilität, Spreads oder Mean-Reversion-Faktoren.
+\paragraph{Exkurs: (Quasi) Maximum-Likelihood-Schätzung (MLE, QMLE)}
+Ziel ist die Parameterschätzung aus diskreten Beobachtungen $S_{t_0},\dots,S_{t_n}$ eines SDE
+$dS_t=a(S_t,t)\,dt+b(S_t,t)\,dW_t$. Grundidee: Wähle Parameter $\theta$ so, dass die beobachteten Daten unter dem Modell am wahrscheinlichsten sind. Für diskrete Beobachtungen $S_{t_0},\dots,S_{t_n}$ eines (Markov‑)Modells gilt
+$$
+L(\theta) \;=\; \prod_{i=0}^{n-1} p_\theta\!\big(S_{t_{i+1}},\,\Delta t \,\big|\, S_{t_i}\big), 
+\qquad
+\ell(\theta)=\log L(\theta)=\sum_{i=0}^{n-1}\log p_\theta\!\big(S_{t_{i+1}},\Delta t \,\big|\, S_{t_i}\big),
+$$
+wobei $p_\theta(\,\cdot\,|\,\cdot)$ die bedingte Übergangsdichte in Schrittweite $\Delta t$ ist. Der MLE ist
+$$
+\widehat\theta\;=\;\arg\max_{\theta}\ \ell(\theta).
+$$
+Das Vorgehen gliedert sich in drei Schritte. Falls $p_\theta$ nicht explizit bekannt ist, wird eine Quasi-Likelihood (QMLE) verwendet, zum Beispiel via Euler-Maruyama-Approximation.
+$$
+S_{t_{i+1}}-S_{t_i}\mid S_{t_i}\ \approx\ \mathcal N\!\big(a_\theta(S_{t_i},t_i)\,\Delta t,\; b_\theta^2(S_{t_i},t_i)\,\Delta t\big),
+$$
+Dann wird die (Pseudo‑)Log‑Likelihood aufgestellt, und numerisch maximiert.
 
+\paragraph{Herleitung des Quasi‑MLE (Euler‑Pseudo‑Likelihood).}
+Bei uns ist $\theta$ der Parametervektor $(\mu,\sigma,\beta)$. Der QMLE basiert hier auf der lokalen Gauß‑Approximation der Übergangsdichte via Euler‑Maruyama. Allgemein für
+$dX_t=a(X_t,t)\,dt+b(X_t,t)\,dW_t$ gilt für kleine $\Delta t$ und bedingt auf $X_{t_i}$:
+$$
+\Delta X_i \mid X_{t_i}\ \approx\ \mathcal N\!\big(a(X_{t_i},t_i)\,\Delta t,\; b^2(X_{t_i},t_i)\,\Delta t\big).
+$$
+Damit ergibt sich die (Pseudo‑)Log‑Likelihood
+$$
+\ell \;=\; -\tfrac12\sum_i \Big[
+\log\!\big(2\pi\,b^2(X_{t_i},t_i)\Delta t\big)
++\frac{\big(\Delta X_i-a(X_{t_i},t_i)\Delta t\big)^2}{b^2(X_{t_i},t_i)\Delta t}
+\Big].
+$$
+Für CEV ($a(s,t)=\mu s$, $b(s,t)=\sigma s^{\beta}$) wird das zu
+$$
+\ell(\mu,\sigma,\beta)
+= -\tfrac12\sum_i\Big[
+\log\!\big(2\pi\,\sigma^2 S_{t_i}^{2\beta}\Delta t\big)
++\frac{\big(\Delta S_i-\mu S_{t_i}\Delta t\big)^2}{\sigma^2 S_{t_i}^{2\beta}\Delta t}
+\Big].
+$$
+Maximiert man zunächst nach $\mu$ und $\sigma^2$ (für gegebenes $\beta$), erhält man geschlossene Formen:
+$$
+\widehat{\mu}(\beta)
+= \frac{\sum_i \Delta S_i\, S_{t_i}^{\,1-2\beta}}{\sum_i S_{t_i}^{\,2-2\beta}\,\Delta t},
+\qquad
+\widehat{\sigma}^{\,2}(\beta)
+= \frac{1}{n}\sum_i \frac{\big(\Delta S_i-\widehat{\mu}(\beta)\,S_{t_i}\Delta t\big)^2}{S_{t_i}^{\,2\beta}\,\Delta t}.
+$$
+Setze diese in $\ell$ ein (Profil‑Likelihood) und optimiere numerisch über $\beta$.
+Hinweis: Für $\beta=1$ (GBM) fallen die Formeln auf die bekannten MLE‑Schätzer für Drift und Volatilität zurück.
 
-\subsection{Numerische Lösung stochastischer Differentialgleichungen}
+\paragraph{Implementierung in R mit dem Paket Sim.Diffproc}
 
-\subsection{Vergleich der Modelle mit Backtests}
+\begin{lstlisting}
+S_ts <- ts(dax$Price, deltat = dt_daily)
+
+drift     <- expression(theta[1] * x)           # theta1 = mu
+diffusion <- expression(theta[2] * x^theta[3])    # theta2 = sigma, theta3 = beta
+
+fit_cev <- fitsde(
+  data      = S_ts,
+  drift     = drift,
+  diffusion = diffusion,
+  start     = start_vals,
+  pmle      = "euler",
+  optim.method = "L-BFGS-B",
+  lower     = c(mu = -Inf, sigma = 1e-8, beta = 0.0),
+  upper     = c(mu =  Inf, sigma =  Inf, beta = 3.0)
+)
+\end{lstlisting}
+
+Es folgt ein Backtest mit den geschätzten Parametern (vgl. Kapitel 7).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/cev_dax_backtest.png}
+    \caption{Backtest CEV-Modell für den DAX}
+    \label{fig:cev_dax_backtest}
+\end{figure}
+
+Die Überdeckungswahrscheinlichkeit liegt bei 82\%. Dieselbe Konfiguration
+lieferte für die gemetrische Brownsche Bewegung eine Überdeckungswahrscheinlichkeit von 86\%.
+Ein feinerer Vergleich der Kalibrierungen folgt im nächsten Abschnitt. 
+
+\paragraph{Eigene Implementierung in R mit der Euler‑Pseudo‑Likelihood}
+Zur numerischen Optimierung wird das Paket nloptr \cite{nloptr} verwendet.
+
+\begin{lstlisting}
+estimate_cev <- function(S, dt = 1/252) {
+  S <- as.numeric(S)
+  stopifnot(is.numeric(S), all(is.finite(S)), length(S) >= 3)
+  
+  dS  <- diff(S)
+  S0  <- S[-length(S)]
+  eps <- 1e-12
+  S0[S0 <= 0] <- eps
+  sigma_start <- sd(dax_in$logret)  / sqrt(dt_daily)
+  mu_start    <- mean(dax_in$logret) / dt_daily - sigma_start / 2
+  beta_start  <- 1.0
+  init <- c(mu_start, sigma_start, beta_start) 
+  
+  negloglik <- function(par) {
+    mu    <- par[1]
+    sigma <- par[2]
+    beta  <- par[3]
+    if (!is.finite(mu) || !is.finite(sigma) || !is.finite(beta)) return(1e12)
+    if (sigma <= 0 || beta <= 0 || beta >= 5) return(1e12)
+    
+    denom <- (sigma*sigma) * (S0^(2*beta)) * dt
+    denom[denom <= 0] <- eps
+    val <- 0.5 * sum(log(2*pi*denom) + ((dS - mu*S0*dt)^2)/denom)
+    if (!is.finite(val)) val <- 1e12
+    as.numeric(val)
+  }
+  
+  res <- nloptr(
+    x0     = init,
+    eval_f = negloglik,
+    lb     = c(-Inf, 1e-8, 1e-6),
+    ub     = c( Inf,  Inf,  4.999),
+    opts   = list(algorithm = "NLOPT_LN_SBPLX", xtol_rel = 1e-8, maxeval = 3000)
+  )
+  
+  list(mu = res$solution[1], sigma = res$solution[2], beta = res$solution[3])
+}
+\end{lstlisting}
+
+\subsection{Ergebnisse und Vergleich der Kalibrierungen}
+
+Die beiden Kalibrierungen werden auf die Aktienkursdaten des DAX, Lufthansa und Adesso angewendet. Zusätzlich werden
+Backtests mit den geschätzten Parametern durchgeführt. Als Vergleich wird die GBM ($\beta=1$) verwendet.

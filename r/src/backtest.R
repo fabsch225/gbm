@@ -20,7 +20,7 @@ S0 <- tail(train$Price, 1)
 T <- (1:nrow(test)) / 252
 
 
-alpha = 0.75
+alpha = 0.5
 
 pred_df <- data.frame(
   Date = test$Date,

@@ -16,7 +16,6 @@ Log-Renditen geschätzt, daraus Konfidenzintervalle und -bänder abgeleitet und 
 Ein Backtest auf DAX-Daten zeigte eine hohe Überdeckungsrate im 50\%-Band und nachvollziehbare Fehlermaße (MSE, MAPE, NRMSE), 
 was die Praxistauglichkeit trotz der Modellvereinfachungen unterstreicht.
 
-
 \paragraph{Methodik}
 Methodisch verbindet die Arbeit diskrete Grenzwert- und Martingalargumente mit 
 reproduzierbarer Empirie in R. Zudem spielte die Monte-Carlo-Simulation eine zentrale Rolle als universelles Werkzeug zur Approximation risikoneutraler Erwartungswerte, sowohl für Endwert-Auszahlungen als auch für pfadabhängige Produkte. Für die geometrische Brownsche Bewegung wurden Endwerte unter dem risikoneutralen Maß exakt gezogen; bei Pfadabhängigkeiten wurde zeitlich diskretisiert. Die beobachtete Annäherung der empirischen Quantile an die analytischen Lognormal-Quantile mit wachsender Pfadzahl bestätigt Konsistenz und Korrektheit der Implementierung; der Vergleich analytischer Konfidenzbänder mit Simulationsquantilen dient als robuster Plausibilitätscheck.
@@ -27,54 +26,3 @@ genauso wie das "Reihenkriterium für fast sichere Konvergenz", welches
 ein Korollar zum Lemma von Borel-Cantelli ist (vgl. \cite{henze}). Insbesondere wurde
 das Kalkül der stochastischen Differentialgleichung vermieden. Einen Einblick in die Thematik bietet der
 folgende Abschnitt.
-
-\subsection{Weiterführende mathematische Aspekte}
-Eine gründliche Auseinandersetzung derselben liefert \cite{shreve}.
-
-\paragraph{Maßtheorie}
-Eine strengere Ausarbeitung würde die risikoneutrale Bewertung explizit maßtheoretisch fassen: 
-Arbitragefreiheit entspricht der Existenz eines äquivalenten Martingalmaßes, Bewertung erfolgt als 
-Erwartungswert der diskontierten Auszahlung unter diesem Maß. Technisch geschieht der 
-Maßwechsel über die Radon–Nikodym-Ableitung. Dieses Ergebnis wird auch Fundamentalsatz der Arbitragepreistheorie genannt. 
-In kontinuierlicher Zeit vermittelt der Satz von Girsanov die Driftelimination. Diese Arbeit entschied sich zugunsten einer anschaulichen, aber 
-konsistenten Herleitung.
-
-\paragraph{Stochastische Analysis}
-Stochastische Differentialgleichungen modellieren zeitstetige Zufallsdynamiken in der 
-Form $dX_t = a(t,X_t)\,dt + b(t,X_t)\,dW_t$, wobei der stochastische Term über das It\^o-Integral interpretiert wird.
-Das It\^o-Integral $\int_0^t \phi_s\,dW_s$ wird zunächst für elementare, an die natürliche Filtration adaptierte 
-Treppenfunktionen $\phi_s = \sum_k \phi_k\,\mathbf{1}_{(t_k,t_{k+1}]}(s)$ definiert durch $\sum_k \phi_k\,(W_{t_{k+1}}-W_{t_k})$; 
-mittels It\^o-Isometrie $E\!\left[\left(\int_0^t \phi_s\,dW_s\right)^2\right] = E\!\left[\int_0^t \phi_s^2\,ds\right]$ erfolgt dann die 
-Fortsetzung auf quadratintegrable, vorhersagbare Prozesse als $L^2$-Abschluss. Lösungen von stochastischen Differentialgleichungen werden im Integralsinn 
-verstanden, $X_t = X_0 + \int_0^t a(s,X_s)\,ds + \int_0^t b(s,X_s)\,dW_s$; 
-unter Lipschitz- und Linearwachstumsbedingungen existieren eindeutige starke Lösungen. Eine zugängliche
-Herleitung bietet \cite{behrends}.
-
-Die geometrische Brownsche Bewegung ist die Lösung der stochastischen Differentialgleichung
-$dS_t=\mu S_t\,dt+\sigma S_t\,dW_t$ mit $S_0=s_0$,
-und die Black–Scholes-Bewertung lässt sich äquivalent über It\^o-Kalkül, Feynman–Kac und die Black–Scholes-PDE (partiellen Differentialgleichung)
-$\partial_t V+\tfrac12\sigma^2 S^2 \partial_{SS}V + r S \partial_S V - r V=0$
-begründen. Die vorliegende Darstellung ersetzte It\^o-Lemma und stochastische Integrale durch Taylor-Entwicklungen, Grenzwertbetrachtungen und 
-Verteilungskonvergenz; beide Zugänge sind kompatibel, der Differentialgleichungs-Ansatz ist der etablierte Standard. 
-
-\paragraph{Numerische Lösung stochastischer Differentialgleichungen}
-Für die geometrische Brownsche Bewegung sind Endwerte unter dem risikoneutralen Maß direkt simulierbar. Allgemein werden stochastische Differentialgleichungen über 
-zeitdiskrete Verfahren wie Euler–Maruyama (stark Ordnung 0{,}5, schwach 1) oder 
-Milstein (stark Ordnung 1) approximiert. Für die Black–Scholes-PDE sind 
-Finite-Differenzen-Verfahren (explizit, implizit, Crank–Nicolson) etabliert. Die Wahl zwischen 
-Monte Carlo und partiellen Differentialgleichungen hängt von Dimension, Randbedingungen und Pfadabhängigkeit ab; in höheren 
-Dimensionen und bei komplexen Auszahlungsprofilen ist Monte Carlo oft überlegen, während 
-Differentialgleichungs-Ansätze für niedrigdimensionale, glatte Probleme sehr effizient sind.
-
-\subsection{Ausblick}
-
-Alternative Modelle adressieren beobachtete Abweichungen von der geometrischen Brownschen Bewegung wie variable Volatilität
-und dünne Tails (Ränder). Stochastische Volatilität (z.\,B.\ Heston) bildet Volatilitäts-Cluster und 
-Smile-Effekte ab, Sprung-Diffusion (Merton, Kou) modelliert diskontinuierliche Bewegungen und 
-schwere Ränder, lokale Volatilität (Dupire) kalibriert Marktkonsistenz in der Volatilitätsfläche,
-und Regimewechsel- oder GARCH-Modelle fangen Nichtstationaritäten in diskreter Zeit ein. 
-Methodisch bieten Varianzreduktion und Quasi–Monte–Carlo Effizienzgewinne, Longstaff–Schwartz 
-erleichtert die Bewertung amerikanischer Optionen, und Bootstrap-Verfahren 
-quantifizieren Kalibrierungsunsicherheiten. Für die empirische Anwendung empfiehlt sich eine 
-robuste, rollierende Kalibrierung, systematische Backtests über verschiedene Marktphasen und die 
-Berücksichtigung mehrerer Gütemaße, um Prognosegüte und Modellrisiken transparent zu machen.
