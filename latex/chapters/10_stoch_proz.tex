@@ -139,13 +139,21 @@ fallen, alle weiteren Kursverläufe sind in dem Ereignis enthalten.
 
 \end{bsp}
 
+\begin{defi}[Wahrscheinlichkeitsraum eines stochastischen Prozesses]
+Mit der Filtration kann man den Wahrscheinlichkeitsraum eines stochastischen Prozesses genauer beschreiben. Der Wahrscheinlichkeitsraum $(\Omega, \mathcal F, P)$ wird durch die Filtration $\mathcal F_t$ für jeden Zeitpunkt $t \in I$ verfeinert. Der Prozess $(X_t)_{t \in I}$ ist dann auf den Räumen $(\Omega, \mathcal F_t, P)$ definiert.
+Man schreibt
+$$
+(\Omega, \mathcal F_t, \mathcal F, P).
+$$
+\end{defi}
+
 \begin{defi}[Bedingter Erwartungswert]
 
 Der bedingte Erwartungswert ist wichtig für die Untersuchung stochastischer Prozesse,
 insbesondere für unseren Anwendungsfall, da historische Entwicklungen in der Praxis 
 meist bekannt sind. Beispiel Poker: Dem Spieler ist seine Hand, und die Karten auf dem 
 Tisch bekannt. Daraus lässt sich die eigene Gewinnwahrscheinlichkeit berechnen. Die Chips auf
-dem Tisch bilden eine Untere Grenze für den erwarteten Gewinn:
+dem Tisch bilden eine untere Grenze für den erwarteten Gewinn:
 $$
 \begin{aligned}
 E(\text{Chips dieser Runde}|\text{bekannte Karten}) \ge P(\text{Gewinn}|\text{bekannte Karten}) 

@@ -6,6 +6,10 @@
 \usepackage{float}
 \usepackage{csquotes}
 \usepackage{amsmath} 
+\usepackage{chngcntr} % more control over counters
+
+\numberwithin{equation}{subsection} % equations numbered as section.subsection.equation
+
 \usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{lipsum} 
@@ -16,7 +20,7 @@
 \usepackage{tabularx}
 \usepackage{ragged2e}
 \usepackage{xurl}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{breakurl}
 \usepackage{mathabx}
 \usepackage{booktabs}
@@ -27,6 +31,11 @@
 \usepackage{caption}
 \usepackage{biblatex}
 \addbibresource{misc/literature.bib} 
+
+\usepackage{tocloft}
+\setlength{\cftbeforesecskip}{0.45em} % space before each \section
+\setlength{\cftbeforesubsecskip}{0.05em} % space before each \subsection
+
 
 \title{Die geometrische Brownsche Bewegung und Anwendungen}
 \author{Fabian Schuller}

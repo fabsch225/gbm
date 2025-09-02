@@ -13,7 +13,7 @@ $$dS_t = \mu S_t\,dt + \sigma S_t\,dW_t$$
 hergeleitet werden, deren Lösung die geometrische Brownsche Bewegung ist. 
 Anschaulich muss man sich nur noch von $\sqrt{\Delta t} \varepsilon_{n+1} \to dW_t$ überzeugen, wobei $W_t$ eine Brownsche Bewegung ist.
 Sei $\Delta t = T/n$ und $(\varepsilon_k)_{k\ge 1}$ i.i.d. mit $\mathbb E[\varepsilon_k]=0$, $\mathbb Var(\varepsilon_k)=1$.
-Definiere den reskalierten Random Walk
+Definiere den skalierten Zufallsspaziergang
 $$
 W^{(n)}(t) := \sqrt{\Delta t}\sum_{k=1}^{\lfloor t/\Delta t\rfloor}\varepsilon_k,\qquad t\in[0,T].
 $$
@@ -43,7 +43,8 @@ kann die Übergangsgleichung als stochastische Differentialgleichung interpretie
 \qed
 
 Formal werden stochastische Differentialgleichungen über das It\^o-Integral eingeführt, das wird 
-im nächsten Abschnitt skizziert, für eine Darstellung sei auf die Literatur verwiesen, z. B. Behrends \cite{behrends} oder Shreve \cite{shreve}.
+im nächsten Abschnitt skizziert, für eine genaue Darstellung sei auf die Literatur verwiesen, z. B. Behrends \cite{behrends} oder Karatzas und Shreve \cite{karatzas_brownian_1991}.
+Die Argumentation ist analog zu Kapitel 6 des Lehrbuchs von Behrends \cite{behrends}.
 
 \subsection{Stochastische Differentialgleichungen}
 TODO: weniger Lehrbuchmäßig formulieren, mehr auf Intuition und Zusammenhang mit dem bisherigen Text eingehen.
@@ -51,25 +52,25 @@ Ziel dieses Abschnitts ist es, die heuristische Schreibweise
 $$
 dS_t \;=\; a(S_t,t)\,dt \;+\; b(S_t,t)\,dW_t
 $$
-zu präzisieren: Wir definieren das Integral gegen Brownsche Bewegung zunächst für \emph{elementare} (stückweise konstante, vorhersagbare) Prozesse, zeigen die It\^o-Isometrie, benutzen die Dichtheit dieser elementaren Prozesse und erhalten so das It\^o-Integral für allgemeine quadratintegrierbare, vorhersagbare Integranden.
+zu präzisieren: Man definiert das Integral gegen Brownsche Bewegung zunächst für \emph{elementare} (stückweise konstante, vorhersagbare) Prozesse, zeigt die It\^o-Isometrie, benutzt die Dichtheit dieser elementaren Prozesse und erhält so das It\^o-Integral für allgemeine quadratintegrierbare, vorhersagbare Integranden.
 
 \paragraph{Grundaufbau}
 Arbeitsraum ist ein filtrierter Wahrscheinlichkeitsraum
 $$
-(\Omega,\mathcal F,(\mathcal F_t)_{t\ge 0},\mathbb P),
+(\Omega,\mathcal F,(\mathcal F_t)_{t\ge 0},\mathbb P).
 $$
-der die üblichen Bedingungen erfüllt (Rechtsstetigkeit der Filtration, Vollständigkeit). Eine Standard-\emph{Brownsche Bewegung} $W=(W_t)_{t\ge 0}$ ist ein $(\mathcal F_t)$-adaptierter Prozess mit $W_0=0$, stetigen Pfaden, unabhängigen Zuwächsen und
+Eine Standard-\emph{Brownsche Bewegung} $W=(W_t)_{t\ge 0}$ ist ein $(\mathcal F_t)$-adaptierter Prozess mit $W_0=0$, stetigen Pfaden, unabhängigen Zuwächsen und
 $$
 W_t - W_s \sim \mathcal N(0,t-s)\quad\text{für }0\le s<t.
 $$
-Ein Prozess $X=(X_t)_{t\ge 0}$ heißt \emph{vorhersagbar} (predictable), falls er bezüglich der vorhersagbaren $\sigma$-Algebra messbar ist; für die Konstruktion genügt es, zuerst stückweise konstante, adaptierte Prozesse zu betrachten.
+Ein Prozess $X=(X_t)_{t\ge 0}$ heißt \emph{adaptiert}, falls er bezüglich der vorhersagbaren $\sigma$-Algebra messbar ist; für die Konstruktion genügt es, zuerst stückweise konstante, adaptierte Prozesse zu betrachten.
 
-\paragraph{Elementare (vorhersagbare) Prozesse und ihr Integral}
-Fixiere $T>0$. Ein Prozess $H$ heißt \emph{elementar vorhersagbar} auf $[0,T]$, wenn es eine Zerlegung $0=t_0<t_1<\dots<t_n=T$ und Zufallsvariablen $\xi_i\in L^2(\Omega,\mathcal F_{t_i},\mathbb P)$, $i=0,\dots,n-1$, gibt mit
+\paragraph{Elementare (adaptierte) Prozesse und ihr Integral}
+Fixiere $T>0$. Ein Prozess $H$ heißt \emph{elementar adaptiert} auf $[0,T]$, wenn es eine Zerlegung $0=t_0<t_1<\dots<t_n=T$ und Zufallsvariablen $\xi_i\in L^2(\Omega,\mathcal F_{t_i},\mathbb P)$, $i=0,\dots,n-1$, gibt mit
 $$
 H_t \;=\; \sum_{i=0}^{n-1} \xi_i\,\mathbf 1_{(t_i,t_{i+1}]}(t),\qquad t\in[0,T].
 $$
-Für solche $H$ definieren wir das \emph{It\^o-Integral} gegen $W$ durch
+Für solche $H$ definiert das \emph{It\^o-Integral} gegen $W$ durch
 $$
 \int_0^T H_s\,dW_s \;:=\; \sum_{i=0}^{n-1} \xi_i\,\big(W_{t_{i+1}}-W_{t_i}\big).
 $$
@@ -88,8 +89,7 @@ $[\!\int_0^\cdot H_s dW_s]_t = \int_0^t H_s^2\,ds$.
 \paragraph{Dichtheit der elementaren Prozesse}
 Sei $L^2_{\mathrm{pred}}(\Omega\times[0,T])$ der Raum aller vorhersagbaren Prozesse $X$ mit
 $\|X\|_{2,T}^2 := \mathbb E\!\int_0^T |X_s|^2 ds <\infty$.
-Dann ist die Klasse der elementaren vorhersagbaren Prozesse dicht in $L^2_{\mathrm{pred}}(\Omega\times[0,T])$ bezüglich der Norm $\|\cdot\|_{2,T}$. Siehe etwa die Standardreferenzen: \O{}ksendal, Stochastic Differential Equations (Kap.\ 3), oder Karatzas \& Shreve, Brownian Motion and Stochastic Calculus (Kap.\ 3). Ein Beweis ist hier nicht erforderlich; die Dichtheit erlaubt die Fortsetzung des Integrals durch Abschluss.
-
+Dann ist die Klasse der elementaren vorhersagbaren Prozesse dicht in $L^2_{\mathrm{pred}}(\Omega\times[0,T])$ bezüglich der Norm $\|\cdot\|_{2,T}$. (Siehe z. B. Karatzas und Shreve \cite{karatzas_brownian_1991}, S. 132f.)
 \paragraph{Definition des It\^o-Integrals}
 Für einen allgemeinen vorhersagbaren Prozess $X\in L^2_{\mathrm{pred}}(\Omega\times[0,T])$ wähle eine Folge elementarer Prozesse $H^{(n)}$ mit
 $\|H^{(n)}-X\|_{2,T}\to 0$. Dann definieren wir
@@ -119,6 +119,118 @@ wobei $b(S_\cdot,\cdot)$ vorhersagbar und quadratintegrierbar sein muss.
 
 
 \subsection{Charakterisierung alternativer Kursmodelle durch stochastische Differentialgleichungen}
+
+Die GBM nimmt konstante Volatilität und lognormale Renditen an; sie erzeugt weder Sprünge noch Volatilitäts-Clustering oder Smile/Skew.
+Glasserman \cite{glasserman2003monte} beschreibt verschiedene Ansätze zur Modellierung dieser Phänomene:
+
+\paragraph{Lokale Volatilität (CEV, Dupire)}
+Deterministisch zeit- und zustandsabhängige Volatilität:
+$$
+dS_t \;=\; \mu(t,S_t)\,S_t\,dt \;+\; \sigma_{\mathrm{loc}}(t,S_t)\,S_t\,dW_t.
+$$
+Spezialfall CEV:
+$$
+dS_t \;=\; \mu S_t\,dt \;+\; \sigma\,S_t^{\beta}\,dW_t,\qquad \beta\in\mathbb R,
+$$
+wodurch die Volatilität bei kleinen/größeren Preisen relativ ansteigt/abnimmt.
+
+\paragraph{Stochastische Volatilität (Heston, SABR, Hull--White)}
+Volatilität ist selbst ein (oft mean-revertierender) Zufallsprozess.
+- Heston:
+$$
+\begin{aligned}
+dS_t &= \mu S_t\,dt + \sqrt{V_t}\,S_t\,dW_t^{(1)},\\
+dV_t &= \kappa(\theta - V_t)\,dt + \xi\sqrt{V_t}\,dW_t^{(2)},\quad d \langle W^{(1)},W^{(2)}\rangle_t=\rho\,dt,
+\end{aligned}
+$$
+mit Feller-Bedingung $2\kappa\theta\ge \xi^2$ für Positivität von $V_t$.
+- SABR:
+$$
+dS_t = V_t\,S_t^{\beta}\,dW_t^{(1)},\qquad dV_t=\nu V_t\,dW_t^{(2)},\quad d \langle W^{(1)},W^{(2)}\rangle_t=\rho\,dt.
+$$
+
+\paragraph{Sprung-Diffusion (Merton, Kou)}
+Diffusion mit seltenen Sprüngen modelliert durch Poisson-Prozesse.
+- Merton:
+$$
+\frac{dS_t}{S_t} \;=\; \big(\mu - \lambda \kappa_J\big)\,dt \;+\; \sigma\,dW_t \;+\; (J_t-1)\,dN_t,
+$$
+wobei $N_t$ Poisson mit Intensität $\lambda$ ist, $J_t$ die Sprunggröße (z.\,B. lognormal) und $\kappa_J=\mathbb E[J_t-1]$; der Driftterm kompensiert die Sprünge.
+- Kou: wie oben, aber doppelt-exponentielle Sprungverteilung für realistischere Asymmetrien/Schwänze.
+
+\paragraph{Lokale-stochastische Volatilität (LSV)}
+Kombination aus lokaler und stochastischer Volatilität:
+$$
+dS_t = \mu S_t\,dt + \sigma_{\mathrm{loc}}(t,S_t)\sqrt{V_t}\,S_t\,dW_t^{(1)},\qquad
+dV_t = \kappa(\theta - V_t)\,dt + \xi g(V_t)\,dW_t^{(2)}.
+$$
+
+\paragraph{Regimewechsel-Modelle}
+Parameter schalten gemäß einer (verborgenen) Markov-Kette $X_t$:
+$$
+dS_t \;=\; \mu_{X_t} S_t\,dt \;+\; \sigma_{X_t} S_t\,dW_t.
+$$
+Erfasst Phasen wie Krisen und ruhige Märkte.
+
+\subsection{Modell nach Ornstein-Uhlenbeck}
+
+\paragraph{SDE und (Fokker--Planck-)PDE}
+SDE:
+$$
+dX_t \;=\; \kappa(\theta - X_t)\,dt \;+\; \sigma\,dW_t,\quad \kappa>0,\ \sigma>0.
+$$
+Generator $\mathcal L f = \kappa(\theta - x)f_x + \tfrac{\sigma^2}{2}f_{xx}$.
+Backward PDE für Preise $u(t,x)=\mathbb E[g(X_T)\mid X_t=x]$:
+$$
+\partial_t u + \kappa(\theta-x)\partial_x u + \tfrac{\sigma^2}{2}\partial_{xx}u = 0,\quad u(T,x)=g(x).
+$$
+Dichte $p(t,x)$ löst die Fokker--Planck-PDE:
+$$
+\partial_t p = \kappa\partial_x\!\big((x-\theta)p\big) + \tfrac{\sigma^2}{2}\partial_{xx}p.
+$$
+
+\paragraph{Exakte Übergänge (AR(1)-Form)}
+Für äquidistante Beobachtungen $t_i=i\Delta$ gilt genau
+$$
+X_{i} = \theta + \phi \,(X_{i-1}-\theta) + \varepsilon_i,\quad
+\phi=e^{-\kappa\Delta},\quad
+\varepsilon_i\sim \mathcal N\!\left(0,\ v\right),\ 
+v=\tfrac{\sigma^2}{2\kappa}(1-\phi^2).
+$$
+Damit ist $X_i = a + b X_{i-1} + \varepsilon_i$ mit
+$a=\theta(1-\phi)$ und $b=\phi$.
+
+\paragraph{Explizite MLE via OLS auf AR(1)}
+Gegeben Beobachtungen $(X_0,\dots,X_n)$, $\Delta$ konstant.
+1) OLS-Regression $X_i = a + b X_{i-1} + \varepsilon_i$:
+$$
+\hat b=\frac{\sum_{i=1}^n(X_{i-1}-\bar X_{-})(X_i-\bar X)}
+{\sum_{i=1}^n(X_{i-1}-\bar X_{-})^2},\quad
+\hat a=\bar X - \hat b\,\bar X_{-},
+$$
+mit $\bar X=\tfrac1n\sum_{i=1}^n X_i$, $\bar X_{-}=\tfrac1n\sum_{i=1}^n X_{i-1}$.
+Residualvarianz
+$$
+\hat s_\varepsilon^2=\tfrac1{n-1}\sum_{i=1}^n (X_i-\hat a-\hat b X_{i-1})^2.
+$$
+2) Parameter-Rücktransformation:
+$$
+\hat\kappa \;=\; -\tfrac1\Delta \ln \hat b,\qquad
+\hat\theta \;=\; \tfrac{\hat a}{1-\hat b},\qquad
+\hat\sigma^2 \;=\; \frac{2\hat\kappa\,\hat s_\varepsilon^2}{1-\hat b^2}.
+$$
+Diese Schätzer sind die exakten MLEs unter Normalität der Übergänge.
+
+\paragraph{Algorithmus (kurz)}
+- Input: $(X_0,\dots,X_n)$, Schrittweite $\Delta$.
+- Führe OLS von $X_i$ auf $(1,X_{i-1})$ aus, erhalte $(\hat a,\hat b,\hat s_\varepsilon^2)$.
+- Berechne $(\hat\kappa,\hat\theta,\hat\sigma)$ per Formeln oben.
+- Praktische Checks: $0<\hat b<1$ (sonst auf $(0,1)$ projizieren), $\hat\kappa>0$, $\hat\sigma>0$.
+
+\paragraph{Hinweise}
+- Ungleichmäßige Abstände: nutze exakte Übergänge mit $\phi_i=e^{-\kappa\Delta_i}$, $v_i=\frac{\sigma^2}{2\kappa}(1-\phi_i^2)$ und maximiere die (konvexe) Normal-Loglikelihood numerisch.
+- Anwendung: als Zinsmodell (Vasicek), für Log-Volatilität, Spreads oder Mean-Reversion-Faktoren.
+
 
 \subsection{Numerische Lösung stochastischer Differentialgleichungen}
 

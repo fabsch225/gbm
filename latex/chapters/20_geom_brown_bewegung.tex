@@ -28,9 +28,9 @@ $$
 S_n = S_0 \prod_{j=1}^n (1 + X_j).
 $$
 Durch den Logarithmus erhält man
-$$
+\begin{equation} \label{eq:log_sn}
 \log S_n = \log S_0 + \sum_{j=1}^n \log(1+X_j).
-$$
+\end{equation}
 Als nächstes wird die Taylor-Entwicklung der Terme $\log(1+X_j)$ betrachtet. Die $k$-te Ableitung lautet
 $$\log(1+x)^{(k)}=(-1)^{k+1} \frac{(k-1)!}{(1+x)^k}.$$
 Setzt man diese in die Taylor-Formel ein ergibt sich
@@ -43,7 +43,10 @@ Durch den Binomischen Lehrsatz ergibt sich:
 $$
 X_j^k = \sum_{m=0}^k \binom{k}{m} (\mu \Delta t)^{k-m} (\sigma \sqrt{\Delta t} \varepsilon_j)^m.
 $$
-Die Terme enthalten Potenzen von $\Delta t$ in der Form $(\Delta t)^{(k-m)/2 + m/2} = (\Delta t)^{k/2}$. Für $k \geq 3$ ist $(\Delta t)^{k/2}$ von höherer Ordnung als $\Delta t$ oder $\sqrt{\Delta t}$ und verschwindet daher im Grenzübergang $\Delta t \to 0$.
+Die Terme enthalten Potenzen von $\Delta t$ in der Form $(\Delta t)^{(k-m)/2 + m/2} = (\Delta t)^{k/2}$. Für $k \geq 3$ ist $(\Delta t)^{k/2}$ von 
+höherer Ordnung als $\Delta t$ oder $\sqrt{\Delta t}$ und verschwindet daher im Grenzübergang $\Delta t \to 0$ bzw. $n \to \infty$. Der Grenzübergang 
+von diskreter zu kontinuierlicher Zeit führt dazu, dass $n$ und $\Delta t$ gleichzeitig gegen $\infty$ bzw. $0$ gehen, wobei $n \Delta t = T$ konstant bleibt.
+Daher verschwinden in der Summe in \ref{eq:log_sn} genau die Terme, in denen $\Delta t$ einen Exponenten größer $1$ ist.
 $$
 \log(1+X_j) \approx X_j - \tfrac12 X_j^2.
 $$
