@@ -209,8 +209,8 @@ $$
 \Delta S_i \approx \mu S_{t_i}\Delta t + \sigma S_{t_i}^{\beta}\sqrt{\Delta t}\,\varepsilon_i,\quad \varepsilon_i\sim\mathcal N(0,1).
 $$
 Die nächste Herausforderung ist die Kalibrierung (Parameterschätzung) aus gegebenen Daten. Die Arbeit 
-orientiert sich im folgenden an Höök und Lindström \cite{hook2015estimation} (2015). Eine eigene Implementierung in
-R wird danach mit dem Softwarepaket Sim.DiffProc. \cite{iooss2006sde} (2020) verglichen, das auf Monte-Carlo-Simulationen basiert.
+orientiert sich im folgenden an Iacus (2008, S. 122 ff.) \cite{iacus2008}. Eine eigene Implementierung in
+R wird danach mit dem Softwarepaket Sim.DiffProc. \cite{rsde} (2020) verglichen, das man auf den selben Ansatz konfigurieren kann.
 Der Ansatz ist die numerische Maximierung einer Log-Likelihood-Funktion, die im Folgenden für die diskrete Übergangswahrscheinlichkeit hergeleitet wird.
 Das wird durch die Approximation der Übergangsdichte (eine bedingte Dichte) mittels des Euler-Maruyama-Schemas erreicht. Da sich für $\beta=1$ eine klassische geometrische Brownsche Bewegung ergibt, 
 können die bekannten Schätzer für Drift und Volatilität als Spezialfall betrachtet werden. Insbesondere stellen die Parameter der GBM (Drift und Volatilität - leicht zu schätzen) 
@@ -280,12 +280,11 @@ Setzt die Dichte ergibt sich der Likelihood-Ausdruck:
 \right]
 \end{align*}
 \textit{Interpretation.} Die Log-Likelihood misst, wie gut die Parameter $(\mu, \sigma, \beta)$ die beobachteten Kursänderungen erklären. Der erste Term bestraft große Varianzen, der zweite Term misst die Abweichung der beobachteten Inkremente von den erwarteten Werten.
-Die Schätzer für die Parameter erhält man durch Maximierung der Log-Likelihood:
+Die Schätzungen der Parameter erhält man durch Maximierung der Log-Likelihood:
 $$
 (\widehat{\mu}, \widehat{\sigma}, \widehat{\beta}) = \arg\max_{\mu, \sigma, \beta} \; \ell(\mu, \sigma, \beta)
 $$
 Da die Funktion keine einfache analytische Lösung hat, wird sie mit numerischen Optimierungsverfahren (z.B. L-BFGS-B) maximiert.
-Die Quasi-Maximum-Likelihood-Schätzung für das CEV-Modell basiert auf der Approximation der Übergangsdichte durch das Euler-Maruyama-Schema. Die beobachteten Kursänderungen werden als normalverteilt angenommen, und die Parameter werden so gewählt, dass die beobachteten Daten unter dem Modell möglichst wahrscheinlich sind.
 
 \paragraph{Implementierung in R mit dem Paket Sim Diffproc}
 Die Parameterschätzung für das CEV-Modell kann mit dem R-Paket Sim.DiffProc durchgeführt werden. Die Funktion \texttt{fitsde} erlaubt die Schätzung der Drift- und Diffusionsparameter mittels Pseudo-Maximum-Likelihood auf Basis diskreter Zeitreihen. Das folgende R-Programm (Ausschnitt) zeigt die Anwendung auf DAX-Daten.

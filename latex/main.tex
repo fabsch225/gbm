@@ -26,9 +26,22 @@
 \usepackage{mathabx}
 \usepackage{csvsimple,booktabs}
 
+\usepackage[twoside]{fancyhdr}
+\fancyhf{} 
+
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+\renewcommand{\subsectionmark}[1]{\markright{#1}}
+
+\fancyhead[LE]{\nouppercase{\leftmark}}
+\fancyhead[RE]{\thepage}
+
+\fancyhead[LO]{\thepage}
+\fancyhead[RO]{\nouppercase{\rightmark}}
 
 \usepackage[linesnumbered,ruled,vlined]{algorithm2e}
 \renewcommand{\algorithmcfname}{Algorithmus}
+\pagestyle{fancy}
 
 \usepackage{caption}
 \usepackage{biblatex}

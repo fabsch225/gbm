@@ -171,6 +171,8 @@ Um das obige Beispiel aufzugreifen: Die zweite Definition ist äquivalent zu
 $$
 E(X_t|B) = \sum_{\omega \in \Omega} X_t(\omega) \cdot P(\{\omega\}|B).
 $$
+Für eine Zufallsvariable $Y$ wird durch den bedingten Erwartungswert $E(X_t|Y)$ eine neue Zufallsvariable definiert:
+$$E(X_t|Y)(\omega) := E(X_t|Y=Y(\omega)).$$
 Im Folgenden werden die Satze des totalen Erwartungswertes und des iterierten Erwartungswertprinzips bewiesen,
 allerdings nur im diskreten Fall. Das ist ausreichend, da die meisten stetigen 
 Prozesse als Grenzprozesse diskreter Prozesse aufgefasst werden können.
@@ -204,20 +206,26 @@ $$E(X_t) = \sum_{\omega \in \Omega} X_t(\omega) \cdot P(\{\omega\}) = \sum_{i \i
 
 \end{satz}
 
-\begin{satz}[Iterierter Erwartungswert]
-Für eine Zufallsvariable $X$ und ein Ereignis $B$ mit $P(B) > 0$ gilt:
+\begin{satz}[Iterierter Erwartungswert / Turmeigenschaft]
+Für diskrete Zufallsvariablen $X$ und $Y$ gilt
 $$
-E(E(X|B)) = E(X)
+E\big(E(X\mid Y)\big)\;=\;E(X).
 $$
-\textit{Beweis.} Im diskreten Fall gilt:
+\textit{Beweis.} Nach Definition von $E(X\mid Y)$ ist $$E(X\mid Y)=g(Y) =\sum_x x\,P(X=x\mid Y=y).$$ Damit gilt
 $$
 \begin{aligned}
-E(E(X|B)) &= E\left(\frac{1}{P(B)} \sum_{b \in B} X(b) P(\{b\})\right) 
-\\ &= \frac{1}{P(B)} \sum_{b \in B} X(b) P(\{b\}) \cdot P(B) 
-\\ &= \sum_{b \in B} X(b) P(\{b\}) = E(X \cdot 1_B)
+E\big(E(X\mid Y)\big)
+&= \sum_y g(y)\,P(Y=y)
+= \sum_y \Big(\sum_x x\,P(X=x\mid Y=y)\Big)\,P(Y=y)\\
+&= \sum_{x,y} x\,P(X=x\mid Y=y)\,P(Y=y)
+= \sum_{x,y} x\,P(X=x,\,Y=y)\\
+&= \sum_x x\;P(X=x)
+= E(X).
 \end{aligned}
 $$
-Falls $B = \Omega$, folgt $E(X \cdot 1_B) = E(X)$. \qed
+Hier wurde im dritten Schritt $P(X=x\mid Y=y)P(Y=y)=P(X=x, Y=y)$ 
+benutzt und im letzten Schritt die Summation über $y$ zusammengefasst. \qed
+
 \end{satz}
 
 \subsection{Eigenschaften von stochastischen Prozessen}
@@ -243,8 +251,9 @@ Zuerst wird der Fall $t = s + 1$ gezeigt:
 Es gilt $S_{s+1}=S_s\,\xi_{s+1}$ für eine Zufallsvariable $\xi$ mit $\mathbb{P}(\xi_{s+1}=u)=p,\ \mathbb{P}(\xi_{s+1}=d)=1-p$. Es folgt
 $$E(S_{s+1}|S_s=v)= v \cdot E(\xi_{s+1})=v(pu+(1-p)d).$$
 Und setzt man die Matringaleigenschaft $E(S_{s+1}|S_s=v)=v$ ein, ergibt sich
-$$pu+(1-p)d=1\\[6pt] \iff p=\frac{1-d}{u-d}.$$
-Seien nun $s \lt t \in \Bbb N_0$ beliebig. Dann gilt $S_t=\xi_{t-1}\cdot \xi_{t-2}\cdots \xi_{s+1}\cdot S_s$. Da die $\xi_i$ unabhängig und identisch verteilt sind, gilt
+$$pu+(1-p)d=1 \iff p=\frac{1-d}{u-d}.$$
+Seien nun $s \lt t \in \Bbb N_0$ beliebig. Dann gilt $S_t=\xi_{t-1}\cdot \xi_{t-2}\cdots \xi_{s+1}\cdot S_s$. 
+Da die $\xi_i$ unabhängig und identisch verteilt sind, gilt
 $$E(S_t|S_s=v)=v \cdot \prod_{i=s+1}^{t-1} E(\xi_t)=v \cdot E(\xi_{s+1})^{t-s}=v \cdot (pu+(1-p)d)^{s-t}.$$
 $E(S_t|S_s=v)=v$ ist wieder äquivalent zu $p=\frac{1-d}{u-d}$. \qed
 \end{lemma}

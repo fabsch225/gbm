@@ -17,7 +17,6 @@ Ein Backtest auf DAX-Daten zeigte eine hohe Überdeckungsrate im 50\%-Band und n
 was die Praxistauglichkeit trotz der Modellvereinfachungen unterstreicht. Letztlich wurde gezeigt,
 wie die diskrete Modellierung durch Grenzübergang zur stochastischen Differentialgleichung führt, deren Lösung die geometrische Brownsche Bewegung ist. Die Konstruktion des Itô-Integrals wird skizziert und die heuristische Schreibweise $dS_t = a(S_t,t)\,dt + b(S_t,t)\,dW_t$ mathematisch präzisiert. 
 Darauf aufbauend werden alternative Modelle wie lokale und stochastische Volatilität (z.B. CEV- und Heston-Modell), Sprung-Diffusions- und Regimewechselmodelle vorgestellt, die realistische Markteigenschaften wie Volatilitäts-Clustering oder Sprünge abbilden können. 
-Die numerische Simulation stochastischer Differentialgleichungen erfolgt mittels Euler-Maruyama-Verfahren und Monte-Carlo-Methoden. 
 Am Beispiel des CEV-Modells wird die Parameterschätzung aus diskreten Daten mittels (Quasi-)Maximum-Likelihood erläutert und in R implementiert. Ein Backtest und ein Vergleich mit der geometrischen Brownschen Bewegung zeigen, dass komplexere Modelle wie das CEV-Modell bei großen Datenmengen eine bessere Prognosegüte liefern, während die GBM bei kleineren Datensätzen robuster ist. Die Ergebnisse unterstreichen die Bedeutung der Modellauswahl und Kalibrierung für die praktische Anwendung in der Finanzmathematik.
 
 
