@@ -1,7 +1,10 @@
 \section{Stochastische Analysis und alternative Kursmodelle}
 
-Dieses Kapitel soll einen Einblick in weiterführende mathematische Aspekte geben, die in dieser Arbeit nicht vertieft wurden.
-Es ersetzt somit den obligatorischen Abschnitt \"Ausblick\" in einer Bachelorarbeit.
+Dieses Kapitel bietet einen Einblick in weiterführende mathematische Aspekte, die im Rahmen dieser Arbeit nicht im Detail behandelt werden konnten.
+Die Grundlage bilden stochastische Differentialgleichungen (SDEs). Klassische Differentialgleichungen stellen gewisse
+Eigenschaften an Funktionen sicher, SDEs charakterisieren stochastische Prozesse. Im Folgenden wird die Herleitung von It\^o-SDEs über It\^o-Integrale skizziert. 
+Mit SDEs kann man alternative Kursmodelle beschreiben. Beispielsweise wird das CEV-Modell (Constant Elastic Variance) untersucht, implementiert
+und mit der GBM verglichen.
 
 \paragraph{Motivation Stochastischer Differentialgleichungen}
 
@@ -47,23 +50,20 @@ im nächsten Abschnitt skizziert, für eine genaue Darstellung sei auf die Liter
 Die Argumentation ist analog zu Kapitel 6 des Lehrbuchs von Behrends \cite{behrends}.
 
 \subsection{Stochastische Differentialgleichungen}
-TODO: weniger Lehrbuchmäßig formulieren, mehr auf Intuition und Zusammenhang mit dem bisherigen Text eingehen.
 Ziel dieses Abschnitts ist es, die heuristische Schreibweise
 $$
 dS_t \;=\; a(S_t,t)\,dt \;+\; b(S_t,t)\,dW_t
 $$
-zu präzisieren: Man definiert das Integral gegen Brownsche Bewegung zunächst für \emph{elementare} (stückweise konstante, vorhersagbare) Prozesse, zeigt die It\^o-Isometrie, benutzt die Dichtheit dieser elementaren Prozesse und erhält so das It\^o-Integral für allgemeine quadratintegrierbare, vorhersagbare Integranden.
-
-\paragraph{Grundaufbau}
+zu präzisieren. Genauso wie man eine klassische Differentialgleichung, z. B
+$$dy = f(y)$$
+durch die Integralgleichung
+$$y = \int f(y)$$
+beschreiben kann, kann man It\^o-SDEs mit stochastischen Integralen (It\^o-Integralen) beschreiben.
 Arbeitsraum ist ein filtrierter Wahrscheinlichkeitsraum
 $$
 (\Omega,\mathcal F,(\mathcal F_t)_{t\ge 0},\mathbb P).
 $$
-Eine Standard-\emph{Brownsche Bewegung} $W=(W_t)_{t\ge 0}$ ist ein $(\mathcal F_t)$-adaptierter Prozess mit $W_0=0$, stetigen Pfaden, unabhängigen Zuwächsen und
-$$
-W_t - W_s \sim \mathcal N(0,t-s)\quad\text{für }0\le s<t.
-$$
-Ein Prozess $X=(X_t)_{t\ge 0}$ heißt \emph{adaptiert}, falls er bezüglich der vorhersagbaren $\sigma$-Algebra messbar ist; für die Konstruktion genügt es, zuerst stückweise konstante, adaptierte Prozesse zu betrachten.
+Und es sei $W_t$ eine Brownsche Bewegung.
 
 \paragraph{Elementare (adaptierte) Prozesse und ihr Integral}
 Fixiere $T>0$. Ein Prozess $H$ heißt \emph{elementar adaptiert} auf $[0,T]$, wenn es eine Zerlegung $0=t_0<t_1<\dots<t_n=T$ und Zufallsvariablen $\xi_i\in L^2(\Omega,\mathcal F_{t_i},\mathbb P)$, $i=0,\dots,n-1$, gibt mit
