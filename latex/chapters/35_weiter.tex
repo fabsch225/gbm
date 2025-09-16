@@ -136,7 +136,6 @@ wodurch die Volatilität bei kleinen/größeren Preisen relativ ansteigt/abnimmt
 
 \paragraph{Stochastische Volatilität}
 Volatilität ist selbst ein Zufallsprozess.
-Heston:
 $$
 \begin{aligned}
 dS_t &= \mu S_t\,dt + \sqrt{V_t}\,S_t\,dW_t^{(1)},\\
@@ -147,7 +146,6 @@ mit Feller-Bedingung $2\kappa\theta\ge \xi^2$ für Positivität von $V_t$.
 
 \paragraph{Sprung-Diffusions-Modelle}
 Diffusion mit seltenen Sprüngen modelliert durch Poisson-Prozesse.
-Merton:
 $$
 \frac{dS_t}{S_t} \;=\; \big(\mu - \lambda \kappa_J\big)\,dt \;+\; \sigma\,dW_t \;+\; (J_t-1)\,dN_t,
 $$
@@ -213,7 +211,7 @@ orientiert sich im folgenden an Iacus (2008, S. 122 ff.) \cite{iacus2008}. Eine 
 R wird danach mit dem Softwarepaket Sim.DiffProc. \cite{rsde} (2020) verglichen, das man auf den selben Ansatz konfigurieren kann.
 Der Ansatz ist die numerische Maximierung einer Log-Likelihood-Funktion, die im Folgenden für die diskrete Übergangswahrscheinlichkeit hergeleitet wird.
 Das wird durch die Approximation der Übergangsdichte (eine bedingte Dichte) mittels des Euler-Maruyama-Schemas erreicht. Da sich für $\beta=1$ eine klassische geometrische Brownsche Bewegung ergibt, 
-können die bekannten Schätzer für Drift und Volatilität als Spezialfall betrachtet werden. Insbesondere stellen die Parameter der GBM (Drift und Volatilität - leicht zu schätzen) 
+können die bekannten Schätzer für Drift und Volatilität als Spezialfall betrachtet werden. Insbesondere stellen die Parameter der GBM 
 sinnvolle Startwerte für die numerische Optimierung dar.
 
 
@@ -229,14 +227,13 @@ wobei $p_\theta(\,\cdot\,|\,\cdot)$ die bedingte Übergangsdichte in Schrittweit
 $$
 \widehat\theta\;=\;\arg\max_{\theta}\ \ell(\theta).
 $$
-Das Vorgehen gliedert sich in drei Schritte. Falls $p_\theta$ nicht explizit bekannt ist, wird eine Quasi-Likelihood (QMLE) verwendet, zum Beispiel via Euler-Maruyama-Approximation.
+Da $p_\theta$ nicht explizit bekannt ist, wird eine Quasi-Likelihood (QMLE) verwendet, hier die Euler-Maruyama-Approximation.
 $$
 S_{t_{i+1}}-S_{t_i}\mid S_{t_i}\ \approx\ \mathcal N\!\big(a_\theta(S_{t_i},t_i)\,\Delta t,\; b_\theta^2(S_{t_i},t_i)\,\Delta t\big),
 $$
 Dann wird die (Pseudo‑)Log‑Likelihood aufgestellt, und numerisch maximiert.
 
 \paragraph{Herleitung des Quasi‑MLE (Euler‑Pseudo‑Likelihood).}
-Ziel ist es, die Parameter des CEV-Modells $(\mu, \sigma, \beta)$ aus diskreten Kursdaten $S_{t_0}, \dots, S_{t_n}$ zu schätzen. Die Maximum-Likelihood-Methode sucht die Parameter, unter denen die beobachteten Daten am wahrscheinlichsten sind. Da die exakte Übergangsdichte des CEV-Modells nicht explizit bekannt ist, verwenden wir eine Approximation mittels Euler-Maruyama-Schema.
 Das CEV-Modell lautet
 $$
 dS_t = \mu S_t\,dt + \sigma S_t^{\beta}\,dW_t.
@@ -324,7 +321,7 @@ Ein feinerer Vergleich der Kalibrierungen folgt im nächsten Abschnitt.
 
 \paragraph{Eigene Implementierung in R mit der Euler‑Pseudo‑Likelihood}
 Die eigene Implementierung der Parameterschätzung für das CEV-Modell in R basiert auf der oben hergeleiteten Pseudo-Maximum-Likelihood-Funktion.
-Zur numerischen Optimierung wird das Paket nloptr \cite{nloptr} verwendet.
+Zur numerischen Optimierung wird das Paket nloptr \cite{nlopt} verwendet.
 
 \begin{lstlisting}
 estimate_cev <- function(S, dt = 1/252) {
