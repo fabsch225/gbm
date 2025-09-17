@@ -55,8 +55,14 @@ Das entspricht der \textit{Call-Put-Parität}
 \end{defi}
 
 \begin{lemma}[Risikoneutrale Wahrscheinlichkeit für einen Schritt]
-Da in diesem Fall die Aussicht auf Zinsen berücksichtigt werden muss,
+Ein Betrag $B_0$ der aus dem Bankkonto angelegt wird steigt durch den risikofreien Zinssatz $r$ kontinuierlich durch
+$$B(t) = e^{rt}B_0.$$
+Daher ist ein Gewinn in der Zukunft ($\Delta t$) weniger wert als ein Gewinn jetzt, da man den jetzigen Gewinn $G$ anlegen könnte, und 
+dann $Ge^{r \Delta t}$ hätte. 
+
+Da die dies berücksichtigt werden muss,
 werden mögliche Aktiengewinne mit dem Faktor $e^{r \Delta t}$ verkleinert (diskontiert).
+
 Der diskontierte Aktienkurs zum Zeitpunkt $n$ ist $e^{-r n \Delta t} S_n$.
 Im Folgenden wird berechnet, für welche Wahrscheinlichkeit der neue diskontierte Prozess
 ein Martingal ist. Das Martingal-Kriterium lautet: $E(X_{n+1} \mid X_n = l) = l$, wobei $X_n = e^{-r n \Delta t} S_n$.
@@ -244,7 +250,8 @@ Bestimme die Endwerte $C_T=f(S_T)$ und gehe rückwärts über die Knoten $(n,v)$
     \]
     \item Setze den Knotenpreis $C_n(v)=\Delta_n(v)\,v+\Psi_n(v)$.
 \end{enumerate}
-Die so konstruierte Strategie ist selbstfinanzierend und repliziert die Option exakt. Der Startpreis $C_0$ ist eindeutig und fällt mit der risikoneutralen Bewertung zusammen.
+Die so konstruierte Strategie ist selbstfinanzierend und repliziert die Option exakt.
+ Der Startpreis $C_0$ ist eindeutig und fällt mit der risikoneutralen Bewertung zusammen.
 \end{satz}
 
 \subsection{Das Black-Scholes-Modell als Grenzfall des Binomialmodells}
@@ -261,9 +268,9 @@ $$
 S_{t+\Delta t} &= S_t \cdot e^{(\mu - \frac{1}{2}\sigma^2)\Delta t + \sigma W_{t+\Delta t}}
 \end{aligned}
 $$
-\paragraph{die risikoneutrale Wahrscheinlichkeit im Grenzübergang}
+\paragraph{Die risikoneutrale Wahrscheinlichkeit im Grenzübergang}
 Zur Vereinfachung der zeitdiskreten Sprunggrößen $u$ und $d$ wird der Drift $\mu$ vernachlässigt.
-Das wird durch ein Arbitrage-Argument gerechtfertigt (vgl. Behrends\cite{behrends}, S. 133).
+Das wird durch ein Arbitrage-Argument gerechtfertigt (vgl. Behrends\cite{behrends}, S. 133):
 Der deterministische Teil der Preisbewegung muss unter dem risikoneutralen Maß verschwinden, 
 sonst gäbe es eine risikolose Gewinnmöglichkeit (Arbitrage). 
 Für einen Zeitschritt $\Delta t$ folgen damit die Sprunggrößen
@@ -275,7 +282,7 @@ $$
 q(\Delta t) = \frac{e^{r \Delta t} - d}{u - d}
 = \frac{e^{r \Delta t} - e^{-\sigma \sqrt{\Delta t}}}{e^{\sigma \sqrt{\Delta t}} - e^{-\sigma \sqrt{\Delta t}}}.
 $$
-\\ Durch eine Taylor-Entwicklung um $0$ werden die Funktionen wieder vereinfacht. Analog zum Beweis aus Kapitel 2
+\\ Durch eine Taylor-Entwicklung um $0$ werden die Funktionen wieder vereinfacht. Analog zum Beweis aus Kapitel 5
 sollen höhere Potenzen von $\Delta t$ im Grenzwert verschwinden. Da es sich um einen Quotienten handelt,
 kann man die Abschätzung aber nicht direkt anwenden. Stattdessen werden Zähler und Nenner separat entwickelt:
 $$
@@ -367,7 +374,8 @@ Im Grenzwert $n\to\infty$ (bzw.\ $\Delta t \to 0$) folgt damit
 $$
 \log S_T \sim \mathcal N\!\Big(\log S_0 + \big(r - \tfrac12 \sigma^2\big)T,\;\sigma^2 T\Big),
 $$
-d.\,h.\ unter $Q$ konvergiert der diskrete Prozess gegen die geometrische Brownsche Bewegung.
+d.\,h.\ unter $Q$ konvergiert der diskrete Prozess gegen die geometrische Brownsche Bewegung. Der Drift-Term ist nicht mehr der
+Trend im Aktienkurs sondern der Zinssatz $r$.
 \qed
 
 \begin{satz}[Satz von Pratt, Elstrod \cite{elstrod} S. 280, vereinfacht]

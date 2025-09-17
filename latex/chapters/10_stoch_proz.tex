@@ -33,15 +33,14 @@ $$
 \begin{bsp}[Binomialmodell]
 Das Binomialmodell ist ein simples Modell einer Aktie und deren Preisentwicklung. 
 Man beginnt mit einem Anfangspreis $S_0$. $S_1, S_2, \dots$ sind dann Messungen des Aktienpreises zu einem festen Intervall.
- Zu einer festen Wahrscheinlichkeit $0 \lt p \lt 1$ steigt die Aktie um den Faktor $d$, oder fällt mit der Wahrscheinlichkeit $1-p$ um den Faktor $u$. Also
+ Zu einer festen Wahrscheinlichkeit $0 \lt p \lt 1$ steigt die Aktie um den Faktor $u$, oder fällt mit der Wahrscheinlichkeit $1-p$ um den Faktor $d$. Also
 $$S_{t+1} = \begin{cases} 
     d \cdot S_t, & \text{mit Wahrscheinlichkeit }  p \\ 
     u \cdot S_t, & \text{mit Wahrscheinlichkeit }  1-p
 
 \end{cases}.$$
 Im Gegensatz zum Zufallsspaziergang sind die Schritte hier nicht additiv, sondern multiplikativ. Daher
-eignet sich das Binomialmodell zur Modellierung von Aktienkursen, da keine negativen Preise möglich sind.
-
+eignet sich das Binomialmodell (im Gegensatz zum Zufallsspaziergang) zur Modellierung von Aktienkursen, es sind keine negativen Preise möglich.
 
 \begin{center}
 \begin{tikzpicture}[x=3.2cm,y=1.4cm,>=stealth]
@@ -84,9 +83,9 @@ eignet sich das Binomialmodell zur Modellierung von Aktienkursen, da keine negat
 \begin{bsp}[Brownsche Bewegung]
 Die Brownsche Bewegung beschreibt die Bewegung eines Partikels in 
 einer Flüssigkeit \cite{webster_bb}. Die Zufallsgröße ist hier die Position des Partikels.
-Naturanaloge stochastische Prozesse erfüllen eine Stetigkeitsbedingung: 
-Andernfalls würde sich der Partikel in der Flüssigkeit teleportieren. 
-Konkret: Es bezeichne der $\text{Pfad}: t \mapsto X_t$ die Realisierungen der Zufallsvariablen $X_t$ unter 
+Naturanaloge stochastische Prozesse erfüllen oft eine Stetigkeitsbedingung: 
+Andernfalls würde sich z. B. der Partikel in der Flüssigkeit teleportieren. 
+Konkret: Es bezeichne der Pfad $t \mapsto X_t$ die Realisierungen der Zufallsvariablen $X_t$ unter 
 der Zeit $t$. Dann wird gefordert, dass die Pfade fast-sicher stetig sind, also 
 $$P(\{\omega \in \Omega | t \mapsto X_t(\omega) \text{ ist stetig}\}) = 1.$$ 
 Im nächsten Kapitel wird die Brownsche Bewegung formal definiert.
@@ -107,18 +106,16 @@ $$(\Omega, \mathcal F, P) := \bigtimes_{t \in I}(\tilde \Omega, \mathcal A_t,\ti
 betrachtet.
 
 \begin{defi}[Adaptiertheit]
-In der modernen Wahrscheinlichkeitsrechnung wird "Information über den
-Wahrscheinlichkeitsraum $(\Omega, \mathcal F, P)$" als Teil-$\sigma$-Algebra 
-von $\mathcal A$ verschlüsselt (Behrends \cite{behrends} S. ). Dazu wird der Begriff der Filtration 
+In der modernen Wahrscheinlichkeitsrechnung wird Information über den
+Wahrscheinlichkeitsraum $(\Omega, \mathcal F, P)$ als Teil-$\sigma$-Algebra 
+von $\mathcal A$ verschlüsselt (Behrends \cite{behrends} S. 13). Dazu wird der Begriff der Filtration 
 definiert: Eine Familie von $\sigma$-Algebren $\mathcal F_t, t \in I$ heißt \textit{Filtration}, 
 wenn $\mathcal F_s \subset \mathcal F_t$ für alle $s \lt t$ gilt. 
 Der Prozess $(X_t)_{t \in I}$ heißt an die Filtration adaptiert, 
 wenn $X_t$ $\mathcal F_t$-messbar ist für alle $t \in I$. Die Eigenschaft 
 $\mathcal F_s \subset \mathcal F_t$ kann man wie folgt interpretieren: 
 Die Größe des Datensatzes nimmt über die Zeit zu. Anstatt dem Produktraum, kann man 
-die Zufallsvariablen $X_t$ somit auf den Räumen $(\Omega, \mathcal F_t, P)$ definieren, 
-und setzt $\mathcal F = \lim_{t \to \infty} \mathcal F_t$.
-
+die Zufallsvariablen $X_t$ somit auf den Räumen $(\Omega, \mathcal F_t, P)$ definieren.
 \end{defi}
 
 \begin{bsp}[Filtration des Binomialmodells]
@@ -140,8 +137,9 @@ fallen, alle weiteren Kursverläufe sind in dem Ereignis enthalten.
 \end{bsp}
 
 \begin{defi}[Wahrscheinlichkeitsraum eines stochastischen Prozesses]
-Mit der Filtration kann man den Wahrscheinlichkeitsraum eines stochastischen Prozesses genauer beschreiben. Der Wahrscheinlichkeitsraum $(\Omega, \mathcal F, P)$ wird durch die Filtration $\mathcal F_t$ für jeden Zeitpunkt $t \in I$ verfeinert. Der Prozess $(X_t)_{t \in I}$ ist dann auf den Räumen $(\Omega, \mathcal F_t, P)$ definiert.
-Man schreibt
+Mit der Filtration kann man den Wahrscheinlichkeitsraum eines stochastischen Prozesses genauer beschreiben. 
+Der Wahrscheinlichkeitsraum $(\Omega, \mathcal F, P)$, wobei $\mathcal F = \lim_{t \to \infty} \mathcal F_t$, entsteht durch die Filtration $\mathcal F_t$.
+Der stochastische Prozess existiert dann im filtrierten Wahrscheinlichkeitsraum. Man schreibt
 $$
 (\Omega, \mathcal F_t, \mathcal F, P).
 $$
@@ -167,10 +165,6 @@ und für einen diskreten Wahrscheinlichkeitsraum reicht
 $$E(X_t|B):= \frac{1}{P(B)}\sum_{b \in B} X_t(b) \cdot P(\{ b \})$$
 wobei $P(B) \neq 0$ gilt. Sonst ist $E(X_t|B) :=0$. 
 Mit dem bedingten Erwartungswert wird die Zufallsvariable $E(X_t)$.
-Um das obige Beispiel aufzugreifen: Die zweite Definition ist äquivalent zu
-$$
-E(X_t|B) = \sum_{\omega \in \Omega} X_t(\omega) \cdot P(\{\omega\}|B).
-$$
 Für eine Zufallsvariable $Y$ wird durch den bedingten Erwartungswert $E(X_t|Y)$ eine neue Zufallsvariable definiert:
 $$E(X_t|Y)(\omega) := E(X_t|Y=Y(\omega)).$$
 Im Folgenden werden die Satze des totalen Erwartungswertes und des iterierten Erwartungswertprinzips bewiesen,
@@ -196,12 +190,12 @@ Ist die bisherige Kursentwicklung bekannt, hier $S_0=10, S_1 = d \cdot S_0=20$, 
 \end{bsp}
 
 \begin{satz}[Totaler Erwartungswert]
-Der totale Erwartungswert besagt, dass der Erwartungswert einer Zufallsvariablen
+Der Satz vom totalen Erwartungswert besagt, dass der Erwartungswert einer Zufallsvariablen
 durch die Summe der bedingten Erwartungswerte über eine Partition des Wahrscheinlichkeitsraumes
-berechnet werden kann. Sei also $(A_i)_{i \in I}$ eine Partition von $\Omega$,
-dann gilt $$E(X_t) = \sum_{i \in I} E(X_t|A_i) \cdot P(A_i).$$
+berechnet werden kann. Sei also $(A_i)_{i \in I}$ eine Partition von $\Omega$ (also $A_i$ paarweise disjunkt, $\bigcup_{i \in I} A_i = \Omega$),
+dann gilt $$E(X_t) = \sum_{i \in I} E(X_t \mid  A_i) \cdot P(A_i).$$
 In dieser Arbeit wird nur der diskrete Fall betrachtet. \textit{Beweis.}
-$$E(X_t) = \sum_{\omega \in \Omega} X_t(\omega) \cdot P(\{\omega\}) = \sum_{i \in I} \sum_{\omega \in A_i} X_t(\omega) \cdot P(\{\omega\}) = \sum_{i \in I} E(X_t|A_i) \cdot P(A_i).$$
+$$E(X_t) = \sum_{\omega \in \Omega} X_t(\omega) \cdot P(\{\omega\}) = \sum_{i \in I} \sum_{\omega \in A_i} X_t(\omega) \cdot P(\{\omega\}) = \sum_{i \in I} E(X_t \mid A_i) \cdot P(A_i).$$
 \qed
 
 \end{satz}
@@ -211,6 +205,7 @@ Für diskrete Zufallsvariablen $X$ und $Y$ gilt
 $$
 E\big(E(X\mid Y)\big)\;=\;E(X).
 $$
+(Wie oben ist $E(X\mid Y)$ eine Zufallsvariable.)
 \textit{Beweis.} Nach Definition von $E(X\mid Y)$ ist $$E(X\mid Y)=g(Y) =\sum_x x\,P(X=x\mid Y=y).$$ Damit gilt
 $$
 \begin{aligned}
@@ -232,10 +227,10 @@ benutzt und im letzten Schritt die Summation über $y$ zusammengefasst. \qed
 
 \begin{defi}[Martingal]
 Martingale sind Prozesse, die tendenziell weder steigen noch fallen, 
-also "faire" Prozesse. Tendenziell heißt auf den Erwartungswert bezogen. 
+also faire Prozesse. Tendenziell heißt auf den Erwartungswert bezogen. 
 Steigende Prozesse werden Supermartingale genannt, fallende Submartingale. 
-Die mathematische Definitione erfolgt durch den Bedingten Erwartungswert: 
-Ist ein "fairer" Kurs zum aktuellen Zeitpunkt $s$ auf einem bestimmten Wert, 
+Die mathematische Definition erfolgt durch den Bedingten Erwartungswert: 
+Ist ein fairer Kurs zum aktuellen Zeitpunkt $s$ auf einem bestimmten Wert, 
 liegt der Erwartungswert zur Messzeit $t \gt s$ bei dem selben Wert.
 
 Ein stochastischer Prozess $(X_t)_{t \in I}$ heißt \textit{Submartingal}, wenn 
@@ -244,11 +239,13 @@ $E(X_t|X_s=v) \le v$  für alle $s \lt t$, und alle $v \in \Bbb R$. $(X_t)_{t \i
  wenn er sowohl Supermartingal als auch Submartingal ist, also $E(X_t|X_s=v) = v$.
 \end{defi}
 
-\begin{lemma}[Martingaleigenschaft des Binomialmodells]
-Das Binomialmodell genau dann ein Martingal, wenn $p=\frac{1-d}{u-d}$ gilt. 
-\textit{Beweis}.
+\begin{bsp}[Martingaleigenschaft des Binomialmodells]
+Das Binomialmodell genau dann ein Martingal, wenn $p=\frac{1-d}{u-d}$ gilt, wobei $u \neq d$. 
+Ansonsten ist das Binomialmodell ebenfalls ein Martingal falls $p=0.5$.
+
+\textit{Beweis} für $u \neq d$.
 Zuerst wird der Fall $t = s + 1$ gezeigt:
-Es gilt $S_{s+1}=S_s\,\xi_{s+1}$ für eine Zufallsvariable $\xi$ mit $\mathbb{P}(\xi_{s+1}=u)=p,\ \mathbb{P}(\xi_{s+1}=d)=1-p$. Es folgt
+Es gilt $S_{s+1}=S_s\,\xi_{s+1}$ für eine Zufallsvariable $\xi_{s+1}$ mit $\mathbb{P}(\xi_{s+1}=u)=p,\ \mathbb{P}(\xi_{s+1}=d)=1-p$. Es folgt
 $$E(S_{s+1}|S_s=v)= v \cdot E(\xi_{s+1})=v(pu+(1-p)d).$$
 Und setzt man die Matringaleigenschaft $E(S_{s+1}|S_s=v)=v$ ein, ergibt sich
 $$pu+(1-p)d=1 \iff p=\frac{1-d}{u-d}.$$
@@ -256,7 +253,7 @@ Seien nun $s \lt t \in \Bbb N_0$ beliebig. Dann gilt $S_t=\xi_{t-1}\cdot \xi_{t-
 Da die $\xi_i$ unabhängig und identisch verteilt sind, gilt
 $$E(S_t|S_s=v)=v \cdot \prod_{i=s+1}^{t-1} E(\xi_t)=v \cdot E(\xi_{s+1})^{t-s}=v \cdot (pu+(1-p)d)^{s-t}.$$
 $E(S_t|S_s=v)=v$ ist wieder äquivalent zu $p=\frac{1-d}{u-d}$. \qed
-\end{lemma}
+\end{bsp}
 
 \begin{defi}[Markovprozess]
 Ein stochastischer Prozess heißt Markovprozess, falls die 
