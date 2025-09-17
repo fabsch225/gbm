@@ -45,10 +45,10 @@ Durch den Binomischen Lehrsatz ergibt sich:
 $$
 X_j^k = \sum_{m=0}^k \binom{k}{m} (\mu \Delta t)^{k-m} (\sigma \sqrt{\Delta t} \varepsilon_j)^m.
 $$
-Die Terme enthalten Potenzen von $\Delta t$ in der Form $(\Delta t)^{(k-m)/2 + m/2} = (\Delta t)^{k/2}$. Für $k \geq 3$ ist $(\Delta t)^{k/2}$ von 
+Die Terme enthalten Potenzen von $\Delta t$ in der Form $(\Delta t)^{(k-m) + m/2} = (\Delta t)^{k-m/2}$. Für $k \geq 3$ (und $m=0,\dots k$) ist $(\Delta t)^{k-m/2}$ von 
 höherer Ordnung als $\Delta t$ oder $\sqrt{\Delta t}$ und verschwindet daher im Grenzübergang $\Delta t \to 0$ bzw. $n \to \infty$. Der Grenzübergang 
-von diskreter zu kontinuierlicher Zeit führt dazu, dass $n$ und $\Delta t$ gleichzeitig gegen $\infty$ bzw. $0$ gehen, wobei $n \Delta t = T$ konstant bleibt.
-Daher verschwinden in der Summe in \ref{eq:log_sn} genau die Terme, in denen $\Delta t$ einen Exponenten größer $1$ ist.
+von diskreter zu kontinuierlicher Zeit führt eben dazu, dass $n$ und $\Delta t$ gleichzeitig gegen $\infty$ bzw. $0$ gehen, wobei $n \Delta t = T$ konstant bleibt.
+Daher verschwinden in der Summe in Formel \ref{eq:log_sn} genau die Terme, in denen $\Delta t$ einen Exponenten größer $1$ hat.
 $$
 \log(1+X_j) \approx X_j - \tfrac12 X_j^2.
 $$
@@ -68,7 +68,7 @@ Die erste Summe konvergiert nach dem Zentralen Grenzwertsatz (Verteilungskonverg
 $$
 \sigma \sqrt{\Delta t} \sum_{j=1}^n \varepsilon_j \overset{d}{\underset{n \to \infty}{\longrightarrow}} \xi \sim N(0, \sigma^2 T),
 $$
-also gegen eine Zufallsvariable $\zeta$ die normalverteilt ist, mit Varianz $\sigma^2 T$.  $\xi = \sigma W_T$ ist eine Lösung, 
+also gegen eine Zufallsvariable $\xi$ die normalverteilt ist, mit Varianz $\sigma^2 T$.  $\xi = \sigma W_T$ ist eine Lösung, 
 weil $W_T \sim N(0, T)$ eine Brownsche Bewegung zur Zeit $T$ ist. 
 Da $E(\varepsilon_j^2) = 1$ gilt, folgt im Grenzübergang für die zweite Summe nach dem Gesetz der großen Zahlen
 $$

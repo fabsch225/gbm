@@ -6,9 +6,7 @@ Aktienoptionen sind Finanzderivate, die dem Inhaber das Recht, aber nicht die Pf
 eine Aktie zu einem vorher festgelegten Preis (dem Ausübungspreis) zu kaufen (Call-Option) 
 oder zu verkaufen (Put-Option). Europäische Optionen können nur am Fälligkeitstag ausgeübt 
 werden, während amerikanische Optionen während der gesamten Laufzeit bis zum Verfallsdatum 
-ausgeübt werden können. Ein zentrales Konzept ist die Put-Call-Parität, die eine Beziehung 
-zwischen dem Preis einer europäischen Call- und Put-Option mit identischem Basiswert, 
-Ausübungspreis und Laufzeit herstellt. Den fairen Preis einer Option zu bestimmen ist eine Herausforderung,
+ausgeübt werden können. Den fairen Preis einer Option zu bestimmen ist eine Herausforderung,
 die man mit Hilfe der geometrischen Brownschen Bewegung lösen kann. Im Folgenden wird dazu das Black-Scholes-Modell 
 vorgestellt.
 
@@ -36,22 +34,25 @@ Das Binomialmodell wird erweitert. Zusätzlich zur Aktie und deren Kurs gibt es 
 Zusätzlich wird ein neues Wahrscheinlichkeitsmaß $Q$ eingeführt, das sogenannte risikoneutrale Maß.
 
 \begin{defi}[Arbitrage-Prinzip]
+Durch Arbitrage erzielt man Gewinne, in dem man Güter an einem Markt kauft, und dann fast gleichzeitig (teurer) an einem anderen Verkauft.
+Die Möglichkeit für Arbitrage existiert nur kurzfristig, da die Preise sich im Weltmarkt ausgleichen. Im vorliegenden Modell wird Arbitrage daher ausgeschlossen.  
 Es wird angenommen, dass man keine risikolosen Gewinne erzielen kann, ohne Kapital zu investieren.
 \end{defi}
 
 \begin{defi}[Europäische Optionen]
-    Europäische Optionen sind Finanzderivate, die dem Inhaber das Recht geben, 
+    Europäische Optionen geben dem Inhaber das Recht, 
     einen Basiswert zu einem festgelegten Preis (dem Ausübungspreis) nur am 
     Fälligkeitstag zu kaufen (Call-Option) oder zu verkaufen (Put-Option).
     Der Wert einer europäischen Call-Option am Endzeitpunkt $T$ ist durch die Auszahlungsfunktion
     $$f(S_T) = \max(S_T - K, 0) = (S_T - K)^+$$
-    gegeben, wobei $K$ der Ausübungspreis ist.
-    Für eine Put-Option ist die Auszahlungsfunktion
+    gegeben, wobei $K$ der Ausübungspreis ist. $S_T - K$ ist der Gewinn der erzielt wird, wenn der Inhaber
+    Aktien zu einem niedrigeren Kurs ($K$) erwirbt, und dann zum echten Kurs ($S_T$) verkauft.
+    Die Auszahlungsfunktion kann keine negativen Werte annehmen, da der Inhaber wohl nicht auf sein Recht bestehen würde, 
+    Aktien zu einem erhöhten Kurs zu kaufen. Für eine Put-Option ist die Auszahlungsfunktion
     $$\tilde f(S_T) = \max(K - S_T, 0) = (K - S_T)^+.$$
 Das entspricht der \textit{Call-Put-Parität}
     $f(S_T) - \tilde f(S_T) = S_T - K$.
 \end{defi}
-
 
 \begin{lemma}[Risikoneutrale Wahrscheinlichkeit für einen Schritt]
 Da in diesem Fall die Aussicht auf Zinsen berücksichtigt werden muss,
@@ -228,6 +229,7 @@ Unter dem risikoneutralen Maß $Q$ ist der diskontierte Aktienkurs ein Martingal
 C_n(v)=e^{-r(T-t_n)}\,E^Q\!\big[f(S_T)\mid S_n=v\big],
 \]
 also Gleichheit von Replikationspreis und risikoneutraler Bewertung. Im Ein-Schritt-Fall ergibt sich dies äquivalent durch Einsetzen von $q=\frac{e^{r\Delta t}-d}{u-d}$ in die obigen Formeln.
+
 \end{bem}
 
 \begin{satz}[Dynamische Delta-Absicherung im Mehrschritt-Binomialbaum]
@@ -244,11 +246,6 @@ Bestimme die Endwerte $C_T=f(S_T)$ und gehe rückwärts über die Knoten $(n,v)$
 \end{enumerate}
 Die so konstruierte Strategie ist selbstfinanzierend und repliziert die Option exakt. Der Startpreis $C_0$ ist eindeutig und fällt mit der risikoneutralen Bewertung zusammen.
 \end{satz}
-
-\begin{bem}
-Für amerikanische Optionen wird in Schritt 1 der Fortsetzungswert mit dem vorzeitigen Ausübungswert verglichen und der größere verwendet.
-Im Grenzfall zum Black–Scholes-Modell führt die fortlaufende Aktualisierung von $\Delta$ zur kontinuierlichen Delta-Absicherung; der drift des Basiswerts wird durch das risikoneutrale Maß auf $r$ ersetzt, weshalb nur $r$ und $\sigma$ in die Preisformel eingehen.
-\end{bem}
 
 \subsection{Das Black-Scholes-Modell als Grenzfall des Binomialmodells}
 Ziel ist es zu zeigen, dass die fairen Optionspreise
