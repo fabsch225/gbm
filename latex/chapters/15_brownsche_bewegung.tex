@@ -1,7 +1,7 @@
 \section{Die Brownsche Bewegung}
 
 Oft wird die Brownsche Bewegung (oder auch Wiener Prozess) axiomatisch definiert. In dieser Arbeit werden 
-direkt kumulative Normalverteilungen betrachtet. Zuerst wird eine vereinfachte Darstellung des Prozesses eingeführt, 
+direkt kumulative Summen von Normalverteilungen betrachtet. Zuerst wird eine vereinfachte Darstellung des Prozesses eingeführt, 
 die diskrete Brownsche Bewegung.
 
 \subsection{Diskrete Brownsche Bewegung}
@@ -17,12 +17,12 @@ Die Funktion $b^{(1)}(t)$ wird diskrete Brownsche Bewegung erster Ordnung genann
 Der Name rührt daher, dass in eine Zeiteinheit genau eine Normalverteilung einbezogen wird.
 Im Allgemeinen wird die diskrete Brownsche Bewegung $b^{(N)}(t)$ $N$-ter Ordnung definiert als
 $$b^{(N)}(t) := \frac{1}{\sqrt{N}} \left ( \xi_{\lfloor Nt \rfloor} + (Nt - \lfloor Nt \rfloor)(\xi_{\lfloor Nt \rfloor + 1} - \xi_{\lfloor Nt \rfloor}) \right ), \quad t \geq 0.$$
-Hierbei wird in eine Zeiteinheit $N$ Normalverteilungen einbezogen.
+Hierbei wird in eine Zeiteinheit $N$ Normalverteilungen einbezogen. Der Faktor $1/\sqrt{N}$ dient dazu, die Varianzen der Normalverteilungen zu normieren.
 
 \end{defi}
 
 \begin{bsp}[Visualisierung der diskreten Brownschen Bewegung]
-Das folgende R-Programm (Ausschnitt) generiert eine diskrete Brownsche Bewegung N-ter Ordnung:
+Das folgende R-Programm (Ausschnitt) generiert eine diskrete Brownsche Bewegung N-ter Ordnung.
 
 \begin{lstlisting}
   n_points <- N * T_max
@@ -67,7 +67,7 @@ Induktiv folgt die Behauptung. \qed \\
 \begin{lemma}[Varianz der diskreten Brownschen Bewegung]
 $$
 \begin{aligned}
-V(b^{(N)}(t)) &= \frac{1}{N} \left ( V(\xi_{\lfloor Nt \rfloor}) + (Nt - \lfloor Nt \rfloor)^2 \text{Var}(\xi_{\lfloor Nt \rfloor + 1} - \xi_{\lfloor Nt \rfloor}) \right ) 
+V(b^{(N)}(t)) &= \frac{1}{N} \left ( V(\xi_{\lfloor Nt \rfloor}) + (Nt - \lfloor Nt \rfloor)^2 \cdot V(\xi_{\lfloor Nt \rfloor + 1} - \xi_{\lfloor Nt \rfloor}) \right ) 
 \\ &= \frac{1}{N} (\lfloor Nt \rfloor + (Nt - \lfloor Nt \rfloor)^2)  
 \\ &= \frac{\lfloor Nt \rfloor}{N} + \frac{(Nt - \lfloor Nt \rfloor)^2}{N}.
 \end{aligned}
@@ -100,6 +100,7 @@ Seien $(X_n)_{n \in \Bbb N}$ und $X$ Zufallsvektoren in $\Bbb R^d$. Dann sind fo
     \item Für alle $t \in \Bbb R^d$ gilt $t^T X_n \xrightarrow{d} t^T X$ für $n \to \infty$.
 \end{enumerate}
 Wird hier nicht bewiesen. \qed
+Die Cramér-Wold-Technik erlaubt es, mehrdimensionale Verteilungskonvergenz auf eindimensionale Berechnungen zurückzuführen.
 \end{satz}
 
 \subsection{Die Brownschen Bewegung als Grenzprozess}
@@ -113,7 +114,7 @@ Prozess bei irrationalen Zeiten den Wert $\infty$ annehmen (Das ist natürlich n
 sehr unintuitiv). Daher wird die Konvergenz in 3 Schritten untersucht:
 \begin{enumerate}
   \item Verteilungskonvergenz der einzelnen Zeitpunkte
-  \item Verteilungskonvergenz der endlich-dimensionalen Vektoren
+  \item Verteilungskonvergenz von endlich-dimensionalen Vektoren
   \item Stetigkeit der Pfade des Grenzprozesses
 \end{enumerate}
 
@@ -135,24 +136,24 @@ b^{(N)}(t) \sim N\left(0,\frac{1}{N}\big(k+\alpha^2\big)\right).
 $$
 Die Verteilungsfunktion ist gegeben durch
 $$
-F_N(x)=\Bbb P\big(b^{(N)}(t)\le x\big)=\Phi\!\left(\frac{x}{\sigma_N(t)}\right),
+F_N(x)=P\big(b^{(N)}(t)\le x\big)=\Phi\!\left(\frac{x}{\sigma_N(t)}\right),
 $$
 wobei $\Phi$ die Standardnormalverteilungsfunktion ist. Aus $\sigma_N^2(t)\to t$ folgt $\sigma_N(t)\to \sqrt{t}$ und wegen der Stetigkeit von $\Phi$ daher
 $$
 F_N(x)=\Phi\!\left(\frac{x}{\sigma_N(t)}\right)\;\longrightarrow\;\Phi\!\left(\frac{x}{\sqrt{t}}\right)\quad\text{für alle }x\in\Bbb R.
 $$
-Dies ist die Verteilungsfunktion von $N(0,t)$. Definiere $W_t\sim N(0,t)$. Somit konvergiert für jedes feste $t$ die Verteilung von $b^{(N)}(t)$ gegen die von $W_t$. 
+Dies ist die Verteilungsfunktion von $N(0,t)$. Definiere $W_t :\sim N(0,t)$. Somit konvergiert für jedes feste $t$ die Verteilung von $b^{(N)}(t)$ gegen die von $W_t$. 
 \qed
 \end{lemma}
 
-\begin{satz}[Verteilungskonvergenz des Pfades der diskreten Brownschen Bewegung]
+\begin{satz}[Kovarianzstruktur der Brownschen Bewegung]
 Aus der Verteilungskonvergenz der einzelnen Zeitpunkte kann man noch keinen sinnvollen Grenzprozess folgern.
 Die Zeitpunkte $W_t$ sind zwar normalverteilt, aber der Prozess könnte trotzdem sprunghaft sein.
 Nun wird die Verteilungskonvergenz der endlich-dimensionalen Vektoren gezeigt, beziehungsweise
 die Kovarianz der Realisierungen bei benachbarten Zeitpunkten untersucht.
 Sei $0\le t_1\le\cdots\le t_k$ eine Zerlegung. Dann gilt
 $$
-\big(b^{(N)}(t_1), \dots , b^{(N)}(t_k) \big )\;\xrightarrow{N\to\infty}{}\;\big(W_{t_1},\dots,W_{t_k}\big).
+\big(b^{(N)}(t_1), \dots , b^{(N)}(t_k) \big )\;\xrightarrow[N \to \infty]{\mathrm{d}}\;\big(W_{t_1},\dots,W_{t_k}\big).
 $$
 \textit{Beweis.}\footnote{angelehnt an Henze \cite{henze} S. 225f.}
 Für jedes $N$ ist der Vektor $\big(b^{(N)}(t_1),\dots,b^{(N)}(t_k)\big)$ gemeinsam normalverteilt,
@@ -221,11 +222,11 @@ Für die unabhängigen Inkremente $Z_{n,k}$ mit
 $$Z_{n,k}\sim N\!\big(0,2^{-(n+2)}\big).$$
 Mit der Kolmogorov-Ungleichung erhält man für jedes $\varepsilon>0$
 $$
-\Bbb P(M_n>\varepsilon) \le \frac{1}{\varepsilon^2} V(Z_{n,0}) = \frac{1}{\varepsilon^2} 2^{-(n+2)}.
+P(M_n>\varepsilon) \le \frac{1}{\varepsilon^2} V(Z_{n,0}) = \frac{1}{\varepsilon^2} 2^{-(n+2)}.
 $$
 Wähle nun $\varepsilon_n:=2^{-n/4}$. Dann gilt
 $$
-\sum_{n=1}^\infty \Bbb P\!\big(M_n>\varepsilon_n\big)
+\sum_{n=1}^\infty P\!\big(M_n>\varepsilon_n\big)
 \le \sum_{n=1}^\infty 2^{n/2} \cdot 2^{-(n+2)}<\infty.
 $$
 Nach dem Reihenkriterium für fast sichere Konvergenz folgt, dass $M_n\to 0$ fast sicher.
@@ -235,8 +236,9 @@ Weil jedes $\big(\hat W^{(n)}\big)_{n\in\Bbb N}$ eine stückweise lineare Funkti
 dass $\big(\hat W^{(n)}\big)_{n\in\Bbb N}$ fast sicher eine Cauchy-Folge in $\Vert \cdot \Vert_{\infty}$ ist.
 $\big(\hat W^{(n)}\big)_{n\in\Bbb N}$ konvergiert also gleichmäßig gegen den Grenzpfad $\widetilde W$, der stetig ist. \qed
 
-Achtung: Es wurde nicht gezeigt, der Prozess $W_t^{(n)} \longrightarrow W_t$ gleichmäßig konvergiert. Für eine feste Realisierungen
-$t \mapsto W_t(\omega)$ wurde eine (reellwertige) Folge von stetigen Funktionen konstruiert, die gegen eine stetige Funktion gleich konvergiert.
+Achtung: Es wurde nicht gezeigt, der Prozess $W_t^{(n)} \longrightarrow W_t$ gleichmäßig konvergiert. Für eine beliebige aber feste Realisierung
+$t \mapsto W_t(\omega)$ wurde eine (reellwertige) Folge von stetigen Funktionen konstruiert, die gegen $t \mapsto W_t$ gleichmäßig konvergiert.
+Da es sich um eine Folge stetiger Funktionen handelt, gilt die Stetigkeit unter gleichmäßiger Konvergenz auch gegen die Grenzfunktion $t \mapsto W_t$.
 \end{satz}
 
 \subsection{Eigenschaften der Brownschen Bewegung}
@@ -285,7 +287,7 @@ Die Brownsche Bewegung $W_t$ ist ein Martingal.
 \textit{Beweis.}
 Die diskrete Brownsche Bewegung $b^{(N)}(t)$ ist ein Martingal, wie bereits gezeigt wurde.
 Außerdem ist die Verteilungskonvergenz von $b^{(N)}(t)$ gegen $W_t$ ist gegeben.
-Verteilungskonvergenz impliziert Konvergenz des Erwartungswertes (Henze), also
+Verteilungskonvergenz impliziert Konvergenz des Erwartungswertes (Henze \cite{henze}, S.215), also
 $$
 E(W_t) = \lim_{N \to \infty} E(b^{(N)}(t)) = 0.
 $$

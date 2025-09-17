@@ -85,7 +85,7 @@ verfügbaren Daten funktioniert hätte.
 \begin{bsp}[Back-Test der Kalibrierung auf den DAX]
 Im Fall der DAX-Zeitreihe werden die Parameter $\mu$ und $\sigma$ auf die Daten von 1990 bis 2008 geschätzt.
 Nun wird ein Backtest durchgeführt, indem die Parameter genutzt werden, um die DAX-Entwicklung von 2008 bis 2025 zu simulieren. Insgesamt 
-wird also ein 50/50-Mix aus historischen Daten und simulierten Daten betrachtet. Auserdem 
+wird also ein 50/50-Mix aus historischen Daten und simulierten Daten betrachtet. Außerdem 
 werden Konfidenzintervalle zum Niveau 50\% berechnet. Die folgende Abbildung
 \ref{fig:dax_backtest} zeigt die Ergebnisse.
 
@@ -103,7 +103,7 @@ man \textit{Überdeckungswahrscheinlichkeit}.
 \end{bsp}
 
 \begin{lemma}[Weitere Metriken für Zeitreihenschätzungen]
-Botchkarev \cite{botchkarev_performance_2019} nennt u. a. folgende Metriken, um die Qualität Prediktionsmodellen zu bewerten:
+Botchkarev \cite{botchkarev_performance_2019} nennt u. a. folgende Metriken, um die Richtigkeit von Vorhersagen zu bewerten:
 \begin{itemize}
     \item Mean Squared Error (MSE): $$\text{MSE} = \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2$$
     \item Normalized Root Mean Squared Error (NRMSE) : $$\text{NRMSE} = \frac{\sqrt{\text{MSE}}}{y_{max} - y_{min}}$$
@@ -118,7 +118,7 @@ somit ebenfalls anschaulich interpretierbar.
 
 \end{lemma}
 
-\begin{lemma}[Metriken des DAX-Backtests]
+\begin{bsp}[Metriken des DAX-Backtests]
 Im obigen Backtest des DAX ergeben sich folgende Metriken:
 
 \begin{table}[h]
@@ -136,7 +136,7 @@ Im obigen Backtest des DAX ergeben sich folgende Metriken:
     \label{tab:metrics}
 \end{table}
 
-\end{lemma}
+\end{bsp}
 
 
 \subsection{Bootstrap-Verfahren zur Kalibrierung}
@@ -179,6 +179,7 @@ Es folgt eine Visualisierung der Simulation im Anschluss an die historischen Dat
 \begin{bsp}[Vergleich von Konfidenzintervall und Monte-Carlo-Simulation]
 
 Man kann das Konfidenzintervall aus dem vorherigen Beispiel mit den quantilen der Monte-Carlo-Simulation vergleichen.
+Man erkennt, dass das Konfidenzintervall aus der Formel mit steigender Simulationsanzahl immer besser durch die Quantile der Simulation approximiert wird.
 
 \begin{figure}[H]
     \centering
@@ -186,7 +187,5 @@ Man kann das Konfidenzintervall aus dem vorherigen Beispiel mit den quantilen de
     \caption{Vergleich von Konfidenzintervall und Monte-Carlo-Simulation für verschiedene Simulationsanzahlen}
     \label{fig:ci_comparison}
 \end{figure}
-Man erkennt, dass das Konfidenzintervall mit steigender Simulationsanzahl immer besser durch die Quantile der Simulation approximiert wird.
-Das spricht für die Korrektheit der beiden Verfahren.
 
 \end{bsp}
