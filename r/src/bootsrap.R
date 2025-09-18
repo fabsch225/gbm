@@ -6,19 +6,20 @@ dax <- read_csv("data/dax.csv") %>%
   mutate(Date = mdy(Date), Price = as.numeric(gsub(",", "", Price))) %>%
   arrange(Date)
 
-log_returns <- diff(log(dax$Price))
 
 set.seed(123)
-B <- 1000
-boot_res <- replicate(B, {
-  sample_ret <- sample(log_returns, length(log_returns), replace = TRUE)
-  c(mu = mean(sample_ret) * 252,
+
+log_returns <- diff(log(dax$Price))
+boot_res <- replicate(1000, {
+  sample_ret <- sample(log_returns, length(log_returns) / 2, replace = TRUE)
+  c(mu = mean(sample_ret) * 252 - 0.5 * (sd(sample_ret) * sqrt(252)) ^ 2,
     sigma = sd(sample_ret) * sqrt(252))
 })
 
 boot_df <- as.data.frame(t(boot_res))
-mu_ci <- quantile(boot_df$mu, c(0.025, 0.975))
-sigma_ci <- quantile(boot_df$sigma, c(0.025, 0.975))
+alpha = 0.05
+mu_ci <- quantile(boot_df$mu, c(alpha / 2, 1 - alpha / 2))
+sigma_ci <- quantile(boot_df$sigma, c(alpha / 2, 1 - alpha / 2))
 
 list(
   mu_estimate = mean(boot_df$mu),

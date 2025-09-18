@@ -199,7 +199,7 @@ dS_t \;=\; \mu\,S_t\,dt \;+\; \sigma\,S_t^{\beta}\,dW_t,\qquad \beta\in\mathbb R
 $$
 \begin{itemize}
 \item $\beta=1$ ergibt GBM. 
-\item $\beta<1$ erhöht die relative Volatilität bei kleinen Preisen (dickere linke Schwänze).
+\item $\beta<1$ erhöht die relative Volatilität bei kleinen Preisen.
 \item $\beta>1$ verstärkt Schwankungen bei hohen Preisen.
 \end{itemize}
 Mit diskreten Beobachtungen $S_{t_i}$ im Abstand $\Delta t$ liefert das Euler‑Schema
@@ -208,7 +208,7 @@ $$
 $$
 Die nächste Herausforderung ist die Kalibrierung (Parameterschätzung) aus gegebenen Daten. Die Arbeit 
 orientiert sich im folgenden an Iacus (2008, S. 122 ff.) \cite{iacus2008}. Eine eigene Implementierung in
-R wird danach mit dem Softwarepaket Sim.DiffProc. \cite{rsde} (2020) verglichen, das man auf den selben Ansatz konfigurieren kann.
+R wird danach mit dem Softwarepaket Sim.DiffProc \cite{rsde} (2020) verglichen, das man auf den selben Ansatz konfigurieren kann.
 Der Ansatz ist die numerische Maximierung einer Log-Likelihood-Funktion, die im Folgenden für die diskrete Übergangswahrscheinlichkeit hergeleitet wird.
 Das wird durch die Approximation der Übergangsdichte (eine bedingte Dichte) mittels des Euler-Maruyama-Schemas erreicht. Da sich für $\beta=1$ eine klassische geometrische Brownsche Bewegung ergibt, 
 können die bekannten Schätzer für Drift und Volatilität als Spezialfall betrachtet werden. Insbesondere stellen die Parameter der GBM 
@@ -227,7 +227,7 @@ wobei $p_\theta(\,\cdot\,|\,\cdot)$ die bedingte Übergangsdichte in Schrittweit
 $$
 \widehat\theta\;=\;\arg\max_{\theta}\ \ell(\theta).
 $$
-Da $p_\theta$ nicht explizit bekannt ist, wird eine Quasi-Likelihood (QMLE) verwendet, hier die Euler-Maruyama-Approximation.
+Da $p_\theta$ nicht explizit bekannt ist, wird eine Quasi-Likelihood (QMLE)-Methode verwendet. Hier mit Hilfe der Euler-Maruyama-Approximation.
 $$
 S_{t_{i+1}}-S_{t_i}\mid S_{t_i}\ \approx\ \mathcal N\!\big(a_\theta(S_{t_i},t_i)\,\Delta t,\; b_\theta^2(S_{t_i},t_i)\,\Delta t\big),
 $$
@@ -364,9 +364,7 @@ estimate_cev <- function(S, dt = 1/252) {
 \end{lstlisting}
 
 \paragraph{Vergleich der Kalibrierungen}
-Im Vergleich des Standardpakets mit der eigenen Implementierung zeigt sich, dass die geschätzten Parameter bloß geringe Unterschiede aufweisen.
-Das liegt vermutlich an den unterschiedlichen (numerischen) Optimierungsalgorithmen und anderen Implementierungsdetails. Man kann jedoch
-schließen, dass die Schätzung korrekt implementiert ist.
+Im Vergleich des Standardpakets mit der eigenen Implementierung zeigt sich, dass die geschätzten Parameter bloß geringe Unterschiede aufweisen. Man kann schließen, dass die Schätzung korrekt implementiert ist.
 
 \begin{table}[H]
 \centering
@@ -389,8 +387,7 @@ Adesso & $0.2686$ & $0.4114$ & $1.0031$ & $0.2686$ & $0.4122$ & $1.0026$ \\
 
 Nun wird das CEV-Modell (mit der Kalibrierung aus Sim.Diffproc) mit der geometrischen Brownschen Bewegung (GBM) verglichen. Die beiden Modelle werden auf die gleichen Daten angewendet, und dann ein Backtest durchgeführt, um die Leistung der Modelle zu bewerten.
 Der Backtest wird mit verschiedenen Aufteilungen durchgeführt um die Robustheit der Ergebnisse zu versichern.
-Man kann bei den Ergebnissen der Backtests feststellen, dass das CEV-Modell bei große Datenmengen (hohe Weights) eine bessere Leistung zeigt als die GBM, dagegen ist bei niedrigen Datenmengen
-die GBM überlegen, da das Modell simpler und daher weniger anfällig für Überanpassung ist.
+Man kann bei den Ergebnissen der Backtests feststellen, dass das CEV-Modell bei großen Trainings-Anteilen (hohe Weights) eine bessere Leistung zeigt als die GBM, dagegen ist bei niedrigen Datenmengen die GBM überlegen, da das Modell simpler und daher weniger anfällig für Überanpassung ist.
 
 \begin{sidewaystable}
 \centering

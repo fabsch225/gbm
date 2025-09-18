@@ -19,6 +19,29 @@ sigma <- sd(log_returns)
 mu <- mean(log_returns) + 0.5 * sigma^2
 \end{lstlisting}
 
+
+\subsection{Bootstrap-Verfahren zur Kalibrierung}
+Das Bootstrap-Verfahren ermöglicht eine probabilistische Schätzung der Parameter $\mu$ und $\sigma$. Falls die vorliegenden Daten z. B.
+Lückenhaft sind, kann dies detektiert werden. Durch wiederholte Auswahl (Sampling) von Teildaten und Schätzung der Parameter, wobei die verschiedenen Schätzungen anschließend verglichen werden kann man Konfidenzintervalle für $\mu$ und $\sigma$ erzeugen. 
+Wenn sich die Parameterschätzungen stark unterscheiden kann man z. B. schließen, dass die Daten unsauber sind, oder nicht der GBM entsprechen. Es folgt eine Implementierung in R:
+
+\begin{lstlisting}
+log_returns <- diff(log(dax$Price))
+boot_res <- replicate(1000, {
+  sample_ret <- sample(log_returns, length(log_returns) / 2, replace = TRUE)
+  c(mu = mean(sample_ret) * 252 - 0.5 * (sd(sample_ret) * sqrt(252)) ^ 2,
+    sigma = sd(sample_ret) * sqrt(252))
+})
+
+boot_df <- as.data.frame(t(boot_res))
+mu_ci <- quantile(boot_df$mu, c(0.025, 0.975))
+sigma_ci <- quantile(boot_df$sigma, c(0.025, 0.975))
+\end{lstlisting}
+
+Die Bootstrap-Methode liefert für die DAX-Daten zum 5\%-Niveau:
+$$\mu = 0.051 \in [-0.055, 0.148], \quad \sigma = 0.218 \in [0.212, 0.225].$$
+
+
 \subsection{Berechnung von Konfidenzintervallen}
 
 Da $S_T$ log-normalverteilt ist, reicht es ein Konfidenzintervall für die log-Normalverteilung
@@ -137,10 +160,6 @@ Im obigen Backtest des DAX ergeben sich folgende Metriken:
 \end{table}
 
 \end{bsp}
-
-
-\subsection{Bootstrap-Verfahren zur Kalibrierung}
-
 
 \subsection{Monte-Carlo-Simulation}
 

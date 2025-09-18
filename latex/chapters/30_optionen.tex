@@ -54,6 +54,25 @@ Das entspricht der \textit{Call-Put-Parität}
     $f(S_T) - \tilde f(S_T) = S_T - K$.
 \end{defi}
 
+\begin{defi}[Hedging]
+Ein Anbieter von Optionen kann sich absichern, indem er ein sogenanntes 
+Hedge-Portfolio bildet. Dieses besteht aus einer dynamischen Position 
+im Basiswert sowie einer Position im risikofreien Konto. Ziel ist es, die 
+Auszahlungsstruktur der Option durch das Portfolio exakt zu replizieren.  
+
+Formal bedeutet Hedging: Es existieren Prozesse $\Delta_t$ (Anzahl der 
+gehaltenen Aktien) und $B_t$ (Bestand im Bankkonto), so dass für alle Zeiten $t$ gilt
+\[
+V_t = \Delta_t S_t + B_t,
+\]
+wobei $V_t$ der Wert des Hedge-Portfolios ist. Ist das Portfolio 
+selbstfinanzierend, d. h. Änderungen in $V_t$ entstehen ausschließlich 
+durch Änderungen in $S_t$ und nicht durch externe Ein- oder Auszahlungen, 
+und gilt zudem $V_T = H(S_T)$ mit der Optionsauszahlung $H(S_T)$, 
+so spricht man von einer perfekten Replikation. Die Grundidee wird am Beispiel einer europäischen Call-Option verdeutlicht: Steigt der Wert der Aktie über den Ausübungspreis $K$ und der Optionsanbieter ist verpflichtet, die Aktie zum Preis $K$ zu liefern, so können dafür die im Hedge-Portfolio gehaltenen Aktien verwendet werden. Auf diese Weise wird der potenzielle Verlust ausgeglichen.
+\end{defi}
+
+
 \begin{lemma}[Risikoneutrale Wahrscheinlichkeit für einen Schritt]
 Ein Betrag $B_0$ der aus dem Bankkonto angelegt wird steigt durch den risikofreien Zinssatz $r$ kontinuierlich durch
 $$B(t) = e^{rt}B_0.$$
@@ -106,13 +125,13 @@ bezeichnen. An $Q$ werden folgende Anforderungen gestellt (vgl. Shreve \cite{hul
 \end{enumerate}
 Im Fall des Binomialmodells handelt es sich um ein diskretes Wahrscheinlichkeitsmaß, 
 wobei die Werte $Q(S_{t + \Delta t} = u \cdot S_t)=q$ und $Q(S_{t + \Delta t} = d \cdot S_t)=1-q$ bekannt sind.
-Oft können Maße in der Stochastik werden nur indirekt über Eigenschaften charakterisiert werden, das gilt auch hier.
+Oft können Maße in der Stochastik nur indirekt über ihre Eigenschaften definiert werden, das gilt auch hier.
 \end{defi}
 
 \begin{lemma}[Diskontierter Aktienkurs im Binomialmodell ist unter $Q$ ein Martingal]
 Mit der Schrittwahrscheinlichkeit aus dem vorherigen Lemma wird nachgewiesen,
 dass der diskontierte Aktienkurs unter dem risikoneutralen Maß $Q$ ein Martingal ist.
-Setze $X_n := e^{-r n \Delta t}\, S_n$. Unter dem risikoneutralen Maß $Q$ mit 
+Setze $X_n := e^{-r n \Delta t}\, S_n$. Unter dem risikoneutralen Maß $Q$, das heißt für 
 $q=\frac{e^{r\Delta t}-d}{u-d}$ ist $(X_n)_{n\in\mathbb N_0}$ ein Martingal.
 
 \textit{Beweis.} Schreibe $S_{n+1}=S_n\,\xi_{n+1}$ mit 
@@ -204,55 +223,6 @@ C_0 &= e^{-0.05} \left( q \cdot 23.99 + (1-q) \cdot 0 \right) \approx 15.7\,€.
 $$
 Der faire Preis der Call-Option ist also etwa 15.7\,€.
 \end{bsp}
-
-\subsection{Hedging-Strategie im Binomialmodell}
-Hedging bezeichnet das Absichern des Optionsrisikos durch den Aufbau eines gegenläufigen Portfolios im Basiswert (Aktie) und im risikofreien Konto (Bank). Ziel ist eine Replikation: Das Hedge-Portfolio hat zu jedem Knoten denselben Wert wie die Option. Ist die Replikation möglich und die Strategie selbstfinanzierend, ist der Optionspreis eindeutig bestimmt (keine Arbitrage).
-
-\begin{defi}[Selbstfinanzierende Replikationsstrategie]
-Eine Handelsstrategie $(\varphi_n,\psi_n)_{n=0,\dots,T-\Delta t}$ heißt selbstfinanzierend, wenn ihr Wert
-$V_n=\varphi_n S_n+\psi_n$
-sich nur durch Umschichten zwischen Aktie $S$ und Bankkonto $B_n=e^{rn\Delta t}$ ändert (keine externen Ein- oder Auszahlungen) und sie die Auszahlung der Option $f(S_T)$ exakt trifft, also $V_T=f(S_T)$.
-\end{defi}
-
-\begin{lemma}[Ein-Schritt-Delta-Hedge]
-Im Einstuf-Modell mit $S_{n+1}^{\uparrow}=u\,v$ und $S_{n+1}^{\downarrow}=d\,v$ sowie Fortsetzungswerten
-$C_{n+1}^{\uparrow}=C_{n+1}(u v)$, $C_{n+1}^{\downarrow}=C_{n+1}(d v)$
-repliziert das Portfolio
-\[
-\Delta_n(v)=\frac{C_{n+1}^{\uparrow}-C_{n+1}^{\downarrow}}{(u-d)\,v},
-\qquad
-\Psi_n(v)=e^{-r\Delta t}\,\frac{u\,C_{n+1}^{\downarrow}-d\,C_{n+1}^{\uparrow}}{u-d}
-\]
-die Option im nächsten Schritt, d.\,h.\ 
-$\Delta_n(v)\,S_{n+1}+\Psi_n(v)\,e^{r\Delta t}\in\{C_{n+1}^{\uparrow},C_{n+1}^{\downarrow}\}$.
-Der faire Preis am Knoten $(n,v)$ ist dann
-$C_n(v)=\Delta_n(v)\,v+\Psi_n(v)$.
-\end{lemma}
-
-\begin{bem}[Rolle des risikoneutralen Maßes]
-Unter dem risikoneutralen Maß $Q$ ist der diskontierte Aktienkurs ein Martingal. Daraus folgt für jede replizierbare Auszahlung
-\[
-C_n(v)=e^{-r(T-t_n)}\,E^Q\!\big[f(S_T)\mid S_n=v\big],
-\]
-also Gleichheit von Replikationspreis und risikoneutraler Bewertung. Im Ein-Schritt-Fall ergibt sich dies äquivalent durch Einsetzen von $q=\frac{e^{r\Delta t}-d}{u-d}$ in die obigen Formeln.
-
-\end{bem}
-
-\begin{satz}[Dynamische Delta-Absicherung im Mehrschritt-Binomialbaum]
-Bestimme die Endwerte $C_T=f(S_T)$ und gehe rückwärts über die Knoten $(n,v)$:
-\begin{enumerate}
-    \item Setze die Fortsetzungswerte $C_{n+1}^{\uparrow}=C_{n+1}(u v)$, $C_{n+1}^{\downarrow}=C_{n+1}(d v)$.
-    \item Berechne die Hedge-Positionen
-    \[
-    \Delta_n(v)=\frac{C_{n+1}^{\uparrow}-C_{n+1}^{\downarrow}}{(u-d)\,v},
-    \qquad
-    \Psi_n(v)=e^{-r\Delta t}\,\frac{u\,C_{n+1}^{\downarrow}-d\,C_{n+1}^{\uparrow}}{u-d}.
-    \]
-    \item Setze den Knotenpreis $C_n(v)=\Delta_n(v)\,v+\Psi_n(v)$.
-\end{enumerate}
-Die so konstruierte Strategie ist selbstfinanzierend und repliziert die Option exakt.
- Der Startpreis $C_0$ ist eindeutig und fällt mit der risikoneutralen Bewertung zusammen.
-\end{satz}
 
 \subsection{Das Black-Scholes-Modell als Grenzfall des Binomialmodells}
 Ziel ist es zu zeigen, dass die fairen Optionspreise
@@ -423,7 +393,7 @@ $$
 E\big[(S_T - K)^+\big]
 = E\big[S_T\,\mathbf 1_{\{S_T\ge K\}}\big] - K\,P(S_T\ge K).
 $$
-Aus Kapitel 2 ist bekannt, das $S_T$ lognormalverteilt ist. Die Schranke $S_T\ge K$ ist daher äquivalent zu $m + vZ \ge \ln(K/S_0)$, also
+Aus Kapitel 5 ist bekannt, das $S_T$ lognormalverteilt ist. Die Schranke $S_T\ge K$ ist daher äquivalent zu $m + vZ \ge \ln(K/S_0)$, also
 $$
 Z \ge a := \frac{\ln(K/S_0) - m}{v}.
 $$
@@ -482,13 +452,6 @@ $$
 P_0^{\mathrm{BS}} = K e^{-rT}\,\Phi(-d_2) - S_0\,\Phi(-d_1),
 $$
 oder per Put-Call-Parität.
-
-\end{bem}
-\begin{bem}
-
-Der Drift $\mu$ der Aktie spielt im in der Formel keine Rolle.
-Eine Option "wettet" ja nicht auf den tatsächlichen (erwarteten) Kursverlauf, sondern darauf,
-dass der Kurs über oder unter dem Ausübungspreis liegt.
 
 \end{bem}
 
