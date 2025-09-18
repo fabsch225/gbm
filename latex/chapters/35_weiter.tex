@@ -1,4 +1,4 @@
-\section{Stochastische Analysis und alternative Kursmodelle}
+\section{Alternative Modelle}
 
 Dieses Kapitel bietet einen Einblick in weiterführende mathematische Aspekte, die im Rahmen dieser Arbeit nicht im Detail behandelt werden konnten.
 Die Grundlage bilden stochastische Differentialgleichungen (SDEs). Klassische Differentialgleichungen stellen gewisse
@@ -192,7 +192,7 @@ simulate_cev_paths <- function(S0, mu, sigma, beta, dt, nsteps, npaths) {
 }
 \end{lstlisting}
 
-\subsection{Fallstudie: CEV (Constant Elasticity of Variance) Modell}
+\subsection{Implementierung eines CEV (Constant Elasticity of Variance) Modell}
 Das CEV-Modell ist ein Spezialfall der lokalen Volatilität mit
 $$
 dS_t \;=\; \mu\,S_t\,dt \;+\; \sigma\,S_t^{\beta}\,dW_t,\qquad \beta\in\mathbb R.
@@ -214,8 +214,7 @@ Das wird durch die Approximation der Übergangsdichte (eine bedingte Dichte) mit
 können die bekannten Schätzer für Drift und Volatilität als Spezialfall betrachtet werden. Insbesondere stellen die Parameter der GBM 
 sinnvolle Startwerte für die numerische Optimierung dar.
 
-
-\paragraph{Exkurs: (Quasi) Maximum-Likelihood-Schätzung (MLE, QMLE)}
+\paragraph{(Quasi) Maximum-Likelihood-Schätzung (MLE, QMLE)}
 Ziel ist die Parameterschätzung aus diskreten Beobachtungen $S_{t_0},\dots,S_{t_n}$ eines SDE
 $dS_t=a(S_t,t)\,dt+b(S_t,t)\,dW_t$. Grundidee: Wähle Parameter $\theta$ so, dass die beobachteten Daten unter dem Modell am wahrscheinlichsten sind. Für diskrete Beobachtungen $S_{t_0},\dots,S_{t_n}$ eines (Markov‑)Modells gilt
 $$
@@ -265,7 +264,7 @@ Da Produkte numerisch unhandlich sind, nimmt man den Logarithmus:
 $$
 \ell(\mu, \sigma, \beta) = \sum_{i=0}^{n-1} \log p(\Delta S_i \mid S_{t_i})
 $$
-Setzt die Dichte ergibt sich der Likelihood-Ausdruck:
+Setzt man die Dichte $p$ ein, ergibt sich der Likelihood-Ausdruck:
 \begin{align*}
 \ell(\mu, \sigma, \beta) &= \sum_{i=0}^{n-1} \left[
     -\frac{1}{2} \log(2\pi \sigma^2 S_{t_i}^{2\beta} \Delta t)
@@ -279,7 +278,7 @@ Setzt die Dichte ergibt sich der Likelihood-Ausdruck:
 \textit{Interpretation.} Die Log-Likelihood misst, wie gut die Parameter $(\mu, \sigma, \beta)$ die beobachteten Kursänderungen erklären. Der erste Term bestraft große Varianzen, der zweite Term misst die Abweichung der beobachteten Inkremente von den erwarteten Werten.
 Die Schätzungen der Parameter erhält man durch Maximierung der Log-Likelihood:
 $$
-(\widehat{\mu}, \widehat{\sigma}, \widehat{\beta}) = \arg\max_{\mu, \sigma, \beta} \; \ell(\mu, \sigma, \beta)
+(\widehat{\mu}, \widehat{\sigma}, \widehat{\beta}) = \underset{\mu, \sigma, \beta}{\arg\max} \; \ell(\mu, \sigma, \beta)
 $$
 Da die Funktion keine einfache analytische Lösung hat, wird sie mit numerischen Optimierungsverfahren (z.B. L-BFGS-B) maximiert.
 
