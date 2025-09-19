@@ -114,7 +114,7 @@ Prozess bei irrationalen Zeiten den Wert $\infty$ annehmen (Das ist natürlich n
 sehr unintuitiv). Daher wird die Konvergenz in 3 Schritten untersucht:
 \begin{enumerate}
   \item Verteilungskonvergenz der einzelnen Zeitpunkte
-  \item Verteilungskonvergenz von endlich-dimensionalen Vektoren
+  \item Verteilungskonvergenz von endlich-dimensionalen Vektoren und die Kovarianzen
   \item Stetigkeit der Pfade des Grenzprozesses
 \end{enumerate}
 
@@ -204,6 +204,31 @@ Also konvergiert für jedes $a$ die Verteilung von $a^\top(b^{(N)}(t_1),\dots,b^
 Nach Cramér–Wold folgt die behauptete Verteilungskonvergenz des Vektors. \qed
 \end{satz}
 
+\begin{bem}[Sinn und Zweck des letzten Satzes]
+Um die Wichtigkeit der Kovarianz-Struktur zu verdeutlichen, wird in der Folgenden Visualisierung gezeigt, wie ein
+stochastischer Prozess ohne Kovarianz der einzelnen Zufallsvariablen aussehen würde.
+In Blau werden die Verteilungen der Zufallsvariablen, und in Rot jeweils Realisierungen des Prozesses dargestellt.
+In der zweiten Grafik (mit Kovarianz-Struktur) kann man beobachten, dass die Varianz der Gauß-Kurven zum aktuellen Zeitpunkt kontinuierlich
+abnimmt. Das kann man als ein Stetigkeits-Kriterium betrachten. (Obwohl man nicht direkt auf die Stetigkeit der Pfade folgern kann)
+
+Ausgehend von der Kovarianz-Struktur kann man die Stetigkeit mit dem Stetigkeitssatz von Kolmogorov (Behrends \cite{behrends}, 2013, S. 78f.) folgern.
+In dieser Arbeit wird jedoch ein anderer Beweisansatz genutzt.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/bb_without_cov.png}
+    \caption{Folge von Normalverteilten Zufallsvariablen ohne Kovarianz}
+    \label{fig:bb_without_cov}
+
+    \centering
+    \includegraphics[width=\textwidth]{images/bb_with_cov.png}
+    \caption{Visualierung der Verteilung der diskreten Brownschen Bewegung unter Beachtung der Kovarianzstruktur}
+    \label{fig:bb_with_cov}
+
+   
+\end{figure}
+\end{bem}
+
 \begin{satz}[Stetigkeit der Pfade]
 Der Pfad $t \mapsto W_t(\omega)$ ist fast sicher stetig.
 \textit{Beweis.}
@@ -219,15 +244,34 @@ M_n &:=\sup_{t\in[0,1]}\big|\hat W^{(n+1)}_t-\hat W^{(n)}_t\big|
 \end{aligned}
 $$
 Für die unabhängigen Inkremente $Z_{n,k}$ mit
-$$Z_{n,k}\sim N\!\big(0,2^{-(n+2)}\big).$$
-Mit der Kolmogorov-Ungleichung erhält man für jedes $\varepsilon>0$
 $$
-P(M_n>\varepsilon) \le \frac{1}{\varepsilon^2} V(Z_{n,0}) = \frac{1}{\varepsilon^2} 2^{-(n+2)}.
+Z_{n,k}\sim N\!\big(0,2^{-(n+2)}\big).
 $$
-Wähle nun $\varepsilon_n:=2^{-n/4}$. Dann gilt
+für $Z\sim N(0,\sigma^2)$ und jedes $\varepsilon>0$
 $$
-\sum_{n=1}^\infty P\!\big(M_n>\varepsilon_n\big)
-\le \sum_{n=1}^\infty 2^{n/2} \cdot 2^{-(n+2)}<\infty.
+P(|Z|>\varepsilon) \le 2\exp\!\Big(-\frac{\varepsilon^2}{2\sigma^2}\Big).
+$$
+Mit der Vereinigungsschranke folgt dann
+$$
+P(M_n>\varepsilon) \le \sum_{k=0}^{2^n-1} P(|Z_{n,k}|>\varepsilon)
+\le 2^n\cdot 2\exp\!\Big(-\frac{\varepsilon^2}{2\sigma_n^2}\Big)
+= 2^{\,n+1}\exp\!\Big(-\frac{\varepsilon^2}{2\sigma_n^2}\Big).
+$$
+Man wählt nun eine spezifische Folge $\varepsilon_n$ so, dass sich aus der rechten Seite eine geometrische Reihe ergibt. Setze
+$$
+\varepsilon_n := \sqrt{2(n+1)}\,\sigma_n.
+$$
+Dann gilt
+$$
+\frac{\varepsilon_n^2}{2\sigma_n^2}=n+1,
+$$
+und damit
+$$
+P(M_n>\varepsilon_n)\le 2^{\,n+1} e^{-(n+1)} = \big(2e^{-1}\big)^{\,n+1}.
+$$
+Da $2e^{-1}<1$ ist, ist die Folge auf der rechten Seite geometrisch und insbesondere summierbar. Folglich
+$$
+\sum_{n=1}^\infty P(M_n>\varepsilon_n) < \infty.
 $$
 Nach dem Reihenkriterium für fast sichere Konvergenz folgt, dass $M_n\to 0$ fast sicher.
 Für $m \gt n \ge N$ beliebig gilt
