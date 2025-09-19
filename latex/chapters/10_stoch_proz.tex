@@ -159,18 +159,17 @@ E(\text{Chips dieser Runde}|\text{bekannte Karten}) \ge P(\text{Gewinn}|\text{be
 \end{aligned}
 $$
 
-Sei $B$ ein Ereignis in der Vergangenheit. Dann definiert man
+Sei $B$ ein Ereignis mit $P(B) \neq 0$. Dann definiert man
 den \textit{bedingten Erwartungswert} als $$E(X_t|B):=  \frac{1}{P(B)} \int_{B}^{} X_t(\omega) dP(\omega),$$
 und für einen diskreten Wahrscheinlichkeitsraum reicht
 $$E(X_t|B):= \frac{1}{P(B)}\sum_{b \in B} X_t(b) \cdot P(\{ b \})$$
-wobei $P(B) \neq 0$ gilt. Sonst ist $E(X_t|B) :=0$. 
 Mit dem bedingten Erwartungswert wird die Zufallsvariable $E(X_t)$.
 Für eine Zufallsvariable $Y$ wird durch den bedingten Erwartungswert $E(X_t|Y)$ eine neue Zufallsvariable definiert:
 $$E(X_t|Y)(\omega) := E(X_t|Y=Y(\omega)).$$
 Im Folgenden werden die Satze des totalen Erwartungswertes und des iterierten Erwartungswertprinzips bewiesen,
 allerdings nur im diskreten Fall. Das ist ausreichend, da die meisten stetigen 
 Prozesse als Grenzprozesse diskreter Prozesse aufgefasst werden können.
-Dann werden Aussagen durch Grenzwertsätze auf den stetigen Fall übertragen. 
+Dann werden die folgenden Aussagen ggf. durch Grenzwertsätze auf den stetigen Fall übertragen. 
 
 \end{defi}
 

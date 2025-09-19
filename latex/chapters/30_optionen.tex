@@ -115,9 +115,9 @@ Das wird am Folgenden jedoch nachgezogen.
 
 \begin{defi}[Risikoneutrales Maß]
 Die soeben berechnete Wahrscheinlichkeit $q$ gehört zum risikoneutralen Wahrscheinlichkeitsmaß $Q$.
-Bisher wurde mit dem ursprünglichen Maß $P$ gerechnet. Ab jetzt wird mit $E(X), V(X)$ etc der Erwartungswert
-und die Varianz unter $P$ bezeichnet, während $E^Q(X), V^Q(X)$ etc den Erwartungswert und die Varianz unter $Q$
-bezeichnen. An $Q$ werden folgende Anforderungen gestellt (vgl. Shreve \cite{hull}, S. 270):
+Bisher wurde mit dem ursprünglichen Maß $P$ gerechnet. Ab jetzt wird mit $E(X)$, $V(X)$ etc der Erwartungswert
+und die Varianz unter $P$ bezeichnet, während $E^Q(X)$, $V^Q(X)$ etc den Erwartungswert und die Varianz unter $Q$
+bezeichnen. An $Q$ werden folgende Anforderungen gestellt (vgl. Hull, 2022 \cite{hull}, S. 270):
 \begin{enumerate}
     \item $Q$ ist ein Wahrscheinlichkeitsmaß
     \item $Q$ ist äquivalent zu $P$, das heißt $P(A)=0 \iff Q(A)=0$ für alle Ereignisse $A$ (lediglich die Wahrscheinlichkeiten ändern sich, nicht die möglichen Ereignisse)
@@ -125,12 +125,13 @@ bezeichnen. An $Q$ werden folgende Anforderungen gestellt (vgl. Shreve \cite{hul
 \end{enumerate}
 Im Fall des Binomialmodells handelt es sich um ein diskretes Wahrscheinlichkeitsmaß, 
 wobei die Werte $Q(S_{t + \Delta t} = u \cdot S_t)=q$ und $Q(S_{t + \Delta t} = d \cdot S_t)=1-q$ bekannt sind.
-Oft können Maße in der Stochastik nur indirekt über ihre Eigenschaften definiert werden, das gilt auch hier.
+Oft können Maße in der Stochastik nur indirekt über ihre Eigenschaften definiert werden, das gilt auch hier. Die Untersuchung der Existenz und Eindeutigkeit eines solchen Maßes überschreitet den Rahmen dieser Arbeit; Es sei auf Shreve \cite{shreve}, (2004, Kap. 5) verwiesen.
 \end{defi}
 
 \begin{lemma}[Diskontierter Aktienkurs im Binomialmodell ist unter $Q$ ein Martingal]
 Mit der Schrittwahrscheinlichkeit aus dem vorherigen Lemma wird nachgewiesen,
-dass der diskontierte Aktienkurs unter dem risikoneutralen Maß $Q$ ein Martingal ist.
+dass der diskontierte Aktienkurs unter dem risikoneutralen Maß $Q$ ein Martingal ist. Dies ergibt sich zwar aus den Anforderungen 
+an $Q$, kann aber mit der Ein-Schritt-Übergangswahrscheinlichkeit verifiziert werden.
 Setze $X_n := e^{-r n \Delta t}\, S_n$. Unter dem risikoneutralen Maß $Q$, das heißt für 
 $q=\frac{e^{r\Delta t}-d}{u-d}$ ist $(X_n)_{n\in\mathbb N_0}$ ein Martingal.
 
@@ -372,7 +373,7 @@ d_1 = \frac{\ln(S_0/K) + \big(r + \tfrac12 \sigma^2\big)T}{\sigma \sqrt{T}},
 d_2 = d_1 - \sigma \sqrt{T},
 $$
 und $\Phi$ die Verteilungsfunktion der Standardnormalverteilung ist.
-\\ \textit{Beweis}\footnote{Der Beweis ist angelehnt an die Argumentation in Hull \cite{hull}, S. 347}. Risikoneutrale Bewertung im Binomialmodell liefert
+\\ \textit{Beweis}\footnote{Der Beweis ist angelehnt an die Argumentation in Hull, 2022 \cite{hull}, S. 347}. Risikoneutrale Bewertung im Binomialmodell liefert
 $$
 C_0^{(n)} = e^{-rT}\,E\!\left[(S_T^{(n)} - K)^+\right].
 $$

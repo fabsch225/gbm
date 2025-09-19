@@ -41,7 +41,6 @@ sigma_ci <- quantile(boot_df$sigma, c(0.025, 0.975))
 Die Bootstrap-Methode liefert für die DAX-Daten zum 5\%-Niveau:
 $$\mu = 0.051 \in [-0.055, 0.148], \quad \sigma = 0.218 \in [0.212, 0.225].$$
 
-
 \subsection{Berechnung von Konfidenzintervallen}
 
 Da $S_T$ log-normalverteilt ist, reicht es ein Konfidenzintervall für die log-Normalverteilung
@@ -158,6 +157,18 @@ Im obigen Backtest des DAX ergeben sich folgende Metriken:
     \caption{Fehlermaße der Prognose}
     \label{tab:metrics}
 \end{table}
+
+\end{bsp}
+
+\begin{bsp}[Sequenzieller Backtest]
+Man kann Backtests auch sequenziell durchführen: Für jedes Jahr wird aus den vorherigen Jahren eine GBM kalibirert, die dann mit dem tatsächlichen Wert verglichen wird.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/dax_backtest_seq.png}
+    \caption{Sequenzieller Backtest für den DAX}
+    \label{fig:dax_backtest_seq}
+\end{figure}
 
 \end{bsp}
 

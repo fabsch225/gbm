@@ -4,14 +4,14 @@ library(lubridate)
 library(ggplot2)
 library(readr)
 
-dax <- read_csv("data/lufthansa.csv") %>%
+dax <- read_csv("data/dax.csv") %>%
   mutate(Date = mdy(Date),
          Price = as.numeric(gsub(",", "", Price))) %>%
   arrange(Date)
 
 #80/20
 n <- nrow(dax)
-split <- floor(0.75 * n)
+split <- floor(0.5 * n)
 
 train <- dax[1:split, ]
 test <- dax[(split+1):n, ]
@@ -35,14 +35,14 @@ pred_df <- data.frame(
 )
 
 ggplot() +
-  geom_line(data = train, aes(Date, Price, color = "Train")) +
-  geom_line(data = test, aes(Date, Price, color = "Test")) +
-  geom_ribbon(data = pred_df, aes(Date, ymin = low, ymax = hi, fill = "Prediction Interval"), alpha = 0.2) +
-  geom_line(data = pred_df, aes(Date, mid, color = "Prediction")) +
+  geom_line(data = train, aes(Date, Price, color = "Historic data")) +
+  geom_line(data = test, aes(Date, Price, color = "Actual data")) +
+  geom_ribbon(data = pred_df, aes(Date, ymin = low, ymax = hi, fill = "Confidence interval (alpha=0.5)"), alpha = 0.2) +
+  geom_line(data = pred_df, aes(Date, mid, color = "Most likely path")) +
   labs(title = "Backtest: GBM Forecast vs Actual DAX",
        y = "Price", x = "Date", color = "Series", fill = "") +
-  scale_color_manual(values = c("Train" = "black", "Test" = "red", "Prediction" = "blue")) +
-  scale_fill_manual(values = c("Prediction Interval" = "blue")) +
+  scale_color_manual(values = c("Historic data" = "black", "Actual data" = "red", "Most likely path" = "blue")) +
+  scale_fill_manual(values = c("Confidence interval (alpha=0.5)" = "blue")) +
   theme_minimal()
 
 
@@ -70,3 +70,70 @@ list(
   mape_mid = mape_mid,
   log_likelihood = loglik
 )
+
+
+dax_yearly <- dax %>%
+  mutate(Year = year(Date)) %>%
+  group_by(Year) %>%
+  summarise(Price = last(Price)) %>%
+  ungroup()
+
+# Initialize results dataframe
+pred_results <- data.frame(
+  Year = dax_yearly$Year,
+  Actual = dax_yearly$Price,
+  Pred = NA,
+  Low = NA,
+  High = NA
+)
+
+# Set first prediction equal to first actual to avoid NA metrics
+pred_results$Pred[1] <- pred_results$Actual[1]
+pred_results$Low[1] <- pred_results$Actual[1]
+pred_results$High[1] <- pred_results$Actual[1]
+
+# Backtest sequentially for the rest
+for(i in 2:nrow(dax_yearly)) {
+  train_prices <- dax_yearly$Price[1:(i-1)]
+  log_ret <- diff(log(train_prices))
+  
+  mu <- mean(log_ret)
+  sigma <- sd(log_ret)
+  S0 <- tail(train_prices, 1)
+  T <- 1  # 1 year ahead
+  
+  alpha <- 0.05
+  
+  pred_results$Pred[i] <- S0 * exp(mu)
+  pred_results$Low[i] <- S0 * exp(mu + qnorm(alpha / 2) * sigma)
+  pred_results$High[i] <- S0 * exp(mu + qnorm(1 - alpha / 2) * sigma)
+}
+
+# Performance metrics (exclude first year if desired)
+hit_ratio <- mean(pred_results$Actual >= pred_results$Low & pred_results$Actual <= pred_results$High, na.rm = TRUE)
+rmse <- sqrt(mean((pred_results$Actual - pred_results$Pred)^2, na.rm = TRUE))
+mape <- mean(abs((pred_results$Actual - pred_results$Pred)/pred_results$Actual) * 100, na.rm = TRUE)
+nrmse <- rmse / mean(pred_results$Actual, na.rm = TRUE)
+
+metrics <- list(
+  hit_ratio = hit_ratio,
+  rmse = rmse,
+  nrmse = nrmse,
+  mape = mape
+)
+print(metrics)
+
+ggplot(pred_results, aes(x = Year)) +
+  geom_point(aes(y = Actual, color = "Actual"), size = 2) +  
+  geom_point(aes(y = Pred, color = "Predicted"), size = 2) +     
+  geom_errorbar(aes(ymin = Low, ymax = High, color = "Confidence Interval"), width = 0.2) +
+  labs(title = "Yearly GBM Backtest: DAX",
+       y = "Price",
+       x = "Year",
+       color = "Series") +
+  scale_color_manual(values = c(
+    "Actual" = "black",
+    "Predicted" = "blue",
+    "Confidence Interval" = "red"
+  )) +
+  theme_minimal()
