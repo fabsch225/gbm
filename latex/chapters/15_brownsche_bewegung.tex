@@ -160,24 +160,66 @@ $$
 b^{(N)}(t)=\tfrac1{\sqrt N}\big(\xi_k+\alpha\eta_{k+1}\big),\qquad
 b^{(N)}(s)=\tfrac1{\sqrt N}\big(\xi_\ell+\beta\eta_{\ell+1}\big).
 $$
-Unabhängigkeit der $\eta_i$ liefert
+Unabhängigkeit der $\eta_i$ ($E(\eta_i)=0$, $V(\eta_i)=1$) liefert
 $$
-\mathrm{Cov}\!\big(b^{(N)}(s),b^{(N)}(t)\big)
-=\frac1N\Big(\min(\ell,k)+\alpha\,\mathbf 1_{\{k+1\le \ell\}}+\beta\,\mathbf 1_{\{\ell+1\le k\}}+\alpha\beta\,\mathbf 1_{\{\ell=k\}}\Big).
+\begin{aligned}
+\mathrm{Cov}\!\big(b^{(N)}(s),b^{(N)}(t)\big) &= E \left [ b^{(N)}(s) b^{(N)}(t) \right ] \cdot \underbrace{E(b^{(N)}(s)) \cdot b^{(N)}(t)}_{=0}
+\\ &= \frac{1}{N} E \left [ (\xi_k + \alpha \eta_{k+1}) (\xi_\ell + \alpha \eta_{\ell+1}) \right ] 
+\\ &= \frac{1}{N} \left [ E(\xi_\ell \xi_k) + \alpha E(\xi_\ell \eta_{k+1}) + \beta E(\eta_{\ell + 1} \xi_k) + \alpha \beta E(\eta_{\ell + 1} \eta_{k+1}) \right ]
+\end{aligned}
 $$
-Damit
+Da die Erwartungswerte der $\eta$s gleich Null sind und die $\eta$s unabhängig sind, können die Terme weiter reduziert werden.
+$$
+\begin{aligned}
+E(\xi_\ell \xi_k) &= \sum_{i=1}^\ell \sum_{j=1}^k E(\eta_i \eta_j) \begin{cases} = E(\eta_i)(\eta_j) = 0, \quad &i \neq j \\ = E(\eta_i^2) = 1, \quad &i = j \end{cases}
+\\ &= \sum_{i=1}^\ell \sum_{j=1}^k \delta_{i, j} = \min(\ell, k)
+\end{aligned}
+$$
+Analog folgt für die anderen Terme z. B.
+$$\alpha E(\xi_\ell \eta_{k+1}) = \alpha \sum_{i=1}^\ell E(\eta_i \eta_{k+1}) = \alpha \mathbf 1_{\{k+1\le \ell\}},$$
+und so weiter. Insgesamt ergibt sich
+$$
+\mathrm{Cov}\!\big(b^{(N)}(s),b^{(N)}(t)\big) = \frac1N\Big(\min(\ell,k)+\alpha\,\mathbf 1_{\{k+1\le \ell\}}+\beta\,\mathbf 1_{\{\ell+1\le k\}}+\alpha\beta\,\mathbf 1_{\{\ell=k\}}\Big)
+$$
+Im Grenzübergang gilt
 $$
 \mathrm{Cov}\!\big(b^{(N)}(s),b^{(N)}(t)\big)
 =\frac{\min(\ell,k)}{N}+O\!\left(\frac1N\right)\xrightarrow[N\to\infty]{}\min(s,t).
 $$
 Folglich konvergiert die Kovarianzmatrix der Vektoren gegen 
 $\Sigma=(\min(t_i,t_j))_{i,j}$.
-Nach der Cramér–Wold-Technik reicht es, lineare Formen zu betrachten. Sei also $a=(a_1,\dots,a_k)^\top\in\Bbb R^k$ und
+Mit der Cramér–Wold-Technik reicht es, lineare Formen zu betrachten. Sei also $a=(a_1,\dots,a_k)^\top\in\Bbb R^k$ und
 $$
 Y_N:=\sum_{i=1}^k a_i\,b^{(N)}(t_i),\qquad
 Y:=\sum_{i=1}^k a_i\,W_{t_i}.
 $$
-Für jedes $N$ ist $Y_N$ zentriert normalverteilt und
+Jedes $Y_N$ ist eine lineare Kombination unabhängiger $\eta_i$. Mit dem Zentralen Grenzwertsatz wird die Grenzverteilung von $Y_N$ bestimmt.
+Da die Summanden zentriert und von endlicher Varianz sind, bleibt die Lindeberg-Bedingung zu zeigen.
+$$
+Y_N=\sum_{i=1}^k a_i b^{(N)}(t_i)=\sum_{j=1}^{M_N} c_{N,j}\,\eta_j,
+$$
+wobei $M_N=\lfloor Nt_k\rfloor+1$ und die Koeffizienten $c_{N,j}$ aus der Definition von $b^{(N)}(t_i)$ stammen.
+Aus der Darstellung folgt, dass $|c_{N,j}|\le C/\sqrt N$ für ein von $N$ unabhängiges $C>0$ gilt.
+Damit erhält man für jedes $\varepsilon>0$
+$$
+\mathbf 1_{\{|c_{N,j}\eta_j|>\varepsilon\}}
+\le \mathbf 1_{\{|\eta_j|>\varepsilon\sqrt N/C\}}.
+$$
+Also
+$$
+L_N(\varepsilon) = \sum_{j=1}^{M_N} E \left (c_{N,j}^2\eta_j^2\,\mathbf 1_{\{|c_{N,j}\eta_j|>\varepsilon\}} \right )
+\le \Big(\sum_{j=1}^{M_N} c_{N,j}^2 \Big) E \left [ \eta_1^2\mathbf 1_{\{|\eta_1|>\varepsilon\sqrt N/C\}} \right ].
+$$
+Die Summe der Quadrate $\sum_j c_{N,j}^2$ ist beschränkt, da sie die Varianz von $Y_N$ ist und gegen
+$\sigma^2(a)$ konvergiert. Andererseits gilt wegen $\eta_1\in L^2$ und $\varepsilon\sqrt N/C \to \infty$
+$$
+E \left [ \eta_1^2\mathbf 1_{\{|\eta_1|>\varepsilon\sqrt N/C\}} \right ] \xrightarrow[N\to\infty]{}0.
+$$
+Damit ist die Lindeberg-Bedingung erfüllt und es folgt
+$$
+Y_N \xrightarrow{d} \mathcal N(0,\sigma^2(a)).
+$$
+Damit ist $Y_N$ zentriert normalverteilt. Es gilt
 $$
 \mathrm{Var}(Y_N)=\sum_{i,j=1}^k a_i a_j\,\mathrm{Cov}\!\big(b^{(N)}(t_i),b^{(N)}(t_j)\big).
 $$
@@ -185,22 +227,11 @@ Mit der oben gezeigten Kovarianzkonvergenz folgt
 $$
 \mathrm{Var}(Y_N)\xrightarrow[N\to\infty]{}\sum_{i,j=1}^k a_i a_j\,\min(t_i,t_j)=:\sigma^2(a).
 $$
-Damit gilt wegen der Eindeutigkeit zentrierter Normalverteilungen durch ihre Varianz
-$$
-Y_N \xrightarrow[N\to\infty]{} N\!\big(0,\sigma^2(a)\big).
-$$
-Zugleich ist $Y$ normalverteilt mit
-$$
-\mathrm{Var}(Y)=\sum_{i,j=1}^k a_i a_j\,\mathrm{Cov}(W_{t_i},W_{t_j})
-=\sum_{i,j=1}^k a_i a_j\,\min(t_i,t_j)=\sigma^2(a).
-$$
-Also konvergiert für jedes $a$ die Verteilung von $a^\top(b^{(N)}(t_1),\dots,b^{(N)}(t_k))$ gegen die von $a^\top(W_{t_1},\dots,W_{t_k})$.
+Insgesamt konvergiert für jedes $a$ die Verteilung von $a^\top(b^{(N)}(t_1),\dots,b^{(N)}(t_k))$ gegen die von $a^\top(W_{t_1},\dots,W_{t_k})$.
 Nach Cramér–Wold folgt die behauptete Verteilungskonvergenz des Vektors. \qed
 \end{satz}
 
-
-
-\begin{bem}[Sinn und Zweck des letzten Satzes]
+\begin{bem}[Interpretation der Kovarianzen]
 Um die Wichtigkeit der Kovarianz-Struktur zu verdeutlichen, wird in der folgenden Visualisierung gezeigt, wie ein
 stochastischer Prozess ohne Kovarianz der einzelnen Zufallsvariablen aussehen würde.
 In Blau werden die Verteilungen der Zufallsvariablen, und in Rot jeweils Realisierungen des Prozesses dargestellt.
@@ -313,7 +344,7 @@ Für eine Normalverteilung $Z\sim N(0,\sigma^2)$ und jedes $\varepsilon>0$ gilt 
 $$
 P(|Z|>\varepsilon) \le 2\exp\!\Big(-\frac{\varepsilon^2}{2\sigma^2}\Big).
 $$
-Mit der Vereinigungsschranke folgt damit
+Mit der Schranke folgt
 $$
 P(M_n>\varepsilon) \le \sum_{k=0}^{2^n-1} P(|Z_{n,k}|>\varepsilon)
 \le 2^n\cdot 2\exp\!\Big(-\frac{\varepsilon^2}{2\sigma_n^2}\Big)
@@ -335,7 +366,7 @@ Da $2e^{-1}<1$ ist, ist die Folge auf der rechten Seite geometrisch und insbeson
 $$
 \sum_{n=1}^\infty P(M_n>\varepsilon_n) < \infty.
 $$
-Nach dem Reihenkriterium für fast sichere Konvergenz folgt, dass $M_n\to 0$ fast sicher.
+Mit dem Reihenkriterium für fast sichere Konvergenz folgt, dass $M_n\to 0$ fast sicher.
 Für $m \gt n \ge N$ beliebig gilt
 $$\sup_{t}|\hat W^{(m)}_t - \hat W^{(n)}_t| \leq \sum_{k=n}^{m-1} M_k. \underset{N \to \infty} \longrightarrow 0$$
 Weil jedes $\big(\hat W^{(n)}\big)_{n\in\Bbb N}$ eine stückweise lineare Funktion ist, folgt
