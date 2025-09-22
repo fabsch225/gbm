@@ -2,7 +2,7 @@ library(readr)
 library(dplyr)
 
 # ---------------- einlesen ----------------
-results <- read_csv("out2.csv", show_col_types = FALSE)
+results <- read_csv("out1.csv", show_col_types = FALSE)
 
 # ---------------- sicherstellen: Weight als Character ----------------
 results <- results %>%
@@ -24,6 +24,6 @@ final <- bind_rows(results_round, asset_means) %>%
   arrange(Asset, Weight)
 
 # ---------------- speichern ----------------
-write_csv(final, "out2_processed.csv")
+write_csv(final, "out1_processed.csv")
 
 print("Fertig! Ergebnisse in out2_processed.csv gespeichert.")

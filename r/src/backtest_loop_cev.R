@@ -58,6 +58,8 @@ assets <- list(
   adesso    = read_price("data/adesso.csv")
 )
 
+results <- data.frame()
+
 # ---------------- backtest loop ----------------
 weights <- seq(0.7, 0.95, by = 0.05) # 50%, 60%, … 90%
 
@@ -67,20 +69,20 @@ for (asset_name in names(assets)) {
   df <- assets[[asset_name]] %>%
     mutate(logret = c(NA, diff(log(Price)))) %>%
     filter(!is.na(logret))
-  
+
   for (w in weights) {
     n <- nrow(df)
     split_idx <- floor(n * w)
     df_in  <- df[1:split_idx, ]
     df_out <- df[(split_idx+1):n, ]
-    
+
     dt <- 1/252
     sigma_start <- sd(df_in$logret) / sqrt(dt)
     mu_start    <- mean(df_in$logret) / dt - sigma_start / 2
     beta_start  <- 1.0
-    
+
     S_ts_in <- ts(df_in$Price, deltat = dt)
-    
+
     fit <- fitsde(
       data      = S_ts_in,
       drift     = expression(theta[1] * x),
@@ -91,15 +93,15 @@ for (asset_name in names(assets)) {
       lower     = c(theta1 = -Inf, theta2 = 1e-8, theta3 = 0.0),
       upper     = c(theta1 =  Inf, theta2 =  Inf, theta3 = 3.0)
     )
-    
+
     theta_hat <- coef(fit)
     mu_hat    <- theta_hat[1]
     sigma_hat <- theta_hat[2]
     beta_hat  <- theta_hat[3]
-    
+
     nsteps <- nrow(df_out) - 1
     npaths <- 5000
-    
+
     sim_paths <- simulate_cev_paths(
       S0     = tail(df_in$Price, 1),
       mu     = mu_hat,
@@ -109,12 +111,12 @@ for (asset_name in names(assets)) {
       nsteps = nsteps,
       npaths = npaths
     )
-    
+
     alpha = 0.5
     ci_lower  <- apply(sim_paths, 1, quantile, probs = alpha / 2)
     ci_upper  <- apply(sim_paths, 1, quantile, probs = 1 - alpha / 2)
     ci_median <- apply(sim_paths, 1, median)
-    
+
     sim_out_df <- data.frame(
       Date   = df_out$Date,
       Actual = df_out$Price,
@@ -122,18 +124,18 @@ for (asset_name in names(assets)) {
       Upper  = ci_upper,
       Median = ci_median
     )
-    
-    
+
+
     hits <- sum(sim_out_df$Actual >= sim_out_df$Lower &
                   sim_out_df$Actual <= sim_out_df$Upper)
     n_obs <- nrow(sim_out_df)
     hit_ratio <- hits / n_obs
-    
+
     mse_mid  <- mean((sim_out_df$Actual - sim_out_df$Median)^2)
     rmse_mid <- sqrt(mse_mid)
     mape_mid <- mean(abs((sim_out_df$Actual - sim_out_df$Median) / sim_out_df$Actual)) * 100
     nrmse_mid <- rmse_mid / mean(sim_out_df$Actual)
-    
+
     results <- rbind(results, data.frame(
       Asset    = asset_name,
       Weight   = w,
@@ -164,8 +166,8 @@ for (asset_name in names(assets)) {
     Upper  = NA
   )
   
-  # Start from i = 5 for stable parameter estimates
-  for (i in 5:n:100) {
+  k <- 25
+  for (i in seq(5, n, by = k)) {
     df_train <- df[1:(i-1), ]
     
     # Safe start values
@@ -209,15 +211,22 @@ for (asset_name in names(assets)) {
   }
   
   # Metrics
-  hits <- sum(pred_results$Actual >= pred_results$Lower &
-                pred_results$Actual <= pred_results$Upper, na.rm = TRUE)
-  n_obs <- sum(!is.na(pred_results$Median))
+  window_idx <- i:(i + k)
+  
+  subset_data <- pred_results[window_idx, ]
+  
+  hits <- sum(subset_data$Actual >= subset_data$Lower &
+                subset_data$Actual <= subset_data$Upper, na.rm = TRUE)
+  
+  n_obs <- sum(!is.na(subset_data$Median))
+  
   hit_ratio <- hits / n_obs
   
-  mse_mid  <- mean((pred_results$Actual - pred_results$Median)^2, na.rm = TRUE)
+  mse_mid  <- mean((subset_data$Actual - subset_data$Median)^2, na.rm = TRUE)
   rmse_mid <- sqrt(mse_mid)
-  mape_mid <- mean(abs((pred_results$Actual - pred_results$Median) / pred_results$Actual) * 100, na.rm = TRUE)
-  nrmse_mid <- rmse_mid / mean(pred_results$Actual, na.rm = TRUE)
+  mape_mid <- mean(abs((subset_data$Actual - subset_data$Median) / subset_data$Actual) * 100, na.rm = TRUE)
+  nrmse_mid <- rmse_mid / mean(subset_data$Actual, na.rm = TRUE)
+  
   
   results <- rbind(results, data.frame(
     Asset    = asset_name,
