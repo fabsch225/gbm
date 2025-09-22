@@ -87,12 +87,6 @@ $$P\left(\lim_{n \to \infty} X_n = 0\right) = 1.$$
 Wird hier nicht bewiesen. \qed
 \end{lemma}
 
-\begin{satz}[Kolmogorov-Ungleichung, Henze \cite{henze} S. 207]
-Seien $X_1, X_2, \ldots, X_n$ unabhängige Zufallsvariablen mit $E(X_i) = 0$ und $V(X_i) < \infty$ für alle $i=1, \ldots, n$. Dann gilt für jedes $\varepsilon > 0$
-$$P\left(\max_{1 \leq k \leq n} |S_k| \geq \varepsilon \right) \leq \frac{1}{\varepsilon^2} V(S_n),$$
-wobei $S_k := \sum_{i=1}^k X_i$. Wird hier nicht bewiesen. \qed
-\end{satz}
-
 \begin{satz}[Cramér-Wold-Technik, Henze \cite{henze} S. 225]
 Seien $(X_n)_{n \in \Bbb N}$ und $X$ Zufallsvektoren in $\Bbb R^d$. Dann sind folgende Aussagen äquivalent:
 \begin{enumerate}
@@ -103,7 +97,7 @@ Wird hier nicht bewiesen. \qed \\
 Die Cramér-Wold-Technik erlaubt es, mehrdimensionale Verteilungskonvergenz auf eindimensionale Berechnungen zurückzuführen.
 \end{satz}
 
-\subsection{Die Brownschen Bewegung als Grenzprozess}
+\subsection{Die Brownschen Bewegung als Grenzprozess und Eigenschaften}
 Nun wird der Grenzprozess $N \to \infty$ betrachtet. Intuitiv wird die Zeit immer feiner aufgelöst,
 und es werden immer mehr Normalverteilungen in eine Zeiteinheit einbezogen. Vorerst ist jedoch unklar, 
 ob der Grenzprozess überhaupt existiert. Um die Konvergenz des Prozesses zu zeigen, wird die Verteilungskonvergenz 
@@ -204,12 +198,14 @@ Also konvergiert für jedes $a$ die Verteilung von $a^\top(b^{(N)}(t_1),\dots,b^
 Nach Cramér–Wold folgt die behauptete Verteilungskonvergenz des Vektors. \qed
 \end{satz}
 
+
+
 \begin{bem}[Sinn und Zweck des letzten Satzes]
-Um die Wichtigkeit der Kovarianz-Struktur zu verdeutlichen, wird in der Folgenden Visualisierung gezeigt, wie ein
+Um die Wichtigkeit der Kovarianz-Struktur zu verdeutlichen, wird in der folgenden Visualisierung gezeigt, wie ein
 stochastischer Prozess ohne Kovarianz der einzelnen Zufallsvariablen aussehen würde.
 In Blau werden die Verteilungen der Zufallsvariablen, und in Rot jeweils Realisierungen des Prozesses dargestellt.
-In der zweiten Grafik (mit Kovarianz-Struktur) kann man beobachten, dass die Varianz der Gauß-Kurven zum aktuellen Zeitpunkt kontinuierlich
-abnimmt. Das kann man als ein Stetigkeits-Kriterium betrachten. (Obwohl man nicht direkt auf die Stetigkeit der Pfade folgern kann)
+In der zweiten Grafik (mit Kovarianz-Struktur) kann man beobachten, das die Verteilungen eine geringere Varianz haben, und jeweils um den Vorherigen Wert zentriert sind. Dies wird im Folgenden noch präzisiert.
+Das kann man als ein Stetigkeits-Kriterium betrachten. (Obwohl man nicht direkt auf die Stetigkeit der Pfade folgern kann)
 
 Ausgehend von der Kovarianz-Struktur kann man die Stetigkeit mit dem Stetigkeitssatz von Kolmogorov (Behrends \cite{behrends}, 2013, S. 78f.) folgern.
 In dieser Arbeit wird jedoch ein anderer Beweisansatz genutzt.
@@ -225,9 +221,75 @@ In dieser Arbeit wird jedoch ein anderer Beweisansatz genutzt.
     \caption{Visualierung der Verteilung der diskreten Brownschen Bewegung unter Beachtung der Kovarianzstruktur}
     \label{fig:bb_with_cov}
 
-   
 \end{figure}
 \end{bem}
+
+\begin{satz}[Selbstähnlichkeit und bedingte Verteilung der Brownschen Bewegung]
+Für jedes $c > 0$ gilt
+$$
+W_{ct}(\omega) \overset{d}{=} \sqrt{c}\, W_t(\omega) \quad \text{für alle } t \ge 0,
+$$
+für alle $s < t$ gilt
+$$
+W_t - W_s \sim N(0, t-s),
+$$
+und die bedingte Verteilung von $W_t$ gegeben $W_s$ ist
+$$
+W_t \mid W_s \sim N\big(W_s, t-s\big).
+$$
+\textit{Beweis der ersten Behauptung (Selbstähnlichkeit).} \\
+Für $t \ge 0$ gilt $W_{ct} \sim N(0, ct)$ und $W_t \sim N(0, t)$. Somit gilt
+$$
+\sqrt{c}\, W_t \sim N(0, c t).
+$$
+Da beide Normalverteilungen denselben Mittelwert $0$ und dieselbe Varianz $ct$ haben, folgt
+$$
+W_{ct} \stackrel{d}{=} \sqrt{c}\, W_t \quad \text{für jedes } t \ge 0.
+$$  
+\qed  \\
+\textit{Beweis der zweiten Behauptung (Inkremente).} \\
+Für $s < t$ gilt
+$$
+W_t - W_s = \lim_{N \to \infty} \big( b^{(N)}(t) - b^{(N)}(s) \big),
+$$
+wobei $b^{(N)}$ diskrete Approximierungen sind. Jedes Inkrement $b^{(N)}(t) - b^{(N)}(s)$ ist normalverteilt mit Erwartungswert $0$ und Varianz $t-s$. Durch Grenzwertbildung folgt
+$$
+W_t - W_s \sim N(0, t-s).
+$$
+\qed  \\
+\textit{Beweis der dritten Behauptung (Bedingte Verteilung).} \\
+Betrachte $(W_s, W_t)^T$, das multivariat normal verteilt ist mit
+$$
+E(W_s) = E(W_t) = 0, \quad
+\mathrm{Cov}(W_s, W_t) = \min(s, t) = s.
+$$  
+Die Kovarianzmatrix lautet somit
+$$
+\Sigma = \begin{pmatrix} s & s \\ s & t \end{pmatrix}.
+$$
+Für die bedingte Verteilung ergibt die Standardformel der multivariaten Normalverteilung
+$$
+\begin{aligned}
+E(W_t \mid W_s) &= E(W_t) + \mathrm{Cov}(W_t, W_s)\,V(W_s)^{-1} (W_s - E(W_s)) \\
+&= 0 + \frac{s}{s} W_s = W_s, \\
+V(W_t \mid W_s) &= V(W_t) - \frac{\mathrm{Cov}(W_t, W_s)^2}{V(W_s)} \\
+&= t - \frac{s^2}{s} = t - s.
+\end{aligned}
+$$
+Insgesamt folgt
+$$
+W_t \mid W_s \sim N(W_s,\, t-s).
+$$ \qed
+\end{satz}
+
+\begin{korr}[Martingal-Eigenschaft der Brownschen Bewegung]
+Die Brownsche Bewegung $W_t$ ist ein Martingal.
+\textit{Beweis.} Aus dem vorigen Satz folgt
+$$
+E(W_t | W_s = v) = v.
+$$
+Damit ist $W_t$ ein Martingal. \qed
+\end{korr}  
 
 \begin{satz}[Stetigkeit der Pfade]
 Der Pfad $t \mapsto W_t(\omega)$ ist fast sicher stetig.
@@ -247,11 +309,11 @@ Für die unabhängigen Inkremente $Z_{n,k}$ mit
 $$
 Z_{n,k}\sim N\!\big(0,2^{-(n+2)}\big).
 $$
-für $Z\sim N(0,\sigma^2)$ und jedes $\varepsilon>0$
+Für eine Normalverteilung $Z\sim N(0,\sigma^2)$ und jedes $\varepsilon>0$ gilt (siehe z. B. Boucheron 2013 \cite{boucheron_concentration_2013} S. 2)
 $$
 P(|Z|>\varepsilon) \le 2\exp\!\Big(-\frac{\varepsilon^2}{2\sigma^2}\Big).
 $$
-Mit der Vereinigungsschranke folgt dann
+Mit der Vereinigungsschranke folgt damit
 $$
 P(M_n>\varepsilon) \le \sum_{k=0}^{2^n-1} P(|Z_{n,k}|>\varepsilon)
 \le 2^n\cdot 2\exp\!\Big(-\frac{\varepsilon^2}{2\sigma_n^2}\Big)
@@ -283,62 +345,4 @@ $\big(\hat W^{(n)}\big)_{n\in\Bbb N}$ konvergiert also gleichmäßig gegen den G
 Achtung: Es wurde nicht gezeigt, der Prozess $W_t^{(n)} \longrightarrow W_t$ gleichmäßig konvergiert. Für eine beliebige aber feste Realisierung
 $t \mapsto W_t(\omega)$ wurde eine (reellwertige) Folge von stetigen Funktionen konstruiert, die gegen $t \mapsto W_t$ gleichmäßig konvergiert.
 Da es sich um eine Folge stetiger Funktionen handelt, gilt die Stetigkeit unter gleichmäßiger Konvergenz auch gegen die Grenzfunktion $t \mapsto W_t$.
-\end{satz}
-
-\subsection{Eigenschaften der Brownschen Bewegung}
-
-\begin{lemma}[Selbstähnlichkeit der Brownschen Bewegung]
-Für jedes $c > 0$ gilt
-$$
-\begin{aligned}
-W_{ct}(\omega) &\stackrel{d}{=} \sqrt{c} W_t(\omega) \quad \text{für alle } t \ge 0.
-\end{aligned}
-$$
-und für alle $s \lt t$ gilt
-$$
-W_t - W_s \sim N(0, t-s).
-$$
-\textit{Beweis der ersten Behauptung.}
-Für $t \ge 0$ sei $k = \lfloor Nt \rfloor$ und $\alpha = Nt - k \in [0,1)$.
-Sei $c>0$. Für festes $t\ge0$ folgt aus dem vorherigen Satz, dass
-$$W_{ct}\sim N(0,ct).$$
-Außerdem gilt für $W_t$ bereits $W_t\sim N(0,t)$, also
-$$\sqrt{c}\,W_t\sim N(0,c t).$$
-Da beide Normalverteilungen denselben Mittelwert $0$ und dieselbe Varianz $ct$ haben, folgt
-$$W_{ct}\stackrel{d}{=}\sqrt{c}\,W_t\qquad\text{für jedes }t\ge0.$$
-\qed \\
-\textit{Beweis der zweiten Behauptung.}
-Für $s < t$ gilt
-$$
-W_t - W_s = \lim_{N \to \infty} \left( b^{(N)}(t) - b^{(N)}(s) \right).
-$$
-Da $b^{(N)}(t) - b^{(N)}(s)$ eine Normalverteilung mit Erwartungswert $0$ und Varianz $t-s$ hat, folgt aus der Verteilungskonvergenz, dass
-$$
-W_t - W_s \sim N(0, t-s).
-$$
-\qed
-
-\end{lemma}
-
-\begin{satz}[Varianz der Brownschen Bewegung]
-Die Brownsche Bewegung $W_t$ hat $V(W_t)=t$.
-\textit{Beweis.} Nach der Konstruktion gilt $W_t\sim N(0,t)$ für jedes $t\ge0$.
-Damit $V(W_t)=t$. \qed
-\end{satz}
-
-\begin{satz}[Martingal-Eigenschaft der Brownschen Bewegung]
-Die Brownsche Bewegung $W_t$ ist ein Martingal.
-\textit{Beweis.}
-Die diskrete Brownsche Bewegung $b^{(N)}(t)$ ist ein Martingal, wie bereits gezeigt wurde.
-Außerdem ist die Verteilungskonvergenz von $b^{(N)}(t)$ gegen $W_t$ ist gegeben.
-Verteilungskonvergenz impliziert Konvergenz des Erwartungswertes (Henze \cite{henze}, S.215), also
-$$
-E(W_t) = \lim_{N \to \infty} E(b^{(N)}(t)) = 0.
-$$
-Aus der Selbstähnlichkeit der Brownschen Bewegung $$W_t - W_s \sim N(0, t-s)$$
-folgt, dass $W_t - W_s$ unabhängig von $W_s$ ist. Somit gilt
-$$
-E(W_t | W_s = v) = E(W_t - W_s + v | W_s = v) = E(W_t - W_s) + v = v.
-$$
-Damit ist $W_t$ ein Martingal. \qed
 \end{satz}

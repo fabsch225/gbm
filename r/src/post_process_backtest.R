@@ -1,7 +1,3 @@
-# postprocess_backtest.R
-# Liest out1.csv ein, rundet auf 3 Nachkommastellen
-# und berechnet zusätzlich pro Asset Mittelwert-Zeilen
-
 library(readr)
 library(dplyr)
 
@@ -16,8 +12,9 @@ results <- results %>%
 results_round <- results %>%
   mutate(across(where(is.numeric), ~ round(., 3)))
 
-# ---------------- Mittelwerte pro Asset ----------------
+# ---------------- Mittelwerte pro Asset (exclude SEQUENTIAL) ----------------
 asset_means <- results_round %>%
+  filter(Weight != "SEQUENTIAL") %>%      # <-- exclude sequential row
   group_by(Asset) %>%
   summarise(across(c(HitRatio, MSE, RMSE, MAPE, NRMSE), mean), .groups = "drop") %>%
   mutate(Weight = "mean")

@@ -58,16 +58,17 @@ assets <- list(
   adesso    = read_price("data/adesso.csv")
 )
 
-# ---------------- backtest loop ----------------
-weights <- seq(0.7, 0.95, by = 0.05) # 50%, 60%, … 90%
-
+# ---------------- backtest loop with sequential integrated ----------------
+weights <- seq(0.7, 0.95, by = 0.05) # 70%, 75%, … 95%
 results <- data.frame()
 
 for (asset_name in names(assets)) {
   df <- assets[[asset_name]] %>%
+    arrange(Date) %>%
     mutate(logret = c(NA, diff(log(Price)))) %>%
     filter(!is.na(logret))
   
+  # --- Train/Test split backtests for weights ---
   for (w in weights) {
     n <- nrow(df)
     split <- floor(w * n)
@@ -82,13 +83,13 @@ for (asset_name in names(assets)) {
     S0 <- tail(train$Price, 1)
     T <- (1:nrow(test)) / 252
     
-    alpha = 0.5
+    alpha <- 0.05
     
     sim_out_df <- data.frame(
       Date = test$Date,
       Actual = test$Price,
       Median = S0 * exp((mu - 0.5 * sigma^2) * T),
-      Lower = S0 * exp((mu - 0.5 * sigma^2) * T + qnorm(alpha / 2) * sigma * sqrt(T)),
+      Lower  = S0 * exp((mu - 0.5 * sigma^2) * T + qnorm(alpha / 2) * sigma * sqrt(T)),
       Upper  = S0 * exp((mu - 0.5 * sigma^2) * T + qnorm(1 - alpha / 2) * sigma * sqrt(T))
     )
     
@@ -104,7 +105,7 @@ for (asset_name in names(assets)) {
     
     results <- rbind(results, data.frame(
       Asset    = asset_name,
-      Weight   = w,
+      Weight   = w * 100,
       HitRatio = hit_ratio,
       MSE      = mse_mid,
       RMSE     = rmse_mid,
@@ -112,8 +113,158 @@ for (asset_name in names(assets)) {
       NRMSE    = nrmse_mid
     ))
   }
+  
+  # --- Sequential backtest ---
+  n <- nrow(df)
+  alpha <- 0.05
+  pred_results <- data.frame(
+    Date   = df$Date,
+    Actual = df$Price,
+    Pred   = NA,
+    Low    = NA,
+    High   = NA
+  )
+  
+  for (i in 2:n) {
+    train_prices <- df$Price[1:(i-1)]
+    log_ret <- diff(log(train_prices))
+    
+    mu <- mean(log_ret) * 252
+    sigma <- sd(log_ret) * sqrt(252)
+    S0 <- tail(train_prices, 1)
+    T <- 1 / 252
+    
+    pred_results$Pred[i] <- S0 * exp((mu - 0.5 * sigma^2) * T)
+    pred_results$Low[i]  <- S0 * exp((mu - 0.5 * sigma^2) * T + qnorm(alpha / 2) * sigma * sqrt(T))
+    pred_results$High[i] <- S0 * exp((mu - 0.5 * sigma^2) * T + qnorm(1 - alpha / 2) * sigma * sqrt(T))
+  }
+  
+  hits <- sum(pred_results$Actual >= pred_results$Low &
+                pred_results$Actual <= pred_results$High, na.rm = TRUE)
+  n_obs <- sum(!is.na(pred_results$Pred))
+  hit_ratio <- hits / n_obs
+  
+  mse_mid  <- mean((pred_results$Actual - pred_results$Pred)^2, na.rm = TRUE)
+  rmse_mid <- sqrt(mse_mid)
+  mape_mid <- mean(abs((pred_results$Actual - pred_results$Pred) / pred_results$Actual) * 100, na.rm = TRUE)
+  nrmse_mid <- rmse_mid / mean(pred_results$Actual, na.rm = TRUE)
+  
+  results <- rbind(results, data.frame(
+    Asset    = asset_name,
+    Weight   = "SEQUENTIAL",
+    HitRatio = hit_ratio,
+    MSE      = mse_mid,
+    RMSE     = rmse_mid,
+    MAPE     = mape_mid,
+    NRMSE    = nrmse_mid
+  ))
 }
 
 # ---------------- speichern ----------------
 write_csv(results, "out2.csv")
-print("Fertig! Ergebnisse in out2.csv gespeichert.")
+print("Fertig! Ergebnisse (inkl. sequential) in out2.csv gespeichert.")
+# ---------------- backtest loop with sequential integrated ----------------
+weights <- seq(0.7, 0.95, by = 0.05) # 70%, 75%, … 95%
+results <- data.frame()
+
+for (asset_name in names(assets)) {
+  df <- assets[[asset_name]] %>%
+    arrange(Date) %>%
+    mutate(logret = c(NA, diff(log(Price)))) %>%
+    filter(!is.na(logret))
+  
+  # --- Train/Test split backtests for weights ---
+  for (w in weights) {
+    n <- nrow(df)
+    split <- floor(w * n)
+    
+    train <- df[1:split, ]
+    test <- df[(split+1):n, ]
+    
+    log_ret_train <- diff(log(train$Price))
+    mu <- mean(log_ret_train) * 252
+    sigma <- sd(log_ret_train) * sqrt(252)
+    
+    S0 <- tail(train$Price, 1)
+    T <- (1:nrow(test)) / 252
+    
+    alpha <- 0.05
+    
+    sim_out_df <- data.frame(
+      Date = test$Date,
+      Actual = test$Price,
+      Median = S0 * exp((mu - 0.5 * sigma^2) * T),
+      Lower  = S0 * exp((mu - 0.5 * sigma^2) * T + qnorm(alpha / 2) * sigma * sqrt(T)),
+      Upper  = S0 * exp((mu - 0.5 * sigma^2) * T + qnorm(1 - alpha / 2) * sigma * sqrt(T))
+    )
+    
+    hits <- sum(sim_out_df$Actual >= sim_out_df$Lower &
+                  sim_out_df$Actual <= sim_out_df$Upper)
+    n_obs <- nrow(sim_out_df)
+    hit_ratio <- hits / n_obs
+    
+    mse_mid  <- mean((sim_out_df$Actual - sim_out_df$Median)^2)
+    rmse_mid <- sqrt(mse_mid)
+    mape_mid <- mean(abs((sim_out_df$Actual - sim_out_df$Median) / sim_out_df$Actual)) * 100
+    nrmse_mid <- rmse_mid / mean(sim_out_df$Actual)
+    
+    results <- rbind(results, data.frame(
+      Asset    = asset_name,
+      Weight   = w * 100,
+      HitRatio = hit_ratio,
+      MSE      = mse_mid,
+      RMSE     = rmse_mid,
+      MAPE     = mape_mid,
+      NRMSE    = nrmse_mid
+    ))
+  }
+  
+  # --- Sequential backtest ---
+  n <- nrow(df)
+  alpha <- 0.05
+  pred_results <- data.frame(
+    Date   = df$Date,
+    Actual = df$Price,
+    Pred   = NA,
+    Low    = NA,
+    High   = NA
+  )
+  
+  for (i in 2:n:100) {
+    train_prices <- df$Price[1:(i-1)]
+    log_ret <- diff(log(train_prices))
+    
+    mu <- mean(log_ret) * 252
+    sigma <- sd(log_ret) * sqrt(252)
+    S0 <- tail(train_prices, 1)
+    T <- 1 / 252
+    
+    pred_results$Pred[i] <- S0 * exp((mu - 0.5 * sigma^2) * T)
+    pred_results$Low[i]  <- S0 * exp((mu - 0.5 * sigma^2) * T + qnorm(alpha / 2) * sigma * sqrt(T))
+    pred_results$High[i] <- S0 * exp((mu - 0.5 * sigma^2) * T + qnorm(1 - alpha / 2) * sigma * sqrt(T))
+  }
+  
+  hits <- sum(pred_results$Actual >= pred_results$Low &
+                pred_results$Actual <= pred_results$High, na.rm = TRUE)
+  n_obs <- sum(!is.na(pred_results$Pred))
+  hit_ratio <- hits / n_obs
+  
+  mse_mid  <- mean((pred_results$Actual - pred_results$Pred)^2, na.rm = TRUE)
+  rmse_mid <- sqrt(mse_mid)
+  mape_mid <- mean(abs((pred_results$Actual - pred_results$Pred) / pred_results$Actual) * 100, na.rm = TRUE)
+  nrmse_mid <- rmse_mid / mean(pred_results$Actual, na.rm = TRUE)
+  
+  results <- rbind(results, data.frame(
+    Asset    = asset_name,
+    Weight   = "SEQUENTIAL",
+    HitRatio = hit_ratio,
+    MSE      = mse_mid,
+    RMSE     = rmse_mid,
+    MAPE     = mape_mid,
+    NRMSE    = nrmse_mid
+  ))
+}
+
+# ---------------- speichern ----------------
+write_csv(results, "out2.csv")
+print("Fertig! Ergebnisse (inkl. sequential) in out2.csv gespeichert.")

@@ -146,6 +146,90 @@ for (asset_name in names(assets)) {
   }
 }
 
+# ---------------- sequential CEV backtest (safe start) ----------------
+for (asset_name in names(assets)) {
+  df <- assets[[asset_name]] %>%
+    mutate(logret = c(NA, diff(log(Price)))) %>%
+    filter(!is.na(logret))
+  
+  n <- nrow(df)
+  dt <- 1/252
+  alpha <- 0.5  # CI width
+  
+  pred_results <- data.frame(
+    Date   = df$Date,
+    Actual = df$Price,
+    Median = NA,
+    Lower  = NA,
+    Upper  = NA
+  )
+  
+  # Start from i = 5 for stable parameter estimates
+  for (i in 5:n:100) {
+    df_train <- df[1:(i-1), ]
+    
+    # Safe start values
+    sigma_start <- sd(df_train$logret) / sqrt(dt)
+    sigma_start <- max(sigma_start, 1e-6)  # avoid zero
+    mu_start    <- mean(df_train$logret) / dt - sigma_start / 2
+    beta_start  <- 1.0
+    
+    S_ts_in <- ts(df_train$Price, deltat = dt)
+    
+    fit <- fitsde(
+      data      = S_ts_in,
+      drift     = expression(theta[1] * x),
+      diffusion = expression(theta[2] * x^theta[3]),
+      start     = list(theta1 = mu_start, theta2 = sigma_start, theta3 = beta_start),
+      pmle      = "euler",
+      optim.method = "L-BFGS-B",
+      lower     = c(theta1 = -Inf, theta2 = 1e-8, theta3 = 0.0),
+      upper     = c(theta1 = Inf, theta2 = Inf, theta3 = 3.0)
+    )
+    
+    theta_hat <- coef(fit)
+    mu_hat    <- theta_hat[1]
+    sigma_hat <- theta_hat[2]
+    beta_hat  <- theta_hat[3]
+    
+    # Simulate 1-step ahead
+    sim_paths <- simulate_cev_paths(
+      S0     = tail(df_train$Price, 1),
+      mu     = mu_hat,
+      sigma  = sigma_hat,
+      beta   = beta_hat,
+      dt     = dt,
+      nsteps = 1,
+      npaths = 5000
+    )
+    
+    pred_results$Median[i] <- median(sim_paths[2, ])
+    pred_results$Lower[i]  <- quantile(sim_paths[2, ], probs = alpha / 2)
+    pred_results$Upper[i]  <- quantile(sim_paths[2, ], probs = 1 - alpha / 2)
+  }
+  
+  # Metrics
+  hits <- sum(pred_results$Actual >= pred_results$Lower &
+                pred_results$Actual <= pred_results$Upper, na.rm = TRUE)
+  n_obs <- sum(!is.na(pred_results$Median))
+  hit_ratio <- hits / n_obs
+  
+  mse_mid  <- mean((pred_results$Actual - pred_results$Median)^2, na.rm = TRUE)
+  rmse_mid <- sqrt(mse_mid)
+  mape_mid <- mean(abs((pred_results$Actual - pred_results$Median) / pred_results$Actual) * 100, na.rm = TRUE)
+  nrmse_mid <- rmse_mid / mean(pred_results$Actual, na.rm = TRUE)
+  
+  results <- rbind(results, data.frame(
+    Asset    = asset_name,
+    Weight   = "SEQUENTIAL",
+    HitRatio = hit_ratio,
+    MSE      = mse_mid,
+    RMSE     = rmse_mid,
+    MAPE     = mape_mid,
+    NRMSE    = nrmse_mid
+  ))
+}
+
 # ---------------- speichern ----------------
 write_csv(results, "out1.csv")
 print("Fertig! Ergebnisse in out1.csv gespeichert.")
