@@ -6,7 +6,7 @@ Eigenschaften an Funktionen sicher, SDEs charakterisieren stochastische Prozesse
 Mit SDEs kann man alternative Kursmodelle beschreiben. Beispielsweise wird das CEV-Modell (Constant Elastic Variance) untersucht, implementiert
 und mit der GBM verglichen.
 
-\paragraph{Motivation Stochastischer Differentialgleichungen}
+\begin{bem}[Motivation Stochastischer Differentialgleichungen]
 
 Im Kapitel 5 wurde ein Aktienkurs durch die zeitdiskrete Übergangsgleichung
 $$S_{n+1} = S_n \big(1 + \mu \Delta t + \sigma \sqrt{\Delta t}\,\varepsilon_{n+1}\big)$$
@@ -15,12 +15,12 @@ um eine kontinuierliche Beschreibung der Kursdynamik zu erhalten. Dabei soll die
 $$dS_t = \mu S_t\,dt + \sigma S_t\,dW_t$$
 hergeleitet werden, deren Lösung die geometrische Brownsche Bewegung ist. 
 Anschaulich muss man sich nur noch von $\sqrt{\Delta t} \varepsilon_{n+1} \to dW_t$ überzeugen, wobei $W_t$ eine Brownsche Bewegung ist.
-Sei $\Delta t = T/n$ und $(\varepsilon_k)_{k\ge 1}$ i.i.d. mit $\mathbb E[\varepsilon_k]=0$, $\mathbb Var(\varepsilon_k)=1$.
+Sei $\Delta t = T/n$ und $(\varepsilon_k)_{k\ge 1}$ i.i.d. mit $E(\varepsilon_k)=0$, $V(\varepsilon_k)=1$.
 Definiere den skalierten Zufallsspaziergang
 $$
 W^{(n)}(t) := \sqrt{\Delta t}\sum_{k=1}^{\lfloor t/\Delta t\rfloor}\varepsilon_k,\qquad t\in[0,T].
 $$
-Dann gilt für jedes feste $t$ nach dem Zentralen Grenzwertsatz (ZGWS)
+Dann gilt für jedes feste $t$ nach dem Zentralen Grenzwertsatz
 $$
 W^{(n)}(t)\ \to\ \mathcal N(0,t).
 $$
@@ -45,8 +45,10 @@ und $\sqrt{\Delta t} \varepsilon_{n+1} \to dW_t$
 kann die Übergangsgleichung als stochastische Differentialgleichung interpretiert werden.
 \qed
 
+\end{bem}
+
 Formal werden stochastische Differentialgleichungen über das It\^o-Integral eingeführt, das wird 
-im nächsten Abschnitt skizziert, für eine genaue Darstellung sei auf die Literatur verwiesen, z. B. Behrends \cite{behrends} oder Karatzas und Shreve \cite{karatzas_brownian_1991}.
+im nächsten Abschnitt skizziert, für eine genaue Darstellung sei auf die Literatur verwiesen, z. B. Behrends (2013) \cite{behrends} oder Karatzas und Shreve (1991) \cite{karatzas_brownian_1991}.
 Die Argumentation ist analog zu Kapitel 6 des Lehrbuchs von Behrends \cite{behrends}.
 
 \subsection{Stochastische Differentialgleichungen}
@@ -65,7 +67,7 @@ $$
 $$
 Und es sei $W_t$ eine Brownsche Bewegung.
 
-\paragraph{Elementare (adaptierte) Prozesse und ihr Integral}
+\begin{defi}[Elementare (adaptierte) Prozesse und ihr Integral]
 Fixiere $T>0$. Ein Prozess $H$ heißt \emph{elementar adaptiert} auf $[0,T]$, wenn es eine Zerlegung $0=t_0<t_1<\dots<t_n=T$ und Zufallsvariablen $\xi_i\in L^2(\Omega,\mathcal F_{t_i},\mathbb P)$, $i=0,\dots,n-1$, gibt mit
 $$
 H_t \;=\; \sum_{i=0}^{n-1} \xi_i\,\mathbf 1_{(t_i,t_{i+1}]}(t),\qquad t\in[0,T].
@@ -74,39 +76,61 @@ Für solche $H$ definiert das \emph{It\^o-Integral} gegen $W$ durch
 $$
 \int_0^T H_s\,dW_s \;:=\; \sum_{i=0}^{n-1} \xi_i\,\big(W_{t_{i+1}}-W_{t_i}\big).
 $$
-Zentrale Eigenschaften (für $H$ wie oben):
+Zentrale Eigenschaften sind
 $$
-\mathbb E\!\left[\int_0^T H_s\,dW_s\right] \;=\; 0,\qquad
-\mathbb E\!\left[\Big(\int_0^T H_s\,dW_s\Big)^{\!2}\right] \;=\; \mathbb E\!\left[\int_0^T H_s^2\,ds\right]
+E\!\left[\int_0^T H_s\,dW_s\right] \;=\; 0,\qquad
+E\!\left[\Big(\int_0^T H_s\,dW_s\Big)^{\!2}\right] \;=\; E\!\left[\int_0^T H_s^2\,ds\right].
 $$
-(dies ist die \emph{It\^o-Isometrie}). Für die zeitabhängige Version definiert man für $t\in[0,T]$
-$$
-\int_0^t H_s\,dW_s \;:=\; \sum_{i=0}^{n-1} \xi_i\,\big(W_{t\wedge t_{i+1}}-W_{t\wedge t_i}\big),
-$$
-und erhält einen $(\mathcal F_t)$-Martingalprozess mit Quadratischer Variation
-$[\!\int_0^\cdot H_s dW_s]_t = \int_0^t H_s^2\,ds$.
+Dies ist die \emph{It\^o-Isometrie}. Mit der It\^o-Isometrie kann man aus quadratintegrablen Prozessen schließen, dass das It\^o-Integral existiert. Der entstandene Prozess ist ein Martingal.
+\end{defi}
 
-\paragraph{Dichtheit der elementaren Prozesse}
-Sei $L^2_{\mathrm{pred}}(\Omega\times[0,T])$ der Raum aller vorhersagbaren Prozesse $X$ mit
-$\|X\|_{2,T}^2 := \mathbb E\!\int_0^T |X_s|^2 ds <\infty$.
-Dann ist die Klasse der elementaren vorhersagbaren Prozesse dicht in $L^2_{\mathrm{pred}}(\Omega\times[0,T])$ bezüglich der Norm $\|\cdot\|_{2,T}$. (Siehe z. B. Karatzas und Shreve \cite{karatzas_brownian_1991}, S. 132f.)
-\paragraph{Definition des It\^o-Integrals}
+\begin{satz}[Dichtheit der elementaren Prozesse]
+Sei $L^2_{\mathrm{pred}}(\Omega\times[0,T])$ der Funktionen-Raum aller vorhersagbaren Prozesse $X$ mit der Norm
+$$\|X\|_{2,T}^2 := E \left [ \int_0^T |X_s|^2 ds \right ] < \infty.$$
+Dann ist die Klasse der elementaren vorhersagbaren Prozesse dicht in $L^2_{\mathrm{pred}}(\Omega\times[0,T])$ bezüglich der Norm $\|\cdot\|_{2,T}$. (Siehe z. B. Karatzas und Shreve \cite{karatzas_brownian_1991}, S. 132f.) Die Dichtheit garantiert, dass zu einem beliebigen
+(adaptierten, quadratintegrierbaren) Prozess eine Folge von elementaren Prozessen existiert, die dagegen konvergiert.
+\end{satz}
+
+\begin{defi}[It\^o-Integral]
 Für einen allgemeinen vorhersagbaren Prozess $X\in L^2_{\mathrm{pred}}(\Omega\times[0,T])$ wähle eine Folge elementarer Prozesse $H^{(n)}$ mit
-$\|H^{(n)}-X\|_{2,T}\to 0$. Dann definieren wir
+$\|H^{(n)}-X\|_{2,T}\to 0$. Dann definiert man
 $$
 \int_0^T X_s\,dW_s \;:=\; L^2\text{-}\lim_{n\to\infty}\;\int_0^T H^{(n)}_s\,dW_s,
 $$
-wobei der Limes aufgrund der It\^o-Isometrie existiert und nicht von der approximierenden Folge abhängt. Für jedes $t\in[0,T]$ definiert man analog den Prozess
+wobei der Limes aufgrund der It\^o-Isometrie existiert und nicht von der approximierenden Folge abhängt:
+Für zwei Folgen $G$ und $H$ gilt
+$$
+E\!\left[
+   \left( \int_0^T \big(H^{(n)}_s - G^{(n)}_s\big)\,dW_s \right)^2
+\right]
+= 
+E \left [ \int_0^T \big(H^{(n)}_s - G^{(n)}_s\big)^2\,ds \right ].
+$$
+Wegen der Dreiecksungleichung folgt
+$$
+\|H^{(n)} - G^{(n)}\|_{2,T} 
+\;\le\; 
+\|H^{(n)} - X\|_{2,T} + \|G^{(n)} - X\|_{2,T}
+\;\to\; 0.
+$$
+Somit gilt
+$$
+\int_0^T H^{(n)}_s\,dW_s - \int_0^T G^{(n)}_s\,dW_s 
+\;\to\; 0 \quad \text{in } L^2(\Omega).
+$$
+Daher ist das It\^o-Integral wohldefiniert. \qed \\
+Für jedes $t\in[0,T]$ definiert man analog den Prozess
 $$
 \Big(\int_0^t X_s\,dW_s\Big)_{t\in[0,T]},
 $$
 und es gilt weiterhin die It\^o-Isometrie
 $$
-\mathbb E\!\left[\Big(\int_0^T X_s\,dW_s\Big)^{\!2}\right] \;=\; \mathbb E\!\left[\int_0^T X_s^{2}\,ds\right],
+E\!\left[\Big(\int_0^T X_s\,dW_s\Big)^{\!2}\right] \;=\; E\!\left[\int_0^T X_s^{2}\,ds\right],
 $$
 sowie die Martingaleigenschaft von $M_t:=\int_0^t X_s\,dW_s$. Für lokal quadratintegrierbare $X$ erhält man das Integral durch Lokalisierung via Stoppzeiten.
+\end{defi}
 
-\paragraph{Verbindung zur heuristischen Notation}
+\begin{bem}[Verbindung zur heuristischen Notation]
 Mit dieser Konstruktion ist die Schreibweise
 $$
 dS_t \;=\; a(S_t,t)\,dt \;+\; b(S_t,t)\,dW_t
@@ -116,14 +140,14 @@ $$
 S_t \;=\; S_0 \;+\; \int_0^t a(S_s,s)\,ds \;+\; \int_0^t b(S_s,s)\,dW_s,
 $$
 wobei $b(S_\cdot,\cdot)$ vorhersagbar und quadratintegrierbar sein muss.
-
+\end{bem}
 
 \subsection{Charakterisierung alternativer Kursmodelle durch stochastische Differentialgleichungen}
 
 Die GBM nimmt konstante Volatilität und lognormale Renditen an; sie erzeugt weder Sprünge noch Volatilitäts-Clustering oder kann Konjunkturperioden Modellieren.
 Glasserman \cite{glasserman2003monte} beschreibt verschiedene Ansätze zur Modellierung dieser Phänomene:
 
-\paragraph{Lokale Volatilität}
+\begin{bsp}[Lokale Volatilität]
 Deterministisch zeit- und zustandsabhängige Volatilität:
 $$
 dS_t \;=\; \mu(t,S_t)\,S_t\,dt \;+\; \sigma_{\mathrm{loc}}(t,S_t)\,S_t\,dW_t.
@@ -133,8 +157,9 @@ $$
 dS_t \;=\; \mu S_t\,dt \;+\; \sigma\,S_t^{\beta}\,dW_t,\qquad \beta\in\mathbb R,
 $$
 wodurch die Volatilität bei kleinen/größeren Preisen relativ ansteigt/abnimmt.
+\end{bsp}
 
-\paragraph{Stochastische Volatilität}
+\begin{bsp}[Stochastische Volatilität]
 Volatilität ist selbst ein Zufallsprozess.
 $$
 \begin{aligned}
@@ -143,27 +168,30 @@ dV_t &= \kappa(\theta - V_t)\,dt + \xi\sqrt{V_t}\,dW_t^{(2)},\quad d \langle W^{
 \end{aligned}
 $$
 mit Feller-Bedingung $2\kappa\theta\ge \xi^2$ für Positivität von $V_t$.
+\end{bsp}
 
-\paragraph{Sprung-Diffusions-Modelle}
+\begin{bsp}[Sprung-Diffusions-Modelle]
 Diffusion mit seltenen Sprüngen modelliert durch Poisson-Prozesse.
 $$
 \frac{dS_t}{S_t} \;=\; \big(\mu - \lambda \kappa_J\big)\,dt \;+\; \sigma\,dW_t \;+\; (J_t-1)\,dN_t,
 $$
 wobei $N_t$ Poisson mit Intensität $\lambda$ ist, $J_t$ die Sprunggröße (z.\,B. lognormal) und $\kappa_J=\mathbb E[J_t-1]$; der Driftterm kompensiert die Sprünge.
+\end{bsp}
 
-\paragraph{Regimewechsel-Modelle}
+\begin{bsp}[Regimewechsel-Modelle]
 Parameter schalten gemäß einer (verborgenen) Markov-Kette $X_t$:
 $$
 dS_t \;=\; \mu_{X_t} S_t\,dt \;+\; \sigma_{X_t} S_t\,dW_t.
 $$
 Erfasst Phasen wie Krisen und ruhige Märkte.
+\end{bsp}
 
 \subsection{Simulation stochastischer Differentialgleichungen}
 Zu einer SDE
 $$
 dX_t \;=\; a(X_t,t)\,dt \;+\; b(X_t,t)\,dW_t,\quad t\in[0,T],
 $$
-wird ein Zeitschrittgitter $t_n=n\Delta t$ eingeführt und der kontinuierliche Prozess durch eine zeitdiskrete Approximation ersetzt. Erwartungswerte werden via Monte‑Carlo über viele simulierte Pfade geschätzt. Der Gesamtfehler setzt sich aus Diskretisierungsfehler (Bias) und Monte‑Carlo‑Fehler $O(M^{-1/2})$ zusammen.
+wird ein Zeitschrittgitter $t_n=n\Delta t$ eingeführt und der kontinuierliche Prozess durch eine zeitdiskrete Approximation ersetzt. Erwartungswerte werden via Monte‑Carlo über viele simulierte Pfade geschätzt.
 
 Die Differentialgleichung wird mit Euler (deterministisch) und Euler–Maruyama (stochastisch) diskretisiert (vgl. Bärwolff \cite{Baerwolff2025} u. a. S. 269, 466f.).
 Für die ODE $\dot x(t)=a(x(t),t)$ liefert das explizite Euler‑Schema
@@ -177,6 +205,8 @@ X_{n+1} \;=\; X_n \;+\; a(X_n,t_n)\,\Delta t \;+\; b(X_n,t_n)\,\Delta W_n
 $$
 mit i.i.d. $\varepsilon_{n}\sim\mathcal N(0,1)$. 
 Ähnlich wurde im Hauptteil die geometrische Brownsche Bewegung hergeleitet.
+
+\begin{bsp}[Implementierung]
 Es folgt ein R-Programm zur Simulation eines CEV-Modells (s. u.).
 
 \begin{lstlisting}
@@ -191,6 +221,8 @@ simulate_cev_paths <- function(S0, mu, sigma, beta, dt, nsteps, npaths) {
   return(S)
 }
 \end{lstlisting}
+
+\end{bsp}
 
 \subsection{Implementierung eines CEV (Constant Elasticity of Variance) Modell}
 Das CEV-Modell ist ein Spezialfall der lokalen Volatilität mit
@@ -214,7 +246,7 @@ Das wird durch die Approximation der Übergangsdichte (eine bedingte Dichte) mit
 können die bekannten Schätzer für Drift und Volatilität als Spezialfall betrachtet werden. Insbesondere stellen die Parameter der GBM 
 sinnvolle Startwerte für die numerische Optimierung dar.
 
-\paragraph{(Quasi) Maximum-Likelihood-Schätzung (MLE, QMLE)}
+\begin{lemma}[(Quasi) Maximum-Likelihood-Schätzung (MLE, QMLE)]
 Ziel ist die Parameterschätzung aus diskreten Beobachtungen $S_{t_0},\dots,S_{t_n}$ eines SDE
 $dS_t=a(S_t,t)\,dt+b(S_t,t)\,dW_t$. Grundidee: Wähle Parameter $\theta$ so, dass die beobachteten Daten unter dem Modell am wahrscheinlichsten sind. Für diskrete Beobachtungen $S_{t_0},\dots,S_{t_n}$ eines (Markov‑)Modells gilt
 $$
@@ -231,8 +263,9 @@ $$
 S_{t_{i+1}}-S_{t_i}\mid S_{t_i}\ \approx\ \mathcal N\!\big(a_\theta(S_{t_i},t_i)\,\Delta t,\; b_\theta^2(S_{t_i},t_i)\,\Delta t\big),
 $$
 Dann wird die (Pseudo‑)Log‑Likelihood aufgestellt, und numerisch maximiert.
+\end{lemma}
 
-\paragraph{Herleitung des Quasi‑MLE (Euler‑Pseudo‑Likelihood).}
+\begin{satz}[Quasi‑MLE für das CEV Modell (Euler‑Pseudo‑Likelihood)]
 Das CEV-Modell lautet
 $$
 dS_t = \mu S_t\,dt + \sigma S_t^{\beta}\,dW_t.
@@ -264,7 +297,7 @@ Da Produkte numerisch unhandlich sind, nimmt man den Logarithmus:
 $$
 \ell(\mu, \sigma, \beta) = \sum_{i=0}^{n-1} \log p(\Delta S_i \mid S_{t_i})
 $$
-Setzt man die Dichte $p$ ein, ergibt sich der Likelihood-Ausdruck:
+Setzt man die Dichte $p$ ein, ergibt sich die Likelihood
 \begin{align*}
 \ell(\mu, \sigma, \beta) &= \sum_{i=0}^{n-1} \left[
     -\frac{1}{2} \log(2\pi \sigma^2 S_{t_i}^{2\beta} \Delta t)
@@ -274,13 +307,18 @@ Setzt man die Dichte $p$ ein, ergibt sich der Likelihood-Ausdruck:
     \log(2\pi \sigma^2 S_{t_i}^{2\beta} \Delta t)
     + \frac{(\Delta S_i - \mu S_{t_i} \Delta t)^2}{\sigma^2 S_{t_i}^{2\beta} \Delta t}
 \right]
-\end{align*}
-\textit{Interpretation.} Die Log-Likelihood misst, wie gut die Parameter $(\mu, \sigma, \beta)$ die beobachteten Kursänderungen erklären. Der erste Term bestraft große Varianzen, der zweite Term misst die Abweichung der beobachteten Inkremente von den erwarteten Werten.
+\end{align*} 
+\qed
+\end{satz}
+
+\begin{bem}[Interpretation]
+Die Log-Likelihood misst, wie gut die Parameter $(\mu, \sigma, \beta)$ die beobachteten Kursänderungen erklären. Der erste Term bestraft große Varianzen, der zweite Term misst die Abweichung der beobachteten Inkremente von den erwarteten Werten.
 Die Schätzungen der Parameter erhält man durch Maximierung der Log-Likelihood:
 $$
 (\widehat{\mu}, \widehat{\sigma}, \widehat{\beta}) = \underset{\mu, \sigma, \beta}{\arg\max} \; \ell(\mu, \sigma, \beta)
 $$
-Da die Funktion keine einfache analytische Lösung hat, wird sie mit numerischen Optimierungsverfahren (z.B. L-BFGS-B) maximiert.
+Die Funktion wird mit numerischen Optimierungsverfahren (z.B. L-BFGS-B) maximiert.
+\end{bem}
 
 \paragraph{Implementierung in R mit dem Paket Sim Diffproc}
 Die Parameterschätzung für das CEV-Modell kann mit dem R-Paket Sim.DiffProc durchgeführt werden. Die Funktion \texttt{fitsde} erlaubt die Schätzung der Drift- und Diffusionsparameter mittels Pseudo-Maximum-Likelihood auf Basis diskreter Zeitreihen. Das folgende R-Programm (Ausschnitt) zeigt die Anwendung auf DAX-Daten.
