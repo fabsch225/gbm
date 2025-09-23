@@ -191,10 +191,18 @@ $\Sigma=(\min(t_i,t_j))_{i,j}$.
 Mit der Cramér–Wold-Technik reicht es, lineare Formen zu betrachten. Sei also $a=(a_1,\dots,a_k)^\top\in\Bbb R^k$ und
 $$
 Y_N:=\sum_{i=1}^k a_i\,b^{(N)}(t_i),\qquad
-Y:=\sum_{i=1}^k a_i\,W_{t_i}.
+Y:=\sum_{i=1}^k a_i\,W_{t_i},
+$$
+wobei
+$$
+V(Y_N)=\sum_{i,j=1}^k a_i a_j\,\mathrm{Cov}\!\big(b^{(N)}(t_i),b^{(N)}(t_j)\big),
+$$
+und damit
+$$
+V(Y_N)\xrightarrow[N\to\infty]{}\sum_{i,j=1}^k a_i a_j\,\min(t_i,t_j)=:\sigma^2(a).
 $$
 Jedes $Y_N$ ist eine lineare Kombination unabhängiger $\eta_i$. Mit dem Zentralen Grenzwertsatz wird die Grenzverteilung von $Y_N$ bestimmt.
-Da die Summanden zentriert und von endlicher Varianz sind, bleibt die Lindeberg-Bedingung zu zeigen.
+Da die Summanden zentriert und von endlicher Varianz sind, bleibt die Lindeberg-Bedingung zu zeigen. Zerlege
 $$
 Y_N=\sum_{i=1}^k a_i b^{(N)}(t_i)=\sum_{j=1}^{M_N} c_{N,j}\,\eta_j,
 $$
@@ -219,15 +227,7 @@ Damit ist die Lindeberg-Bedingung erfüllt und es folgt
 $$
 Y_N \xrightarrow{d} \mathcal N(0,\sigma^2(a)).
 $$
-Damit ist $Y_N$ zentriert normalverteilt. Es gilt
-$$
-\mathrm{Var}(Y_N)=\sum_{i,j=1}^k a_i a_j\,\mathrm{Cov}\!\big(b^{(N)}(t_i),b^{(N)}(t_j)\big).
-$$
-Mit der oben gezeigten Kovarianzkonvergenz folgt
-$$
-\mathrm{Var}(Y_N)\xrightarrow[N\to\infty]{}\sum_{i,j=1}^k a_i a_j\,\min(t_i,t_j)=:\sigma^2(a).
-$$
-Insgesamt konvergiert für jedes $a$ die Verteilung von $a^\top(b^{(N)}(t_1),\dots,b^{(N)}(t_k))$ gegen die von $a^\top(W_{t_1},\dots,W_{t_k})$.
+Damit ist $Y_N$ zentriert normalverteilt. Insgesamt konvergiert für jedes $a$ die Verteilung von $a^\top(b^{(N)}(t_1),\dots,b^{(N)}(t_k))$ gegen die von $a^\top(W_{t_1},\dots,W_{t_k})$.
 Nach Cramér–Wold folgt die behauptete Verteilungskonvergenz des Vektors. \qed
 \end{satz}
 
