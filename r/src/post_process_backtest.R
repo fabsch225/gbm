@@ -1,29 +1,26 @@
 library(readr)
 library(dplyr)
 
-# ---------------- einlesen ----------------
-results <- read_csv("out1.csv", show_col_types = FALSE)
+file_in <- "results/gbm_backtest_results.csv"
+file_out <- "results/gbm_backtest_results_processed.csv"
 
-# ---------------- sicherstellen: Weight als Character ----------------
+results <- read_csv(file_in, show_col_types = FALSE)
+
 results <- results %>%
   mutate(Weight = as.character(Weight))
 
-# ---------------- runden ----------------
-results_round <- results %>%
-  mutate(across(where(is.numeric), ~ round(., 3)))
-
-# ---------------- Mittelwerte pro Asset (exclude SEQUENTIAL) ----------------
-asset_means <- results_round %>%
-  filter(Weight != "SEQUENTIAL") %>%      # <-- exclude sequential row
+asset_means <- results %>%
+  filter(Weight != "Seq") %>%
   group_by(Asset) %>%
   summarise(across(c(HitRatio, MSE, RMSE, MAPE, NRMSE), mean), .groups = "drop") %>%
   mutate(Weight = "mean")
 
-# gleiche Struktur wie results_round
+results_round <- results %>%
+  mutate(across(where(is.numeric), ~ round(., 3)))
+
 final <- bind_rows(results_round, asset_means) %>%
   arrange(Asset, Weight)
 
-# ---------------- speichern ----------------
-write_csv(final, "out1_processed.csv")
+write_csv(final, file_out)
 
-print("Fertig! Ergebnisse in out2_processed.csv gespeichert.")
+print("Fertig! Ergebnisse in " + file_out + " gespeichert.")
