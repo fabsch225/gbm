@@ -13,7 +13,7 @@ simulate_cev_paths <- function(S0, mu, sigma, beta, dt, nsteps, npaths) {
   return(S)
 }
 
-predict_cev <- function(train, nsteps, npaths, dt, alpha = 0.5, S0 = FALSE) {
+predict_cev <- function(train, nsteps, npaths, dt, alpha = 0.5, S0 = FALSE, printParams = FALSE) {
   logret <- c(0, diff(log(train$Price)))
   sigma_start <- sd(logret)  / sqrt(dt)
   mu_start    <- mean(logret) / dt - sigma_start / 2
@@ -47,6 +47,13 @@ predict_cev <- function(train, nsteps, npaths, dt, alpha = 0.5, S0 = FALSE) {
   mu_hat    <- theta_hat[1]
   sigma_hat <- theta_hat[2]
   beta_hat  <- theta_hat[3]
+  
+  if (printParams) {
+    cat("Estimated parameters:\n")
+    cat(sprintf("mu: %.6f\n", mu_hat))
+    cat(sprintf("sigma: %.6f\n", sigma_hat))
+    cat(sprintf("beta: %.6f\n", beta_hat))
+  }
   
   if (isFALSE(S0)) {
     S0 <- tail(train$Price, 1)

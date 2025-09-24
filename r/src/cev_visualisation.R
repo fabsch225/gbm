@@ -4,9 +4,9 @@ library(lubridate)
 library(ggplot2)
 library(Sim.DiffProc)
 
-source("cev.R")
+source("src/cev.R")
 
-dax <- read_csv("data/lufthansa.csv") %>%
+dax <- read_csv("data/try.csv") %>%
   mutate(Date  = mdy(Date),
          Price = as.numeric(gsub(",", "", Price))) %>%
   arrange(Date)
@@ -27,7 +27,8 @@ pred = predict_cev(
   nsteps = nsteps,
   npaths = npaths,
   dt     = dt_daily,
-  alpha  = 0.5
+  alpha  = 0.5,
+  printParams = TRUE
 )
 
 sim_df <- data.frame(

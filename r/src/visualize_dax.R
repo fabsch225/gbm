@@ -4,7 +4,7 @@ library(lubridate)
 library(ggplot2)
 
 
-dax <- read_csv("data/dax.csv") %>%
+dax <- read_csv("data/try.csv") %>%
   mutate(Date = mdy(Date),
          Price = as.numeric(gsub(",", "", Price))) %>%
   arrange(Date)

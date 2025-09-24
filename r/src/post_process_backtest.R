@@ -1,8 +1,8 @@
 library(readr)
 library(dplyr)
 
-file_in <- "results/gbm_backtest_results.csv"
-file_out <- "results/gbm_backtest_results_processed.csv"
+file_in <- "results/cev_backtest_results.csv"
+file_out <- "results/cev_backtest_results_processed.csv"
 
 results <- read_csv(file_in, show_col_types = FALSE)
 
@@ -13,7 +13,8 @@ asset_means <- results %>%
   filter(Weight != "Seq") %>%
   group_by(Asset) %>%
   summarise(across(c(HitRatio, MSE, RMSE, MAPE, NRMSE), mean), .groups = "drop") %>%
-  mutate(Weight = "mean")
+  mutate(Weight = "mean")  %>%
+  mutate(across(where(is.numeric), ~ round(., 3)))
 
 results_round <- results %>%
   mutate(across(where(is.numeric), ~ round(., 3)))

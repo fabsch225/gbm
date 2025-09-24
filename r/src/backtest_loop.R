@@ -43,7 +43,7 @@ read_price <- function(path) {
 assets <- list(
   dax       = read_price("data/dax.csv"),
   lufthansa = read_price("data/lufthansa.csv"),
-  adesso    = read_price("data/adesso.csv")
+  tlira    = read_price("data/try.csv")
 )
 
 results <- data.frame()

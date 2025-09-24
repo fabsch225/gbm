@@ -7,7 +7,7 @@ library(readr)
 source("src/backtest.R")
 source("src/gbm.R")
 
-dax <- read_csv("data/dax.csv") %>%
+dax <- read_csv("data/lufthansa.csv") %>%
   mutate(Date = mdy(Date),
          Price = as.numeric(gsub(",", "", Price))) %>%
   arrange(Date)
@@ -27,7 +27,7 @@ ggplot() +
   scale_fill_manual(values = c("Confidence interval (alpha=0.5)" = "blue")) +
   theme_minimal()
 
-seq_backtest <- backtest_sequential(dax, predict_gbm, timestep = 252, alpha = 0.05)
+seq_backtest <- backtest_sequential(dax, predict_gbm, timestep = 2, alpha = 0.05)
 
 print(seq_backtest$metrics)
 

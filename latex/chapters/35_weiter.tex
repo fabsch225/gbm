@@ -1,9 +1,11 @@
 \section{Alternative Modelle}
 
 Dieses Kapitel bietet einen Einblick in weiterführende mathematische Aspekte, die im Rahmen dieser Arbeit nicht im Detail behandelt werden konnten.
-Die Grundlage bilden stochastische Differentialgleichungen (SDEs). Klassische Differentialgleichungen stellen gewisse
-Eigenschaften an Funktionen sicher, SDEs charakterisieren stochastische Prozesse. Im Folgenden wird die Herleitung von It\^o-SDEs über It\^o-Integrale skizziert. 
-Mit SDEs kann man alternative Kursmodelle beschreiben. Beispielsweise wird das CEV-Modell (Constant Elastic Variance) untersucht, implementiert
+Die Grundlage bilden stochastische Differentialgleichungen (SDEs).  
+Stochastische Differentialgleichungen bilden die mathematische Grundlage für die Modellierung und Simulation zeitstetiger stochastischer Prozesse im allgemeinen.
+Im Folgenden wird die Herleitung von It\^o-SDEs über It\^o-Integrale skizziert. 
+Unter Verwendung des Kalkühls der SDEs werden alternative Modelle zur geometrischen Brownschen Bewegung vorgestellt. 
+Beispielhaft wird das CEV-Modell (Constant Elastic Variance) untersucht, implementiert
 und mit der GBM verglichen.
 
 \begin{bem}[Motivation Stochastischer Differentialgleichungen]
@@ -63,9 +65,14 @@ $$y = \int f(y)$$
 beschreiben kann, kann man It\^o-SDEs mit stochastischen Integralen (It\^o-Integralen) beschreiben.
 Arbeitsraum ist ein filtrierter Wahrscheinlichkeitsraum
 $$
-(\Omega,\mathcal F,(\mathcal F_t)_{t\ge 0},\mathbb P).
+(\Omega,\mathcal F,(\mathcal F_t)_{t\ge 0},\mathbb P),
 $$
-Und es sei $W_t$ eine Brownsche Bewegung.
+und es sei $W_t$ eine Brownsche Bewegung. 
+
+Analog zu analytischen Integralen
+wird das stochastische Integral über Treppenfunktionen definiert. 
+Genauso wie man eine integrierbare Funktion mit einer Folge von Stufen approximiert, werden
+stochastische Prozesse durch elementare Prozesse approximiert.
 
 \begin{defi}[Elementare (adaptierte) Prozesse und ihr Integral]
 Fixiere $T>0$. Ein Prozess $H$ heißt \emph{elementar adaptiert} auf $[0,T]$, wenn es eine Zerlegung $0=t_0<t_1<\dots<t_n=T$ und Zufallsvariablen $\xi_i\in L^2(\Omega,\mathcal F_{t_i},\mathbb P)$, $i=0,\dots,n-1$, gibt mit
@@ -84,14 +91,29 @@ $$
 Dies ist die \emph{It\^o-Isometrie}. Mit der It\^o-Isometrie kann man aus quadratintegrablen Prozessen schließen, dass das It\^o-Integral existiert. Der entstandene Prozess ist ein Martingal.
 \end{defi}
 
+
+
 \begin{satz}[Dichtheit der elementaren Prozesse]
+Die Frage, wann ein stochastischer Prozess durch einen elementaren Prozess approximierbar ist wird im Folgenden 
+beantwortet. Das wird wie folgt ausgedrückt: Die Menge der elementaren Prozesse liegt \textit{dicht} im Raum
+der quadratintegrierbaren Prozesse. Dann gibt es zu jedem stochastischen Prozess einen elementaren stochastischen
+Prozess, deren Integrale sich um ein beliebiges $\varepsilon$ unterscheiden.
+
 Sei $L^2_{\mathrm{pred}}(\Omega\times[0,T])$ der Funktionen-Raum aller vorhersagbaren Prozesse $X$ mit der Norm
 $$\|X\|_{2,T}^2 := E \left [ \int_0^T |X_s|^2 ds \right ] < \infty.$$
-Dann ist die Klasse der elementaren vorhersagbaren Prozesse dicht in $L^2_{\mathrm{pred}}(\Omega\times[0,T])$ bezüglich der Norm $\|\cdot\|_{2,T}$. (Siehe z. B. Karatzas und Shreve \cite{karatzas_brownian_1991}, S. 132f.) Die Dichtheit garantiert, dass zu einem beliebigen
-(adaptierten, quadratintegrierbaren) Prozess eine Folge von elementaren Prozessen existiert, die dagegen konvergiert.
+Dann ist die Klasse der elementaren vorhersagbaren Prozesse dicht in $L^2_{\mathrm{pred}}(\Omega\times[0,T])$ bezüglich der Norm $\|\cdot\|_{2,T}$. (Siehe z. B. Karatzas und Shreve \cite{karatzas_brownian_1991}, S. 132f.) 
+Die Dichtheit garantiert, dass zu einem beliebigen (adaptierten, quadratintegrierbaren) Prozess 
+eine Folge von elementaren Prozessen existiert, die dagegen konvergiert.
 \end{satz}
 
+
 \begin{defi}[It\^o-Integral]
+Das It\^o-Integral ist nun für elementare Prozesse definiert, und für einen beliebigen Prozess existiert
+eine passende Folge. So wird dann das It\^o-Integral für beliebige Prozesse definiert.
+Offen bleibt aber die Frage nach der Wohldefiniertheit dieses Integral-Begriffs. Konvergieren zwei Folgen $G_t^{(n)}$, $H_t^{(n)}$ von
+elementaren Prozessen gegen einen Prozess $X_t$ (in der Norm $\|\cdot\|_{2,T}^2$), so muss auch das Integral im Grenzwert übereinstimmen.
+Hier wird die oben genannte It\^o-Isometrie genutzt.
+
 Für einen allgemeinen vorhersagbaren Prozess $X\in L^2_{\mathrm{pred}}(\Omega\times[0,T])$ wähle eine Folge elementarer Prozesse $H^{(n)}$ mit
 $\|H^{(n)}-X\|_{2,T}\to 0$. Dann definiert man
 $$
@@ -100,11 +122,14 @@ $$
 wobei der Limes aufgrund der It\^o-Isometrie existiert und nicht von der approximierenden Folge abhängt:
 Für zwei Folgen $G$ und $H$ gilt
 $$
+\begin{aligned}
 E\!\left[
    \left( \int_0^T \big(H^{(n)}_s - G^{(n)}_s\big)\,dW_s \right)^2
 \right]
-= 
+&= 
 E \left [ \int_0^T \big(H^{(n)}_s - G^{(n)}_s\big)^2\,ds \right ].
+\\ &= \|H^{(n)} - G^{(n)}\|_{2,T}^2
+\end{aligned}
 $$
 Wegen der Dreiecksungleichung folgt
 $$
@@ -130,7 +155,7 @@ $$
 sowie die Martingaleigenschaft von $M_t:=\int_0^t X_s\,dW_s$. Für lokal quadratintegrierbare $X$ erhält man das Integral durch Lokalisierung via Stoppzeiten.
 \end{defi}
 
-\begin{bem}[Verbindung zur heuristischen Notation]
+\begin{defi}[Stochastische Differentialgleichungen]
 Mit dieser Konstruktion ist die Schreibweise
 $$
 dS_t \;=\; a(S_t,t)\,dt \;+\; b(S_t,t)\,dW_t
@@ -139,8 +164,8 @@ präzise zu lesen als Integralgleichung
 $$
 S_t \;=\; S_0 \;+\; \int_0^t a(S_s,s)\,ds \;+\; \int_0^t b(S_s,s)\,dW_s,
 $$
-wobei $b(S_\cdot,\cdot)$ vorhersagbar und quadratintegrierbar sein muss.
-\end{bem}
+wobei $b(S_\cdot,\cdot)$ adaptiert und quadratintegrierbar sein muss.
+\end{defi}
 
 \subsection{Charakterisierung alternativer Kursmodelle durch stochastische Differentialgleichungen}
 
@@ -175,7 +200,7 @@ Diffusion mit seltenen Sprüngen modelliert durch Poisson-Prozesse.
 $$
 \frac{dS_t}{S_t} \;=\; \big(\mu - \lambda \kappa_J\big)\,dt \;+\; \sigma\,dW_t \;+\; (J_t-1)\,dN_t,
 $$
-wobei $N_t$ Poisson mit Intensität $\lambda$ ist, $J_t$ die Sprunggröße (z.\,B. lognormal) und $\kappa_J=\mathbb E[J_t-1]$; der Driftterm kompensiert die Sprünge.
+wobei $N_t$ Poisson mit Intensität $\lambda$ ist, $J_t$ die Sprunggröße (z.\,B. lognormal) und $\kappa_J= E(J_t-1)$; der Driftterm kompensiert die Sprünge.
 \end{bsp}
 
 \begin{bsp}[Regimewechsel-Modelle]
@@ -423,11 +448,26 @@ Adesso & $0.2686$ & $0.4114$ & $1.0031$ & $0.2686$ & $0.4122$ & $1.0026$ \\
 \subsection{Ergebnisse und Vergleich der Modelle}
 
 Nun wird das CEV-Modell (mit der Kalibrierung aus Sim.Diffproc) mit der geometrischen Brownschen Bewegung (GBM) verglichen. Die beiden Modelle werden auf die gleichen Daten angewendet, und dann ein Backtest durchgeführt, um die Leistung der Modelle zu bewerten.
-Der Backtest wird mit verschiedenen Aufteilungen durchgeführt um die Robustheit der Ergebnisse zu versichern.
-Man kann bei den Ergebnissen der Backtests feststellen, dass das CEV-Modell bei großen Trainings-Anteilen (hohe Weights) eine bessere Leistung zeigt als die GBM, dagegen ist bei niedrigen Datenmengen die GBM überlegen, da das Modell simpler und daher weniger anfällig für Überanpassung ist.
+Zum Einen wird eine Aufteilung der Daten zu einem bestimmten Gewicht (weight) vorgenommen, wobei das Modell auf die vergangenen Daten kalibriert und 
+dann auf die zukünftigen Daten angewendet und die Prognosegüte gemessen wird. Über alle Gewichte wird das Mittel (Mean) angegeben.
+Zum Anderen wird zu einem festen Zeitinterval (20 Tage) ein sequenzieller Backtest durchgeführt. Alle vergangenen Daten ergeben jeweils eine Prognose.
+
+\paragraph{Interpretation der Ergebnisse}
+Beim DAX verhalten sich GBM und CEV sehr ähnlich, wobei die sich Prognose selbstverständlich bei höheren Gewichten verbessert. Das passt zur Parameterschätzung,
+da $\beta$ nahe $1$ ist (s.o.) und sich das CEV-Modell dann wie eine GBM verhält. Die Ergebnisse bei der Lufthansa-Aktie sind ebenfalls vergleichbar, aber schlechter, da der
+Kurs keinen (log-)linearen Trend aufweist, wie der DAX. Beispielhaft für eine starke Korrelation von Preis und Volatilität (da ist das CEV-Modell vorteilhaft)
+wird der Wechselkurs von der türkischen Lira mit dem Dollar während einer Finanzkrise (2021) untersucht (Siehe Abbildung \ref{fig:cev_try}). Dort weist
+das CEV-Modell eine klare Verbesserung.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/cev_try.png}
+    \caption{Sequenzieller Backtest des CEV Modell für die türkische Lira (Wechselrate Dollar), Abstand von 2 Tagen während der türkischen Finanzkrise 2021}
+    \label{fig:cev_try}
+\end{figure}
 
 \begin{sidewaystable}
 \centering
-\csvautotabular{../r/out_compare.csv}
+\csvautotabular{../r/results/compare_models.csv}
 \caption{Vergleich der Modelle GBM und CEV über verschiedene Backtests und Metriken: Hitratio - größer ist besser; RMSE - kleiner ist besser; MAPE - kleiner ist besser; NRMSE - kleiner ist besser}
 \end{sidewaystable}

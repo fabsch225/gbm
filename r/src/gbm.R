@@ -1,7 +1,12 @@
-predict_gbm <- function(train, nsteps, npaths, dt, alpha = 0.5, S0 = FALSE) {
+predict_gbm <- function(train, nsteps, npaths, dt, alpha = 0.5, S0 = FALSE, printParams = FALSE) {
   log_returns <- c(0, diff(log(train$Price)))
   sigma <- sd(log_returns)
   mu <- mean(log_returns) + 0.5 * sigma^2
+  if (printParams) {
+    cat("Estimated parameters:\n")
+    cat(sprintf("mu: %.6f\n", mu))
+    cat(sprintf("sigma: %.6f\n", sigma))
+  }
   if (isFALSE(S0)) {
     S0 <- tail(train$Price, 1)
   }
