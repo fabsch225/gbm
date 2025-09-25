@@ -106,7 +106,7 @@ eine Folge von elementaren Prozessen existiert, die dagegen konvergiert.
 
 \begin{defi}[It\^o-Integral]
 Das It\^o-Integral ist nun für elementare Prozesse definiert, und für einen beliebigen Prozess existiert
-eine passende Folge. So wird dann das It\^o-Integral für beliebige Prozesse definiert.
+eine passende Folge. So wird dann das It\^o-Integral für beliebige Prozesse definiert: Das It\^o-Integral ist der Grenzwert der Integrale der approximierenden elementaren Prozesse.
 Offen bleibt aber die Frage nach der Wohldefiniertheit dieses Integral-Begriffs. Konvergieren zwei Folgen $G_t^{(n)}$, $H_t^{(n)}$ von
 elementaren Prozessen gegen einen Prozess $X_t$ (in der Norm $\|\cdot\|_{2,T}^2$), so muss auch das Integral im Grenzwert übereinstimmen.
 Hier wird die oben genannte It\^o-Isometrie genutzt.
@@ -215,15 +215,17 @@ dX_t \;=\; a(X_t,t)\,dt \;+\; b(X_t,t)\,dW_t,\quad t\in[0,T],
 $$
 wird ein Zeitschrittgitter $t_n=n\Delta t$ eingeführt und der kontinuierliche Prozess durch eine zeitdiskrete Approximation ersetzt. Erwartungswerte werden via Monte‑Carlo über viele simulierte Pfade geschätzt.
 
-Die Differentialgleichung wird mit Euler (deterministisch) und Euler–Maruyama (stochastisch) diskretisiert (vgl. Bärwolff \cite{Baerwolff2025} u. a. S. 269, 466f.).
-Für die ODE $\dot x(t)=a(x(t),t)$ liefert das explizite Euler‑Schema
+Die Differentialgleichung (DGL) wird mit Euler (deterministisch) und Euler–Maruyama (stochastisch) diskretisiert (vgl. Bärwolff \cite{Baerwolff2025} u. a. S. 269, 466f.).
+Für die DGL $x^\prime(t)=a(x(t),t)$ liefert das explizite Euler‑Schema
 $$
 x_{n+1} \;=\; x_n \;+\; a(x_n,t_n)\,\Delta t.
 $$
 Ersetzt man nun formal $dW_t$ durch $\Delta W_n:=W_{t_{n+1}}-W_{t_n}\sim \mathcal N(0,\Delta t)$, erhält man die natürliche stochastische Erweiterung, das Euler–Maruyama‑Schema:
 $$
-X_{n+1} \;=\; X_n \;+\; a(X_n,t_n)\,\Delta t \;+\; b(X_n,t_n)\,\Delta W_n
-\;=\; X_n \;+\; a(X_n,t_n)\,\Delta t \;+\; b(X_n,t_n)\,\sqrt{\Delta t}\,\varepsilon_{n+1},
+\begin{aligned}
+X_{n+1} \;&=\; X_n \;+\; a(X_n,t_n)\,\Delta t \;+\; b(X_n,t_n)\,\Delta W_n \\
+\;&=\; X_n \;+\; a(X_n,t_n)\,\Delta t \;+\; b(X_n,t_n)\,\sqrt{\Delta t}\,\varepsilon_{n+1},
+\end{aligned}
 $$
 mit i.i.d. $\varepsilon_{n}\sim\mathcal N(0,1)$. 
 Ähnlich wurde im Hauptteil die geometrische Brownsche Bewegung hergeleitet.
@@ -280,7 +282,7 @@ wobei $p_\theta(\,\cdot\,|\,\cdot)$ die bedingte Übergangsdichte in Schrittweit
 $$
 \widehat\theta\;=\;\arg\max_{\theta}\ \ell(\theta).
 $$
-Da $p_\theta$ nicht explizit bekannt ist, wird eine Quasi-Likelihood (QMLE)-Methode verwendet. Hier mit Hilfe der Euler-Maruyama-Approximation.
+Da $p_\theta$ (hier) nicht explizit bekannt ist, wird eine Quasi-Likelihood (QMLE)-Methode verwendet. Hier mit Hilfe der Euler-Maruyama-Approximation.
 $$
 S_{t_{i+1}}-S_{t_i}\mid S_{t_i}\ \approx\ \mathcal N\!\big(a_\theta(S_{t_i},t_i)\,\Delta t,\; b_\theta^2(S_{t_i},t_i)\,\Delta t\big),
 $$
@@ -342,7 +344,7 @@ $$
 Die Funktion wird mit numerischen Optimierungsverfahren (z.B. L-BFGS-B) maximiert.
 \end{bem}
 
-\paragraph{Implementierung in R mit dem Paket Sim Diffproc}
+\begin{bsp}[Implementierung in R mit dem Paket Sim Diffproc]
 Die Parameterschätzung für das CEV-Modell kann mit dem R-Paket Sim.DiffProc durchgeführt werden. Die Funktion \texttt{fitsde} erlaubt die Schätzung der Drift- und Diffusionsparameter mittels Pseudo-Maximum-Likelihood auf Basis diskreter Zeitreihen. Das folgende R-Programm (Ausschnitt) zeigt die Anwendung auf DAX-Daten.
 Die Optimierung erfolgt mit dem Algorithmus L-BFGS-B und die Parametergrenzen sind gesetzt, um numerische Probleme zu vermeiden.
 
@@ -365,7 +367,7 @@ fit_cev <- fitsde(
 \end{lstlisting}
 
 Es folgt ein Backtest mit den geschätzten Parametern (vgl. Kapitel 7). Hier werden 1000 Pfade mit der
-Euler-Maruyama-Methode simuliert, und dann die empirischen 75\%-Quantile genommen.
+Euler-Maruyama-Methode simuliert, und dann die empirischen 50\%-Quantile genommen.
 
 \begin{figure}[H]
     \centering
@@ -378,7 +380,9 @@ Die Überdeckungswahrscheinlichkeit liegt bei 82\%. Dieselbe Konfiguration
 lieferte für die gemetrische Brownsche Bewegung eine Überdeckungswahrscheinlichkeit von 86\% (größer ist besser).
 Ein feinerer Vergleich der Kalibrierungen folgt im nächsten Abschnitt. 
 
-\paragraph{Eigene Implementierung in R mit der Euler‑Pseudo‑Likelihood}
+\end{bsp}
+
+\begin{bsp}[Eigene Implementierung in R mit der Euler‑Pseudo‑Likelihood]
 Die eigene Implementierung der Parameterschätzung für das CEV-Modell in R basiert auf der oben hergeleiteten Pseudo-Maximum-Likelihood-Funktion.
 Zur numerischen Optimierung wird das Paket nloptr \cite{nlopt} verwendet.
 
@@ -422,6 +426,7 @@ estimate_cev <- function(S, dt = 1/252) {
 }
 \end{lstlisting}
 
+
 \paragraph{Vergleich der Kalibrierungen}
 Im Vergleich des Standardpakets mit der eigenen Implementierung zeigt sich, dass die geschätzten Parameter bloß geringe Unterschiede aufweisen. Man kann schließen, dass die Schätzung korrekt implementiert ist.
 
@@ -441,20 +446,19 @@ Adesso & $0.2686$ & $0.4114$ & $1.0031$ & $0.2686$ & $0.4122$ & $1.0026$ \\
 \hline
 \end{tabular}
 \end{table}
+\end{bsp}
 
 \subsection{Ergebnisse und Vergleich der Modelle}
 
-Nun wird das CEV-Modell (mit der Kalibrierung aus Sim.Diffproc) mit der geometrischen Brownschen Bewegung (GBM) verglichen. Die beiden Modelle werden auf die gleichen Daten angewendet, und dann ein Backtest durchgeführt, um die Leistung der Modelle zu bewerten.
-Zum Einen wird eine Aufteilung der Daten zu einem bestimmten Gewicht (weight) vorgenommen, wobei das Modell auf die vergangenen Daten kalibriert und 
-dann auf die zukünftigen Daten angewendet und die Prognosegüte gemessen wird. Über alle Gewichte wird das Mittel (Mean) angegeben.
-Zum Anderen wird zu einem festen Zeitinterval (20 Tage) ein sequenzieller Backtest durchgeführt. Alle vergangenen Daten ergeben jeweils eine Prognose.
+Nun wird das CEV-Modell (unter Verwendung der in Sim.Diffproc vorgenommenen Kalibrierung) mit der geometrischen Brownschen Bewegung (GBM) verglichen. Beide Modelle werden auf denselben Datensatz angewendet und anschließend in einem Backtest bewertet.
+
+Zum einen erfolgt eine Aufteilung der Daten nach einem bestimmten Gewicht (weight): Das Modell wird auf Basis der historischen Daten kalibriert und anschließend zur Prognose der zukünftigen Daten eingesetzt. Die Prognosegüte wird gemessen und über alle Gewichte hinweg als Mittelwert angegeben.
+Zum anderen wird ein sequentieller Backtest mit einem festen Zeitintervall von 20 Tagen durchgeführt, bei dem jeweils alle bis dahin verfügbaren Daten zur Prognose herangezogen werden.
 
 \paragraph{Interpretation der Ergebnisse}
-Beim DAX verhalten sich GBM und CEV sehr ähnlich, wobei die sich Prognose selbstverständlich bei höheren Gewichten verbessert. Das passt zur Parameterschätzung,
-da $\beta$ nahe $1$ ist (s.o.) und sich das CEV-Modell dann wie eine GBM verhält. Die Ergebnisse bei der Lufthansa-Aktie sind ebenfalls vergleichbar, aber schlechter, da der
-Kurs keinen (log-)linearen Trend aufweist, wie der DAX. Beispielhaft für eine starke Korrelation von Preis und Volatilität (da ist das CEV-Modell vorteilhaft)
-wird der Wechselkurs von der türkischen Lira mit dem Dollar während einer Finanzkrise (2021) untersucht (Siehe Abbildung \ref{fig:cev_try}). Dort weist
-das CEV-Modell eine klare Verbesserung.
+Für den DAX zeigen GBM und CEV ein sehr ähnliches Verhalten. Die Prognosequalität verbessert sich erwartungsgemäß mit zunehmendem Gewicht. Dies steht im Einklang mit der Parameterschätzung, da $\beta$ nahe bei $1$ liegt (s. o.) und sich das CEV-Modell in diesem Fall nahezu wie eine GBM verhält.
+Auch bei der Lufthansa-Aktie liefern beide Modelle vergleichbare, jedoch insgesamt schlechtere Ergebnisse, da der Kurs (anders als beim DAX) keinen (log-)linearen Trend aufweist.
+Als Beispiel für eine ausgeprägte Korrelation zwischen Preis und Volatilität, bei der das CEV-Modell Vorteile bietet, wird der Wechselkurs der türkischen Lira gegenüber dem US-Dollar während der Finanzkrise 2021 untersucht (vgl. Abbildung \ref{fig:cev_try}). Hier zeigt das CEV-Modell eine deutliche Verbesserung.
 
 \begin{figure}[H]
     \centering

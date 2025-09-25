@@ -116,12 +116,12 @@ Das wird am Folgenden jedoch nachgezogen.
 \begin{defi}[Risikoneutrales Maß]
 Die soeben berechnete Wahrscheinlichkeit $q$ gehört zum risikoneutralen Wahrscheinlichkeitsmaß $Q$.
 Bisher wurde mit dem ursprünglichen Maß $P$ gerechnet. Ab jetzt wird mit $E(X)$, $V(X)$ etc der Erwartungswert
-und die Varianz unter $P$ bezeichnet, während $E^Q(X)$, $V^Q(X)$ etc den Erwartungswert und die Varianz unter $Q$
+und die Varianz unter $P$ bezeichnet, während $E_Q(X)$, $V_Q(X)$ etc den Erwartungswert und die Varianz unter $Q$
 bezeichnen. An $Q$ werden folgende Anforderungen gestellt (vgl. Hull, 2022 \cite{hull}, S. 270):
 \begin{enumerate}
     \item $Q$ ist ein Wahrscheinlichkeitsmaß
     \item $Q$ ist äquivalent zu $P$, das heißt $P(A)=0 \iff Q(A)=0$ für alle Ereignisse $A$ (lediglich die Wahrscheinlichkeiten ändern sich, nicht die möglichen Ereignisse)
-    \item Unter $Q$ ist der diskontierte Aktienkurs ein Martingal, also $E^Q(e^{-r \Delta t} S_{n+1} \mid S_n = v) = v$ für alle $n$ und $v>0$.
+    \item Unter $Q$ ist der diskontierte Aktienkurs ein Martingal, also $E_Q(e^{-r \Delta t} S_{n+1} \mid S_n = v) = v$ für alle $n$ und $v>0$.
 \end{enumerate}
 Im Fall des Binomialmodells handelt es sich um ein diskretes Wahrscheinlichkeitsmaß, 
 wobei die Werte $Q(S_{t + \Delta t} = u \cdot S_t)=q$ und $Q(S_{t + \Delta t} = d \cdot S_t)=1-q$ bekannt sind.
@@ -136,7 +136,7 @@ Setze $X_n := e^{-r n \Delta t}\, S_n$. Unter dem risikoneutralen Maß $Q$, das 
 $q=\frac{e^{r\Delta t}-d}{u-d}$ ist $(X_n)_{n\in\mathbb N_0}$ ein Martingal.
 
 \textit{Beweis.} Schreibe $S_{n+1}=S_n\,\xi_{n+1}$ mit 
-$\mathbb P_Q(\xi_{n+1}=u)=q$ und $\mathbb P_Q(\xi_{n+1}=d)=1-q$. 
+$Q(\xi_{n+1}=u)=q$ und $Q(\xi_{n+1}=d)=1-q$. 
 Für $s<t$ beliebig und wegen Unabhängigkeit der Schritte:
 $$
 X_t
@@ -160,14 +160,17 @@ Damit ist $(X_n)$ ein Martingal. \qed
 \begin{satz}[Bewertung von europäischen Optionen im Binomialmodell]
 Der Preis einer Option durch rekursive Rückwärtsinduktion bestimmt. 
 Der Wert einer europäischen Option am Endzeitpunkt $T$ ist durch die Auszahlungsfunktion $f(S_T)$ gegeben, z.\,B.\ für eine Call-Option $f(S_T) = \max(S_T - K, 0)$.
-Die Bewertung erfolgt rekursiv rückwärts:
+Die Bewertung zu früheren Zeitpunkten erfolgt rekursiv rückwärts:
 $$
-C_n = e^{-r \Delta t} \left( q C_{n+1}^\text{up} + (1-q) C_{n+1}^\text{down} \right),
+\begin{aligned}
+C_n &= e^{-r \Delta t} \left( q C_{n+1}^\text{up} + (1-q) C_{n+1}^\text{down} \right) \\
+&= E_Q(e^{-r \Delta t} C_{n+1} \mid S_n)
+\end{aligned}
 $$
 wobei $C_{n+1}^\text{up}$ und $C_{n+1}^\text{down}$ die Optionswerte im nächsten Schritt nach Auf- bzw. Abbewegung sind.
 Damit lässt sich der Optionspreis am Anfangszeitpunkt $C_0$ bestimmen. Die Formel leitet
 sich aus dem Ewartungswert unter dem risikoneutralen Maß $Q$ ab, dessen Verhalten im ein-stufigen Fall ja explizit bekannt ist.
-Der faire Preis der Option ist der Erwartungswert der diskontierten Auszahlung (unter dem risikoneutralen Maß).
+Der faire Preis der Option ist der Erwartungswert der diskontierten Auszahlung.
 \end{satz}
 
 \begin{bsp}
@@ -375,7 +378,7 @@ $$
 und $\Phi$ die Verteilungsfunktion der Standardnormalverteilung ist.
 \\ \textit{Beweis}\footnote{Der Beweis ist angelehnt an die Argumentation in Hull, 2022 \cite{hull}, S. 347}. Risikoneutrale Bewertung im Binomialmodell liefert
 $$
-C_0^{(n)} = e^{-rT}\,E\!\left[(S_T^{(n)} - K)^+\right].
+C_0^{(n)} = e^{-rT}\,E_Q\!\left[(S_T^{(n)} - K)^+\right].
 $$
 Die obige Verteilungskonvergenz impliziert
 $$
@@ -383,7 +386,7 @@ S_T^{(n)} \longrightarrow S_T = S_0 \exp\!\big((r-\tfrac12\sigma^2)T + \sigma \s
 $$
 Nun wird der Satz von Pratt angewendet, um den Grenzübergang und den Erwartungswert zu vertauschen. Eine untere Schranke ist $Y_n=0$ und eine obere Schranke ist $Z_n = (S_T^{(n)})^+ = S_T^{(n)}$. 
 $$
-\lim_{n\to\infty} C_0^{(n)} = e^{-rT}\,E\!\left[ (\lim_{n\to\infty} S_T^{(n)}-K)^+ \right] = e^{-rT}\,E_Q\!\left[(S_T - K)^+\right].
+\lim_{n\to\infty} C_0^{(n)} = e^{-rT}\,E_Q\!\left[ (\lim_{n\to\infty} S_T^{(n)}-K)^+ \right] = e^{-rT}\,E_Q\!\left[(S_T - K)^+\right].
 $$
 Nun wird die rechte Seite explizit berechnet: Seien
 $$
@@ -391,8 +394,8 @@ m := \big(r-\tfrac12\sigma^2\big)T,\qquad v:=\sigma \sqrt{T},\qquad Z\sim \mathc
 $$
 also $S_T = S_0 e^{m + v Z}$. Dann gilt
 $$
-E\big[(S_T - K)^+\big]
-= E\big[S_T\,\mathbf 1_{\{S_T\ge K\}}\big] - K\,P(S_T\ge K).
+E_Q\big[(S_T - K)^+\big]
+= E_Q\big[S_T\,\mathbf 1_{\{S_T\ge K\}}\big] - K\,Q(S_T\ge K).
 $$
 Aus Kapitel 5 ist bekannt, das $S_T$ lognormalverteilt ist. Die Schranke $S_T\ge K$ ist daher äquivalent zu $m + vZ \ge \ln(K/S_0)$, also
 $$
@@ -400,12 +403,12 @@ Z \ge a := \frac{\ln(K/S_0) - m}{v}.
 $$
 Damit ergibt sich für den zweiten Term
 $$
-P(S_T\ge K) = P(Z\ge a) = \Phi(-a).
+Q(S_T\ge K) = Q(Z\ge a) = \Phi(-a).
 $$
 Für den ersten Term wird die Dichte $\varphi$ von $Z$ genutzt:
 $$
 \begin{aligned}
-E\big[S_T\,\mathbf 1_{\{Z\ge a\}}\big]
+E_Q\big[S_T\,\mathbf 1_{\{Z\ge a\}}\big]
 &= S_0 e^{m}\int_a^\infty e^{v x}\,\varphi(x)\,dx
 = S_0 e^{m}\int_a^\infty e^{v x}\,\frac{1}{\sqrt{2\pi}}e^{-x^2/2}\,dx \\
 &= S_0 e^{m}\int_a^\infty \frac{1}{\sqrt{2\pi}}
@@ -421,12 +424,12 @@ $$
 $$
 Der zweite Term ist damit bestimmt:
 $$
-E\big[S_T\,\mathbf 1_{\{S_T\ge K\}}\big]
+E_Q\big[S_T\,\mathbf 1_{\{S_T\ge K\}}\big]
 = S_0 e^{m + \frac12 v^2}\,\Phi(v-a).
 $$
 Zwischenfazit:
 $$
-E\big[(S_T - K)^+\big] = S_0 e^{rT}\,\Phi(d_1) - K\,\Phi(d_2)
+E_Q\big[(S_T - K)^+\big] = S_0 e^{rT}\,\Phi(d_1) - K\,\Phi(d_2)
 $$
 Setze $m+\tfrac12 v^2 = rT$ und beachte
 $$
@@ -436,12 +439,12 @@ v-a = \frac{\ln(S_0/K) + (r+\tfrac12\sigma^2)T}{\sigma \sqrt{T}} = d_1,
 $$
 Damit gilt
 $$
-E\big[(S_T - K)^+\big]
+E_Q\big[(S_T - K)^+\big]
 = S_0 e^{rT}\,\Phi(d_1) - K\,\Phi(d_2),
 $$
 und folglich
 $$
-C_0^{\mathrm{BS}} = e^{-rT}\,E\big[(S_T - K)^+\big]
+C_0^{\mathrm{BS}} = e^{-rT}\,E_Q\big[(S_T - K)^+\big]
 = S_0\,\Phi(d_1) - K e^{-rT}\,\Phi(d_2).
 $$
 \qed

@@ -102,13 +102,10 @@ Nun wird der Grenzprozess $N \to \infty$ betrachtet. Intuitiv wird die Zeit imme
 und es werden immer mehr Normalverteilungen in eine Zeiteinheit einbezogen. Vorerst ist jedoch unklar, 
 ob der Grenzprozess überhaupt existiert. Um die Konvergenz des Prozesses zu zeigen, wird die Verteilungskonvergenz 
 untersucht. Konvergenz der einzelnen Zeitpunkte (oder endlich-dimensionalen Vektoren) reicht nicht 
-für Konvergenz der Prozesse als Funktionen. Dazwischen könten „Spikes“/hochfrequente Oszillationen liegen,
-die jede feste endliche Stichprobe verfehlen, aber im Supremumsabstand sichtbar bleiben, zum Beispiel könnte der
-Prozess bei irrationalen Zeiten den Wert $\infty$ annehmen (Das ist natürlich nur ein Gedankenexperiment und 
-sehr unintuitiv). Daher wird die Konvergenz in 3 Schritten untersucht:
+für Konvergenz der Prozesse als Funktionen. Daher wird die Konvergenz in 3 Schritten untersucht:
 \begin{enumerate}
   \item Verteilungskonvergenz der einzelnen Zeitpunkte
-  \item Verteilungskonvergenz von endlich-dimensionalen Vektoren und die Kovarianzen
+  \item Verteilungskonvergenz von endlich-dimensionalen Vektoren und die Kovarianzen (Hieraus folgt bereits die Selbstähnlichkeit / Bedingte Verteilung so wie die Martingal-Eigenschaft)
   \item Stetigkeit der Pfade des Grenzprozesses
 \end{enumerate}
 
@@ -201,7 +198,7 @@ und damit
 $$
 V(Y_N)\xrightarrow[N\to\infty]{}\sum_{i,j=1}^k a_i a_j\,\min(t_i,t_j)=:\sigma^2(a).
 $$
-Jedes $Y_N$ ist eine lineare Kombination unabhängiger $\eta_i$. Mit dem Zentralen Grenzwertsatz wird die Grenzverteilung von $Y_N$ bestimmt.
+Jedes $Y_N$ ist eine lineare Kombination unabhängiger $\eta_i$. Mit dem Zentralen Grenzwertsatz (von Lindeberg-Feller) wird die Grenzverteilung von $Y_N$ bestimmt.
 Da die Summanden zentriert und von endlicher Varianz sind, bleibt die Lindeberg-Bedingung zu zeigen. Zerlege
 $$
 Y_N=\sum_{i=1}^k a_i b^{(N)}(t_i)=\sum_{j=1}^{M_N} c_{N,j}\,\eta_j,
@@ -241,17 +238,19 @@ Das kann man als ein Stetigkeits-Kriterium betrachten. (Obwohl man nicht direkt 
 Ausgehend von der Kovarianz-Struktur kann man die Stetigkeit mit dem Stetigkeitssatz von Kolmogorov (Behrends \cite{behrends}, 2013, S. 78f.) folgern.
 In dieser Arbeit wird jedoch ein anderer Beweisansatz genutzt.
 
+
 \begin{figure}[H]
-    \centering
+  \centering
+  \begin{minipage}{0.48\textwidth}
     \includegraphics[width=\textwidth]{images/bb_without_cov.png}
     \caption{Folge von Normalverteilten Zufallsvariablen ohne Kovarianz}
     \label{fig:bb_without_cov}
-
-    \centering
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\textwidth}
     \includegraphics[width=\textwidth]{images/bb_with_cov.png}
     \caption{Visualierung der Verteilung der diskreten Brownschen Bewegung unter Beachtung der Kovarianzstruktur}
     \label{fig:bb_with_cov}
-
+  \end{minipage}
 \end{figure}
 \end{bem}
 
