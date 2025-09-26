@@ -19,7 +19,6 @@ sigma <- sd(log_returns)
 mu <- mean(log_returns) + 0.5 * sigma^2
 \end{lstlisting}
 
-
 \subsection{Bootstrap-Verfahren zur Kalibrierung}
 Das Bootstrap-Verfahren ermöglicht eine probabilistische Schätzung der Parameter $\mu$ und $\sigma$. Falls die vorliegenden Daten z. B.
 Lückenhaft sind, kann dies detektiert werden. Durch wiederholte Auswahl (Sampling) von Teildaten und Schätzung der Parameter, wobei die verschiedenen Schätzungen anschließend verglichen werden kann man Konfidenzintervalle für $\mu$ und $\sigma$ erzeugen. 
@@ -174,8 +173,8 @@ Man kann Backtests auch sequenziell durchführen: Für jedes Jahr wird aus den v
 
 \subsection{Monte-Carlo-Simulation}
 
-Genauso wie man eine Brownsche Bewegung mit summierten Normalverteilungen simuliert, 
-wird eine geometrische Brownsche Bewegung durch exponentiell transformierte
+Genauso wie man eine brownsche Bewegung mit summierten Normalverteilungen simuliert, 
+wird eine geometrische brownsche Bewegung durch exponentiell transformierte
 summierte Normalverteilungen simuliert. 
 
 
@@ -208,13 +207,13 @@ Es folgt eine Visualisierung der Simulation im Anschluss an die historischen Dat
 
 \begin{bsp}[Vergleich von Konfidenzintervall und Monte-Carlo-Simulation]
 
-Man kann das Konfidenzintervall aus dem vorherigen Beispiel mit den quantilen der Monte-Carlo-Simulation vergleichen.
+Man kann das Konfidenzintervall aus dem vorherigen Beispiel mit den Quantilen der Monte-Carlo-Simulation vergleichen.
 Man erkennt, dass das Konfidenzintervall aus der Formel mit steigender Simulationsanzahl immer besser durch die Quantile der Simulation approximiert wird.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/ci_comparison.png}
-    \caption{Vergleich von Konfidenzintervall und Monte-Carlo-Simulation für verschiedene Simulationsanzahlen}
+    \caption{Vergleich von Konfidenzintervall und Monte-Carlo-Simulation für verschiedene Simulations-Anzahlen}
     \label{fig:ci_comparison}
 \end{figure}
 

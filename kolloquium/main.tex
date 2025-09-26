@@ -33,7 +33,8 @@
 \setbeamertemplate{navigation symbols}{}
 
 % Title page setup
-\title[Die Geometrische Brownsche Bewegung und Anwendungen]{Die Geometrische Brownsche Bewegung und Anwendungen}
+\title[Kolloquium]{Kolloquium}
+\subtitle[Die geometrische brownsche Bewegung und Anwendungen]{Die geometrische brownsche Bewegung und Anwendungen}
 \author{Fabian Schuller}
 \date{\today}
 
@@ -59,26 +60,35 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Inhalt}
+\begin{frame}{Ablauf}
   \begin{itemize}
-    \item Grundlagen zu Stochastischen Prozessen und der Brownschen Bewegung
-    \item Herleitung der geometrischen Brownschen Bewegung aus dem Binomialmodell
-    \item Modellierung von Finanzzeitreihen mit der geometrischen Brownschen Bewegung
-    \item Bewertung von Aktienoptionen mit Black Scholes
+    \item Presentation der Inhalte der Bachelorarbeit
+    \begin{itemize}
+      \item Grundlagen zu Stochastischen Prozessen und der Brownschen Bewegung
+      \item Herleitung der geometrischen Brownschen Bewegung aus dem Binomialmodell
+      \item Modellierung von Finanzzeitreihen mit der geometrischen Brownschen Bewegung
+      \item Bewertung von Aktienoptionen mit Black Scholes
+      \item Weiterführende Themen: Stochastische Differentialgleichungen und das CEV-Modell
+    \end{itemize}
+    \item Diskussion
   \end{itemize}
 \end{frame}
 
-\section{Die Brownsche Bewegung}
+\section{Die brownsche Bewegung}
 
 \begin{frame}{Stochastische Prozesse}
     \begin{itemize}
-      \item Zeitdiskrete Modelle: Zufallsspaziergang, Binomialmodell
-      \item Zeitstetige Grenzprozesse: Brownsche Bewegung als Limit
-      \item Filtration, bedingter Erwartungswert, Adaptierung (Information über Zeit)
+      \item Folgen bzw. Familien von Zufallsvariablen $$X_t,\quad t \in \Bbb N \quad \mathrm{ bzw. } \quad  t \in \Bbb R_{\ge 0}$$
+      \item Zeitdiskrete Prozesse: Wiederholter Münzwurf, Zufallsspaziergang
+      \item Zeitstetige Prozesse: brownsche Bewegung
     \end{itemize}
+    \begin{figure}
+      \centering
+      \includegraphics[width=1\textwidth]{images/bb_2d.png}
+    \end{figure}
 \end{frame}
 
-\begin{frame}{Die diskrete Brownsche Bewegung}
+\begin{frame}{Die diskrete brownsche Bewegung}
   \begin{itemize}
     \item Konstruktion durch aufsummierte unabhängige Normalvariablen
     \item Skaliertes Interpolationsverfahren (N-ter Ordnung) ($\rightarrow$ Varianz $\to$ t)
@@ -90,17 +100,21 @@
   \end{figure}
 \end{frame}
 
-\begin{frame}{Die Brownsche Bewegung}
+\begin{frame}{Die brownsche Bewegung}
   \begin{itemize}
   \item Klassische Axiome
+    \begin{enumerate}
+      \item $W_0=0$ (fast-sicher)
+      \item Die Pfade $t \mapsto W_t$ sind (fast-sicher) stetig
+      \item Für Zeitpunkte $0 \le t_0 < t_1 \dots$ sind die Zuwächse $W_{t_1} - W_{t_0}$ unabhängig
+      \item Die Zuwächse sind normalverteilt mit $W_{t_1} - W_{t_0} \sim N(0, t_1 - t_0)$
+    \end{enumerate}
+  \pause
+  \item brownsche Bewegung als Grenzwert
     \begin{itemize}
-      \item $W_0=0$, Pfade fast-sicher stetig
-      \item unabhängige, stationäre Normalinkremente
-    \end{itemize}
-  \item Brownsche Bewegung als Grenzwert
-    \begin{itemize}
-      \item Donsker / Zentrale Grenzwertsatz für Prozesse
-      \item Existenz der endlich-dimensionalen Verteilungen und Kontinuität
+      \item Diskrete brownsche Bewegung und dann $N \to \infty$
+      \item Um die Axiome Nachzuweisen: Donsker / Zentrale Grenzwertsatz für Prozesse
+      \item In der Arbeit: Existenz der endlich-dimensionalen Verteilungen (Cramér-Wold) und (eigener) Nachweis der Stetigkeit
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -122,11 +136,11 @@
       \item Martingal-Eigenschaft
       \item stationäre, unabhängige Inkremente, Normalverteilung
       \item Pfade zwar nicht differenzierbar, aber stetig
-      \item Somit eignet sich die Brownsche Bewegung zur Modellierung von Rauschen
+      \item Somit eignet sich die brownsche Bewegung zur Modellierung von Rauschen
   \end{itemize}
 \end{frame}
 
-\section{Die geometrische Brownsche Bewegung}
+\section{Die geometrische brownsche Bewegung}
 
 \begin{frame}{Diskretes Modell}
   \begin{itemize}
@@ -141,23 +155,28 @@
   \begin{itemize}
       \item Geschlossene Lösung der SDE / Grenzwert der diskreten Übergangsvariablen
       \item $S_T = S_0 \exp\big((\mu-\tfrac12\sigma^2)T + \sigma W_T\big)$
-      \item $S_T$ ist log-normalverteilt; Erwartungswert und Varianz bekannt
+      \item $S_T$ ist log-normalverteilt
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Beweisskizze}
   \begin{itemize}
       \item Logarithmierung: $\log S_n = \log S_0 + \sum \log(1+X_j)$
-      \item Taylor-Entwicklung bis 2. Ordnung, Quadratterm liefert $-\tfrac12\sigma^2T$
-      \item ZGWS f. Summe der Zufallsvariablen $\Rightarrow \sigma W_T$; GGZ f. Quadratterm
+      \item Taylor-Entwicklung bis 2. Ordnung, danach $$
+\begin{aligned}
+\log S_n &\approx \log S_0 + \sum_{j=1}^n\left( \underbrace{\mu \Delta t + \sigma\sqrt{\Delta t} \varepsilon_j}_{X_j} - \underbrace{\frac{1}{2} \sigma^2 \Delta t \varepsilon_j}_{-\frac{1}{2} X_j^2} \right)
+\\ &= \log S_0 + \mu T +  \underbrace{\sigma\sqrt{\Delta t} \sum_{j=1}^{n} \varepsilon_j}_{\mathrm{[ZGWS]} \quad \to \sigma W_T} - \underbrace{\frac{1}{2} \sigma^2 \sum_{j=1}^{n} \Delta t \varepsilon_j^2}_{\mathrm{[GGZ]} \quad \to \frac12 \sigma^2 T}
+\end{aligned}
+$$
+      \item Letztlich $\log S_T \overset{d} = \log S_0 + \big(\mu - \tfrac12 \sigma^2\big)T + \sigma W_T$ \qed
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Eigenschaften}
+\begin{frame}{Fazit und Eigenschaften}
   \begin{itemize}
       \item Positivität: $S_t>0$ fast sicher
-      \item Log-Normalverteilung: einfache Momente für Risikoanalyse
-      \item Skalierungseigenschaften; analytische Preise für einfache Derivate
+      \item fast sicher stetige Pfade
+      \item Log-Normalverteilt mit $\log S_t \sim N(\log S_0 + \mu - \tfrac12 \sigma^2, \sigma^2)$
   \end{itemize}
 \end{frame}
 
@@ -166,14 +185,25 @@
 \begin{frame}{Kalibrierung}
   \begin{itemize}
       \item Schätzung von $\mu,\sigma$ über Log-Returns
+      \begin{itemize}
+        \item Daten sind zu einem festen $\Delta t$ gegeben
+        \item Aus $\log S_{t + \Delta t} \vert \log S_t \sim N(\mu - \tfrac12 \sigma^2, \sqrt{\Delta t} \sigma^2)$ folgt der Schätzer
+        \item $\sigma^2 = s(\Delta \log S_t)$ und $\mu = m(\Delta \log S_t)$ wobei $s$ die empirische Varianz und $m$ das Mittel ist
+      \end{itemize}
+      \pause
       \item Konfidenzintervalle und Unsicherheitsschätzung (Bootstrap)
+      \begin{itemize}
+        \item Die Daten sind ggf. unrein
+        \item Schätze $\mu$ und $\sigma$ wiederholt sud einer Teilmenge der Daten schätzt
+        \item Ein Konfidenzband ergibt probabilistische Schätzung von $\mu$ und $\sigma$
+      \end{itemize}
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Simulation}
   \begin{itemize}
-      \item Exakte Pfadsimulation für GBM via geschlossene Formel
-      \item Monte-Carlo-Simulation für Optionspreise und Konfidenzbänder
+      \item Exakte Pfadsimulation für GBM mit der geschlossenen Formel und der diskreten brownsche Bewegung
+      \item Anwendung z. B. Monte-Carlo-Simulation für Optionspreise
       \item Numerik: Euler--Maruyama für verallgemeinerte Modelle (CEV etc.)
   \end{itemize}
   \begin{figure}
@@ -184,14 +214,27 @@
 
 \begin{frame}{Backtests}
   \begin{itemize}
-      \item Evaluierung von Handelsstrategien auf historischen Daten (DAX, Lufthansa, ...)
-      \item Vergleich von Modellen (GBM vs. CEV) mittels Backtests und Performance-Metriken
-      \item Visualisierung der Backtests und Confidence Bands
+      \item Validierung eines Modells anhand historischer Daten
+      \item Metriken zur Bewertung
+  
   \end{itemize}
+\begin{table}[H]
+\centering
+\begin{tabular}{lcccccc}
+Hitratio & MSE \\
+
+\% im Konfidenzintervall & $\frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2$  \\
+\hline
+NRMSE & MAPE \\
+$\frac{\sqrt{\text{MSE}}}{y_{max} - y_{min}}$ & $\frac{100\%}{n} \sum_{i=1}^n \left|\frac{y_i - \hat{y}_i}{y_i}\right|$ \\
+
+\end{tabular}
+\end{table}
+
   \begin{figure}
     \centering
-  \includegraphics[width=0.48\textwidth]{../thesis/images/dax_backtest.png}
-  \includegraphics[width=0.48\textwidth]{../thesis/images/cev_dax_backtest.png}
+  \includegraphics[width=0.49\textwidth]{../thesis/images/dax_backtest.png}
+  \includegraphics[width=0.49\textwidth]{../thesis/images/dax_backtest_seq.png}
   \end{figure}
 \end{frame}
 
@@ -199,33 +242,141 @@
 
 \begin{frame}{Optionen}
   \begin{itemize}
-      \item Europäische Call- und Put-Option: Recht, nicht Pflicht
-      \item Auszahlung: $\max(S_T-K,0)$ (Call), $(K-S_T)^+$ (Put)
-      \item Unterscheidung: europäisch vs. amerikanisch (Ausübungsrechte)
+      \item Eine europäische Call Option gibt dem Käufer das Recht, aber nicht die Pflicht, eine Aktie am Zeitpunkt $T$ zum Ausübungspreis $K$ zu kaufen.
+      \item Put Option: Recht auf Verkauf (an den Anbieter der Option)
+      \begin{itemize}
+        \item Beispiel: Absicherung von Getreide-Ernte
+      \end{itemize} 
+      \item Auszahlungsfunktion $\max(S_T-K,0)$ (Call), $\max(K-S_T, 0)$ (Put)
+      \item Amerikanische Optionen: jederzeit Einlösbar
+      \item Es gibt viele weitere Optionstypen mit anderen Auszahlungen
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Risikoneutrale Bewertung}
+\begin{frame}{Bewertung von Optionen}
   \begin{itemize}
-      \item Diskontierter Aktienkurs ist unter dem risikoneutralen Maß $Q$ ein Martingal
-      \item Erwartungswert unter $Q$ des diskontierten Auszahlungsstroms gibt den fairen Preis
-      \item Hedging-Interpretation: Replikation via dynamischem Portfolio (Delta-Hedging)
+      \item Naiver Ansatz: Erwartungswert der Ausübungsfunktion unter einem Aktienkursmodell wie der GBM
+      \pause
+      \item Was ist mehr Wert? 100€ jetzt oder 100€ in einem Jahr?
+      \pause
+      \item 100€ jetzt, denn man könnte das Geld anlegen, und 2\% Zinsen erhalten
+      \item Modellerweiterung: Bank bietet risikofreien Zinssatz $r$
+      \pause
+      \item Arbitrage-Prinzip: Der Trend der Aktie muss beim Preis der Option beachtet werden 
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Der faire Preis von Optionen}
+\begin{frame}{Herleitung des Black-Scholes Modells}
+  \begin{enumerate}
+      \item Diskretes Modell: Binomialmodell
+      \item Options-Bewertung Binomialmodell
+      \item Black-Scholes als Limes $N \to \infty$
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Diskretes Modell: Binomialmodell}
+      $$S_{t+1} = \begin{cases} 
+    d \cdot S_t, & \text{mit Wahrscheinlichkeit }  p \\ 
+    u \cdot S_t, & \text{mit Wahrscheinlichkeit }  1-p
+\end{cases}$$
+     
+\begin{center}
+\begin{tikzpicture}[x=2.6cm,y=1cm,>=stealth]
+    % styles
+    \tikzset{price/.style={circle,draw,minimum size=6mm,inner sep=0pt,font=\small}}
+
+    % nodes
+    \node[price] (S0)  at (0,0)   {$S_0$};
+    \node[price] (Su)  at (1,1)   {$u S_0$};
+    \node[price] (Sd)  at (1,-1)  {$d S_0$};
+    \node[price] (Suu) at (2,2)   {$u^2 S_0$};
+    \node[price] (Sud) at (2,0)   {$u d S_0$};
+    \node[price] (Sdd) at (2,-2)  {$d^2 S_0$};
+
+    % edges with probabilities p and 1-p
+    \draw[->] (S0) -- node[sloped,above] {$p$} (Su);
+    \draw[->] (S0) -- node[sloped,below] {$1-p$} (Sd);
+
+    \draw[->] (Su) -- node[sloped,above] {$p$} (Suu);
+    \draw[->] (Su) -- node[sloped,below] {$1-p$} (Sud);
+
+    \draw[->] (Sd) -- node[sloped,above] {$p$} (Sud);
+    \draw[->] (Sd) -- node[sloped,below] {$1-p$} (Sdd);
+
+    % time axis labels
+    \node[font=\scriptsize] at (0,-2.6) {Zeit 0};
+    \node[font=\scriptsize] at (1,-2.6) {Zeit 1};
+    \node[font=\scriptsize] at (2,-2.6) {Zeit 2};
+
+    % parameter box
+    \node[anchor=west, align=left, font=\scriptsize] at (2.6,2.0) {Parameter:\\
+        Aufstieg $u>1$\\
+        Abstieg $0<d<1$\\
+        Wkt. $p\in(0,1)$
+    };
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Bewertung von Optionen}
   \begin{itemize}
-      \item Für europäische Calls: Black-Scholes-Formel
-      \item $C = S_0\Phi(d_1) - Ke^{-rT}\Phi(d_2)$ mit $d_{1,2}$ standardmäßig definiert
-      \item Keine Arbitrage, perfekte Replikation unter Modellannahmen
+      \item Unter Beachtung des risikofreien Zinssatzes wird der Kurs diskontiert: $\tilde S_t = e^{-r t} S_t$ 
+      \pause
+      \item Arbitrage-Prinzip: Der Preis der Option muss unabhängig vom Trend der Aktie sein
+      \item Mathematisch Formuliert: Martingal-Eigenschaft: für $s < t$ gilt $$E(e^{-rt}S_t | S_s = v) = e^{-rs} v$$
+      \pause
+      \item Man konstruirt das risikoneutrale Maß $Q$, um die Martingaleigenschaft des diskontierten Kurses zu garantieren, und nutzt dieses zur Bewertung der Option
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Beispiel: risikoneutrale ein-Schritt-Wahrscheinlichkeit}
+Frage: wie muss $p$ aussehen, damit $e^{-r t} S_t$ im Binomialmodell ein Martingal ist? Diese Wahrscheinlichkeit wird im folgenden $q$ genannt.
+
+$$
+\begin{aligned}
+&E(e^{-r (n+1) \Delta t} S_{n+1} \mid S_n = v) = e^{-r n \Delta t} v
+\\ 
+\iff &E(e^{-r \Delta t} S_{n+1} \mid S_n=v) = v.
+\end{aligned}
+$$
+Setzt man die möglichen Werte für $S_{n+1}$ ein ($S_{n+1} = u S_n$ mit Wahrscheinlichkeit $q$, $S_{n+1} = d S_n$ mit Wahrscheinlichkeit $1-q$) folgt
+$$
+\begin{aligned}
+&e^{-r \Delta t} \left( q u S_n + (1-q) d S_n \right) = v.
+\\
+&e^{-r \Delta t} \left( q u + (1-q) d \right) = 1
+\\
+&q = \frac{e^{r \Delta t} - d}{u - d}
+\end{aligned}
+$$ \qed
+\end{frame}
+
+\begin{frame}{Bewertung von Optionen im Binomialmodell}
+  \begin{itemize}
+      \item Zum Zeitpunkt $N$ der Auszahlung ist der Wert der Option genau die Auszahlungsfunktion, z. B. $\max(S_T - K, 0)$
+      \item Zum Zeitpunkt $N-1$ und davor durch Rückwärtsinduktion gilt mit der risikoneutralen Wahrscheinlichkeit $q$
+      $$
+      \begin{aligned}
+C_{n-1} &= E_Q(e^{-r \Delta t} C_{n} \mid S_{n-1}) \\
+&= e^{-r \Delta t} \left( q C_{n}^\text{up} + (1-q) C_{n}^\text{down} \right)
+      \end{aligned}
+      $$
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Das Black-Scholes Modell}
   \begin{itemize}
-      \item Modellannahmen: GBM für Underlier, konstante $r,\sigma$, keine Transaktionskosten
-      \item PDE-Herleitung führt zur geschlossenen Preislösung für europäische Optionen
-      \item Praktische Limitationen: Volatilitätsstruktur, Marktfriktionen
+      \item Modellannahmen: GBM, konstante $r,\sigma$, keine Transaktionskosten
+      \item Die diskrete Zeit im Binomialmodell wird stetig durch den Limes $N \to \infty$
+      \item In der Arbeit wird gezeigt, dass $S_t$ unter $Q$ wieder eine GBM ist. Damit kann man Aktien direkt durch Simulation bewerten (Monte-Carlo-Verfahren)
+      \item Für europäische Optionen gilt darüber hinaus die explizite Formel
+      $$C_0^{\mathrm{BS}}= S_0\,\Phi(d_1) - K e^{-rT}\,\Phi(d_2)$$ mit
+      $$
+d_1 = \frac{\ln(S_0/K) + \big(r + \tfrac12 \sigma^2\big)T}{\sigma \sqrt{T}},
+\qquad
+d_2 = d_1 - \sigma \sqrt{T}.
+$$
   \end{itemize}
 \end{frame}
 
@@ -241,11 +392,24 @@
   \end{figure}
 \end{frame}
 
-\section{Ende}
+\section{Ausblick}
 
-\begin{frame}{Ausblick}
+\begin{frame}{CEV-Modell}
   \begin{itemize}
-    \item Stochastische Differentialgleichungen
+    \item Alternative zur GBM
+    \item Stochastische Differentialgleichung: $$dS_t \;=\; \mu S_t\,dt \;+\; \sigma\,S_t^{\beta}\,dW_t$$
+    \item Diskretisierung: $$\Delta S_i \approx \mu S_{t_i}\Delta t + \sigma S_{t_i}^{\beta}\sqrt{\Delta t}\,\varepsilon_i,\quad \varepsilon_i\sim\mathcal N(0,1),\Delta S_i := S_{t_{i+1}} - S_{t_i}$$
+    \item Übergangswahrscheinlichkeit: $$\Delta S_i \mid S_{t_i} \sim \mathcal N\left(\mu S_{t_i} \Delta t,\, \sigma^2 S_{t_i}^{2\beta} \Delta t\right)$$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Kalibrierung des CEV-Modell}
+  \begin{itemize}
+    \item Übergangswahrscheinlichkeit: $$\Delta S_i \mid S_{t_i} \sim \mathcal N\left(\mu S_{t_i} \Delta t,\, \sigma^2 S_{t_i}^{2\beta} \Delta t\right)$$
+    \item Dichte: $$p(x) = \frac{1}{\sqrt{2\pi v}} \exp\left(-\frac{(x-m)^2}{2v}\right),\quad m = \mu S_{t_i}, v = \sigma^2 S_{t_i}^{2 \beta}$$
+    \item MLE-Schätzer: Betrachte alle Realisierungen der Zeitreihe, und maximiere die Dichte in Abhängigkeit der Parameter
+  $$L(\mu, \sigma, \beta) = \prod_{i=0}^{n-1} p(\Delta S_i \mid S_{t_i})$$
+    \item Dies wurde in der Arbeit implementiert und mit der GBM verglichen
   \end{itemize}
 \end{frame}
 

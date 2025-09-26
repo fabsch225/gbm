@@ -1,8 +1,10 @@
 \section{Alternative Modelle}
 
-Dieses Kapitel bietet einen Einblick in weiterführende mathematische Aspekte, die im Rahmen dieser Arbeit nicht im Detail behandelt werden konnten.
+Dieses Kapitel bietet einen Einblick in weiterführende mathematische Aspekte, die im Rahmen 
+dieser Arbeit nicht im Detail behandelt werden konnten.
 Die Grundlage bilden stochastische Differentialgleichungen (SDEs).  
-Stochastische Differentialgleichungen bilden die mathematische Grundlage für die Modellierung und Simulation zeitstetiger stochastischer Prozesse im allgemeinen.
+Stochastische Differentialgleichungen bilden die mathematische Grundlage für die 
+Modellierung und Simulation zeitstetiger stochastischer Prozesse im allgemeinen.
 Im Folgenden wird die Herleitung von It\^o-SDEs über It\^o-Integrale skizziert. 
 Unter Verwendung des Kalkühls der SDEs werden alternative Modelle zur geometrischen Brownschen Bewegung vorgestellt. 
 Beispielhaft wird das CEV-Modell (Constant Elastic Variance) untersucht, implementiert
@@ -10,13 +12,13 @@ und mit der GBM verglichen.
 
 \begin{bem}[Motivation Stochastischer Differentialgleichungen]
 
-Im Kapitel 5 wurde ein Aktienkurs durch die zeitdiskrete Übergangsgleichung
+Im Kapitel 4 wurde ein Aktienkurs durch die zeitdiskrete Übergangsgleichung
 $$S_{n+1} = S_n \big(1 + \mu \Delta t + \sigma \sqrt{\Delta t}\,\varepsilon_{n+1}\big)$$
 modelliert. Ziel des folgenden Abschnitts ist es, den Grenzübergang $\Delta t \to 0$ zu betrachten,
 um eine kontinuierliche Beschreibung der Kursdynamik zu erhalten. Dabei soll die stochastische Differentialgleichung
 $$dS_t = \mu S_t\,dt + \sigma S_t\,dW_t$$
-hergeleitet werden, deren Lösung die geometrische Brownsche Bewegung ist. 
-Anschaulich muss man sich nur noch von $\sqrt{\Delta t} \varepsilon_{n+1} \to dW_t$ überzeugen, wobei $W_t$ eine Brownsche Bewegung ist.
+hergeleitet werden, deren Lösung die geometrische brownsche Bewegung ist. 
+Anschaulich muss man sich nur noch von $\sqrt{\Delta t} \varepsilon_{n+1} \to dW_t$ überzeugen, wobei $W_t$ eine brownsche Bewegung ist.
 Sei $\Delta t = T/n$ und $(\varepsilon_k)_{k\ge 1}$ i.i.d. mit $E(\varepsilon_k)=0$, $V(\varepsilon_k)=1$.
 Definiere den skalierten Zufallsspaziergang
 $$
@@ -26,7 +28,7 @@ Dann gilt für jedes feste $t$ nach dem Zentralen Grenzwertsatz
 $$
 W^{(n)}(t)\ \to\ \mathcal N(0,t).
 $$
-Und nach Kapitel 4 konvergiert $W^{(n)}$ sogar gegen eine Brownsche Bewegung $W$.
+Und nach Kapitel 4 konvergiert $W^{(n)}$ sogar gegen eine brownsche Bewegung $W$.
 
 Insbesondere sind die diskreten Inkremente unabhängig und es gilt für $k=\lfloor t/\Delta t\rfloor$
 $$
@@ -50,7 +52,8 @@ kann die Übergangsgleichung als stochastische Differentialgleichung interpretie
 \end{bem}
 
 Formal werden stochastische Differentialgleichungen über das It\^o-Integral eingeführt, das wird 
-im nächsten Abschnitt skizziert, für eine genaue Darstellung sei auf die Literatur verwiesen, z. B. Behrends (2013) \cite{behrends} oder Karatzas und Shreve (1991) \cite{karatzas_brownian_1991}.
+im nächsten Abschnitt skizziert, für eine genaue Darstellung sei auf die Literatur 
+verwiesen, z. B. Behrends (2013) \cite{behrends} oder Karatzas und Shreve (1991) \cite{karatzas_brownian_1991}.
 Die Argumentation ist analog zu Kapitel 6 des Lehrbuchs von Behrends \cite{behrends}.
 
 \subsection{Stochastische Differentialgleichungen}
@@ -67,7 +70,7 @@ Arbeitsraum ist ein filtrierter Wahrscheinlichkeitsraum
 $$
 (\Omega,\mathcal F,(\mathcal F_t)_{t\ge 0},\mathbb P),
 $$
-und es sei $W_t$ eine Brownsche Bewegung. 
+und es sei $W_t$ eine brownsche Bewegung. 
 
 Analog zu analytischen Integralen
 wird das stochastische Integral über Treppenfunktionen definiert. 
@@ -75,7 +78,8 @@ Genauso wie man eine integrierbare Funktion mit einer Folge von Stufen approximi
 stochastische Prozesse durch elementare Prozesse approximiert.
 
 \begin{defi}[Elementare (adaptierte) Prozesse und ihr Integral]
-Fixiere $T>0$. Ein Prozess $H$ heißt \emph{elementar adaptiert} auf $[0,T]$, wenn es eine Zerlegung $0=t_0<t_1<\dots<t_n=T$ und Zufallsvariablen $\xi_i\in L^2(\Omega,\mathcal F_{t_i},\mathbb P)$, $i=0,\dots,n-1$, gibt mit
+Fixiere $T>0$. Ein Prozess $H$ heißt \emph{elementar adaptiert} auf $[0,T]$, wenn es eine 
+Zerlegung $0=t_0<t_1<\dots<t_n=T$ und Zufallsvariablen $\xi_i\in L^2(\Omega,\mathcal F_{t_i},\mathbb P)$, $i=0,\dots,n-1$, gibt mit
 $$
 H_t \;=\; \sum_{i=0}^{n-1} \xi_i\,\mathbf 1_{(t_i,t_{i+1}]}(t),\qquad t\in[0,T].
 $$
@@ -88,7 +92,8 @@ $$
 E\!\left[\int_0^T H_s\,dW_s\right] \;=\; 0,\qquad
 E\!\left[\Big(\int_0^T H_s\,dW_s\Big)^{\!2}\right] \;=\; E\!\left[\int_0^T H_s^2\,ds\right].
 $$
-Dies ist die \emph{It\^o-Isometrie}. Mit der It\^o-Isometrie kann man aus quadratintegrablen Prozessen schließen, dass das It\^o-Integral existiert. Der entstandene Prozess ist ein Martingal.
+Dies ist die \emph{It\^o-Isometrie}. Mit der It\^o-Isometrie kann man aus quadratintegrablen Prozessen
+schließen, dass das It\^o-Integral existiert. Der entstandene Prozess ist ein Martingal.
 \end{defi}
 
 \begin{satz}[Dichtheit der elementaren Prozesse]
@@ -99,19 +104,22 @@ Prozess, deren Integrale sich um ein beliebiges $\varepsilon$ unterscheiden.
 
 Sei $L^2_{\mathrm{pred}}(\Omega\times[0,T])$ der Funktionen-Raum aller vorhersagbaren Prozesse $X$ mit der Norm
 $$\|X\|_{2,T}^2 := E \left [ \int_0^T |X_s|^2 ds \right ] < \infty.$$
-Dann ist die Klasse der elementaren vorhersagbaren Prozesse dicht in $L^2_{\mathrm{pred}}(\Omega\times[0,T])$ bezüglich der Norm $\|\cdot\|_{2,T}$. (Siehe z. B. Karatzas und Shreve \cite{karatzas_brownian_1991}, S. 132f.) 
+Dann ist die Klasse der elementaren vorhersagbaren Prozesse dicht 
+in $L^2_{\mathrm{pred}}(\Omega\times[0,T])$ bezüglich der Norm $\|\cdot\|_{2,T}$. (Siehe z. B. Karatzas und Shreve \cite{karatzas_brownian_1991}, S. 132f.) 
 Die Dichtheit garantiert, dass zu einem beliebigen (adaptierten, quadratintegrierbaren) Prozess 
 eine Folge von elementaren Prozessen existiert, die dagegen konvergiert.
 \end{satz}
 
 \begin{defi}[It\^o-Integral]
 Das It\^o-Integral ist nun für elementare Prozesse definiert, und für einen beliebigen Prozess existiert
-eine passende Folge. So wird dann das It\^o-Integral für beliebige Prozesse definiert: Das It\^o-Integral ist der Grenzwert der Integrale der approximierenden elementaren Prozesse.
+eine passende Folge. So wird dann das It\^o-Integral für beliebige Prozesse definiert:
+Das It\^o-Integral ist der Grenzwert der Integrale der approximierenden elementaren Prozesse.
 Offen bleibt aber die Frage nach der Wohldefiniertheit dieses Integral-Begriffs. Konvergieren zwei Folgen $G_t^{(n)}$, $H_t^{(n)}$ von
 elementaren Prozessen gegen einen Prozess $X_t$ (in der Norm $\|\cdot\|_{2,T}^2$), so muss auch das Integral im Grenzwert übereinstimmen.
 Hier wird die oben genannte It\^o-Isometrie genutzt.
 
-Für einen allgemeinen vorhersagbaren Prozess $X\in L^2_{\mathrm{pred}}(\Omega\times[0,T])$ wähle eine Folge elementarer Prozesse $H^{(n)}$ mit
+Für einen allgemeinen vorhersagbaren Prozess $X\in L^2_{\mathrm{pred}}(\Omega\times[0,T])$ wähle 
+eine Folge elementarer Prozesse $H^{(n)}$ mit
 $\|H^{(n)}-X\|_{2,T}\to 0$. Dann definiert man
 $$
 \int_0^T X_s\,dW_s \;:=\; L^2\text{-}\lim_{n\to\infty}\;\int_0^T H^{(n)}_s\,dW_s,
@@ -149,7 +157,8 @@ und es gilt weiterhin die It\^o-Isometrie
 $$
 E\!\left[\Big(\int_0^T X_s\,dW_s\Big)^{\!2}\right] \;=\; E\!\left[\int_0^T X_s^{2}\,ds\right],
 $$
-sowie die Martingaleigenschaft von $M_t:=\int_0^t X_s\,dW_s$. Für lokal quadratintegrierbare $X$ erhält man das Integral durch Lokalisierung via Stoppzeiten.
+sowie die Martingaleigenschaft von $M_t:=\int_0^t X_s\,dW_s$. Für lokal 
+quadratintegrierbare $X$ erhält man das Integral durch Lokalisierung via Stoppzeiten.
 \end{defi}
 
 \begin{defi}[Stochastische Differentialgleichungen]
@@ -166,7 +175,8 @@ wobei $b(S_\cdot,\cdot)$ adaptiert und quadratintegrierbar sein muss.
 
 \subsection{Charakterisierung alternativer Kursmodelle durch stochastische Differentialgleichungen}
 
-Die GBM nimmt konstante Volatilität und lognormale Renditen an; sie erzeugt weder Sprünge noch Volatilitäts-Clustering oder kann Konjunkturperioden Modellieren.
+Die GBM nimmt konstante Volatilität und lognormale Renditen an; sie erzeugt weder 
+Sprünge noch Volatilitäts-Clustering oder kann Konjunkturperioden Modellieren.
 Glasserman \cite{glasserman2003monte} beschreibt verschiedene Ansätze zur Modellierung dieser Phänomene:
 
 \begin{bsp}[Lokale Volatilität]
@@ -197,7 +207,8 @@ Diffusion mit seltenen Sprüngen modelliert durch Poisson-Prozesse.
 $$
 \frac{dS_t}{S_t} \;=\; \big(\mu - \lambda \kappa_J\big)\,dt \;+\; \sigma\,dW_t \;+\; (J_t-1)\,dN_t,
 $$
-wobei $N_t$ Poisson mit Intensität $\lambda$ ist, $J_t$ die Sprunggröße (z.\,B. lognormal) und $\kappa_J= E(J_t-1)$; der Driftterm kompensiert die Sprünge.
+wobei $N_t$ Poisson mit Intensität $\lambda$ ist, $J_t$ die Sprunggröße (z.\,B. lognormal) 
+und $\kappa_J= E(J_t-1)$; der Driftterm kompensiert die Sprünge.
 \end{bsp}
 
 \begin{bsp}[Regimewechsel-Modelle]
@@ -228,7 +239,7 @@ X_{n+1} \;&=\; X_n \;+\; a(X_n,t_n)\,\Delta t \;+\; b(X_n,t_n)\,\Delta W_n \\
 \end{aligned}
 $$
 mit i.i.d. $\varepsilon_{n}\sim\mathcal N(0,1)$. 
-Ähnlich wurde im Hauptteil die geometrische Brownsche Bewegung hergeleitet.
+Ähnlich wurde im Hauptteil die geometrische brownsche Bewegung hergeleitet.
 
 \begin{bsp}[Implementierung]
 Es folgt ein R-Programm zur Simulation eines CEV-Modells (s. u.).
@@ -265,14 +276,17 @@ $$
 Die nächste Herausforderung ist die Kalibrierung (Parameterschätzung) aus gegebenen Daten. Die Arbeit 
 orientiert sich im folgenden an Iacus (2008, S. 122 ff.) \cite{iacus2008}. Eine eigene Implementierung in
 R wird danach mit dem Softwarepaket Sim.DiffProc \cite{rsde} (2020) verglichen, das man auf den selben Ansatz konfigurieren kann.
-Der Ansatz ist die numerische Maximierung einer Log-Likelihood-Funktion, die im Folgenden für die diskrete Übergangswahrscheinlichkeit hergeleitet wird.
-Das wird durch die Approximation der Übergangsdichte (eine bedingte Dichte) mittels des Euler-Maruyama-Schemas erreicht. Da sich für $\beta=1$ eine klassische geometrische Brownsche Bewegung ergibt, 
+Der Ansatz ist die numerische Maximierung einer Log-Likelihood-Funktion, die im Folgenden 
+für die diskrete Übergangswahrscheinlichkeit hergeleitet wird.
+Das wird durch die Approximation der Übergangsdichte (eine bedingte Dichte) mittels des 
+Euler-Maruyama-Schemas erreicht. Da sich für $\beta=1$ eine klassische geometrische brownsche Bewegung ergibt, 
 können die bekannten Schätzer für Drift und Volatilität als Spezialfall betrachtet werden. Insbesondere stellen die Parameter der GBM 
 sinnvolle Startwerte für die numerische Optimierung dar.
 
 \begin{lemma}[(Quasi) Maximum-Likelihood-Schätzung (MLE, QMLE)]
 Ziel ist die Parameterschätzung aus diskreten Beobachtungen $S_{t_0},\dots,S_{t_n}$ eines SDE
-$dS_t=a(S_t,t)\,dt+b(S_t,t)\,dW_t$. Grundidee: Wähle Parameter $\theta$ so, dass die beobachteten Daten unter dem Modell am wahrscheinlichsten sind. Für diskrete Beobachtungen $S_{t_0},\dots,S_{t_n}$ eines (Markov‑)Modells gilt
+$dS_t=a(S_t,t)\,dt+b(S_t,t)\,dW_t$. Grundidee: Wähle Parameter $\theta$ so, dass die beobachteten 
+Daten unter dem Modell am wahrscheinlichsten sind. Für diskrete Beobachtungen $S_{t_0},\dots,S_{t_n}$ eines (Markov‑)Modells gilt
 $$
 L(\theta) \;=\; \prod_{i=0}^{n-1} p_\theta\!\big(S_{t_{i+1}},\,\Delta t \,\big|\, S_{t_i}\big), 
 \qquad
@@ -282,7 +296,8 @@ wobei $p_\theta(\,\cdot\,|\,\cdot)$ die bedingte Übergangsdichte in Schrittweit
 $$
 \widehat\theta\;=\;\arg\max_{\theta}\ \ell(\theta).
 $$
-Da $p_\theta$ (hier) nicht explizit bekannt ist, wird eine Quasi-Likelihood (QMLE)-Methode verwendet. Hier mit Hilfe der Euler-Maruyama-Approximation.
+Da $p_\theta$ (hier) nicht explizit bekannt ist, wird eine Quasi-Likelihood (QMLE)-Methode verwendet. 
+Hier mit Hilfe der Euler-Maruyama-Approximation.
 $$
 S_{t_{i+1}}-S_{t_i}\mid S_{t_i}\ \approx\ \mathcal N\!\big(a_\theta(S_{t_i},t_i)\,\Delta t,\; b_\theta^2(S_{t_i},t_i)\,\Delta t\big),
 $$
@@ -307,7 +322,8 @@ Nach obiger Diskretisierung gilt näherungsweise (in die man die deterministisch
 $$
 \Delta S_i \mid S_{t_i} \sim \mathcal N\left(\mu S_{t_i} \Delta t,\, \sigma^2 S_{t_i}^{2\beta} \Delta t\right)
 $$
-Das heißt: Für gegebenen Kurs $S_{t_i}$ ist der nächste Schritt normalverteilt mit Mittelwert $\mu S_{t_i} \Delta t$ und Varianz $\sigma^2 S_{t_i}^{2\beta} \Delta t$.
+Das heißt: Für gegebenen Kurs $S_{t_i}$ ist der nächste Schritt normalverteilt mit 
+Mittelwert $\mu S_{t_i} \Delta t$ und Varianz $\sigma^2 S_{t_i}^{2\beta} \Delta t$.
 Die Dichte einer Normalverteilung mit Mittelwert $m$ und Varianz $v$ an der Stelle $x$ ist:
 $$
 p(x) = \frac{1}{\sqrt{2\pi v}} \exp\left(-\frac{(x-m)^2}{2v}\right)
@@ -336,7 +352,8 @@ Setzt man die Dichte $p$ ein, ergibt sich die Likelihood
 \end{satz}
 
 \begin{bem}[Interpretation]
-Die Log-Likelihood misst, wie gut die Parameter $(\mu, \sigma, \beta)$ die beobachteten Kursänderungen erklären. Der erste Term bestraft große Varianzen, der zweite Term misst die Abweichung der beobachteten Inkremente von den erwarteten Werten.
+Die Log-Likelihood misst, wie gut die Parameter $(\mu, \sigma, \beta)$ die beobachteten Kursänderungen erklären. 
+Der erste Term bestraft große Varianzen, der zweite Term misst die Abweichung der beobachteten Inkremente von den erwarteten Werten.
 Die Schätzungen der Parameter erhält man durch Maximierung der Log-Likelihood:
 $$
 (\widehat{\mu}, \widehat{\sigma}, \widehat{\beta}) = \underset{\mu, \sigma, \beta}{\arg\max} \; \ell(\mu, \sigma, \beta)
@@ -345,7 +362,9 @@ Die Funktion wird mit numerischen Optimierungsverfahren (z.B. L-BFGS-B) maximier
 \end{bem}
 
 \begin{bsp}[Implementierung in R mit dem Paket Sim Diffproc]
-Die Parameterschätzung für das CEV-Modell kann mit dem R-Paket Sim.DiffProc durchgeführt werden. Die Funktion \texttt{fitsde} erlaubt die Schätzung der Drift- und Diffusionsparameter mittels Pseudo-Maximum-Likelihood auf Basis diskreter Zeitreihen. Das folgende R-Programm (Ausschnitt) zeigt die Anwendung auf DAX-Daten.
+Die Parameterschätzung für das CEV-Modell kann mit dem R-Paket Sim.DiffProc durchgeführt werden. Die 
+Funktion \texttt{fitsde} erlaubt die Schätzung der Drift- und Diffusionsparameter mittels 
+Pseudo-Maximum-Likelihood auf Basis diskreter Zeitreihen. Das folgende R-Programm (Ausschnitt) zeigt die Anwendung auf DAX-Daten.
 Die Optimierung erfolgt mit dem Algorithmus L-BFGS-B und die Parametergrenzen sind gesetzt, um numerische Probleme zu vermeiden.
 
 \begin{lstlisting}
@@ -377,13 +396,14 @@ Euler-Maruyama-Methode simuliert, und dann die empirischen 50\%-Quantile genomme
 \end{figure}
 
 Die Überdeckungswahrscheinlichkeit liegt bei 82\%. Dieselbe Konfiguration
-lieferte für die gemetrische Brownsche Bewegung eine Überdeckungswahrscheinlichkeit von 86\% (größer ist besser).
+lieferte für die gemetrische brownsche Bewegung eine Überdeckungswahrscheinlichkeit von 86\% (größer ist besser).
 Ein feinerer Vergleich der Kalibrierungen folgt im nächsten Abschnitt. 
 
 \end{bsp}
 
 \begin{bsp}[Eigene Implementierung in R mit der Euler‑Pseudo‑Likelihood]
-Die eigene Implementierung der Parameterschätzung für das CEV-Modell in R basiert auf der oben hergeleiteten Pseudo-Maximum-Likelihood-Funktion.
+Die eigene Implementierung der Parameterschätzung für das CEV-Modell in R basiert auf der oben hergeleiteten 
+Pseudo-Maximum-Likelihood-Funktion.
 Zur numerischen Optimierung wird das Paket nloptr \cite{nlopt} verwendet.
 
 \begin{lstlisting}
@@ -428,7 +448,8 @@ estimate_cev <- function(S, dt = 1/252) {
 
 
 \paragraph{Vergleich der Kalibrierungen}
-Im Vergleich des Standardpakets mit der eigenen Implementierung zeigt sich, dass die geschätzten Parameter bloß geringe Unterschiede aufweisen. Man kann schließen, dass die Schätzung korrekt implementiert ist.
+Im Vergleich des Standardpakets mit der eigenen Implementierung zeigt sich, dass die geschätzten Parameter
+bloß geringe Unterschiede aufweisen. Man kann schließen, dass die Schätzung korrekt implementiert ist.
 
 \begin{table}[H]
 \centering
@@ -450,15 +471,23 @@ Adesso & $0.2686$ & $0.4114$ & $1.0031$ & $0.2686$ & $0.4122$ & $1.0026$ \\
 
 \subsection{Ergebnisse und Vergleich der Modelle}
 
-Nun wird das CEV-Modell (unter Verwendung der in Sim.Diffproc vorgenommenen Kalibrierung) mit der geometrischen Brownschen Bewegung (GBM) verglichen. Beide Modelle werden auf denselben Datensatz angewendet und anschließend in einem Backtest bewertet.
+Nun wird das CEV-Modell (unter Verwendung der in Sim.Diffproc vorgenommenen Kalibrierung) mit der geometrischen Brownschen Bewegung (GBM) verglichen. (Siehe Anhang B.) Beide Modelle werden auf denselben Datensatz angewendet und anschließend in einem Backtest bewertet.
 
-Zum einen erfolgt eine Aufteilung der Daten nach einem bestimmten Gewicht (weight): Das Modell wird auf Basis der historischen Daten kalibriert und anschließend zur Prognose der zukünftigen Daten eingesetzt. Die Prognosegüte wird gemessen und über alle Gewichte hinweg als Mittelwert angegeben.
-Zum anderen wird ein sequentieller Backtest mit einem festen Zeitintervall von 20 Tagen durchgeführt, bei dem jeweils alle bis dahin verfügbaren Daten zur Prognose herangezogen werden.
+Zum einen erfolgt eine Aufteilung der Daten nach einem bestimmten Gewicht (weight): Das Modell wird auf Basis der 
+historischen Daten kalibriert und anschließend zur Prognose der zukünftigen Daten eingesetzt. Die Prognosegüte 
+wird gemessen und über alle Gewichte hinweg als Mittelwert angegeben.
+Zum anderen wird ein sequentieller Backtest mit einem festen Zeitintervall von 20 Tagen durchgeführt, bei dem jeweils 
+alle bis dahin verfügbaren Daten zur Prognose herangezogen werden.
+
 
 \paragraph{Interpretation der Ergebnisse}
-Für den DAX zeigen GBM und CEV ein sehr ähnliches Verhalten. Die Prognosequalität verbessert sich erwartungsgemäß mit zunehmendem Gewicht. Dies steht im Einklang mit der Parameterschätzung, da $\beta$ nahe bei $1$ liegt (s. o.) und sich das CEV-Modell in diesem Fall nahezu wie eine GBM verhält.
-Auch bei der Lufthansa-Aktie liefern beide Modelle vergleichbare, jedoch insgesamt schlechtere Ergebnisse, da der Kurs (anders als beim DAX) keinen (log-)linearen Trend aufweist.
-Als Beispiel für eine ausgeprägte Korrelation zwischen Preis und Volatilität, bei der das CEV-Modell Vorteile bietet, wird der Wechselkurs der türkischen Lira gegenüber dem US-Dollar während der Finanzkrise 2021 untersucht (vgl. Abbildung \ref{fig:cev_try}). Hier zeigt das CEV-Modell eine deutliche Verbesserung.
+Für den DAX zeigen GBM und CEV ein sehr ähnliches Verhalten. Die Prognosequalität verbessert sich erwartungsgemäß 
+mit zunehmendem Gewicht. Dies steht im Einklang mit der Parameterschätzung, da $\beta$ nahe bei $1$ liegt (s. o.) und 
+sich das CEV-Modell in diesem Fall nahezu wie eine GBM verhält.
+Auch bei der Lufthansa-Aktie liefern beide Modelle vergleichbare, jedoch insgesamt schlechtere Ergebnisse, da der 
+Kurs (anders als beim DAX) keinen (log-)linearen Trend aufweist.
+Als Beispiel für eine ausgeprägte Korrelation zwischen Preis und Volatilität, bei der das CEV-Modell 
+Vorteile bietet, wird der Wechselkurs der türkischen Lira gegenüber dem US-Dollar während der Finanzkrise 2021 untersucht (vgl. Abbildung \ref{fig:cev_try}). Hier zeigt das CEV-Modell eine deutliche Verbesserung.
 
 \begin{figure}[H]
     \centering
@@ -466,9 +495,3 @@ Als Beispiel für eine ausgeprägte Korrelation zwischen Preis und Volatilität,
     \caption{Sequenzieller Backtest des CEV Modell für die türkische Lira (Wechselrate Dollar), Abstand von 2 Tagen während der türkischen Finanzkrise 2021}
     \label{fig:cev_try}
 \end{figure}
-
-\begin{sidewaystable}
-\centering
-\csvautotabular{../r/results/compare_models.csv}
-\caption{Vergleich der Modelle GBM und CEV über verschiedene Backtests und Metriken: Hitratio - größer ist besser; RMSE - kleiner ist besser; MAPE - kleiner ist besser; NRMSE - kleiner ist besser}
-\end{sidewaystable}

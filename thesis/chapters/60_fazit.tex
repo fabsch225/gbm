@@ -1,5 +1,3 @@
-\newpage
-
 \section{Fazit}
 
 Die Arbeit spannte den Bogen von elementaren stochastischen Prozessen über das Binomialmodell und die diskrete Brownsche 
@@ -18,7 +16,7 @@ Ein Backtest auf DAX-Daten zeigte eine hohe Überdeckungsrate im 50\%-Band und n
 was die Praxistauglichkeit trotz der Modellvereinfachungen unterstreicht. 
 
 Letztlich wurde gezeigt, wie die diskrete Modellierung durch Grenzübergang zur stochastischen Differentialgleichung führt, deren Lösung die 
-geometrische Brownsche Bewegung ist. Die Konstruktion des Itô-Integrals wird skizziert und die 
+geometrische brownsche Bewegung ist. Die Konstruktion des Itô-Integrals wird skizziert und die 
 heuristische Schreibweise $dS_t = a(S_t,t)\,dt + b(S_t,t)\,dW_t$ mathematisch präzisiert.
 
 Darauf aufbauend werden alternative Modelle wie lokale und stochastische Volatilität (z.B. CEV- und Heston-Modell), Sprung-Diffusions- und Regimewechselmodelle vorgestellt, die realistische Markteigenschaften wie Volatilitäts-Clustering oder Sprünge abbilden können. 
@@ -27,10 +25,10 @@ Am Beispiel des CEV-Modells wird die Parameterschätzung aus diskreten Daten mit
 
 \paragraph{Methodik}
 Methodisch verbindet die Arbeit diskrete Grenzwert- und Martingalargumente mit 
-reproduzierbarer Empirie in R. Zudem spielte die Monte-Carlo-Simulation eine zentrale Rolle als universelles Werkzeug zur Approximation risikoneutraler Erwartungswerte, sowohl für Endwert-Auszahlungen als auch für pfadabhängige Produkte. Für die geometrische Brownsche Bewegung wurden Endwerte unter dem risikoneutralen Maß exakt gezogen; bei Pfadabhängigkeiten wurde zeitlich diskretisiert. Die beobachtete Annäherung der empirischen Quantile an die analytischen Lognormal-Quantile mit wachsender Pfadzahl bestätigt Konsistenz und Korrektheit der Implementierung; der Vergleich analytischer Konfidenzbänder mit Simulationsquantilen dient als robuster Plausibilitätscheck.
+reproduzierbarer Empirie in R. Zudem spielte die Monte-Carlo-Simulation eine zentrale Rolle als universelles Werkzeug zur Approximation risikoneutraler Erwartungswerte, sowohl für Endwert-Auszahlungen als auch für pfadabhängige Produkte. Für die geometrische brownsche Bewegung wurden Endwerte unter dem risikoneutralen Maß exakt gezogen; bei Pfadabhängigkeiten wurde zeitlich diskretisiert. Die beobachtete Annäherung der empirischen Quantile an die analytischen Lognormal-Quantile mit wachsender Pfadzahl bestätigt Konsistenz und Korrektheit der Implementierung; der Vergleich analytischer Konfidenzbänder mit Simulationsquantilen dient als robuster Plausibilitätscheck.
 Als Beispiel dient ein Datensatz von DAX-Renditen.
 
-Die geometrische Brownsche Bewegung wird über Logarithmierung, Taylor-Entwicklung bis Ordnung zwei sowie Gesetz der großen Zahlen und 
+Die geometrische brownsche Bewegung wird über Logarithmierung, Taylor-Entwicklung bis Ordnung zwei sowie Gesetz der großen Zahlen und 
 zentralen Grenzwertsatz hergeleitet. Zudem kommen die Sätze von Cramér-Wold und Pratt zum Einsatz, 
 genauso wie das "Reihenkriterium für fast sichere Konvergenz", welches 
 ein Korollar zum Lemma von Borel-Cantelli ist (vgl. \cite{henze}). Insbesondere wurde das Kalkül der stochastischen Differentialgleichung zunächst vermieden.

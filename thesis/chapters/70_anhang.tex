@@ -1,0 +1,84 @@
+\section{Notation und Ergebnisse aus der Stochastik}
+\subsection{Notation}
+\begin{itemize}
+    \item $E(X)$ bzw. $E[X]$ - Erwartungswert
+    \item $V(X)$ bzw. $V[X]$ - Varianz
+    \item $X \sim N(\mu, \sigma^2)$ - normalverteilte Zufallsvariable mit Erwartungswert $\mu$ und Varianz $\sigma^2$
+    \item $(\Omega, \mathcal F, P)$ - Wahrscheinlichkeitsraum
+    \item $W_t$ - brownsche Bewegung (Wiener-Prozess)
+    \item GBM - geometrische brownsche Bewegung
+    \item CEV - Constant Elasticity of Variance (Modell)
+    \item MSE - Mean Squared Error
+    \item NRMSE - Normalized Root Mean Squared Error
+    \item RMSE - Root Mean Squared Error
+    \item MAPE - Mean Absolute Percentage Error
+\end{itemize}
+
+\subsection{Konvergenzbegriffe}
+
+\begin{itemize}
+    \item $X_n \xrightarrow{} X$ - punktweise Konvergenz (Für jedes $\omega \in \Omega$ gilt: $X_n(\omega) \to X(\omega)$)
+    \item $X_n \xrightarrow{\mathrm{glm.}} X$ - gleichmäßige Konvergenz (Für jede $\varepsilon > 0$ gilt: $\sup_{\omega \in \Omega} |X_n(\omega) - X(\omega)| < \varepsilon$ für $n$ groß genug)
+    \item $X_n \xrightarrow{\mathrm{d}} X$ - Konvergenz in Verteilung (Die Verteilungsfunktion $F_{X_n}$ von $X_n$ konvergiert punktweise gegen die Verteilungsfunktion $F_X$ von $X$, mindestens an den Stetigkeitsstellen von $F_X$)
+    \item $X_n \xrightarrow{\mathrm{p}} X$ - Konvergenz in Wahrscheinlichkeit (Für jede $\varepsilon > 0$ gilt: $P(|X_n - X| > \varepsilon) \to 0$)
+    \item $X_n \xrightarrow{\mathrm{f.s.}} X$ - fast sichere Konvergenz (Für fast alle $\omega \in \Omega$ gilt: $X_n(\omega) \to X(\omega)$)
+\end{itemize}
+
+Auf das Verhältnis zwischen den Konvergenzbegriffen wird bei Bedarf eingegangen.
+
+\subsection{Ergebnisse aus der Stochastik}
+
+\begin{lemma}[Reihenkriterium für fast sichere Konvergenz, Henze \cite{henze} S. 201]
+Sei $(X_n)_{n \in \Bbb N}$ eine Folge von Zufallsvariablen. Wenn es eine Reihe $\sum_{n=1}^\infty a_n \lt \infty$ mit $a_n \geq 0$ gibt, so dass
+$$P(|X_n| > \varepsilon) \leq a_n \quad \text{für alle } n \in \Bbb N \text{ und jedes } \varepsilon > 0,$$
+dann konvergiert $X_n$ fast sicher gegen $0$, d.h.
+$$P\left(\lim_{n \to \infty} X_n = 0\right) = 1.$$
+Wird hier nicht bewiesen. \qed
+\end{lemma}
+
+\begin{satz}[Cramér-Wold-Technik, Henze \cite{henze} S. 225]
+Seien $(X_n)_{n \in \Bbb N}$ und $X$ Zufallsvektoren in $\Bbb R^d$. Dann sind folgende Aussagen äquivalent:
+\begin{enumerate}
+    \item $X_n \xrightarrow{d} X$ für $n \to \infty$.
+    \item Für alle $t \in \Bbb R^d$ gilt $t^T X_n \xrightarrow{d} t^T X$ für $n \to \infty$.
+\end{enumerate}
+Wird hier nicht bewiesen. \qed \\
+Die Cramér-Wold-Technik erlaubt es, mehrdimensionale Verteilungskonvergenz auf eindimensionale Berechnungen zurückzuführen.
+\end{satz}
+
+\begin{satz}[Satz von Pratt, Elstrod \cite{elstrod} S. 280, vereinfacht]
+Dieser technische Satz erlaubt es, den Grenzübergang und den Erwartungswert zu vertauschen, und
+kommt im Folgenden bei der Herleitung der Black-Scholes-Formel zum Einsatz.
+Sei $(X_n) \longrightarrow X$ eine Folge von Zufallsvariablen, die fast-überall konvergiert,
+und $(Y_n) \longrightarrow Y$, $(Z_n) \longrightarrow Z$ ebenfalls.
+Gilt (1) $Y_n \le X_n \le Z_n$ und (2) $E(Y_n) \longrightarrow E(Y)$, $E(Z_n) \longrightarrow E(Z)$,
+dann folgt $E(X_n) \longrightarrow E(X)$. Wird hier nicht bewiesen. \qed
+\end{satz}
+
+\begin{defprop}[Monte-Carlo-Verfahren]
+Monte-Carlo-Verfahren sind stochastische Simulationsmethoden, die zur numerischen
+Lösung von Problemen verwendet werden, insbesondere zur Berechnung von Integralen
+und Erwartungswerten. Sie basieren auf der Erzeugung von Zufallszahlen und
+der statistischen Analyse der Ergebnisse. Man verwendet den \textit{Monte-Carlo-Schätzer}
+$$
+\hat{I}_n = \frac{1}{n} \sum_{i=1}^n f(X_i),
+$$
+wobei $X_1, X_2, \ldots, X_n$ unabhängige und identisch verteilte Zufallsvariablen
+sind, die der Verteilung von $X$ folgen. Der Schätzer konvergiert fast sicher
+gegen den wahren Erwartungswert $I = E[f(X)]$, wenn $n \to \infty$.
+\textit{Beweis.} Nach dem Gesetz der großen Zahlen gilt
+$$\hat{I}_n \longrightarrow E[f(X)] = I, \quad \text{fast sicher.}$$
+\qed
+\end{defprop}
+\newpage
+\section{Vergleich von GBM und CEV-Modell}
+\begin{table}[H]
+    \centering
+    \begin{sideways}
+        \resizebox{0.8\textheight}{!}{
+            \csvautotabular{../r/results/compare_models.csv}
+        }
+    \end{sideways}
+    \caption{Vergleich der Modelle GBM und CEV über verschiedene Backtests und Metriken: Hitratio - größer ist besser; RMSE - kleiner ist besser; MAPE - kleiner ist besser; NRMSE - kleiner ist besser} 
+    \label{fig:table_gbm_cev}
+\end{table}

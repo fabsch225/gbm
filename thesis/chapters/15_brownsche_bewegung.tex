@@ -1,28 +1,28 @@
-\section{Die Brownsche Bewegung}
+\section{Die brownsche Bewegung}
 
-Oft wird die Brownsche Bewegung (oder auch Wiener Prozess) axiomatisch definiert. In dieser Arbeit werden 
+Oft wird die brownsche Bewegung (oder auch Wiener Prozess) axiomatisch definiert. In dieser Arbeit werden 
 direkt kumulative Summen von Normalverteilungen betrachtet. Zuerst wird eine vereinfachte Darstellung des Prozesses eingeführt, 
-die diskrete Brownsche Bewegung. Die Argumentation ist angelehnt an Behrends \cite{behrends} (2013, Kap. 5).
+die diskrete brownsche Bewegung. Die Argumentation ist angelehnt an Behrends \cite{behrends} (2013, Kap. 5).
 
-\subsection{Diskrete Brownsche Bewegung}
+\subsection{Diskrete brownsche Bewegung}
 
-\begin{defi}[Diskrete Brownsche Bewegung]
-Die elementare Brownsche Bewegung sei ein stochastischer Prozess, 
+\begin{defi}[Diskrete brownsche Bewegung]
+Die elementare brownsche Bewegung sei ein stochastischer Prozess, 
 der aus einer Folge von Zufallsvariablen $\xi_n, n \in \Bbb N_0$ besteht, wobei
 $$\xi_n = \sum_{i=1}^n \eta_i, \quad \eta_i \sim N(0,1)$$. 
 Die Zufallsvariablen $\eta_i$ sind unabhängig und identisch verteilt. Nun 
 Nun wird eine stetige Zeitentwicklung durch lineare Interpolation eingeführt:
 $$b^{(1)}(t) := \xi_{\lfloor t \rfloor} + (t - \lfloor t \rfloor)(\xi_{\lfloor t \rfloor + 1} - \xi_{\lfloor t \rfloor}), \quad t \geq 0.$$
-Die Funktion $b^{(1)}(t)$ wird diskrete Brownsche Bewegung erster Ordnung genannt.
+Die Funktion $b^{(1)}(t)$ wird diskrete brownsche Bewegung erster Ordnung genannt.
 Der Name rührt daher, dass in eine Zeiteinheit genau eine Normalverteilung einbezogen wird.
-Im Allgemeinen wird die diskrete Brownsche Bewegung $b^{(N)}(t)$ $N$-ter Ordnung definiert als
+Im Allgemeinen wird die diskrete brownsche Bewegung $b^{(N)}(t)$ $N$-ter Ordnung definiert als
 $$b^{(N)}(t) := \frac{1}{\sqrt{N}} \left ( \xi_{\lfloor Nt \rfloor} + (Nt - \lfloor Nt \rfloor)(\xi_{\lfloor Nt \rfloor + 1} - \xi_{\lfloor Nt \rfloor}) \right ), \quad t \geq 0.$$
 Hierbei wird in eine Zeiteinheit $N$ Normalverteilungen einbezogen. Der Faktor $1/\sqrt{N}$ dient dazu, die Varianzen der Normalverteilungen zu normieren.
 
 \end{defi}
 
 \begin{bsp}[Visualisierung der diskreten Brownschen Bewegung]
-Das folgende R-Programm (Ausschnitt) generiert eine diskrete Brownsche Bewegung N-ter Ordnung.
+Das folgende R-Programm (Ausschnitt) generiert eine diskrete brownsche Bewegung N-ter Ordnung.
 
 \begin{lstlisting}
   n_points <- N * T_max
@@ -39,7 +39,7 @@ Für verschiedene Werte von $N$ ergeben sich die folgenden Grafiken:
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/disrete_bb.png}
-    \caption{Diskrete Brownsche Bewegung erster, zehnter, fünfzigster und zweihundertster Ordnung}
+    \caption{Diskrete brownsche Bewegung erster, zehnter, fünfzigster und zweihundertster Ordnung}
     \label{fig:brownian}
 \end{figure}
 
@@ -75,27 +75,6 @@ $$
 Im Grenzübergang $N \to \infty$ konvergiert $\frac{\lfloor Nt \rfloor}{N} \to t$ und $\frac{(Nt - \lfloor Nt \rfloor)^2}{N} \to 0$.
 \qed
 \end{lemma}
-
-\subsection{Nützliche Ergebnisse aus der Stochastik}
-Im Folgenden Beweis zur Stetigkeit der Pfade werden einige Ergebnisse aus der Stochastik verwendet, die hier zusammengefasst, aber nicht bewiesen werden.
-
-\begin{lemma}[Reihenkriterium für fast sichere Konvergenz, Henze \cite{henze} S. 201]
-Sei $(X_n)_{n \in \Bbb N}$ eine Folge von Zufallsvariablen. Wenn es eine Reihe $\sum_{n=1}^\infty a_n \lt \infty$ mit $a_n \geq 0$ gibt, so dass
-$$P(|X_n| > \varepsilon) \leq a_n \quad \text{für alle } n \in \Bbb N \text{ und jedes } \varepsilon > 0,$$
-dann konvergiert $X_n$ fast sicher gegen $0$, d.h.
-$$P\left(\lim_{n \to \infty} X_n = 0\right) = 1.$$
-Wird hier nicht bewiesen. \qed
-\end{lemma}
-
-\begin{satz}[Cramér-Wold-Technik, Henze \cite{henze} S. 225]
-Seien $(X_n)_{n \in \Bbb N}$ und $X$ Zufallsvektoren in $\Bbb R^d$. Dann sind folgende Aussagen äquivalent:
-\begin{enumerate}
-    \item $X_n \xrightarrow{d} X$ für $n \to \infty$.
-    \item Für alle $t \in \Bbb R^d$ gilt $t^T X_n \xrightarrow{d} t^T X$ für $n \to \infty$.
-\end{enumerate}
-Wird hier nicht bewiesen. \qed \\
-Die Cramér-Wold-Technik erlaubt es, mehrdimensionale Verteilungskonvergenz auf eindimensionale Berechnungen zurückzuführen.
-\end{satz}
 
 \subsection{Die Brownschen Bewegung als Grenzprozess und Eigenschaften}
 Nun wird der Grenzprozess $N \to \infty$ betrachtet. Intuitiv wird die Zeit immer feiner aufgelöst,
@@ -313,7 +292,7 @@ $$ \qed
 \end{satz}
 
 \begin{korr}[Martingal-Eigenschaft der Brownschen Bewegung]
-Die Brownsche Bewegung $W_t$ ist ein Martingal.
+Die brownsche Bewegung $W_t$ ist ein Martingal.
 \textit{Beweis.} Aus dem vorigen Satz folgt
 $$
 E(W_t | W_s = v) = v.

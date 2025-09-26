@@ -189,14 +189,14 @@ Die möglichen Aktienkurse zum Zeitpunkt $T$ sind:
     \node[price] (Sdd) at (2,-2)  {64};
 
     % edges with risk-neutral probabilities
-    \draw[->] (S0) -- node[sloped,above] {$q$} (Su);
-    \draw[->] (S0) -- node[sloped,below] {$1-q$} (Sd);
+    \draw[->] (S0) -- node[sloped,above] {$p$} (Su);
+    \draw[->] (S0) -- node[sloped,below] {$1-p$} (Sd);
 
-    \draw[->] (Su) -- node[sloped,above] {$q$} (Suu);
-    \draw[->] (Su) -- node[sloped,below] {$1-q$} (Sud);
+    \draw[->] (Su) -- node[sloped,above] {$p$} (Suu);
+    \draw[->] (Su) -- node[sloped,below] {$1-p$} (Sud);
 
-    \draw[->] (Sd) -- node[sloped,above] {$q$} (Sud);
-    \draw[->] (Sd) -- node[sloped,below] {$1-q$} (Sdd);
+    \draw[->] (Sd) -- node[sloped,above] {$p$} (Sud);
+    \draw[->] (Sd) -- node[sloped,below] {$1-p$} (Sdd);
 
     % time axis labels
     \node[font=\scriptsize] at (0,-2.4) {Zeit 0};
@@ -207,7 +207,8 @@ Die möglichen Aktienkurse zum Zeitpunkt $T$ sind:
     \node[anchor=west, align=left, font=\scriptsize] at (2.6,2.0) {Parameter:\\
         $u=1.2,\; d=0.8$\\
         $r=0.05,\; \Delta t=1$\\
-        $q \approx 0.628$
+        $q \approx 0.628$ \\
+        $p \ \ \mathrm{beliebig}$
     };
 \end{tikzpicture} \\ Die Auszahlungen der Call-Option zum Zeitpunkt $T$ sind:
 $$
@@ -230,9 +231,9 @@ Der faire Preis der Call-Option ist also etwa 15.7\,€.
 
 \subsection{Das Black-Scholes-Modell als Grenzfall des Binomialmodells}
 Ziel ist es zu zeigen, dass die fairen Optionspreise
-beim Verfeinern der Zeitdiskretisierung gegen die geometrische Brownsche Bewegung konvergieren.
-Dieses Modell wird auch als Black-Scholes-Modell bezeichnet. Hier wird der Grenzübergang im risikoneutralen Maß durchgeführt,
-die Modellannahme aus Kapitel 5 wird übernommen:
+beim Verfeinern der Zeitdiskretisierung gegen die geometrische brownsche Bewegung konvergieren.
+Dieses Modell wird auch als Black-Scholes-Modell bezeichnet. Hier wird der Grenzübergang im risikoneutralen Maß durchgeführt;
+die Modellannahme aus Kapitel 4 wird übernommen:
 $$
 S_t = S_0 \cdot e^{(\mu - \frac{1}{2}\sigma^2)t + \sigma W_t}
 $$
@@ -348,18 +349,9 @@ Im Grenzwert $n\to\infty$ (bzw.\ $\Delta t \to 0$) folgt damit
 $$
 \log S_T \sim \mathcal N\!\Big(\log S_0 + \big(r - \tfrac12 \sigma^2\big)T,\;\sigma^2 T\Big),
 $$
-d.\,h.\ unter $Q$ konvergiert der diskrete Prozess gegen die geometrische Brownsche Bewegung. Der Drift-Term ist nicht mehr der
+d.\,h.\ unter $Q$ konvergiert der diskrete Prozess gegen die geometrische brownsche Bewegung. Der Drift-Term ist nicht mehr der
 Trend im Aktienkurs sondern der Zinssatz $r$.
 \qed
-
-\begin{satz}[Satz von Pratt, Elstrod \cite{elstrod} S. 280, vereinfacht]
-Dieser technische Satz erlaubt es, den Grenzübergang und den Erwartungswert zu vertauschen, und
-kommt im Folgenden bei der Herleitung der Black-Scholes-Formel zum Einsatz.
-Sei $(X_n) \longrightarrow X$ eine Folge von Zufallsvariablen, die fast-überall konvergiert,
-und $(Y_n) \longrightarrow Y$, $(Z_n) \longrightarrow Z$ ebenfalls.
-Gilt (1) $Y_n \le X_n \le Z_n$ und (2) $E(Y_n) \longrightarrow E(Y)$, $E(Z_n) \longrightarrow E(Z)$,
-dann folgt $E(X_n) \longrightarrow E(X)$. Wird hier nicht bewiesen. \qed
-\end{satz}
 
 \begin{satz}[Black–Scholes-Formel für europäische Call-Optionen]
 Sei $C_0^{(n)}$ der Preis der europäischen Call-Option mit Laufzeit $T$ und Strike $K$
@@ -384,7 +376,7 @@ Die obige Verteilungskonvergenz impliziert
 $$
 S_T^{(n)} \longrightarrow S_T = S_0 \exp\!\big((r-\tfrac12\sigma^2)T + \sigma \sqrt{T}\,Z\big).
 $$
-Nun wird der Satz von Pratt angewendet, um den Grenzübergang und den Erwartungswert zu vertauschen. Eine untere Schranke ist $Y_n=0$ und eine obere Schranke ist $Z_n = (S_T^{(n)})^+ = S_T^{(n)}$. 
+Nun wird der Satz von Pratt (s. Anhang) angewendet, um den Grenzübergang und den Erwartungswert zu vertauschen. Eine untere Schranke ist $Y_n=0$ und eine obere Schranke ist $Z_n = (S_T^{(n)})^+ = S_T^{(n)}$. 
 $$
 \lim_{n\to\infty} C_0^{(n)} = e^{-rT}\,E_Q\!\left[ (\lim_{n\to\infty} S_T^{(n)}-K)^+ \right] = e^{-rT}\,E_Q\!\left[(S_T - K)^+\right].
 $$
@@ -397,7 +389,7 @@ $$
 E_Q\big[(S_T - K)^+\big]
 = E_Q\big[S_T\,\mathbf 1_{\{S_T\ge K\}}\big] - K\,Q(S_T\ge K).
 $$
-Aus Kapitel 5 ist bekannt, das $S_T$ lognormalverteilt ist. Die Schranke $S_T\ge K$ ist daher äquivalent zu $m + vZ \ge \ln(K/S_0)$, also
+Aus Kapitel 4 ist bekannt, das $S_T$ lognormalverteilt ist. Die Schranke $S_T\ge K$ ist daher äquivalent zu $m + vZ \ge \ln(K/S_0)$, also
 $$
 Z \ge a := \frac{\ln(K/S_0) - m}{v}.
 $$
@@ -497,21 +489,6 @@ vergleichsweise simple Option gehandelt hat. Für komplexere Derivate
 gibt es meist keine geschlossenen Formeln. Stattdessen werden numerische Verfahren
 verwendet, um den Erwartungswert der diskontierten Auszahlung zu approximieren.
 
-\begin{defprop}[Monte-Carlo-Verfahren]
-Monte-Carlo-Verfahren sind stochastische Simulationsmethoden, die zur numerischen
-Lösung von Problemen verwendet werden, insbesondere zur Berechnung von Integralen
-und Erwartungswerten. Sie basieren auf der Erzeugung von Zufallszahlen und
-der statistischen Analyse der Ergebnisse. Man verwendet den \textit{Monte-Carlo-Schätzer}
-$$
-\hat{I}_n = \frac{1}{n} \sum_{i=1}^n f(X_i),
-$$
-wobei $X_1, X_2, \ldots, X_n$ unabhängige und identisch verteilte Zufallsvariablen
-sind, die der Verteilung von $X$ folgen. Der Schätzer konvergiert fast sicher
-gegen den wahren Erwartungswert $I = E[f(X)]$, wenn $n \to \infty$.
-\textit{Beweis.} Nach dem Gesetz der großen Zahlen gilt
-$$\hat{I}_n \longrightarrow E[f(X)] = I, \quad \text{fast sicher.}$$
-\qed
-\end{defprop}
 
 \begin{lemma}[Anwendung auf Optionspreise]
 Um allgemeine Optionen zu bewerten, muss die Auszahlungsfunktion $f$
@@ -525,7 +502,7 @@ unter dem risikoneutralen Maß $Q$ ist
 $$
 C_0 = e^{-rT} E_Q[f(S_T)].
 $$
-Der Monte-Carlo-Schätzer für $C_0$ ist somit
+Der Monte-Carlo-Schätzer (s. Anhang) für $C_0$ ist somit
 $$
 \hat{C}_0^{(n)} = e^{-rT} \frac{1}{n} \sum_{i=1}^n f(S_T^{(i)}),
 $$
@@ -537,7 +514,7 @@ ein Algorithmus bekannt, um Realisierungen der geometrischen Brownschen Bewegung
 \begin{bsp}[Monte-Carlo-Simulation einer Call-Option auf den DAX]
 
 Das folgende R-Programm simuliert den Preis einer Call-Option auf den DAX
-mit dem Monte-Carlo-Verfahren. Dabei wird die geometrische Brownsche Bewegung
+mit dem Monte-Carlo-Verfahren. Dabei wird die geometrische brownsche Bewegung
 simuliert und der Erwartungswert der diskontierten Auszahlung approximiert.
 
 \begin{lstlisting}

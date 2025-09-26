@@ -1,6 +1,6 @@
-\section{Die geometrische Brownsche Bewegung}
+\section{Die geometrische brownsche Bewegung}
 
-Die geometrische Brownsche Bewegung ist eine Erweiterung der Brownschen Bewegung. 
+Die geometrische brownsche Bewegung ist eine Erweiterung der Brownschen Bewegung. 
 Sie eignet zur Modellierung von Aktienkursen, da sie im Gegensatz zur klassischen 
 Brownschen Bewegung stets positive Werte annimmt.
 
@@ -24,7 +24,7 @@ Das bildet die Modellannahme für den Rest dieser Arbeit.
 
 Im Folgenden wird eine explizite Formel für $S_t$ bewiesen, nämlich
 $$S_T = S_0 \exp\!\Big( (\mu - \tfrac12 \sigma^2)T + \sigma W_T \Big),$$
-wobei $W_T$ eine Brownsche Bewegung ist und $T=n \cdot \Delta t$. \textit{Beweis.}
+wobei $W_T$ eine brownsche Bewegung ist und $T=n \cdot \Delta t$. \textit{Beweis.}
 Man betrachtet den Logarithmus der $S_k$: Nach $n$ Schritten ist der Aktienkurs
 $$
 S_n = S_0 \prod_{j=1}^n (1 + X_j).
@@ -69,15 +69,15 @@ $$
 \sigma \sqrt{\Delta t} \sum_{j=1}^n \varepsilon_j = \sigma \frac{\sqrt{T}}{\sqrt{N}} \sum_{j=1}^n \varepsilon_j  \xrightarrow[n \to \infty]{\mathrm{d}} \xi \sim N(0, \sigma^2 T),
 $$
 also gegen eine Zufallsvariable $\xi$ die normalverteilt ist, mit Varianz $\sigma^2 T$.  $\xi = \sigma W_T$ ist eine Lösung, 
-weil $W_T \sim N(0, T)$ eine Brownsche Bewegung zur Zeit $T$ ist. 
-Da $E(\varepsilon_j^2) = 1$ gilt, folgt im Grenzübergang für die zweite Summe nach dem Gesetz der großen Zahlen
+weil $W_T \sim N(0, T)$ eine brownsche Bewegung zur Zeit $T$ ist. 
+Da $E(\varepsilon_j)=0$ und $V(\varepsilon_j)=1$ und damit $E(\varepsilon_j^2) = 1$ gilt, folgt im Grenzübergang für die zweite Summe nach dem Gesetz der großen Zahlen
 $$
 \frac{1}{2} \sigma^2 \sum_{j=1}^{n} \Delta t \varepsilon_j^2  \xrightarrow[n \to \infty]{\mathrm{f.s.}} \tfrac12 \sigma^2 T.
 $$
 Damit ergibt sich im Grenzübergang $n \to \infty$:
 $$
 \log S_T \overset{d} = \log S_0 + \big(\mu - \tfrac12 \sigma^2\big)T + \sigma W_T.
-$$Exponentiell geschrieben erhält man die \textit{Geometrische Brownsche Bewegung}:
+$$Exponentiell geschrieben erhält man die \textit{geometrische brownsche Bewegung}:
 $$
 S_T \overset d = S_0 \exp\!\Big( (\mu - \tfrac12 \sigma^2)T + \sigma W_T \Big).
 $$

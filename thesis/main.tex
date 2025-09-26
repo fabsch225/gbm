@@ -7,7 +7,20 @@
 \usepackage{csquotes}
 \usepackage{amsmath}
 \usepackage{rotating}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{csvsimple}
+\usepackage{hvfloat}
 \usepackage{chngcntr} % more control over counters
+
+\usepackage[toc,page]{appendix}
+\addto\captionsngerman{%
+  \renewcommand{\appendixname}{Anhang}%
+  \renewcommand{\appendixtocname}{Anhang}%
+  \renewcommand{\appendixpagename}{Anhang}%
+}
+
 
 \numberwithin{equation}{subsection} % equations numbered as section.subsection.equation
 
@@ -52,7 +65,7 @@
 %\setlength{\cftbeforesubsecskip}{0.05em} % space before each \subsection
 
 
-\title{Die geometrische Brownsche Bewegung und Anwendungen}
+\title{Die geometrische brownsche Bewegung und Anwendungen}
 \author{Fabian Schuller}
 \date{Oktober 2025}
 
@@ -133,7 +146,7 @@
 
 \begin{center}
     \vspace*{2cm}
-    {\LARGE \textbf{Die geometrische Brownsche Bewegung und Anwendungen}}\\[2cm]
+    {\LARGE \textbf{Die geometrische brownsche Bewegung und Anwendungen}}\\[2cm]
 
     {\large Diese Bachelorarbeit wurde vorgelegt am\\[0.5cm]
     
@@ -162,7 +175,7 @@
 \section*{Eidesstattliche Erklärung}
 
 \noindent
-Hiermit versichere ich, dass ich die Bachelorarbeit mit dem Titel \\[0.5cm] \textbf{Die geometrische Brownsche Bewegung und Anwendungen} \\[0.5cm]selbstständig verfasst und keine anderen als die angegebenen Quellen und Hilfsmittel benutzt habe, alle Ausführungen, die anderen Schriften wörtlich oder sinngemäß entnommen wurden, kenntlich gemacht sind und die Arbeit in gleicher oder ähnlicher Fassung noch nicht Bestandteil einer Studien- oder Prüfungsleistung war. Ich verpflichte mich, ein Exemplar der Bachelorarbeit fünf Jahre aufzubewahren und auf Verlangen dem Prüfungsamt des Fachbereiches Medizintechnik und Technomathematik auszuhändigen.
+Hiermit versichere ich, dass ich die Bachelorarbeit mit dem Titel \\[0.5cm] \textbf{Die geometrische brownsche Bewegung und Anwendungen} \\[0.5cm]selbstständig verfasst und keine anderen als die angegebenen Quellen und Hilfsmittel benutzt habe, alle Ausführungen, die anderen Schriften wörtlich oder sinngemäß entnommen wurden, kenntlich gemacht sind und die Arbeit in gleicher oder ähnlicher Fassung noch nicht Bestandteil einer Studien- oder Prüfungsleistung war. Ich verpflichte mich, ein Exemplar der Bachelorarbeit fünf Jahre aufzubewahren und auf Verlangen dem Prüfungsamt des Fachbereiches Medizintechnik und Technomathematik auszuhändigen.
 \\[2cm]
 
 \noindent
@@ -188,7 +201,6 @@ Aachen, den 6. Oktober 2025
 
 \input{chapters/00_motivation.tex}
 
-\input{chapters/05_grundlagen_notation.tex}
 
 \input{chapters/10_stoch_proz.tex}
 
@@ -207,5 +219,13 @@ Aachen, den 6. Oktober 2025
 \section{Quellenverzeichnis}
 
 \printbibliography
+
+\section*{Abbildungen, Quellcode und Tabellen}
+Alle Abbildungen, Quellcode-Ausschnitte und Tabellen wurden vom Autor mit der Programmiersprache R erstellt. Der Quellcode zu allen Abbildungen, Tabellen und Code-Ausschnitten ist online \cite{this_on_github} verfügbar.
+
+\begin{appendices}
+
+\input{chapters/70_anhang.tex}
+\end{appendices}
 
 \end{document}

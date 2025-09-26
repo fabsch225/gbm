@@ -37,7 +37,6 @@ Man beginnt mit einem Anfangspreis $S_0$. $S_1, S_2, \dots$ sind dann Messungen 
 $$S_{t+1} = \begin{cases} 
     d \cdot S_t, & \text{mit Wahrscheinlichkeit }  p \\ 
     u \cdot S_t, & \text{mit Wahrscheinlichkeit }  1-p
-
 \end{cases}.$$
 Im Gegensatz zum Zufallsspaziergang sind die Schritte hier nicht additiv, sondern multiplikativ. Daher
 eignet sich das Binomialmodell (im Gegensatz zum Zufallsspaziergang) zur Modellierung von Aktienkursen, es sind keine negativen Preise möglich.
@@ -80,15 +79,15 @@ eignet sich das Binomialmodell (im Gegensatz zum Zufallsspaziergang) zur Modelli
 \end{center}
 
 \end{bsp}
-\begin{bsp}[Brownsche Bewegung]
-Die Brownsche Bewegung beschreibt die Bewegung eines Partikels in 
+\begin{bsp}[brownsche Bewegung]
+Die brownsche Bewegung beschreibt die Bewegung eines Partikels in 
 einer Flüssigkeit \cite{webster_bb}. Die Zufallsgröße ist hier die Position des Partikels.
 Naturanaloge stochastische Prozesse erfüllen oft eine Stetigkeitsbedingung: 
 Andernfalls würde sich z. B. der Partikel in der Flüssigkeit teleportieren. 
 Konkret: Es bezeichne der Pfad $t \mapsto X_t$ die Realisierungen der Zufallsvariablen $X_t$ unter 
 der Zeit $t$. Dann wird gefordert, dass die Pfade fast-sicher stetig sind, also 
 $$P(\{\omega \in \Omega | t \mapsto X_t(\omega) \text{ ist stetig}\}) = 1.$$ 
-Im nächsten Kapitel wird die Brownsche Bewegung formal definiert.
+Im nächsten Kapitel wird die brownsche Bewegung formal definiert.
 \end{bsp}
 
 \subsection{Bedingter Erwartungswert und Filtrationen}

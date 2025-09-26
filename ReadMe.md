@@ -1,4 +1,4 @@
-# Die Geometrische Brownsche Bewegung und Anwendungen
+# Die geometrische brownsche Bewegung und Anwendungen
 Hier finden Sie die Quellcode für die Bachelorarbeit und den Vortrag für das Kolloquium, so wie die R-Skripte zur Erzeugung der Visualisierungen in der Arbeit. Die Code-Ausschnitte aus der Arbeit sind hier eingebettet.
 
 ### R-Quellcode Übersicht

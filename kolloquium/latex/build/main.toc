@@ -1,6 +1,6 @@
 \beamer@sectionintoc {1}{Einleitung}{1}{0}{1}
-\beamer@sectionintoc {2}{Die Brownsche Bewegung}{3}{0}{2}
-\beamer@sectionintoc {3}{Die geometrische Brownsche Bewegung}{8}{0}{3}
+\beamer@sectionintoc {2}{Die brownsche Bewegung}{3}{0}{2}
+\beamer@sectionintoc {3}{Die geometrische brownsche Bewegung}{8}{0}{3}
 \beamer@sectionintoc {4}{Anwendungen}{12}{0}{4}
 \beamer@sectionintoc {5}{Black-Scholes}{15}{0}{5}
 \beamer@sectionintoc {6}{Ende}{21}{0}{6}
