@@ -57,6 +57,7 @@ verwiesen, z. B. Behrends (2013) \cite{behrends} oder Karatzas und Shreve (1991)
 Die Argumentation ist analog zu Kapitel 6 des Lehrbuchs von Behrends \cite{behrends}.
 
 \subsection{Stochastische Differentialgleichungen}
+
 Ziel dieses Abschnitts ist es, die heuristische Schreibweise
 $$
 dS_t \;=\; a(S_t,t)\,dt \;+\; b(S_t,t)\,dW_t
@@ -77,8 +78,14 @@ wird das stochastische Integral über Treppenfunktionen definiert.
 Genauso wie man eine integrierbare Funktion mit einer Folge von Stufen approximiert, werden
 stochastische Prozesse durch elementare Prozesse approximiert.
 
-\begin{defi}[Elementare (adaptierte) Prozesse und ihr Integral]
-Fixiere $T>0$. Ein Prozess $H$ heißt \emph{elementar adaptiert} auf $[0,T]$, wenn es eine 
+\begin{bem}[Vorhersagbare Prozesse]
+Die Klasse der vorhersagbaren stochastischen Prozesse bildet eine Erweiterung der links-stetigen Prozesse, so dass 
+z. B. auch Poisson-Prozesse (sprunghaft) zugelassen werden (vgl. Karatzas und Shreve \cite{karatzas_brownian_1991}, 1991, S. 131).
+Stochastische Integrale und somit auch SDEs werden für solche Prozesse definiert. U. A. gilt: Vorhersagbar impliziert Adaptiert.
+\end{bem}
+
+\begin{defi}[Elementare Prozesse und ihr Integral]
+Fixiere $T>0$. Ein Prozess $H$ heißt \emph{elementar} auf $[0,T]$, wenn es eine 
 Zerlegung $0=t_0<t_1<\dots<t_n=T$ und Zufallsvariablen $\xi_i\in L^2(\Omega,\mathcal F_{t_i},\mathbb P)$, $i=0,\dots,n-1$, gibt mit
 $$
 H_t \;=\; \sum_{i=0}^{n-1} \xi_i\,\mathbf 1_{(t_i,t_{i+1}]}(t),\qquad t\in[0,T].
@@ -106,7 +113,7 @@ Sei $L^2_{\mathrm{pred}}(\Omega\times[0,T])$ der Funktionen-Raum aller vorhersag
 $$\|X\|_{2,T}^2 := E \left [ \int_0^T |X_s|^2 ds \right ] < \infty.$$
 Dann ist die Klasse der elementaren vorhersagbaren Prozesse dicht 
 in $L^2_{\mathrm{pred}}(\Omega\times[0,T])$ bezüglich der Norm $\|\cdot\|_{2,T}$. (Siehe z. B. Karatzas und Shreve \cite{karatzas_brownian_1991}, S. 132f.) 
-Die Dichtheit garantiert, dass zu einem beliebigen (adaptierten, quadratintegrierbaren) Prozess 
+Die Dichtheit garantiert, dass zu einem beliebigen (vorhersagbaren, quadratintegrierbaren) Prozess 
 eine Folge von elementaren Prozessen existiert, die dagegen konvergiert.
 \end{satz}
 
@@ -170,7 +177,7 @@ präzise zu lesen als Integralgleichung
 $$
 S_t \;=\; S_0 \;+\; \int_0^t a(S_s,s)\,ds \;+\; \int_0^t b(S_s,s)\,dW_s,
 $$
-wobei $b(S_\cdot,\cdot)$ adaptiert und quadratintegrierbar sein muss.
+wobei $b(S_\cdot,\cdot)$ vorhersagbar und quadratintegrierbar sein muss.
 \end{defi}
 
 \subsection{Charakterisierung alternativer Kursmodelle durch stochastische Differentialgleichungen}
