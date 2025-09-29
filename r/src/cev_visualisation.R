@@ -6,7 +6,7 @@ library(Sim.DiffProc)
 
 source("src/cev.R")
 
-dax <- read_csv("data/try.csv") %>%
+dax <- read_csv("data/dax.csv") %>%
   mutate(Date  = mdy(Date),
          Price = as.numeric(gsub(",", "", Price))) %>%
   arrange(Date)
@@ -38,13 +38,13 @@ sim_df <- data.frame(
 )
 
 sim_df <- sim_df %>%
-  mutate(time_step = row_number())
+  mutate(Time = row_number())
 
 library(ggplot2)
 
-ggplot(sim_df, aes(x = time_step)) +
+ggplot(sim_df, aes(x = Time)) +
   geom_ribbon(aes(ymin = Lower, ymax = Upper, fill = "Confidence Band"), alpha = 0.5) +
-  geom_line(aes(y = Median, color = "Median"), linetype = "dashed") +
+  geom_line(aes(y = Median, color = "Median")) +
   labs(title = "CEV Model Simulation: alpha=0.5 Confidence Band",
        y = "Price", color = "Legend", fill = "") +
   scale_color_manual(values = c("Median" = "red")) +

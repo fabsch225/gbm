@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.11)  26 SEP 2025 14:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.4.11)  29 SEP 2025 13:43
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -885,7 +885,7 @@ Package pdftex.def Info: ../thesis/images/disrete_bb.png  used on input line 101
 <../thesis/images/bb_with_cov.png, id=538, 400.49625pt x 322.806pt>
 File: ../thesis/images/bb_with_cov.png Graphic file (type png)
 <use ../thesis/images/bb_with_cov.png>
-Package pdftex.def Info: ../thesis/images/bb_with_cov.png  used on input line 132.
+Package pdftex.def Info: ../thesis/images/bb_with_cov.png  used on input line 130.
 (pdftex.def)             Requested size: 147.49782pt x 118.88467pt.
  [7
 
@@ -907,7 +907,7 @@ Package pdftex.def Info: ../thesis/images/bb_with_cov.png  used on input line 13
 <../thesis/images/dax_monte_carlo.png, id=1073, 752.5716pt x 658.6206pt>
 File: ../thesis/images/dax_monte_carlo.png Graphic file (type png)
 <use ../thesis/images/dax_monte_carlo.png>
-Package pdftex.def Info: ../thesis/images/dax_monte_carlo.png  used on input line 213.
+Package pdftex.def Info: ../thesis/images/dax_monte_carlo.png  used on input line 211.
 (pdftex.def)             Requested size: 147.49782pt x 129.0787pt.
  [15
 
@@ -915,15 +915,15 @@ Package pdftex.def Info: ../thesis/images/dax_monte_carlo.png  used on input lin
 <../thesis/images/dax_backtest.png, id=1145, 752.8125pt x 598.03426pt>
 File: ../thesis/images/dax_backtest.png Graphic file (type png)
 <use ../thesis/images/dax_backtest.png>
-Package pdftex.def Info: ../thesis/images/dax_backtest.png  used on input line 239.
+Package pdftex.def Info: ../thesis/images/dax_backtest.png  used on input line 237.
 (pdftex.def)             Requested size: 150.57372pt x 119.61385pt.
 <../thesis/images/dax_backtest_seq.png, id=1146, 752.8125pt x 598.03426pt>
 File: ../thesis/images/dax_backtest_seq.png Graphic file (type png)
 <use ../thesis/images/dax_backtest_seq.png>
-Package pdftex.def Info: ../thesis/images/dax_backtest_seq.png  used on input line 239.
+Package pdftex.def Info: ../thesis/images/dax_backtest_seq.png  used on input line 237.
 (pdftex.def)             Requested size: 150.57372pt x 119.61385pt.
 
-Overfull \vbox (14.27898pt too high) detected at line 239
+Overfull \vbox (14.27898pt too high) detected at line 237
  []
 
 [16
@@ -931,7 +931,7 @@ Overfull \vbox (14.27898pt too high) detected at line 239
  <../thesis/images/dax_backtest.png (PNG copy)> <../thesis/images/dax_backtest_seq.png (PNG copy)>] [17
 
 ]
-LaTeX Font Info:    Trying to load font information for TS1+cmss on input line 267.
+LaTeX Font Info:    Trying to load font information for TS1+cmss on input line 265.
  (C:\Users\fschuller\AppData\Local\Programs\MiKTeX\tex/latex/base\ts1cmss.fd
 File: ts1cmss.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 ) [18
@@ -945,7 +945,7 @@ File: ts1cmss.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 ] [22
 
 ]
-Overfull \vbox (0.8223pt too high) detected at line 320
+Overfull \vbox (0.8223pt too high) detected at line 318
  []
 
 [23
@@ -966,12 +966,12 @@ Overfull \vbox (0.8223pt too high) detected at line 320
 <../thesis/images/call_dax_bs.png, id=1970, 752.5716pt x 656.2116pt>
 File: ../thesis/images/call_dax_bs.png Graphic file (type png)
 <use ../thesis/images/call_dax_bs.png>
-Package pdftex.def Info: ../thesis/images/call_dax_bs.png  used on input line 393.
+Package pdftex.def Info: ../thesis/images/call_dax_bs.png  used on input line 391.
 (pdftex.def)             Requested size: 147.49782pt x 128.60658pt.
 <../thesis/images/call_dax_mc.png, id=1971, 752.5716pt x 656.2116pt>
 File: ../thesis/images/call_dax_mc.png Graphic file (type png)
 <use ../thesis/images/call_dax_mc.png>
-Package pdftex.def Info: ../thesis/images/call_dax_mc.png  used on input line 393.
+Package pdftex.def Info: ../thesis/images/call_dax_mc.png  used on input line 391.
 (pdftex.def)             Requested size: 147.49782pt x 128.60658pt.
  [30
 
@@ -997,7 +997,7 @@ LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: D5CE564B8BCC25AD84453A770BB84E90;768.
+(rerunfilecheck)             Checksum: 187FFB329B4B0ABC686706F465B8FAA5;768.
  ) 
 Here is how much of TeX's memory you used:
  36265 strings out of 474486
@@ -1008,7 +1008,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  128i,19n,123p,743b,786s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\fschuller\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcss1095.pk><C:/Users/fschuller/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/fschuller/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/fschuller/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Users/fschuller/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/fschuller/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/fschuller/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss10.pfb><C:/Users/fschuller/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:/Users/fschuller/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss17.pfb><C:/Users/fschuller/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Users/fschuller/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmssi10.pfb><C:/Users/fschuller/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmssi8.pfb><C:/Users/fschuller/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/fschuller/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Users/fschuller/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on c:\UNI\bsc\kolloquium\build\main.pdf (33 pages, 715683 bytes).
+Output written on c:\UNI\bsc\kolloquium\build\main.pdf (33 pages, 715563 bytes).
 PDF statistics:
  2304 PDF objects out of 2487 (max. 8388607)
  73 named destinations out of 1000 (max. 500000)

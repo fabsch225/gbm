@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1758890970.95021 "c:/UNI/bsc/kolloquium/main.tex" "build/main.pdf" "main" 1758890976.43794 0
+["pdflatex"] 1759146190.2869 "c:/UNI/bsc/kolloquium/main.tex" "build/main.pdf" "main" 1759146196.71988 0
   "../thesis/images/bb_with_cov.png" 1758785510 9332 db2de2605fa05e6b1c034c1fbfdb5f7a ""
   "../thesis/images/call_dax_bs.png" 1758785510 33378 5a93fc8dce41601fce5400519ed7247b ""
   "../thesis/images/call_dax_mc.png" 1758785510 30629 927701be959c06d44548c5791ac879c7 ""
@@ -7,7 +7,7 @@
   "../thesis/images/dax_backtest_seq.png" 1758785510 46550 035e56bd79b833663872ee910fa551a7 ""
   "../thesis/images/dax_monte_carlo.png" 1758785510 30835 634ba26a61febfda5fd3929d4a014b80 ""
   "../thesis/images/disrete_bb.png" 1758785510 22232 b191c303eda1838ac4f9027eb406d875 ""
-  "C:/Users/fschuller/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1758792968 81088 29d6fa367ac022d1b69251d68c0742e6 ""
+  "C:/Users/fschuller/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1758901227 81088 29d6fa367ac022d1b69251d68c0742e6 ""
   "C:/Users/fschuller/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcss1095.pk" 1758883563 11640 a9c5a8874990e593e6f9d87ba085bde2 ""
   "C:/Users/fschuller/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1744371068 24226934 ba231ec0fac139837d490941b8d9aa89 ""
   "C:/Users/fschuller/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/tcss1095.tfm" 993062538 1476 a5029f05f7a73d73a725274ff87f9765 ""
@@ -276,12 +276,12 @@
   "C:/Users/fschuller/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/fschuller/AppData/Local/Programs/MiKTeX/tex/latex/wrapfig/wrapfig.sty" 1044403200 26220 3701aebf80ccdef248c0c20dd062fea9 ""
   "C:/Users/fschuller/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
-  "build/main.aux" 1758890976 5565 f0bd409bfd2e84bef09fd3a44b0bf2e4 "pdflatex"
-  "build/main.nav" 1758890976 3589 6dba055364977296033206b00fbce8be "pdflatex"
-  "build/main.out" 1758890976 768 d5ce564b8bcc25ad84453a770bb84e90 "pdflatex"
-  "c:/UNI/bsc/kolloquium/main.tex" 1758890970 16410 fddb7ee0c68fff524dd9f5e19f63e6e2 ""
+  "build/main.aux" 1759146196 5565 82508c9af1ce3000a063304755eaef6f "pdflatex"
+  "build/main.nav" 1759146196 3589 0c6c2d3a88cd522d8a9773f39975bf40 "pdflatex"
+  "build/main.out" 1759146196 768 187ffb329b4b0abc686706f465b8faa5 "pdflatex"
+  "c:/UNI/bsc/kolloquium/main.tex" 1759146182 16234 26c5f9a4b264fb2f198d5094f1107ce0 ""
   "images/bb_2d.png" 1758797754 41800 6ac4fe220458af6328c5be8a7279b82e ""
-  "main.tex" 1758890970 16410 fddb7ee0c68fff524dd9f5e19f63e6e2 ""
+  "main.tex" 1759146182 16234 26c5f9a4b264fb2f198d5094f1107ce0 ""
   (generated)
   "build/main.aux"
   "build/main.log"

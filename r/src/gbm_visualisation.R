@@ -3,7 +3,7 @@ library(lubridate)
 library(ggplot2)
 library(readr)
 
-source("gbm.R")
+source("src/gbm.R")
 
 dax <- read_csv("data/dax.csv") %>%
   mutate(Date = mdy(Date),
@@ -73,7 +73,7 @@ pred <- pred %>%
 
 ggplot() +
   geom_line(data = dax, aes(Date, Price), color = "black") +
-  geom_ribbon(data = pred, aes(Date, ymin = Lower, ymax = Higher), alpha = 0.2) +
+  geom_ribbon(data = pred, aes(Date, ymin = Lower, ymax = Upper), alpha = 0.2) +
   labs(title = "DAX historical prices and daily confidence intervals for the next year", x = "Date", y = "Price") +
   theme_classic()
 

@@ -88,15 +88,14 @@ band <- data.frame(Date = future_dates, low = q_low, mid = q_med, hi = q_hi)
 
 Es folgt eine Visualisierung des Konfidenzbandes im Anschluss an die historischen Daten.
 
+\end{bsp}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/dax_confidence_band.png}
     \caption{DAX mit 95\%-Konfidenzband für das nächste Jahr}
     \label{fig:dax_confidence_band}
 \end{figure}
-
-\end{bsp}
-
 
 \subsection{Back-Tests}
 
@@ -110,18 +109,18 @@ wird also ein 50/50-Mix aus historischen Daten und simulierten Daten betrachtet.
 werden Konfidenzintervalle zum Niveau 50\% berechnet. Die folgende Abbildung
 \ref{fig:dax_backtest} zeigt die Ergebnisse.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/dax_backtest.png}
-    \caption{DAX Backtest mit 50\% Konfidenzintervall und erwarteter Entwicklung}
-    \label{fig:dax_backtest}
-\end{figure}
-
 In diesem Fall fallen 86\% der historischen Daten in das 50\%-Konfidenzintervall,
 was für die Einfachheit des Modells ein gutes Ergebnis ist. Diese Metrik nennt 
 man \textit{Überdeckungswahrscheinlichkeit}.
 
 \end{bsp}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/dax_backtest.png}
+    \caption{DAX Backtest mit 50\% Konfidenzintervall und erwarteter Entwicklung}
+    \label{fig:dax_backtest}
+\end{figure}
 
 \begin{lemma}[Weitere Metriken für Zeitreihenschätzungen]
 Botchkarev \cite{botchkarev_performance_2019} nennt u. a. folgende Metriken, um die Richtigkeit von Vorhersagen zu bewerten:
@@ -161,6 +160,7 @@ Im obigen Backtest des DAX ergeben sich folgende Metriken:
 
 \begin{bsp}[Sequenzieller Backtest]
 Man kann Backtests auch sequenziell durchführen: Für jedes Jahr wird aus den vorherigen Jahren eine GBM kalibirert, die dann mit dem tatsächlichen Wert verglichen wird. Dies wird in Abbildung \ref{fig:dax_backtest_seq} gezeigt.
+\end{bsp}
 
 \begin{figure}[H]
     \centering
@@ -168,8 +168,6 @@ Man kann Backtests auch sequenziell durchführen: Für jedes Jahr wird aus den v
     \caption{Sequenzieller Backtest für den DAX}
     \label{fig:dax_backtest_seq}
 \end{figure}
-
-\end{bsp}
 
 \subsection{Monte-Carlo-Simulation}
 
@@ -194,21 +192,22 @@ simulations <- replicate(paths, {
   S0 * exp((mu - 0.5 * sigma^2) *  c(0, (1:n)) + sigma * W)
 })
 \end{lstlisting}
-Es folgt eine Visualisierung der Simulation im Anschluss an die historischen Daten.
+Es folgt eine Visualisierung der Simulation im Anschluss an die historischen Daten (Abbildung \ref{fig:dax_monte_carlo}).
+\end{bsp}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/dax_monte_carlo.png}
+    \includegraphics[width=0.9\textwidth]{images/dax_monte_carlo.png}
     \caption{DAX mit 4 simulierten Pfaden für das nächste Jahr}
     \label{fig:dax_monte_carlo}
 \end{figure}
 
-\end{bsp}
-
 \begin{bsp}[Vergleich von Konfidenzintervall und Monte-Carlo-Simulation]
 
 Man kann das Konfidenzintervall aus dem vorherigen Beispiel mit den Quantilen der Monte-Carlo-Simulation vergleichen.
-Man erkennt, dass das Konfidenzintervall aus der Formel mit steigender Simulationsanzahl immer besser durch die Quantile der Simulation approximiert wird.
+Man erkennt, dass das Konfidenzintervall aus der Formel mit steigender Simulationsanzahl immer besser durch die Quantile der Simulation approximiert wird (Abbildung \ref{fig:ci_comparison}).
+
+\end{bsp}
 
 \begin{figure}[H]
     \centering
@@ -216,5 +215,3 @@ Man erkennt, dass das Konfidenzintervall aus der Formel mit steigender Simulatio
     \caption{Vergleich von Konfidenzintervall und Monte-Carlo-Simulation für verschiedene Simulations-Anzahlen}
     \label{fig:ci_comparison}
 \end{figure}
-
-\end{bsp}
