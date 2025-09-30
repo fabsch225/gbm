@@ -14,8 +14,8 @@ Hier finden Sie die Quellcode für die Bachelorarbeit und den Vortrag für das K
 - `csv_backtest.R` - Backtest Metriken und Visualisierung CEV
 ---
 - `bs.R` - Berechnung und Visualisierung des Black-Scholes-Modells
-- `discrete_bb.R` - Visualisierung der diskreten Brownschen Bewegung
-- `bb_cov.R` - Visualisierung der Kovarianzstruktur der Brownschen Bewegung
+- `discrete_bb.R` - Visualisierung der diskreten brownschen Bewegung
+- `bb_cov.R` - Visualisierung der Kovarianzstruktur der brownschen Bewegung
 - `bootstrap.R` - Bootsrap-Verfahren zur probabilistischen Kalibrierung der GBM
 - `custom_cev_estim.R` - Eigene Implementierung des Euler-PseudoMLE-Schätzers für das CEV-Modell
 ---

@@ -2,27 +2,27 @@
 
 Oft wird die brownsche Bewegung (oder auch Wiener Prozess) axiomatisch definiert. In dieser Arbeit werden 
 direkt kumulative Summen von Normalverteilungen betrachtet. Zuerst wird eine vereinfachte Darstellung des Prozesses eingeführt, 
-die diskrete brownsche Bewegung. Die Argumentation ist angelehnt an Behrends \cite{behrends} (2013, Kap. 5).
+die diskrete brownsche Bewegung. Die Argumentation folgt der Darstellung von Behrends \cite{behrends} (2013, Kap. 5).
 
 \subsection{Diskrete brownsche Bewegung}
 
 \begin{defi}[Diskrete brownsche Bewegung]
 Die elementare brownsche Bewegung sei ein stochastischer Prozess, 
 der aus einer Folge von Zufallsvariablen $\xi_n, n \in \Bbb N_0$ besteht, wobei
-$$\xi_n = \sum_{i=1}^n \eta_i, \quad \eta_i \sim N(0,1)$$. 
-Die Zufallsvariablen $\eta_i$ sind unabhängig und identisch verteilt. Nun 
+$$\xi_n = \sum_{i=1}^n \eta_i, \quad \eta_i \sim \mathcal N(0,1).$$
+Die Zufallsvariablen $\eta_i$ sind unabhängig und identisch verteilt.
 Nun wird eine stetige Zeitentwicklung durch lineare Interpolation eingeführt:
 $$b^{(1)}(t) := \xi_{\lfloor t \rfloor} + (t - \lfloor t \rfloor)(\xi_{\lfloor t \rfloor + 1} - \xi_{\lfloor t \rfloor}), \quad t \geq 0.$$
 Die Funktion $b^{(1)}(t)$ wird diskrete brownsche Bewegung erster Ordnung genannt.
 Der Name rührt daher, dass in eine Zeiteinheit genau eine Normalverteilung einbezogen wird.
 Im Allgemeinen wird die diskrete brownsche Bewegung $b^{(N)}(t)$ $N$-ter Ordnung definiert als
 $$b^{(N)}(t) := \frac{1}{\sqrt{N}} \left ( \xi_{\lfloor Nt \rfloor} + (Nt - \lfloor Nt \rfloor)(\xi_{\lfloor Nt \rfloor + 1} - \xi_{\lfloor Nt \rfloor}) \right ), \quad t \geq 0.$$
-Hierbei wird in eine Zeiteinheit $N$ Normalverteilungen einbezogen. Der Faktor $1/\sqrt{N}$ dient dazu, die Varianzen der Normalverteilungen zu normieren.
+Hierbei werden in eine Zeiteinheit $N$ Normalverteilungen einbezogen. Der Faktor $1/\sqrt{N}$ dient dazu, die Varianzen der Normalverteilungen zu normieren.
 
 \end{defi}
 
-\begin{bsp}[Visualisierung der diskreten Brownschen Bewegung]
-Das folgende R-Programm (Ausschnitt) generiert eine diskrete brownsche Bewegung N-ter Ordnung.
+\begin{bsp}[Visualisierung der diskreten brownschen Bewegung]
+Das folgende R-Programm (Ausschnitt) generiert eine diskrete brownsche Bewegung $N$-ter Ordnung.
 
 \begin{lstlisting}
   n_points <- N * T_max
@@ -45,26 +45,20 @@ Für verschiedene Werte von $N$ ergeben sich die folgenden Grafiken:
 
 \end{bsp}
 
-\begin{lemma}[Martingal-Eigenschaft der diskreten Brownschen Bewegung]
-Ohne Beschränkung der Allgemeinheit wird der Fall $N=1$ betrachtet, sonst kann die Zeit skaliert werden.
-Ebenso wird nur der Fall $t \in \Bbb N_0$ untersucht: Der Prozess ist also wieder diskret. Das ist
-ausreichend, da im Verlauf der Arbeit der Grenzprozess $N \to \infty$ relevant 
-wird. Dann ist jeder Wert der Brownschen Bewegung beliebig nah an einem der diskreten Werte, 
-und die Martingal-Eigenschaft folgt aus der Stetigkeit des Erwartungswertes. Der stetig interpolierte 
-diskrete Prozess an sich ist nämlich kein Martingal. \textit{Beweis.}
-Zuerst wird der Fall $m=n+1$ betrachtet: zu zeigen ist
-$$E(b^{(1)}(m) | b^{(1)}(n)=v) = v.$$
-Da $b^{(1)}(m) = b^{(1)}(n) + \eta_{n+1}$ folgt
-$$E(b^{(1)}(m) | b^{(1)}(n)=v) = E(v + \eta_{n+1} | b^{(1)}(n)=v) = v + E(\eta_{n+1}) = v.$$
-Nun der allgemeine Fall $m > n+1$: aus dem Satz des iterierten Erwartungswertes folgt
-$$E(b^{(1)}(m) | b^{(1)}(n)=v) = E(E(b^{(1)}(m) | b^{(1)}(m-1)) | b^{(1)}(n)=v).$$
-Da $E(b^{(1)}(m) | b^{(1)}(m-1)) = b^{(1)}(m-1)$ folgt
-$$E(b^{(1)}(m) | b^{(1)}(n)=v) = E(b^{(1)}(m-1) | b^{(1)}(n)=v).$$
-Induktiv folgt die Behauptung. \qed \\
-
+\begin{lemma}[Erwartungswert der diskreten brownschen Bewegung]
+Da $b^{(N)}(t)$ eine lineare Kombination von zentrierten Normalverteilungen ist, gilt
+$$
+E(b^{(N)}(t)) = \frac{1}{\sqrt{N}} \left( E(\xi_{\lfloor Nt \rfloor}) + (Nt - \lfloor Nt \rfloor) E(\xi_{\lfloor Nt \rfloor + 1} - \xi_{\lfloor Nt \rfloor}) \right).
+$$
+Da $E(\xi_n) = 0$ für alle $n$ und $E(\xi_{n+1} - \xi_n) = E(\eta_{n+1}) = 0$, folgt
+$$
+E(b^{(N)}(t)) = 0.
+$$
+\qed
 \end{lemma}
 
-\begin{lemma}[Varianz der diskreten Brownschen Bewegung]
+\begin{lemma}[Varianz der diskreten brownschen Bewegung]
+Aus der Unabhängigkeit der Inkremente folgt
 $$
 \begin{aligned}
 V(b^{(N)}(t)) &= \frac{1}{N} \left ( V(\xi_{\lfloor Nt \rfloor}) + (Nt - \lfloor Nt \rfloor)^2 \cdot V(\xi_{\lfloor Nt \rfloor + 1} - \xi_{\lfloor Nt \rfloor}) \right ) 
@@ -76,7 +70,7 @@ Im Grenzübergang $N \to \infty$ konvergiert $\frac{\lfloor Nt \rfloor}{N} \to t
 \qed
 \end{lemma}
 
-\subsection{Die Brownschen Bewegung als Grenzprozess und Eigenschaften}
+\subsection{Die brownsche Bewegung als Grenzprozess und Eigenschaften}
 Nun wird der Grenzprozess $N \to \infty$ betrachtet. Intuitiv wird die Zeit immer feiner aufgelöst,
 und es werden immer mehr Normalverteilungen in eine Zeiteinheit einbezogen. Vorerst ist jedoch unklar, 
 ob der Grenzprozess überhaupt existiert. Um die Konvergenz des Prozesses zu zeigen, wird die Verteilungskonvergenz 
@@ -88,7 +82,7 @@ für Konvergenz der Prozesse als Funktionen. Daher wird die Konvergenz in 3 Schr
   \item Stetigkeit der Pfade des Grenzprozesses
 \end{enumerate}
 
-\begin{lemma}[Verteilungskonvergenz der diskreten Brownschen Bewegung]
+\begin{lemma}[Verteilungskonvergenz der diskreten brownschen Bewegung]
 Es existiert ein stochastischer Prozess $W_t, t \geq 0$, so dass für jedes $t$ die Verteilung von $b^{(N)}(t)$ gegen die Verteilung von $W_t$ konvergiert, wenn $N \to \infty$.
 \textit{Beweis.}
 Da 
@@ -110,13 +104,13 @@ F_N(x)=P\big(b^{(N)}(t)\le x\big)=\Phi\!\left(\frac{x}{\sigma_N(t)}\right),
 $$
 wobei $\Phi$ die Standardnormalverteilungsfunktion ist. Aus $\sigma_N^2(t)\to t$ folgt $\sigma_N(t)\to \sqrt{t}$ und wegen der Stetigkeit von $\Phi$ daher
 $$
-F_N(x)=\Phi\!\left(\frac{x}{\sigma_N(t)}\right)\;\longrightarrow\;\Phi\!\left(\frac{x}{\sqrt{t}}\right)\quad\text{für alle }x\in\Bbb R.
+F_N(x)=\Phi\!\left(\frac{x}{\sigma_N(t)}\right)\; \xrightarrow[N \to \infty]{\mathrm{pktw}} \;\Phi\!\left(\frac{x}{\sqrt{t}}\right)\quad\text{für alle }x\in\Bbb R.
 $$
-Dies ist die Verteilungsfunktion von $N(0,t)$. Definiere $W_t :\sim N(0,t)$. Somit konvergiert für jedes feste $t$ die Verteilung von $b^{(N)}(t)$ gegen die von $W_t$. 
+Dies ist die Verteilungsfunktion von $N(0,t)$. Definiere $W_t :\sim \mathcal N(0,t)$. Somit konvergiert für jedes feste $t$ die Verteilung von $b^{(N)}(t)$ gegen die von $W_t$. 
 \qed
 \end{lemma}
 
-\begin{satz}[Kovarianzstruktur der Brownschen Bewegung]
+\begin{satz}[Kovarianzstruktur der brownschen Bewegung]
 Aus der Verteilungskonvergenz der einzelnen Zeitpunkte kann man noch keinen sinnvollen Grenzprozess folgern.
 Die Zeitpunkte $W_t$ sind zwar normalverteilt, aber der Prozess könnte trotzdem sprunghaft sein.
 Nun wird die Verteilungskonvergenz der endlich-dimensionalen Vektoren gezeigt, beziehungsweise
@@ -125,7 +119,7 @@ Sei $0\le t_1\le\cdots\le t_k$ eine Zerlegung. Dann gilt
 $$
 \big(b^{(N)}(t_1), \dots , b^{(N)}(t_k) \big )\;\xrightarrow[N \to \infty]{\mathrm{d}}\;\big(W_{t_1},\dots,W_{t_k}\big).
 $$
-\textit{Beweis.}\footnote{angelehnt an Henze \cite{henze} S. 225f.}
+\textit{Beweis.}\footnote{angelehnt an Henze, 2023 \cite{henze} S. 225f.}
 Für jedes $N$ ist der Vektor $\big(b^{(N)}(t_1),\dots,b^{(N)}(t_k)\big)$ gemeinsam normalverteilt,
 denn $b^{(N)}(t)$ ist eine lineare Kombination der i.i.d. Standardnormalen $(\eta_i)$.
 
@@ -139,7 +133,7 @@ $$
 Unabhängigkeit der $\eta_i$ ($E(\eta_i)=0$, $V(\eta_i)=1$) liefert
 $$
 \begin{aligned}
-\mathrm{Cov}\!\big(b^{(N)}(s),b^{(N)}(t)\big) &= E \left [ b^{(N)}(s) b^{(N)}(t) \right ] \cdot \underbrace{E(b^{(N)}(s)) \cdot b^{(N)}(t)}_{=0}
+\mathrm{Cov}\!\big(b^{(N)}(s),b^{(N)}(t)\big) &= E \left [ b^{(N)}(s) b^{(N)}(t) \right ] - \underbrace{E(b^{(N)}(s)) \cdot b^{(N)}(t)}_{=0}
 \\ &= \frac{1}{N} E \left [ (\xi_k + \alpha \eta_{k+1}) (\xi_\ell + \alpha \eta_{\ell+1}) \right ] 
 \\ &= \frac{1}{N} \left [ E(\xi_\ell \xi_k) + \alpha E(\xi_\ell \eta_{k+1}) + \beta E(\eta_{\ell + 1} \xi_k) + \alpha \beta E(\eta_{\ell + 1} \eta_{k+1}) \right ]
 \end{aligned}
@@ -147,7 +141,7 @@ $$
 Da die Erwartungswerte der $\eta$s gleich Null sind und die $\eta$s unabhängig sind, können die Terme weiter reduziert werden.
 $$
 \begin{aligned}
-E(\xi_\ell \xi_k) &= \sum_{i=1}^\ell \sum_{j=1}^k E(\eta_i \eta_j) \begin{cases} = E(\eta_i)(\eta_j) = 0, \quad &i \neq j \\ = E(\eta_i^2) = 1, \quad &i = j \end{cases}
+E(\xi_\ell \xi_k) &= \sum_{i=1}^\ell \sum_{j=1}^k E(\eta_i \eta_j) \begin{cases} = E(\eta_i)\cdot E(\eta_j) = 0, \quad &i \neq j \\ = E(\eta_i^2) = 1, \quad &i = j \end{cases}
 \\ &= \sum_{i=1}^\ell \sum_{j=1}^k \delta_{i, j} = \min(\ell, k)
 \end{aligned}
 $$
@@ -211,10 +205,10 @@ Nach Cramér–Wold folgt die behauptete Verteilungskonvergenz des Vektors. \qed
 Um die Wichtigkeit der Kovarianz-Struktur zu verdeutlichen, wird in der folgenden Visualisierung gezeigt, wie ein
 stochastischer Prozess ohne Kovarianz der einzelnen Zufallsvariablen aussehen würde.
 In Blau werden die Verteilungen der Zufallsvariablen, und in Rot jeweils Realisierungen des Prozesses dargestellt.
-In der zweiten Grafik (mit Kovarianz-Struktur) kann man beobachten, das die Verteilungen eine geringere Varianz haben, und jeweils um den Vorherigen Wert zentriert sind. Dies wird im Folgenden noch präzisiert.
-Das kann man als ein Stetigkeits-Kriterium betrachten. (Obwohl man nicht direkt auf die Stetigkeit der Pfade folgern kann)
+In der zweiten Grafik (mit Kovarianz-Struktur) kann man erkennen, dass die bedingten Verteilungen eine geringere Varianz haben, und jeweils um den Vorherigen Wert zentriert sind. Dies wird im Folgenden noch präzisiert.
+Das kann man als ein schwaches Stetigkeits-Kriterium interpretieren.
 
-Ausgehend von der Kovarianz-Struktur kann man die Stetigkeit mit dem Stetigkeitssatz von Kolmogorov (Behrends \cite{behrends}, 2013, S. 78f.) folgern.
+Ausgehend von der Kovarianz-Struktur kann man die Stetigkeit mit dem Stetigkeitssatz von Kolmogorov (\cite{behrends} S. 78f.) folgern.
 In dieser Arbeit wird jedoch ein anderer Beweisansatz genutzt.
 
 
@@ -227,29 +221,29 @@ In dieser Arbeit wird jedoch ein anderer Beweisansatz genutzt.
   \end{minipage}\hfill
   \begin{minipage}{0.48\textwidth}
     \includegraphics[width=\textwidth]{images/bb_with_cov.png}
-    \caption{Visualierung der Verteilung der diskreten Brownschen Bewegung unter Beachtung der Kovarianzstruktur}
+    \caption{Visualierung der Verteilung der diskreten brownschen Bewegung unter Beachtung der Kovarianzstruktur}
     \label{fig:bb_with_cov}
   \end{minipage}
 \end{figure}
 \end{bem}
 
-\begin{satz}[Selbstähnlichkeit und bedingte Verteilung der Brownschen Bewegung]
+\begin{satz}[Selbstähnlichkeit und bedingte Verteilung der brownschen Bewegung]
 Für jedes $c > 0$ gilt
 $$
 W_{ct}(\omega) \overset{d}{=} \sqrt{c}\, W_t(\omega) \quad \text{für alle } t \ge 0,
 $$
 für alle $s < t$ gilt
 $$
-W_t - W_s \sim N(0, t-s),
+W_t - W_s \sim \mathcal N(0, t-s),
 $$
 und die bedingte Verteilung von $W_t$ gegeben $W_s$ ist
 $$
 W_t \mid W_s \sim N\big(W_s, t-s\big).
 $$
 \textit{Beweis der ersten Behauptung (Selbstähnlichkeit).} \\
-Für $t \ge 0$ gilt $W_{ct} \sim N(0, ct)$ und $W_t \sim N(0, t)$. Somit gilt
+Für $t \ge 0$ gilt $W_{ct} \sim \mathcal N(0, ct)$ und $W_t \sim \mathcal N(0, t)$. Somit gilt
 $$
-\sqrt{c}\, W_t \sim N(0, c t).
+\sqrt{c}\, W_t \sim \mathcal N(0, c t).
 $$
 Da beide Normalverteilungen denselben Mittelwert $0$ und dieselbe Varianz $ct$ haben, folgt
 $$
@@ -263,7 +257,7 @@ W_t - W_s = \lim_{N \to \infty} \big( b^{(N)}(t) - b^{(N)}(s) \big),
 $$
 wobei $b^{(N)}$ diskrete Approximierungen sind. Jedes Inkrement $b^{(N)}(t) - b^{(N)}(s)$ ist normalverteilt mit Erwartungswert $0$ und Varianz $t-s$. Durch Grenzwertbildung folgt
 $$
-W_t - W_s \sim N(0, t-s).
+W_t - W_s \sim \mathcal N(0, t-s).
 $$
 \qed  \\
 \textit{Beweis der dritten Behauptung (Bedingte Verteilung).} \\
@@ -276,7 +270,7 @@ Die Kovarianzmatrix lautet somit
 $$
 \Sigma = \begin{pmatrix} s & s \\ s & t \end{pmatrix}.
 $$
-Für die bedingte Verteilung ergibt die Standardformel der multivariaten Normalverteilung
+Für die bedingte Verteilung ergibt die Standardformel der multivariaten Normalverteilung (s. \cite{soch_conditional_2020})
 $$
 \begin{aligned}
 E(W_t \mid W_s) &= E(W_t) + \mathrm{Cov}(W_t, W_s)\,V(W_s)^{-1} (W_s - E(W_s)) \\
@@ -287,11 +281,11 @@ V(W_t \mid W_s) &= V(W_t) - \frac{\mathrm{Cov}(W_t, W_s)^2}{V(W_s)} \\
 $$
 Insgesamt folgt
 $$
-W_t \mid W_s \sim N(W_s,\, t-s).
+W_t \mid W_s \sim \mathcal N(W_s,\, t-s).
 $$ \qed
 \end{satz}
 
-\begin{korr}[Martingal-Eigenschaft der Brownschen Bewegung]
+\begin{korr}[Martingal-Eigenschaft der brownschen Bewegung]
 Die brownsche Bewegung $W_t$ ist ein Martingal.
 \textit{Beweis.} Aus dem vorigen Satz folgt
 $$
@@ -318,9 +312,9 @@ Für die unabhängigen Inkremente $Z_{n,k}$ mit
 $$
 Z_{n,k}\sim N\!\big(0,2^{-(n+2)}\big).
 $$
-Für eine Normalverteilung $Z\sim N(0,\sigma^2)$ und jedes $\varepsilon>0$ gilt (siehe z. B. Boucheron 2013 \cite{boucheron_concentration_2013} S. 2)
+Für eine Normalverteilung $Z\sim \mathcal N(0,\sigma^2)$ und jedes $\varepsilon>0$ gilt (siehe z. B. Boucheron 2013 \cite{boucheron_concentration_2013} S. 2)
 $$
-P(|Z|>\varepsilon) \le 2\exp\!\Big(-\frac{\varepsilon^2}{2\sigma^2}\Big).
+P(|Z| >\varepsilon) \le 2\exp\!\Big(-\frac{\varepsilon^2}{2\sigma^2}\Big).
 $$
 Mit der Schranke folgt
 $$
@@ -351,7 +345,6 @@ Weil jedes $\big(\hat W^{(n)}\big)_{n\in\Bbb N}$ eine stückweise lineare Funkti
 dass $\big(\hat W^{(n)}\big)_{n\in\Bbb N}$ fast sicher eine Cauchy-Folge in $\Vert \cdot \Vert_{\infty}$ ist.
 $\big(\hat W^{(n)}\big)_{n\in\Bbb N}$ konvergiert also gleichmäßig gegen den Grenzpfad $\widetilde W$, der stetig ist. \qed
 
-Achtung: Es wurde nicht gezeigt, der Prozess $W_t^{(n)} \longrightarrow W_t$ gleichmäßig konvergiert. Für eine beliebige aber feste Realisierung
-$t \mapsto W_t(\omega)$ wurde eine (reellwertige) Folge von stetigen Funktionen konstruiert, die gegen $t \mapsto W_t$ gleichmäßig konvergiert.
-Da es sich um eine Folge stetiger Funktionen handelt, gilt die Stetigkeit unter gleichmäßiger Konvergenz auch gegen die Grenzfunktion $t \mapsto W_t$.
 \end{satz}
+
+\newpage

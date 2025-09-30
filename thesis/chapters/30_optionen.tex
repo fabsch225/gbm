@@ -7,7 +7,7 @@ eine Aktie zu einem vorher festgelegten Preis (dem Ausübungspreis) zu kaufen (C
 oder zu verkaufen (Put-Option). Europäische Optionen können nur am Fälligkeitstag ausgeübt 
 werden, während amerikanische Optionen während der gesamten Laufzeit bis zum Verfallsdatum 
 ausgeübt werden können. Den fairen Preis einer Option zu bestimmen ist eine Herausforderung,
-die man mit Hilfe der geometrischen Brownschen Bewegung lösen kann. Im Folgenden wird dazu das Black-Scholes-Modell 
+die man mit Hilfe der geometrischen brownschen Bewegung lösen kann. Im Folgenden wird dazu das Black-Scholes-Modell 
 vorgestellt.
 
 \begin{bsp}
@@ -68,7 +68,7 @@ V_t = \Delta_t S_t + B_t,
 wobei $V_t$ der Wert des Hedge-Portfolios ist. Ist das Portfolio 
 selbstfinanzierend, d. h. Änderungen in $V_t$ entstehen ausschließlich 
 durch Änderungen in $S_t$ und nicht durch externe Ein- oder Auszahlungen, 
-und gilt zudem $V_T = H(S_T)$ mit der Optionsauszahlung $H(S_T)$, 
+und gilt zudem $V_T = f(S_T)$ mit der Optionsauszahlung $f(S_T)$, 
 so spricht man von einer perfekten Replikation. Die Grundidee wird am Beispiel einer europäischen Call-Option verdeutlicht: Steigt der Wert der Aktie über den Ausübungspreis $K$ und der Optionsanbieter ist verpflichtet, die Aktie zum Preis $K$ zu liefern, so können dafür die im Hedge-Portfolio gehaltenen Aktien verwendet werden. Auf diese Weise wird der potenzielle Verlust ausgeglichen.
 \end{defi}
 
@@ -107,7 +107,7 @@ q = \frac{e^{r \Delta t} - d}{u - d}.
 $$
 Zum Vergleich: im klassischen Binomialmodell ist 
 $$p = \frac{1 - d}{u - d}$$
-die "risikoneutrale Wahrscheinlichkeit". Anders als zuvor
+die „risikoneutrale Wahrscheinlichkeit“. Anders als zuvor
 wurde aber lediglich eine schwächere Aussage gezeigt (nur ein Schritt). 
 Das wird am Folgenden jedoch nachgezogen.
 
@@ -282,7 +282,7 @@ q(\Delta t) = \frac{\sigma \sqrt{\Delta t} + \big(r - \tfrac12 \sigma^2\big)\Del
 = \tfrac12 + \frac{r - \tfrac12 \sigma^2}{2\sigma}\,\sqrt{\Delta t} + o(\sqrt{\Delta t}).
 $$
 
-\paragraph{Herleitung der geometrischen Brownschen Bewegung unter $Q$}
+\paragraph{Herleitung der geometrischen brownschen Bewegung unter $Q$}
 An dieser Stelle ist wichtig, dass die Anzahl der Schritte $N_u$ in denen die Aktie steigt, binomialverteilt ist.
 Und zwar zur Anzahl der Schritte $n=T/\Delta t$ mit festen Wahrscheinlichkeit $q(\Delta t)$.
 Dann gilt
@@ -476,7 +476,7 @@ berechnet.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{images/dax_bs.png}
-    \caption{Preis einer Call-Option auf den DAX in Abhängigkeit vom Ausübungspreis $K$}
+    \caption{Preis einer Call-Option der entsprechenden Put-Option auf den DAX in Abhängigkeit vom Ausübungspreis $K$}
     \label{fig:dax_bs}
 \end{figure}
 
@@ -507,7 +507,7 @@ $$
 \hat{C}_0^{(n)} = e^{-rT} \frac{1}{n} \sum_{i=1}^n f(S_T^{(i)}),
 $$
 wobei $S_T^{(i)}$, $i=1,\ldots,n$ unabhängige Realisierungen des Prozesses $S_T$ sind. Aus Kapitel 6 ist
-ein Algorithmus bekannt, um Realisierungen der geometrischen Brownschen Bewegung $S_T$ zu erzeugen.
+ein Algorithmus bekannt, um Realisierungen der geometrischen brownschen Bewegung $S_T$ zu erzeugen.
 
 \end{lemma}
 
@@ -541,7 +541,7 @@ Asiatische Optionen sind Finanzderivate, bei denen die Auszahlung auf dem Durchs
 des Basiswerts über einen bestimmten Zeitraum basiert, anstatt auf dem Preis zu einem einzigen Zeitpunkt.
 Die Auszahlung einer asiatischen Call-Option mit Ausübungspreis $K$ und Laufzeit $T$ ist
 $$f(S_T) = \max\left(\frac{1}{T} \int_0^T S_t\,dt - K, 0\right).$$
-Die Bewertung erfolgt mit dem Monte-Carlo-Verfahren, da es keine geschlossene Formel wie bei der Black-Scholes-Formel gibt.
+Die Bewertung erfolgt mit dem Monte-Carlo-Verfahren, da in dieser Arbeit keine geschlossene Formel wie bei der Black-Scholes vorliegt.
 Die Implementierung in R könnte wie folgt aussehen:
 
 \begin{lstlisting}

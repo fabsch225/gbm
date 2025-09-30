@@ -1,12 +1,11 @@
 \section{Alternative Modelle}
 
 Dieses Kapitel bietet einen Einblick in weiterführende mathematische Aspekte, die im Rahmen 
-dieser Arbeit nicht im Detail behandelt werden konnten.
-Die Grundlage bilden stochastische Differentialgleichungen (SDEs).  
-Stochastische Differentialgleichungen bilden die mathematische Grundlage für die 
-Modellierung und Simulation zeitstetiger stochastischer Prozesse im allgemeinen.
-Im Folgenden wird die Herleitung von It\^o-SDEs über It\^o-Integrale skizziert. 
-Unter Verwendung des Kalkühls der SDEs werden alternative Modelle zur geometrischen Brownschen Bewegung vorgestellt. 
+dieser Arbeit nicht im Detail behandelt werden.
+Ausgangspunkt sind stochastische Differentialgleichungen (SDEs), welche die Grundlage für die 
+Modellierung und Simulation allgemeiner zeitstetiger 
+stochastischer Prozesse bilden. Die Herleitung von Itô-SDEs über Itô-Integrale wird skizziert. 
+Unter Verwendung des SDE-Kalkühls werden alternative Modelle zur geometrischen brownschen Bewegung vorgestellt. 
 Beispielhaft wird das CEV-Modell (Constant Elastic Variance) untersucht, implementiert
 und mit der GBM verglichen.
 
@@ -19,7 +18,7 @@ um eine kontinuierliche Beschreibung der Kursdynamik zu erhalten. Dabei soll die
 $$dS_t = \mu S_t\,dt + \sigma S_t\,dW_t$$
 hergeleitet werden, deren Lösung die geometrische brownsche Bewegung ist. 
 Anschaulich muss man sich nur noch von $\sqrt{\Delta t} \varepsilon_{n+1} \to dW_t$ überzeugen, wobei $W_t$ eine brownsche Bewegung ist.
-Sei $\Delta t = T/n$ und $(\varepsilon_k)_{k\ge 1}$ i.i.d. mit $E(\varepsilon_k)=0$, $V(\varepsilon_k)=1$.
+Seien $\Delta t = T/n$ und $(\varepsilon_k)_{k\ge 1}$ i.i.d. mit $E(\varepsilon_k)=0$, $V(\varepsilon_k)=1$.
 Definiere den skalierten Zufallsspaziergang
 $$
 W^{(n)}(t) := \sqrt{\Delta t}\sum_{k=1}^{\lfloor t/\Delta t\rfloor}\varepsilon_k,\qquad t\in[0,T].
@@ -43,18 +42,17 @@ Durch Missbrauch der Notation erhält man
 $$
 \sqrt{\Delta t}\,\varepsilon_{n+1}\ \to\ dW_t.
 $$
-Insgesamt gilt
-$$\Delta t \to dt, \qquad S_{t + \Delta t} - S_t \to dS_t$$
-und $\sqrt{\Delta t} \varepsilon_{n+1} \to dW_t$
-kann die Übergangsgleichung als stochastische Differentialgleichung interpretiert werden.
+Ebenso gilt
+$$\Delta t \to dt, \qquad S_{t + \Delta t} - S_t \to dS_t.$$
+Schließlich kann die Übergangsgleichung als stochastische Differentialgleichung interpretiert werden.
 \qed
 
 \end{bem}
 
-Formal werden stochastische Differentialgleichungen über das It\^o-Integral eingeführt, das wird 
+Formal werden stochastische Differentialgleichungen über das It\^o-Integral eingeführt. Dies wird 
 im nächsten Abschnitt skizziert, für eine genaue Darstellung sei auf die Literatur 
 verwiesen, z. B. Behrends (2013) \cite{behrends} oder Karatzas und Shreve (1991) \cite{karatzas_brownian_1991}.
-Die Argumentation ist analog zu Kapitel 6 des Lehrbuchs von Behrends \cite{behrends}.
+Die Argumentation orientiert sich am sechsten Kapitel des Lehrbuchs von Behrends.
 
 \subsection{Stochastische Differentialgleichungen}
 
@@ -62,26 +60,38 @@ Ziel dieses Abschnitts ist es, die heuristische Schreibweise
 $$
 dS_t \;=\; a(S_t,t)\,dt \;+\; b(S_t,t)\,dW_t
 $$
-zu präzisieren. Genauso wie man eine klassische Differentialgleichung, z. B
+zu präzisieren.
+
+\begin{lemma}[Differenzierbarkeit der brownschen Bewegung]
+Die Pfade der brownschen Bewegung sind fast-sicher nicht differenzierbar. \textit{Beweis.}
+Es wird gezeigt, das der Differenzenquotient fast-sicher divergiert. Ohne Einschränkung (Selbstähnlichkeit) wird $t=0$ betrachtet. Für $n \in \Bbb N$ sei
+$$\Delta_n W := \frac{W_{1/n} - W_0}{1/n}=n W_{1 / n} \sim \mathcal N(0, n).$$
+Für jedes $M \gt 0$ gilt daher (analoge Abschätzung in Kap. 3)
+$$P(\vert \Delta_n W \vert \lt M) \lt 2 \exp(- \frac{M^2}{2 n}).$$
+Für $n \to \infty$ konvergiert somit die Summe der Wahrscheinlichkeiten mit $M_n = 2^n$, und wegen dem Lemma von Borel-Cantelli
+folgt die Behauptung. \qed
+\end{lemma}
+
+Wie kann man nun eine Differenzialgleichung definieren, wenn die vorliegenden Objekte nicht differenzierbar sind? Genauso wie man eine klassische Differentialgleichung, z. B
 $$dy = f(y)$$
 durch die Integralgleichung
 $$y = \int f(y)$$
-beschreiben kann, kann man It\^o-SDEs mit stochastischen Integralen (It\^o-Integralen) beschreiben.
+beschreiben kann, so auch It\^o-SDEs mit stochastischen Integralen (It\^o-Integralen).
 Arbeitsraum ist ein filtrierter Wahrscheinlichkeitsraum
 $$
-(\Omega,\mathcal F,(\mathcal F_t)_{t\ge 0},\mathbb P),
+(\Omega,\mathcal F,(\mathcal F_t)_{t\ge 0},P),
 $$
 und es sei $W_t$ eine brownsche Bewegung. 
 
-Analog zu analytischen Integralen
-wird das stochastische Integral über Treppenfunktionen definiert. 
-Genauso wie man eine integrierbare Funktion mit einer Folge von Stufen approximiert, werden
-stochastische Prozesse durch elementare Prozesse approximiert.
+Analog zu analytischen Integralen wird das stochastische Integral über Treppenfunktionen definiert:
+Genauso wie eine integrierbare Funktion 
+durch eine Folge von Stufen approximiert wird, werden stochastische Prozesse durch elementare Prozesse angenähert.
 
 \begin{bem}[Vorhersagbare Prozesse]
-Die Klasse der vorhersagbaren stochastischen Prozesse bildet eine Erweiterung der links-stetigen Prozesse, so dass 
-z. B. auch Poisson-Prozesse (sprunghaft) zugelassen werden (vgl. Karatzas und Shreve \cite{karatzas_brownian_1991}, 1991, S. 131).
+Die Klasse der \textit{vorhersagbaren} stochastischen Prozesse bildet eine Erweiterung der links-stetigen Prozesse, so dass 
+z. B. auch Poisson-Prozesse (sprunghaft) zugelassen werden (\cite{karatzas_brownian_1991} S. 131).
 Stochastische Integrale und somit auch SDEs werden für solche Prozesse definiert. U. A. gilt: Vorhersagbar impliziert Adaptiert.
+Naturanaloge Prozesse sind meist vorhersagbar: Wenn man das Wetter jetzt kennt, so auch (ungefähr) in einer Minute.
 \end{bem}
 
 \begin{defi}[Elementare Prozesse und ihr Integral]
@@ -95,12 +105,12 @@ $$
 \int_0^T H_s\,dW_s \;:=\; \sum_{i=0}^{n-1} \xi_i\,\big(W_{t_{i+1}}-W_{t_i}\big).
 $$
 Zentrale Eigenschaften sind
-$$
+\begin{equation}\label{eq:ito_isometry}
 E\!\left[\int_0^T H_s\,dW_s\right] \;=\; 0,\qquad
 E\!\left[\Big(\int_0^T H_s\,dW_s\Big)^{\!2}\right] \;=\; E\!\left[\int_0^T H_s^2\,ds\right].
-$$
+\end{equation}
 Dies ist die \emph{It\^o-Isometrie}. Mit der It\^o-Isometrie kann man aus quadratintegrablen Prozessen
-schließen, dass das It\^o-Integral existiert. Der entstandene Prozess ist ein Martingal.
+schließen, dass das It\^o-Integral existiert. Der entstandene Prozess in $T$ ist ein Martingal.
 \end{defi}
 
 \begin{satz}[Dichtheit der elementaren Prozesse]
@@ -110,7 +120,10 @@ der quadratintegrierbaren Prozesse. Dann gibt es zu jedem stochastischen Prozess
 Prozess, deren Integrale sich um ein beliebiges $\varepsilon$ unterscheiden.
 
 Sei $L^2_{\mathrm{pred}}(\Omega\times[0,T])$ der Funktionen-Raum aller vorhersagbaren Prozesse $X$ mit der Norm
-$$\|X\|_{2,T}^2 := E \left [ \int_0^T |X_s|^2 ds \right ] < \infty.$$
+\begin{equation}\label{eq:ito_norm}
+\|X\|_{2,T}^2 := E \left [ \int_0^T |X_s|^2 ds \right ] < \infty.  
+\end{equation}
+
 Dann ist die Klasse der elementaren vorhersagbaren Prozesse dicht 
 in $L^2_{\mathrm{pred}}(\Omega\times[0,T])$ bezüglich der Norm $\|\cdot\|_{2,T}$. (Siehe z. B. Karatzas und Shreve \cite{karatzas_brownian_1991}, S. 132f.) 
 Die Dichtheit garantiert, dass zu einem beliebigen (vorhersagbaren, quadratintegrierbaren) Prozess 
@@ -138,9 +151,9 @@ $$
 E\!\left[
    \left( \int_0^T \big(H^{(n)}_s - G^{(n)}_s\big)\,dW_s \right)^2
 \right]
-&= 
+&\overset{\ref{eq:ito_isometry}}{=}
 E \left [ \int_0^T \big(H^{(n)}_s - G^{(n)}_s\big)^2\,ds \right ].
-\\ &= \|H^{(n)} - G^{(n)}\|_{2,T}^2
+\\ &\overset{\ref{eq:ito_norm}}{=} \|H^{(n)} - G^{(n)}\|_{2,T}^2
 \end{aligned}
 $$
 Wegen der Dreiecksungleichung folgt
@@ -177,14 +190,15 @@ präzise zu lesen als Integralgleichung
 $$
 S_t \;=\; S_0 \;+\; \int_0^t a(S_s,s)\,ds \;+\; \int_0^t b(S_s,s)\,dW_s,
 $$
-wobei $b(S_\cdot,\cdot)$ vorhersagbar und quadratintegrierbar sein muss.
+wobei $b(S_\cdot,\cdot)$ vorhersagbar und quadratintegrierbar sein muss. Diese Klasse der SDEs werden auch It\^o-SDEs genannt.
+$a$ nennt man Drift-Term und $b$ nennt man Diffusionsterm.
 \end{defi}
 
 \subsection{Charakterisierung alternativer Kursmodelle durch stochastische Differentialgleichungen}
 
 Die GBM nimmt konstante Volatilität und lognormale Renditen an; sie erzeugt weder 
 Sprünge noch Volatilitäts-Clustering oder kann Konjunkturperioden Modellieren.
-Glasserman \cite{glasserman2003monte} beschreibt verschiedene Ansätze zur Modellierung dieser Phänomene:
+Glasserman \cite{glasserman2003monte} beschreibt verschiedene Ansätze zur Modellierung solcher Phänomene. 
 
 \begin{bsp}[Lokale Volatilität]
 Deterministisch zeit- und zustandsabhängige Volatilität:
@@ -216,14 +230,6 @@ $$
 $$
 wobei $N_t$ Poisson mit Intensität $\lambda$ ist, $J_t$ die Sprunggröße (z.\,B. lognormal) 
 und $\kappa_J= E(J_t-1)$; der Driftterm kompensiert die Sprünge.
-\end{bsp}
-
-\begin{bsp}[Regimewechsel-Modelle]
-Parameter schalten gemäß einer (verborgenen) Markov-Kette $X_t$:
-$$
-dS_t \;=\; \mu_{X_t} S_t\,dt \;+\; \sigma_{X_t} S_t\,dW_t.
-$$
-Erfasst Phasen wie Krisen und ruhige Märkte.
 \end{bsp}
 
 \subsection{Simulation stochastischer Prozesse}
@@ -301,14 +307,14 @@ L(\theta) \;=\; \prod_{i=0}^{n-1} p_\theta\!\big(S_{t_{i+1}},\,\Delta t \,\big|\
 $$
 wobei $p_\theta(\,\cdot\,|\,\cdot)$ die bedingte Übergangsdichte in Schrittweite $\Delta t$ ist. Der MLE ist
 $$
-\widehat\theta\;=\;\arg\max_{\theta}\ \ell(\theta).
+\widehat\theta\;=\;\underset{\theta}{\arg\max}\ \ell(\theta).
 $$
 Da $p_\theta$ (hier) nicht explizit bekannt ist, wird eine Quasi-Likelihood (QMLE)-Methode verwendet. 
 Hier mit Hilfe der Euler-Maruyama-Approximation.
 $$
 S_{t_{i+1}}-S_{t_i}\mid S_{t_i}\ \approx\ \mathcal N\!\big(a_\theta(S_{t_i},t_i)\,\Delta t,\; b_\theta^2(S_{t_i},t_i)\,\Delta t\big),
 $$
-Dann wird die (Pseudo‑)Log‑Likelihood aufgestellt, und numerisch maximiert.
+Anschließend wird die (Pseudo‑)Log‑Likelihood aufgestellt und numerisch maximiert.
 \end{lemma}
 
 \begin{satz}[Quasi‑MLE für das CEV Modell (Euler‑Pseudo‑Likelihood)]
@@ -393,7 +399,7 @@ fit_cev <- fitsde(
 \end{lstlisting}
 
 Es folgt ein Backtest mit den geschätzten Parametern (vgl. Kapitel 7). Hier werden 1000 Pfade mit der
-Euler-Maruyama-Methode simuliert, und dann die empirischen 50\%-Quantile genommen.
+Euler-Maruyama-Methode simuliert und anschließend die empirischen 50\%-Quantile genommen.
 
 \begin{figure}[H]
     \centering
@@ -478,12 +484,12 @@ Adesso & $0.2686$ & $0.4114$ & $1.0031$ & $0.2686$ & $0.4122$ & $1.0026$ \\
 
 \subsection{Ergebnisse und Vergleich der Modelle}
 
-Nun wird das CEV-Modell (unter Verwendung der in Sim.Diffproc vorgenommenen Kalibrierung) mit der geometrischen Brownschen Bewegung (GBM) verglichen. (Siehe Anhang B.) Beide Modelle werden auf denselben Datensatz angewendet und anschließend in einem Backtest bewertet.
+Nun wird das CEV-Modell (unter Verwendung der in Sim.Diffproc vorgenommenen Kalibrierung) mit der geometrischen brownschen Bewegung (GBM) verglichen. (Siehe Anhang B.) Beide Modelle werden auf denselben Datensatz angewendet und anschließend in einem Backtest bewertet.
 
-Zum einen erfolgt eine Aufteilung der Daten nach einem bestimmten Gewicht (weight): Das Modell wird auf Basis der 
+Zum Einen erfolgt eine Aufteilung der Daten nach einem bestimmten Gewicht (weight): Das Modell wird auf Basis der 
 historischen Daten kalibriert und anschließend zur Prognose der zukünftigen Daten eingesetzt. Die Prognosegüte 
 wird gemessen und über alle Gewichte hinweg als Mittelwert angegeben.
-Zum anderen wird ein sequentieller Backtest mit einem festen Zeitintervall von 20 Tagen durchgeführt, bei dem jeweils 
+Zum Anderen wird ein sequentieller Backtest mit einem festen Zeitintervall von 20 Tagen durchgeführt, bei dem jeweils 
 alle bis dahin verfügbaren Daten zur Prognose herangezogen werden.
 
 

@@ -1,11 +1,11 @@
 \section{Die geometrische brownsche Bewegung}
 
-Die geometrische brownsche Bewegung ist eine Erweiterung der Brownschen Bewegung. 
+Die geometrische brownsche Bewegung ist eine Erweiterung der brownschen Bewegung. 
 Sie eignet zur Modellierung von Aktienkursen, da sie im Gegensatz zur klassischen 
-Brownschen Bewegung stets positive Werte annimmt.
+brownschen Bewegung stets positive Werte annimmt.
 
 
-\subsection{Die geometrische Brownschen Bewegung}
+\subsection{Die geometrische brownschen Bewegung}
 
 Das \textit{Binomialmodell} beschreibt den Aktienkurs $S_t$ in diskreter Zeit: In jedem Zeitschritt ändert sich der Kurs multiplikativ um einen Zufallsfaktor. Es gilt
 $$
@@ -13,7 +13,7 @@ S_{k+1} = S_k \,(1 + X_{k+1}), \qquad k = 0,1,\dots,n-1,
 $$
 für eine Zufallsvariable $X_{k+1}$ die die relative Kursänderung im Schritt $k+1$ repräsentiert. Um eine kontinuierliche Zeitentwicklung zu modellieren, 
 setzt man\footnote{Dies ist ein Schritt des Euler-Maruyama-Verfahren zur numerischen Lösung der 
-stochastischen Differentialgleichung der geometrischen Brownschen Bewegung. Vgl. Kapitel 8 oder Bärwolff und Tischendorf \cite{Baerwolff2025}.}
+stochastischen Differentialgleichung der geometrischen brownschen Bewegung. Vgl. Kapitel 8 oder Bärwolff und Tischendorf \cite{Baerwolff2025}.}
 $$
 X_{k+1} = \mu  \Delta t + \sigma \sqrt{\Delta t}\varepsilon_{k+1},
 $$
@@ -66,10 +66,10 @@ $$
 Im Folgenden wird der Grenzübergang $n \longrightarrow \infty$ bzw. $\Delta t \longrightarrow 0$ durchgeführt. 
 Die erste Summe konvergiert nach dem Zentralen Grenzwertsatz (Verteilungskonvergenz):
 $$
-\sigma \sqrt{\Delta t} \sum_{j=1}^n \varepsilon_j = \sigma \frac{\sqrt{T}}{\sqrt{N}} \sum_{j=1}^n \varepsilon_j  \xrightarrow[n \to \infty]{\mathrm{d}} \xi \sim N(0, \sigma^2 T),
+\sigma \sqrt{\Delta t} \sum_{j=1}^n \varepsilon_j = \sigma \frac{\sqrt{T}}{\sqrt{N}} \sum_{j=1}^n \varepsilon_j  \xrightarrow[n \to \infty]{\mathrm{d}} \xi \sim \mathcal N(0, \sigma^2 T),
 $$
 also gegen eine Zufallsvariable $\xi$ die normalverteilt ist, mit Varianz $\sigma^2 T$.  $\xi = \sigma W_T$ ist eine Lösung, 
-weil $W_T \sim N(0, T)$ eine brownsche Bewegung zur Zeit $T$ ist. 
+weil $W_T \sim \mathcal N(0, T)$ eine brownsche Bewegung zur Zeit $T$ ist. 
 Da $E(\varepsilon_j)=0$ und $V(\varepsilon_j)=1$ und damit $E(\varepsilon_j^2) = 1$ gilt, folgt im Grenzübergang für die zweite Summe nach dem Gesetz der großen Zahlen
 $$
 \frac{1}{2} \sigma^2 \sum_{j=1}^{n} \Delta t \varepsilon_j^2  \xrightarrow[n \to \infty]{\mathrm{f.s.}} \tfrac12 \sigma^2 T.
@@ -85,7 +85,7 @@ $$
 \subsection{Die logarithmische Normalverteilung}
 
 Eine Zufallsvariable $X$ heißt log-Normalverteilt mit Varianz $\sigma^2$ und Erwartungswert $\mu$, 
-falls die Zufallsvariable $Y := \log(X)$ normalverteilt ist mit $Y \sim N(\mu, \sigma^2)$.
+falls die Zufallsvariable $Y := \log(X)$ normalverteilt ist mit $Y \sim \mathcal N(\mu, \sigma^2)$.
 $S_T$ ist somit log-normalverteilt:
 $$\log S_T \overset{d} = \log S_0 + \big(\mu - \tfrac12 \sigma^2\big)T + \sigma W_T.$$
 ergibt

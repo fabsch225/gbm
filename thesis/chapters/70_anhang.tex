@@ -3,12 +3,13 @@
 \begin{itemize}
     \item $E(X)$ bzw. $E[X]$ - Erwartungswert
     \item $V(X)$ bzw. $V[X]$ - Varianz
-    \item $X \sim N(\mu, \sigma^2)$ - normalverteilte Zufallsvariable mit Erwartungswert $\mu$ und Varianz $\sigma^2$
+    \item $X \sim \mathcal N(\mu, \sigma^2)$ - normalverteilte Zufallsvariable mit Erwartungswert $\mu$ und Varianz $\sigma^2$
     \item $(\Omega, \mathcal F, P)$ - Wahrscheinlichkeitsraum
     \item $W_t$ - brownsche Bewegung (Wiener-Prozess)
-    \item $o(\Delta t)$ - beliebiger Term, der so schnell wie $\Delta t$ verschwindet
+    \item $o(\Delta t)$ - beliebiger Term, der im Limes (Kontext) so schnell wie $\Delta t$ verschwindet
     \item $o(1)$ - beliebiger Term, der im Limes (Kontext) verschwindet
     \item $L^2(\Omega)$ - Der normierte Vektorraum der Zufallsvariablen $X : \Omega \to \Bbb R$, wobei $E(X^2) \lt \infty$ ist.
+    \item i.i.d. - Die Zufallsvariablen sind stochastisch Unabhängig und identisch verteilt.
     \item GBM - geometrische brownsche Bewegung
     \item CEV - Constant Elasticity of Variance (Modell)
     \item MSE - Mean Squared Error
@@ -20,7 +21,7 @@
 \subsection{Konvergenzbegriffe}
 
 \begin{itemize}
-    \item $X_n \xrightarrow{} X$ - punktweise Konvergenz (Für jedes $\omega \in \Omega$ gilt: $X_n(\omega) \to X(\omega)$)
+    \item $X_n \xrightarrow{\mathrm{pktw.}} X$ - punktweise Konvergenz (Für jedes $\omega \in \Omega$ gilt: $X_n(\omega) \to X(\omega)$)
     \item $X_n \xrightarrow{\mathrm{glm.}} X$ - gleichmäßige Konvergenz (Für jede $\varepsilon > 0$ gilt: $\sup_{\omega \in \Omega} |X_n(\omega) - X(\omega)| < \varepsilon$ für $n$ groß genug)
     \item $X_n \xrightarrow{\mathrm{d}} X$ - Konvergenz in Verteilung (Die Verteilungsfunktion $F_{X_n}$ von $X_n$ konvergiert punktweise gegen die Verteilungsfunktion $F_X$ von $X$, mindestens an den Stetigkeitsstellen von $F_X$)
     \item $X_n \xrightarrow{\mathrm{p}} X$ - Konvergenz in Wahrscheinlichkeit (Für jede $\varepsilon > 0$ gilt: $P(|X_n - X| > \varepsilon) \to 0$)
@@ -31,14 +32,6 @@ Auf das Verhältnis zwischen den Konvergenzbegriffen wird bei Bedarf eingegangen
 
 \subsection{Ergebnisse aus der Stochastik}
 
-\begin{lemma}[Reihenkriterium für fast sichere Konvergenz, Henze \cite{henze} S. 201]
-Sei $(X_n)_{n \in \Bbb N}$ eine Folge von Zufallsvariablen. Wenn es eine Reihe $\sum_{n=1}^\infty a_n \lt \infty$ mit $a_n \geq 0$ gibt, so dass
-$$P(|X_n| > \varepsilon) \leq a_n \quad \text{für alle } n \in \Bbb N \text{ und jedes } \varepsilon > 0,$$
-dann konvergiert $X_n$ fast sicher gegen $0$, d.h.
-$$P\left(\lim_{n \to \infty} X_n = 0\right) = 1.$$
-Wird hier nicht bewiesen. \qed
-\end{lemma}
-
 \begin{satz}[Cramér-Wold-Technik, Henze \cite{henze} S. 225]
 Seien $(X_n)_{n \in \Bbb N}$ und $X$ Zufallsvektoren in $\Bbb R^d$. Dann sind folgende Aussagen äquivalent:
 \begin{enumerate}
@@ -48,6 +41,24 @@ Seien $(X_n)_{n \in \Bbb N}$ und $X$ Zufallsvektoren in $\Bbb R^d$. Dann sind fo
 Wird hier nicht bewiesen. \qed \\
 Die Cramér-Wold-Technik erlaubt es, mehrdimensionale Verteilungskonvergenz auf eindimensionale Berechnungen zurückzuführen.
 \end{satz}
+
+\begin{satz}[Zentraler Grenzwertsatz von Lindeberg-Feller, Henze \cite{henze} S. 223]
+Die Zufallsvariablen $X_{ni}, 1 \le i \le k_n \to \infty$ seien für jedes $n \in \Bbb N$ stochastisch unabhängig mit
+$E(X_{ni})=0$ und $\sigma^2_{ni} = \text{Var}(X_{ni}) \lt \infty$.
+Setze $s_n^2 = \sum_{i=1}^{k_i} \sigma_{ni}^2$. Gilt die Lindeberg-Bedingung
+$$(L) \quad \lim_{n \to \infty} L_n(\varepsilon) = \frac{1}{s_n^2} \sum_{i=1}^{k_n} E(X^2_{ni} 1_{\{\vert X_{ni} \vert \gt \varepsilon s_n\}})=0, \quad \forall \varepsilon \gt 0$$
+Dann folgt
+$$\frac{1}{s_n} \sum_{i=1}^{k_n} X_{ni} \underset{n \to \infty}{\overset d \longrightarrow} \mathcal N(0,1).$$
+Wird hier nicht bewiesen. \qed
+\end{satz}
+
+\begin{lemma}[Reihenkriterium für fast sichere Konvergenz, Henze \cite{henze} S. 201]
+Sei $(X_n)_{n \in \Bbb N}$ eine Folge von Zufallsvariablen. Wenn es eine Reihe $\sum_{n=1}^\infty a_n \lt \infty$ mit $a_n \geq 0$ gibt, so dass
+$$P(|X_n| > \varepsilon) \leq a_n \quad \text{für alle } n \in \Bbb N \text{ und jedes } \varepsilon > 0,$$
+dann konvergiert $X_n$ fast sicher gegen $0$, d.h.
+$$P\left(\lim_{n \to \infty} X_n = 0\right) = 1.$$
+Wird hier nicht bewiesen. \qed
+\end{lemma}
 
 \begin{satz}[Satz von Pratt, Elstrod \cite{elstrod} S. 280, vereinfacht]
 Dieser technische Satz erlaubt es, den Grenzübergang und den Erwartungswert zu vertauschen, und
@@ -71,7 +82,6 @@ sind, die der Verteilung von $X$ folgen. Der Schätzer konvergiert fast sicher
 gegen den wahren Erwartungswert $I = E[f(X)]$, wenn $n \to \infty$.
 \textit{Beweis.} Nach dem Gesetz der großen Zahlen gilt
 $$\hat{I}_n \longrightarrow E[f(X)] = I, \quad \text{fast sicher.}$$
-\qed
 \end{defprop}
 \newpage
 \section{Vergleich von GBM und CEV-Modell}

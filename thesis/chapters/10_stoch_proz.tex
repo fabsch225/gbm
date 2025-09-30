@@ -107,7 +107,7 @@ betrachtet.
 \begin{defi}[Adaptiertheit]
 In der modernen Wahrscheinlichkeitsrechnung wird Information über den
 Wahrscheinlichkeitsraum $(\Omega, \mathcal F, P)$ als Teil-$\sigma$-Algebra 
-von $\mathcal A$ verschlüsselt (Behrends \cite{behrends} S. 13). Dazu wird der Begriff der Filtration 
+von $\mathcal A$ verschlüsselt (\cite{behrends} S. 13). Dazu wird der Begriff der Filtration 
 definiert: Eine Familie von $\sigma$-Algebren $\mathcal F_t, t \in I$ heißt \textit{Filtration}, 
 wenn $\mathcal F_s \subset \mathcal F_t$ für alle $s \lt t$ gilt. 
 Der Prozess $(X_t)_{t \in I}$ heißt an die Filtration adaptiert, 
@@ -241,7 +241,7 @@ $E(X_t|X_s=v) \le v$  für alle $s \lt t$, und alle $v \in \Bbb R$. $(X_t)_{t \i
 Das Binomialmodell genau dann ein Martingal, wenn $p=\frac{1-d}{u-d}$ gilt, wobei $u \neq d$. 
 Ansonsten ist das Binomialmodell ebenfalls ein Martingal falls $p=0.5$.
 
-\textit{Beweis} für $u \neq d$.
+\textit{Beweis}. Für $u \neq d$.
 Zuerst wird der Fall $t = s + 1$ gezeigt:
 Es gilt $S_{s+1}=S_s\,\xi_{s+1}$ für eine Zufallsvariable $\xi_{s+1}$ mit $\mathbb{P}(\xi_{s+1}=u)=p,\ \mathbb{P}(\xi_{s+1}=d)=1-p$. Es folgt
 $$E(S_{s+1}|S_s=v)= v \cdot E(\xi_{s+1})=v(pu+(1-p)d).$$
