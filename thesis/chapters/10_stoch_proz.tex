@@ -11,7 +11,7 @@ Zeitparameter interpretiert wird. Ziel dieser Arbeit ist es, Aktienkurse und sp�
 zu modellieren.
 
 \begin{bsp}[Zufallsspaziergang]
-Ein einfacher stochastischer Prozess ist der \textit{Zufallsspaziergang} (random walk).
+Ein klassisches Beispiel für einen stochastischen Prozess ist der sogenannte \textit{Zufallsspaziergang} (engl. random walk).
 Die Position des Spaziergängers zur Zeit $t$ wird durch eine Zufallsvariable $X_t$ beschrieben. 
 Man startet bei $X_0 = 0$. In jedem Zeitschritt bewegt sich der Spaziergänger entweder 
 einen Schritt nach rechts oder nach links, jeweils mit Wahrscheinlichkeit $p$ bzw. $1-p$. 
@@ -31,7 +31,7 @@ $$
 \end{bsp}
 
 \begin{bsp}[Binomialmodell]
-Das Binomialmodell ist ein simples Modell einer Aktie und deren Preisentwicklung. 
+Das \textit{Binomialmodell} ist ein erstes Modell einer Aktie und deren Preisentwicklung. 
 Man beginnt mit einem Anfangspreis $S_0$. $S_1, S_2, \dots$ sind dann Messungen des Aktienpreises zu einem festen Intervall.
  Zu einer festen Wahrscheinlichkeit $0 \lt p \lt 1$ steigt die Aktie um den Faktor $u$, oder fällt mit der Wahrscheinlichkeit $1-p$ um den Faktor $d$. Also
 $$S_{t+1} = \begin{cases} 
@@ -110,7 +110,7 @@ Wahrscheinlichkeitsraum $(\Omega, \mathcal F, P)$ als Teil-$\sigma$-Algebra
 von $\mathcal A$ verschlüsselt (\cite{behrends} S. 13). Dazu wird der Begriff der Filtration 
 definiert: Eine Familie von $\sigma$-Algebren $\mathcal F_t, t \in I$ heißt \textit{Filtration}, 
 wenn $\mathcal F_s \subset \mathcal F_t$ für alle $s \lt t$ gilt. 
-Der Prozess $(X_t)_{t \in I}$ heißt an die Filtration adaptiert, 
+Der Prozess $(X_t)_{t \in I}$ heißt an die Filtration \textit{adaptiert}, 
 wenn $X_t$ $\mathcal F_t$-messbar ist für alle $t \in I$. Die Eigenschaft 
 $\mathcal F_s \subset \mathcal F_t$ kann man wie folgt interpretieren: 
 Die Größe des Datensatzes nimmt über die Zeit zu. Anstatt dem Produktraum, kann man 
@@ -138,7 +138,7 @@ fallen, alle weiteren Kursverläufe sind in dem Ereignis enthalten.
 \begin{defi}[Wahrscheinlichkeitsraum eines stochastischen Prozesses]
 Mit der Filtration kann man den Wahrscheinlichkeitsraum eines stochastischen Prozesses genauer beschreiben. 
 Der Wahrscheinlichkeitsraum $(\Omega, \mathcal F, P)$, wobei $\mathcal F = \lim_{t \to \infty} \mathcal F_t$, entsteht durch die Filtration $\mathcal F_t$.
-Der stochastische Prozess existiert dann im filtrierten Wahrscheinlichkeitsraum. Man schreibt
+Der stochastische Prozess existiert dann im \textit{filtrierten Wahrscheinlichkeitsraum}. Man schreibt
 $$
 (\Omega, \mathcal F_t, \mathcal F, P).
 $$
@@ -231,10 +231,8 @@ Die mathematische Definition erfolgt durch den Bedingten Erwartungswert:
 Ist ein fairer Kurs zum aktuellen Zeitpunkt $s$ auf einem bestimmten Wert, 
 liegt der Erwartungswert zur Messzeit $t \gt s$ bei dem selben Wert.
 
-Ein stochastischer Prozess $(X_t)_{t \in I}$ heißt \textit{Submartingal}, wenn 
-$E(X_t|X_s=v) \le v$  für alle $s \lt t$, und alle $v \in \Bbb R$. $(X_t)_{t \in I}$
- heißt \textit{Supermartingal}, wenn  $(-X_t)_{t \in I}$ ein Submartingal ist, und \textit{Matringal}, 
- wenn er sowohl Supermartingal als auch Submartingal ist, also $E(X_t|X_s=v) = v$.
+Ein stochastischer Prozess $(X_t)_{t \in I}$ heißt \textit{Matringal}, 
+wenn der bedingte Erwartungswert zu einer Stopzeit stets dem aktuellen Wert entsprcht, d.h $$E(X_t|X_s=v) = v.$$
 \end{defi}
 
 \begin{bsp}[Martingaleigenschaft des Binomialmodells]
@@ -254,13 +252,17 @@ $E(S_t|S_s=v)=v$ ist wieder äquivalent zu $p=\frac{1-d}{u-d}$. \qed
 \end{bsp}
 
 \begin{defi}[Markovprozess]
-Ein stochastischer Prozess heißt Markovprozess, falls die 
-Zufallsvariablen $X_t$ lediglich vom unmittelbaren Vorgänger $X_s, s \lt t$ abhängen.
-Konkret: Für alle $r \lt s \lt t$ und alle $u, v, w \in \Bbb R$ gilt
-$$P(X_t \le w | X_s = v, X_r=u) = P(X_t \le w|X_s=v).$$
+Ein stochastischer Prozess $(X_t)_{t \in T}$
+heißt \emph{Markovprozess}, falls er die Markov-Eigenschaft erfüllt:  
+Für alle Zeitpunkte $t_0 < t_1 < \dots < t_n < t$ und alle Ereignisse $A$ gilt
+$$
+  P\!\bigl( X_t \in A \,\big|\, X_{t_n}, X_{t_{n-1}}, \dots, X_{t_0} \bigr)
+  \;=\;
+  P\!\bigl( X_t \in A \,\big|\, X_{t_n} \bigr).
+$$
+Hier hängen die zukünftigen Realisierungen nur vom gegenwärtigen Zustand ab.
 \end{defi}
 
 \begin{bsp}
-Das Binomialmodell und der Zufallsspaziergang sind Beispiele für Markovprozesse, da die zukünftige Position 
-nur von der aktuellen Position und nicht von der gesamten Vergangenheit abhängt.
+Das Binomialmodell und der Zufallsspaziergang sind Beispiele für Markovprozesse, da die Übergänge stochastisch unabhängig sind. Anschaulich: Betrachtet man die nächste Stellung in einem Gesellschaftsspiel, so kann man den vergangenen Spielverlauf vernachlässigen.
 \end{bsp}
