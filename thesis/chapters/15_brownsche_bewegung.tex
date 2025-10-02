@@ -192,7 +192,17 @@ $$
 Y_N=\sum_{i=1}^k a_i b^{(N)}(t_i)=\sum_{j=1}^{M_N} c_{N,j}\,\eta_j,
 $$
 wobei $M_N=\lfloor Nt_k\rfloor+1$ und die Koeffizienten $c_{N,j}$ aus der Definition von $b^{(N)}(t_i)$ stammen.
-Aus der Darstellung folgt, dass $|c_{N,j}|\le C/\sqrt N$ für ein von $N$ unabhängiges $C>0$ gilt.
+Aus der Darstellung folgt, dass $|c_{N,j}|\le C/\sqrt N$ für ein von $N$ unabhängiges $C>0$ gilt: Die Definition
+$$
+\begin{aligned}
+b^{(N)}(t) &\overset{\mathrm{def}}= \frac{1}{\sqrt{N}} \left ( \xi_{\lfloor Nt \rfloor} + (Nt - \lfloor Nt \rfloor)(\xi_{\lfloor Nt \rfloor + 1} - \xi_{\lfloor Nt \rfloor}) \right )
+\\ &= \frac{1}{\sqrt{N}} \left ((Nt - \lfloor Nt \rfloor) \cdot \eta_{n+1} + \sum_{i=1}^n \eta_i \right ),\quad n = \lfloor Nt \rfloor
+\end{aligned}
+$$
+liefert
+$$
+C = \max_{i=1, \dots, k} \vert a_i \vert.
+$$
 Damit erhält man für jedes $\varepsilon>0$
 $$
 \mathbf 1_{\{|c_{N,j}\eta_j|>\varepsilon\}}
@@ -210,7 +220,7 @@ E \left [ \eta_1^2\mathbf 1_{\{|\eta_1|>\varepsilon\sqrt N/C\}} \right ] \xright
 $$
 Damit ist die Lindeberg-Bedingung erfüllt und es folgt
 $$
-Y_N \xrightarrow{d} \mathcal N(0,\sigma^2(a)).
+Y_N \xrightarrow{d} Y \sim \mathcal N(0,\sigma^2(a)).
 $$
 Damit ist $Y_N$ zentriert normalverteilt. Insgesamt konvergiert für jedes $a$ die Verteilung von $a^\top(b^{(N)}(t_1),\dots,b^{(N)}(t_k))$ gegen die von $a^\top(W_{t_1},\dots,W_{t_k})$.
 Nach Cramér–Wold folgt die behauptete Verteilungskonvergenz des Vektors. \qed

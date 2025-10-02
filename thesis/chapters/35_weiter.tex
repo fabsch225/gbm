@@ -239,12 +239,12 @@ dX_t \;=\; a(X_t,t)\,dt \;+\; b(X_t,t)\,dW_t,\quad t\in[0,T],
 $$
 wird ein Zeitschrittgitter $t_n=n\Delta t$ eingeführt und der kontinuierliche Prozess durch eine zeitdiskrete Approximation ersetzt. Erwartungswerte werden via Monte‑Carlo über viele simulierte Pfade geschätzt.
 
-Die Differentialgleichung (DGL) wird mit Euler (deterministisch) und Euler–Maruyama (stochastisch) diskretisiert (vgl. Bärwolff \cite{Baerwolff2025} u. a. S. 269, 466f.).
-Für die DGL $x^\prime(t)=a(x(t),t)$ liefert das explizite Euler‑Schema
+Die Differentialgleichung (DGL) wird dem Euler-Verfahren diskretisiert (vgl. \cite{Baerwolff2025}, S. 62).
+Für die DGL $x^\prime(t)=a(x(t),t)$ liefert das Euler‑Schema
 $$
 x_{n+1} \;=\; x_n \;+\; a(x_n,t_n)\,\Delta t.
 $$
-Ersetzt man nun formal $dW_t$ durch $\Delta W_n:=W_{t_{n+1}}-W_{t_n}\sim \mathcal N(0,\Delta t)$, erhält man die natürliche stochastische Erweiterung, das Euler–Maruyama‑Schema:
+Ersetzt man nun $dW_t$ durch $\Delta W_n:=W_{t_{n+1}}-W_{t_n}\sim \mathcal N(0,\Delta t)$, erhält man die natürliche stochastische Erweiterung:
 $$
 \begin{aligned}
 X_{n+1} \;&=\; X_n \;+\; a(X_n,t_n)\,\Delta t \;+\; b(X_n,t_n)\,\Delta W_n \\

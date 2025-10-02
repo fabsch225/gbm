@@ -121,7 +121,7 @@ bezeichnen. An $Q$ werden folgende Anforderungen gestellt (vgl. \cite{hull}, S. 
 \begin{enumerate}
     \item $Q$ ist ein Wahrscheinlichkeitsmaß
     \item $Q$ ist äquivalent zu $P$, das heißt $P(A)=0 \iff Q(A)=0$ für alle Ereignisse $A$ (lediglich die Wahrscheinlichkeiten ändern sich, nicht die möglichen Ereignisse)
-    \item Unter $Q$ ist der diskontierte Aktienkurs ein Martingal, also $$E_Q(e^{-r \Delta t} S_{t} \mid S_s = v) = e^{-rs\Delta t}\, v$$ für alle $t \gt s$ und $v>0$.
+    \item Unter $Q$ ist der diskontierte Aktienkurs ein Martingal, also $$E_Q(e^{-r m\Delta t} S_{m} \mid S_n = v) = e^{-rn\Delta t}\, v$$ für alle $m \gt n$ und $v>0$.
 \end{enumerate}
 Im Fall des Binomialmodells handelt es sich um ein diskretes Wahrscheinlichkeitsmaß, 
 wobei die Werte $Q(S_{t + \Delta t} = u \cdot S_t)=q$ und $Q(S_{t + \Delta t} = d \cdot S_t)=1-q$ bekannt sind.
