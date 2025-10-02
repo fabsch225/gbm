@@ -46,6 +46,11 @@ Für verschiedene Werte von $N$ ergeben sich die folgenden Grafiken:
 \end{bsp}
 
 \begin{lemma}[Erwartungswert der diskreten brownschen Bewegung]
+Es gilt
+$$
+E(b^{(N)}(t)) = 0.
+$$
+\textit{Beweis}.
 Da $b^{(N)}(t)$ eine lineare Kombination von zentrierten Normalverteilungen ist, gilt
 $$
 E(b^{(N)}(t)) = \frac{1}{\sqrt{N}} \left( E(\xi_{\lfloor Nt \rfloor}) + (Nt - \lfloor Nt \rfloor) E(\xi_{\lfloor Nt \rfloor + 1} - \xi_{\lfloor Nt \rfloor}) \right).
@@ -58,7 +63,11 @@ $$
 \end{lemma}
 
 \begin{lemma}[Varianz der diskreten brownschen Bewegung]
-Aus der Unabhängigkeit der Inkremente folgt
+Es gilt
+$$
+V(b^{(N)}(t)) = \frac{\lfloor Nt \rfloor}{N} + \frac{(Nt - \lfloor Nt \rfloor)^2}{N}.
+$$
+\textit{Beweis}. Aus der Unabhängigkeit der Inkremente folgt
 $$
 \begin{aligned}
 V(b^{(N)}(t)) &= \frac{1}{N} \left ( V(\xi_{\lfloor Nt \rfloor}) + (Nt - \lfloor Nt \rfloor)^2 \cdot V(\xi_{\lfloor Nt \rfloor + 1} - \xi_{\lfloor Nt \rfloor}) \right ) 
@@ -66,8 +75,9 @@ V(b^{(N)}(t)) &= \frac{1}{N} \left ( V(\xi_{\lfloor Nt \rfloor}) + (Nt - \lfloor
 \\ &= \frac{\lfloor Nt \rfloor}{N} + \frac{(Nt - \lfloor Nt \rfloor)^2}{N}.
 \end{aligned}
 $$
-Im Grenzübergang $N \to \infty$ konvergiert $\frac{\lfloor Nt \rfloor}{N} \to t$ und $\frac{(Nt - \lfloor Nt \rfloor)^2}{N} \to 0$.
 \qed
+\\
+Im Grenzübergang $N \to \infty$ konvergiert $\frac{\lfloor Nt \rfloor}{N} \to t$ und $\frac{(Nt - \lfloor Nt \rfloor)^2}{N} \to 0$.
 \end{lemma}
 
 \subsection{Die brownsche Bewegung als Grenzprozess}
@@ -78,11 +88,13 @@ untersucht. Konvergenz der einzelnen Zeitpunkte (oder endlich-dimensionalen Vekt
 für Konvergenz der Prozesse als Funktionen. Daher wird die Konvergenz in 3 Schritten untersucht:
 \begin{enumerate}
   \item Verteilungskonvergenz der einzelnen Zeitpunkte
-  \item Verteilungskonvergenz von endlich-dimensionalen Vektoren und die Kovarianzen (Hieraus folgt bereits die Selbstähnlichkeit / Bedingte Verteilung so wie die Martingal-Eigenschaft)
+  \item Verteilungskonvergenz von endlich-dimensionalen Vektoren und die Kovarianzen (Hieraus folgt bereits die Selbstähnlichkeit und bedingte Verteilung so wie die Martingal-Eigenschaft)
   \item Stetigkeit der Pfade des Grenzprozesses
 \end{enumerate}
+Die Verteilungskonvergenz im Funktionenraum $C[0, 1]$ der stetigen Funktionen $f : [0, 1] \to \Bbb R$ wird in dieser Arbeit nicht behandelt.
+Diese kann mit dem Satz von Donsker (\cite{henze2022asymptotische}, S. 270) nachgewiesen werden.
 
-\begin{lemma}[Verteilungskonvergenz der diskreten brownschen Bewegung]
+\begin{lemma}[Verteilungskonvergenz zu einzelnen Zeitpunkten]
 Es existiert ein stochastischer Prozess $W_t, t \geq 0$, so dass für jedes $t$ die Verteilung von $b^{(N)}(t)$ gegen die Verteilung von $W_t$ konvergiert, wenn $N \to \infty$.
 \textit{Beweis.}
 Da 
@@ -110,11 +122,14 @@ Dies ist die Verteilungsfunktion von $N(0,t)$. Definiere $W_t :\sim \mathcal N(0
 \qed
 \end{lemma}
 
-\begin{satz}[Kovarianzstruktur der brownschen Bewegung]
+\begin{satz}[endlich-dimensionale Verteilungskonvergenz und Kovarianzstruktur der brownschen Bewegung]
 Aus der Verteilungskonvergenz der einzelnen Zeitpunkte kann man noch keinen sinnvollen Grenzprozess folgern.
 Die Zeitpunkte $W_t$ sind zwar normalverteilt, aber der Prozess könnte trotzdem sprunghaft sein.
 Nun wird die Verteilungskonvergenz der endlich-dimensionalen Vektoren gezeigt, beziehungsweise
-die Kovarianz der Realisierungen bei benachbarten Zeitpunkten untersucht.
+die Kovarianz der Realisierungen bei benachbarten Zeitpunkten untersucht. Für $t$ und $s$ gilt 
+$$
+\mathrm{Cov}(W_s, W_t) = \min(s,t).
+$$
 Sei $0\le t_1\le\cdots\le t_k$ eine Zerlegung. Dann gilt
 $$
 \big(b^{(N)}(t_1), \dots , b^{(N)}(t_k) \big )\;\xrightarrow[N \to \infty]{\mathrm{d}}\;\big(W_{t_1},\dots,W_{t_k}\big).
@@ -201,32 +216,6 @@ Damit ist $Y_N$ zentriert normalverteilt. Insgesamt konvergiert für jedes $a$ d
 Nach Cramér–Wold folgt die behauptete Verteilungskonvergenz des Vektors. \qed
 \end{satz}
 
-\begin{bem}[Interpretation der Kovarianzen]
-Um die Wichtigkeit der Kovarianz-Struktur zu verdeutlichen, wird in der folgenden Visualisierung gezeigt, wie ein
-stochastischer Prozess ohne Kovarianz der einzelnen Zufallsvariablen aussehen würde.
-In Blau werden die Verteilungen der Zufallsvariablen, und in Rot jeweils Realisierungen des Prozesses dargestellt.
-In der zweiten Grafik (mit Kovarianz-Struktur) kann man erkennen, dass die bedingten Verteilungen eine geringere Varianz haben, und jeweils um den Vorherigen Wert zentriert sind. Dies wird im Folgenden noch präzisiert.
-Das kann man als ein schwaches Stetigkeits-Kriterium interpretieren.
-
-Ausgehend von der Kovarianz-Struktur kann man die Stetigkeit mit dem Stetigkeitssatz von Kolmogorov (\cite{behrends} S. 78f.) folgern.
-In dieser Arbeit wird jedoch ein anderer Beweisansatz genutzt.
-
-
-\begin{figure}[H]
-  \centering
-  \begin{minipage}{0.48\textwidth}
-    \includegraphics[width=\textwidth]{images/bb_without_cov.png}
-    \caption{Folge von Normalverteilten Zufallsvariablen ohne Kovarianz}
-    \label{fig:bb_without_cov}
-  \end{minipage}\hfill
-  \begin{minipage}{0.48\textwidth}
-    \includegraphics[width=\textwidth]{images/bb_with_cov.png}
-    \caption{Visualierung der Verteilung der diskreten brownschen Bewegung unter Beachtung der Kovarianzstruktur}
-    \label{fig:bb_with_cov}
-  \end{minipage}
-\end{figure}
-\end{bem}
-
 \begin{satz}[Selbstähnlichkeit und bedingte Verteilung der brownschen Bewegung]
 Für jedes $c > 0$ gilt
 $$
@@ -285,9 +274,33 @@ W_t \mid W_s \sim \mathcal N(W_s,\, t-s).
 $$ \qed
 \end{satz}
 
+\begin{bem}[Visualisierung der bedingten Verteilung]
+Um die Wichtigkeit der Kovarianz-Struktur zu verdeutlichen, wird in der folgenden Visualisierung gezeigt, wie ein
+stochastischer Prozess ohne Kovarianz der einzelnen Zufallsvariablen aussehen würde.
+In Blau werden die (bedingten) Verteilungen der Zufallsvariablen, und in Rot jeweils Realisierungen des Prozesses dargestellt.
+
+Dass die bedingte Verteilung um den vorigen Wert zentriert ist, kann man als ein schwaches Stetigkeits-Kriterium interpretieren.
+Ausgehend von der Kovarianz-Struktur kann man die Stetigkeit mit dem Stetigkeitssatz von Kolmogorov (\cite{behrends} S. 78f.) folgern.
+In dieser Arbeit wird jedoch ein anderer Beweisansatz genutzt.
+
+\begin{figure}[H]
+  \centering
+  \begin{minipage}{0.48\textwidth}
+    \includegraphics[width=\textwidth]{images/bb_without_cov.png}
+    \caption{Folge von unabhängigen Normalverteilten Zufallsvariablen. Die Realisierungen sind chaotisch.}
+    \label{fig:bb_without_cov}
+  \end{minipage}\hfill
+  \begin{minipage}{0.48\textwidth}
+    \includegraphics[width=\textwidth]{images/bb_with_cov.png}
+    \caption{Visualierung der bedingten Verteilung der diskreten brownschen Bewegung.}
+    \label{fig:bb_with_cov}
+  \end{minipage}
+\end{figure}
+\end{bem}
+
 \begin{korr}[Martingal-Eigenschaft der brownschen Bewegung]
 Die brownsche Bewegung $W_t$ ist ein Martingal.
-\textit{Beweis.} Aus dem vorigen Satz folgt
+\textit{Beweis.} Aus der bedingten Verteilung folgt
 $$
 E(W_t | W_s = v) = v.
 $$

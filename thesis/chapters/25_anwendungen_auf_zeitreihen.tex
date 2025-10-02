@@ -3,8 +3,8 @@
 \subsection{Kalibrierung}
 Aus einem Datensatz lassen sich die Parameter $\mu$ und $\sigma$ der
 geometrischen brownschen Bewegung schätzen. 
-Für reale Werte ist $\Delta t \gt 0$ und $n$ ist die (endliche) Anzahl von Datenpunkten. 
-Zur Schätzung von $\mu$ und $\sigma$ werden die log-Rendite
+Für reale Werte ist $\Delta t \gt 0$ und $n$ ist die Anzahl von Datenpunkten. 
+Zur Schätzung von $\mu$ und $\sigma$ werden die (unabhängigen) log-Rendite
 $$r_j := \log S_j - \log S_{j-1}= \big(\mu - \tfrac12 \sigma^2\big)\Delta t + \sigma (W_j - W_{j-1})$$
 genutzt. Da $W_j - W_{j-1} \sim \mathcal N(0, \Delta t)$ folgt
 $$r_j \sim \mathcal N((\mu - \tfrac12 \sigma^2)\Delta t, \sqrt{\sigma} \Delta t).$$
@@ -20,9 +20,11 @@ mu <- mean(log_returns) + 0.5 * sigma^2
 \end{lstlisting}
 
 \subsection{Bootstrap-Verfahren zur Kalibrierung}
-Das Bootstrap-Verfahren ermöglicht eine probabilistische Schätzung der Parameter $\mu$ und $\sigma$. Falls die vorliegenden Daten z. B.
-Lückenhaft sind, kann dies detektiert werden. Durch wiederholte Auswahl (Sampling) von Teildaten und Schätzung der Parameter, wobei die verschiedenen Schätzungen anschließend verglichen werden kann man Konfidenzintervalle für $\mu$ und $\sigma$ erzeugen. 
-Wenn sich die Parameterschätzungen stark unterscheiden kann man z. B. schließen, dass die Daten unsauber sind, oder nicht der GBM entsprechen. Es folgt eine Implementierung in R:
+Das Bootstrap-Verfahren ermöglicht eine probabilistische Schätzung der Parameter $\mu$ und $\sigma$. 
+Durch wiederholte Auswahl (Sampling) von Teildaten und Schätzung der Parameter, 
+wobei die verschiedenen Schätzungen anschließend verglichen werden kann man Konfidenzintervalle für $\mu$ und $\sigma$ erzeugen. 
+Wenn sich die Parameterschätzungen stark unterscheiden (z. B. durch geringe oder gestörte Datenbasis), so sind die Konfidenzintervall breiter.
+Es folgt eine Implementierung in R:
 
 \begin{lstlisting}
 log_returns <- diff(log(dax$Price))
@@ -40,10 +42,10 @@ sigma_ci <- quantile(boot_df$sigma, c(0.025, 0.975))
 Die Bootstrap-Methode liefert für die DAX-Daten zum 5\%-Niveau:
 $$\mu = 0.051 \in [-0.055, 0.148], \quad \sigma = 0.218 \in [0.212, 0.225].$$
 
-\subsection{Berechnung von Konfidenzintervallen}
+\subsection{Berechnung von Konfidenzintervallen für künftige Werte}
 
-Da $S_T$ log-normalverteilt ist, reicht es ein Konfidenzintervall für die log-Normalverteilung
-zu berechnen.
+Da $S_T$ log-normalverteilt ist, reicht es ein Konfidenzintervall für die 
+logarithmische Normalverteilung zu berechnen.
 Sei $X \sim \mathcal N(\mu, \sigma^2)$ eine normalverteilte Zufallsvariable.
 Dann ist $Y := e^X$ log-normalverteilt mit Parametern $\mu$ und $\sigma^2$.
 Ein zweiseitiges Konfidenzintervall für $X$ mit Konfidenzniveau $1-\alpha$ ist
@@ -122,7 +124,7 @@ man \textit{Überdeckungswahrscheinlichkeit}.
     \label{fig:dax_backtest}
 \end{figure}
 
-\begin{lemma}[Weitere Metriken für Zeitreihenschätzungen]
+\begin{bem}[Weitere Metriken für Zeitreihenschätzungen]
 Botchkarev \cite{botchkarev_performance_2019} nennt u. a. folgende Metriken, um die Richtigkeit von Vorhersagen zu bewerten:
 \begin{itemize}
     \item Mean Squared Error (MSE): $$\text{MSE} = \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2$$
@@ -136,7 +138,7 @@ zu interpretieren ist. Der NRMSE normiert den MSE auf den Bereich der Zeitreihe,
 wodurch er vergleichbarer wird. Der MAPE gibt den durchschnittlichen prozentualen Fehler an, und ist
 somit ebenfalls anschaulich interpretierbar.
 
-\end{lemma}
+\end{bem}
 
 \begin{bsp}[Metriken des DAX-Backtests]
 Im obigen Backtest des DAX ergeben sich folgende Metriken:

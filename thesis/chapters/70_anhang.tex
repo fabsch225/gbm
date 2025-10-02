@@ -6,8 +6,10 @@
     \item $X \sim \mathcal N(\mu, \sigma^2)$ - normalverteilte Zufallsvariable mit Erwartungswert $\mu$ und Varianz $\sigma^2$
     \item $(\Omega, \mathcal F, P)$ - Wahrscheinlichkeitsraum
     \item $W_t$ - brownsche Bewegung (Wiener-Prozess)
-    \item $o(\Delta t)$ - beliebiger Term, der im Limes (Kontext) so schnell wie $\Delta t$ verschwindet
-    \item $o(1)$ - beliebiger Term, der im Limes (Kontext) verschwindet
+    \item $O(x)$ - beliebiger Term, der sich (im Limes) linear zu $x$ verhält bzw. Menge der Funktionen die sich so verhalten.
+$$\lim_{x \to x_0} \left \vert \frac{f(x)}{g(x)} \right \vert  \lt M \iff f \in O(g(x))$$    
+    \item $o(x)$ - beliebiger Term, der (im Limes) schneller als $x$ verschwindet
+$$\lim_{x \to x_0} \frac{f(x)}{g(x)} = 0 \iff f \in o(g(x))$$    
     \item $L^2(\Omega)$ - Der normierte Vektorraum der Zufallsvariablen $X : \Omega \to \Bbb R$, wobei $E(X^2) \lt \infty$ ist.
     \item i.i.d. - Die Zufallsvariablen sind stochastisch Unabhängig und identisch verteilt.
     \item GBM - geometrische brownsche Bewegung
@@ -32,7 +34,7 @@ Auf das Verhältnis zwischen den Konvergenzbegriffen wird bei Bedarf eingegangen
 
 \subsection{Ergebnisse aus der Stochastik}
 
-\begin{satz}[Cramér-Wold-Technik, Henze \cite{henze} S. 225]
+\begin{satz}[Cramér-Wold-Technik, Henze 2023 \cite{henze} S. 225]
 Seien $(X_n)_{n \in \Bbb N}$ und $X$ Zufallsvektoren in $\Bbb R^d$. Dann sind folgende Aussagen äquivalent:
 \begin{enumerate}
     \item $X_n \xrightarrow{d} X$ für $n \to \infty$.
@@ -42,7 +44,7 @@ Wird hier nicht bewiesen. \qed \\
 Die Cramér-Wold-Technik erlaubt es, mehrdimensionale Verteilungskonvergenz auf eindimensionale Berechnungen zurückzuführen.
 \end{satz}
 
-\begin{satz}[Zentraler Grenzwertsatz von Lindeberg-Feller, Henze \cite{henze} S. 223]
+\begin{satz}[Zentraler Grenzwertsatz von Lindeberg-Feller, Henze 2023 \cite{henze} S. 223]
 Die Zufallsvariablen $X_{ni}, 1 \le i \le k_n \to \infty$ seien für jedes $n \in \Bbb N$ stochastisch unabhängig mit
 $E(X_{ni})=0$ und $\sigma^2_{ni} = \text{Var}(X_{ni}) \lt \infty$.
 Setze $s_n^2 = \sum_{i=1}^{k_i} \sigma_{ni}^2$. Gilt die Lindeberg-Bedingung
@@ -52,7 +54,7 @@ $$\frac{1}{s_n} \sum_{i=1}^{k_n} X_{ni} \underset{n \to \infty}{\overset d \long
 Wird hier nicht bewiesen. \qed
 \end{satz}
 
-\begin{lemma}[Reihenkriterium für fast sichere Konvergenz, Henze \cite{henze} S. 201]
+\begin{lemma}[Reihenkriterium für fast sichere Konvergenz, Henze 2023 \cite{henze} S. 201]
 Sei $(X_n)_{n \in \Bbb N}$ eine Folge von Zufallsvariablen. Wenn es eine Reihe $\sum_{n=1}^\infty a_n \lt \infty$ mit $a_n \geq 0$ gibt, so dass
 $$P(|X_n| > \varepsilon) \leq a_n \quad \text{für alle } n \in \Bbb N \text{ und jedes } \varepsilon > 0,$$
 dann konvergiert $X_n$ fast sicher gegen $0$, d.h.
@@ -81,11 +83,12 @@ wobei $X_1, X_2, \ldots, X_n$ unabhängige und identisch verteilte Zufallsvariab
 sind, die der Verteilung von $X$ folgen. Der Schätzer konvergiert fast sicher
 gegen den wahren Erwartungswert $I = E[f(X)]$, wenn $n \to \infty$.
 \textit{Beweis.} Nach dem Gesetz der großen Zahlen gilt
-$$\hat{I}_n \longrightarrow E[f(X)] = I, \quad \text{fast sicher.}$$
+$$\hat{I}_n \longrightarrow E[f(X)] = I, \quad \text{fast sicher.}$$ \qed
 \end{defprop}
-\newpage
-\section{Vergleich von GBM und CEV-Modell}
-\begin{table}[H]
+
+\section{Vergleich von geometrischer brownscher Bewegung und Constant Elasticity of Variance Modell}
+
+\begin{table}
     \centering
     \begin{sideways}
         \resizebox{0.8\textheight}{!}{

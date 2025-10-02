@@ -41,7 +41,8 @@ $$S_{t+1} = \begin{cases}
 Im Gegensatz zum Zufallsspaziergang sind die Schritte hier nicht additiv, sondern multiplikativ. Daher
 eignet sich das Binomialmodell (im Gegensatz zum Zufallsspaziergang) zur Modellierung von Aktienkursen, es sind keine negativen Preise möglich.
 
-\begin{center}
+\begin{figure}[h!]
+\centering
 \begin{tikzpicture}[x=3.2cm,y=1.4cm,>=stealth]
     % styles
     \tikzset{price/.style={circle,draw,minimum size=6mm,inner sep=0pt,font=\small}}
@@ -64,6 +65,9 @@ eignet sich das Binomialmodell (im Gegensatz zum Zufallsspaziergang) zur Modelli
     \draw[->] (Sd) -- node[sloped,above] {$p$} (Sud);
     \draw[->] (Sd) -- node[sloped,below] {$1-p$} (Sdd);
 
+    % dots for continuation
+    \node at (2.5,0)   {\LARGE $\cdots$};
+
     % time axis labels
     \node[font=\scriptsize] at (0,-2.4) {Zeit 0};
     \node[font=\scriptsize] at (1,-2.4) {Zeit 1};
@@ -76,12 +80,14 @@ eignet sich das Binomialmodell (im Gegensatz zum Zufallsspaziergang) zur Modelli
         Wkt. $p\in(0,1)$
     };
 \end{tikzpicture}
-\end{center}
+\caption{Die ersten drei Stufen eines Binomialmodells}
+\label{fig:binomialtree}
+\end{figure}
 
 \end{bsp}
 \begin{bsp}[brownsche Bewegung]
-Die brownsche Bewegung beschreibt die Bewegung eines Partikels in 
-einer Flüssigkeit \cite{webster_bb}. Die Zufallsgröße ist hier die Position des Partikels.
+Mit der brownschen Bewegung wurde ursprünglich die Bewegung eines Partikels in 
+einer Flüssigkeit modelliert. Die Zufallsgröße ist hier die Position des Partikels.
 Naturanaloge stochastische Prozesse erfüllen oft eine Stetigkeitsbedingung: 
 Andernfalls würde sich z. B. der Partikel in der Flüssigkeit teleportieren. 
 Konkret: Es bezeichne der Pfad $t \mapsto X_t$ die Realisierungen der Zufallsvariablen $X_t$ unter 
@@ -96,13 +102,7 @@ Im Folgenden wird stochastische Unabhängigkeit und der Erwartungswert im Bezug 
 Dazu definiert man einen neuen Wahrscheinlichkeitsraum, 
 der alle möglichen Verläufe des Prozesses vereint. 
 Um nicht weiter zwischen zeit-stetigen und -diskreten Prozessen unterscheiden zu müssen, 
-sei $I = \Bbb N_0$ im diskreten und $I = \Bbb R_{\ge 0}$ im stetigen Fall. 
-Des weiteren sei $(\tilde \Omega, \mathcal A_t, \tilde P)$ ein Wahrscheinlichkeitsraum, 
-und $(X_t)_{t \in I}$ ein eine Familie von Zufallsvariablen auf dem Wahrscheinlichkeitsraum, 
-die einen stochastischen Prozess bilden. Vorerst wird der Prozess 
-auf dem (unpraktischen) Produkt-Wahrscheinlichkeitsraum
-$$(\Omega, \mathcal F, P) := \bigtimes_{t \in I}(\tilde \Omega, \mathcal A_t,\tilde P)$$
-betrachtet.
+sei $I = \Bbb N_0$ im diskreten und $I = \Bbb R_{\ge 0}$ im stetigen Fall.
 
 \begin{defi}[Adaptiertheit]
 In der modernen Wahrscheinlichkeitsrechnung wird Information über den
@@ -135,15 +135,6 @@ fallen, alle weiteren Kursverläufe sind in dem Ereignis enthalten.
 
 \end{bsp}
 
-\begin{defi}[Wahrscheinlichkeitsraum eines stochastischen Prozesses]
-Mit der Filtration kann man den Wahrscheinlichkeitsraum eines stochastischen Prozesses genauer beschreiben. 
-Der Wahrscheinlichkeitsraum $(\Omega, \mathcal F, P)$, wobei $\mathcal F = \lim_{t \to \infty} \mathcal F_t$, entsteht durch die Filtration $\mathcal F_t$.
-Der stochastische Prozess existiert dann im \textit{filtrierten Wahrscheinlichkeitsraum}. Man schreibt
-$$
-(\Omega, \mathcal F_t, \mathcal F, P).
-$$
-\end{defi}
-
 \begin{defi}[Bedingter Erwartungswert]
 
 Der bedingte Erwartungswert ist wichtig für die Untersuchung stochastischer Prozesse,
@@ -158,17 +149,17 @@ E(\text{Chips dieser Runde}|\text{bekannte Karten}) \ge P(\text{Gewinn}|\text{be
 \end{aligned}
 $$
 
-Sei $B$ ein Ereignis mit $P(B) \neq 0$. Dann definiert man
+Sei $B$ ein Ereignis mit $P(B) \neq 0$. In diesem Fall definiert man
 den \textit{bedingten Erwartungswert} als $$E(X_t|B):=  \frac{1}{P(B)} \int_{B}^{} X_t(\omega) dP(\omega),$$
 und für einen diskreten Wahrscheinlichkeitsraum reicht
 $$E(X_t|B):= \frac{1}{P(B)}\sum_{b \in B} X_t(b) \cdot P(\{ b \})$$
 Mit dem bedingten Erwartungswert wird die Zufallsvariable $E(X_t)$.
 Für eine Zufallsvariable $Y$ wird durch den bedingten Erwartungswert $E(X_t|Y)$ eine neue Zufallsvariable definiert:
 $$E(X_t|Y)(\omega) := E(X_t|Y=Y(\omega)).$$
+In der vorliegenden Arbeit wird der Fall $P(B) = 0$ nicht behandelt. Es sei auf die Literatur (z. B. \cite{shreve}, 2.3) verwiesen.
+
 Im Folgenden werden die Satze des totalen Erwartungswertes und des iterierten Erwartungswertprinzips bewiesen,
-allerdings nur im diskreten Fall. Das ist ausreichend, da die meisten stetigen 
-Prozesse als Grenzprozesse diskreter Prozesse aufgefasst werden können.
-Dann werden die folgenden Aussagen ggf. durch Grenzwertsätze auf den stetigen Fall übertragen. 
+allerdings nur im diskreten Fall. Analoge Ergebnisse gelten im allgemeinen.
 
 \end{defi}
 

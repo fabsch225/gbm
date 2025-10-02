@@ -73,7 +73,7 @@ so spricht man von einer perfekten Replikation. Die Grundidee wird am Beispiel e
 \end{defi}
 
 
-\begin{lemma}[Risikoneutrale Wahrscheinlichkeit für einen Schritt]
+\begin{bem}[Risikoneutrale Wahrscheinlichkeit für einen Schritt]\label{bem:q_prob_1_step}
 Ein Betrag $B_0$ der aus dem Bankkonto angelegt wird steigt durch den risikofreien Zinssatz $r$ kontinuierlich durch
 $$B(t) = e^{rt}B_0.$$
 Daher ist ein Gewinn in der Zukunft ($\Delta t$) weniger wert als ein Gewinn jetzt, da man den jetzigen Gewinn $G$ anlegen könnte, und 
@@ -111,25 +111,25 @@ die „risikoneutrale Wahrscheinlichkeit“. Anders als zuvor
 wurde aber lediglich eine schwächere Aussage gezeigt (nur ein Schritt). 
 Das wird am Folgenden jedoch nachgezogen.
 
-\end{lemma}
+\end{bem}
 
 \begin{defi}[Risikoneutrales Maß]
 Die soeben berechnete Wahrscheinlichkeit $q$ gehört zum risikoneutralen Wahrscheinlichkeitsmaß $Q$.
 Bisher wurde mit dem ursprünglichen Maß $P$ gerechnet. Ab jetzt wird mit $E(X)$, $V(X)$ etc der Erwartungswert
 und die Varianz unter $P$ bezeichnet, während $E_Q(X)$, $V_Q(X)$ etc den Erwartungswert und die Varianz unter $Q$
-bezeichnen. An $Q$ werden folgende Anforderungen gestellt (vgl. Hull, 2022 \cite{hull}, S. 270):
+bezeichnen. An $Q$ werden folgende Anforderungen gestellt (vgl. \cite{hull}, S. 270):
 \begin{enumerate}
     \item $Q$ ist ein Wahrscheinlichkeitsmaß
     \item $Q$ ist äquivalent zu $P$, das heißt $P(A)=0 \iff Q(A)=0$ für alle Ereignisse $A$ (lediglich die Wahrscheinlichkeiten ändern sich, nicht die möglichen Ereignisse)
-    \item Unter $Q$ ist der diskontierte Aktienkurs ein Martingal, also $$E_Q(e^{-r \Delta t} S_{n+1} \mid S_n = v) = v$$ für alle $n$ und $v>0$.
+    \item Unter $Q$ ist der diskontierte Aktienkurs ein Martingal, also $$E_Q(e^{-r \Delta t} S_{t} \mid S_s = v) = e^{-rs\Delta t}\, v$$ für alle $t \gt s$ und $v>0$.
 \end{enumerate}
 Im Fall des Binomialmodells handelt es sich um ein diskretes Wahrscheinlichkeitsmaß, 
 wobei die Werte $Q(S_{t + \Delta t} = u \cdot S_t)=q$ und $Q(S_{t + \Delta t} = d \cdot S_t)=1-q$ bekannt sind.
 Oft können Maße in der Stochastik nur indirekt über ihre Eigenschaften definiert werden, das gilt auch hier. Die Untersuchung der Existenz und Eindeutigkeit eines solchen Maßes überschreitet den Rahmen dieser Arbeit; Es sei auf Shreve \cite{shreve}, (2004, Kap. 5) verwiesen.
 \end{defi}
 
-\begin{lemma}[Diskontierter Aktienkurs im Binomialmodell ist unter $Q$ ein Martingal]
-Mit der Schrittwahrscheinlichkeit aus dem vorherigen Lemma wird nachgewiesen,
+\begin{lemma}[Martingal-Eigenschaft des diskontierten Aktienkurses unter $Q$]
+Mit der Schrittwahrscheinlichkeit aus der Bemerkung \ref{bem:q_prob_1_step} wird nachgewiesen,
 dass der diskontierte Aktienkurs unter dem risikoneutralen Maß $Q$ ein Martingal ist. Dies ergibt sich zwar aus den Anforderungen 
 an $Q$, kann aber mit der Ein-Schritt-Übergangswahrscheinlichkeit verifiziert werden.
 Setze $X_n := e^{-r n \Delta t}\, S_n$. Unter dem risikoneutralen Maß $Q$, das heißt für 
@@ -151,7 +151,6 @@ E_Q(X_t\mid S_s=v)
 = e^{-rt\Delta t}\, v \big(q u + (1-q)d\big)^{t-s} \\
 &= e^{-rt\Delta t}\, v \big(e^{r\Delta t}\big)^{t-s}
 = e^{-rs\Delta t}\, v
-= X_s.
 \end{aligned}
 $$
 Damit ist $(X_n)$ ein Martingal. \qed
@@ -176,7 +175,9 @@ Der faire Preis der Option ist der Erwartungswert der diskontierten Auszahlung.
 \begin{bsp}
 Seien $S_0 = 100\,€$, $u=1.2$, $d=0.8$, $r=0.05$, $\Delta t=1$ Jahr, $K=100\,€$ und $T=2$ Jahre.
 Die risikoneutrale Wahrscheinlichkeit ist $q = \frac{e^{0.05}-0.8}{1.2-0.8} \approx 0.628$.
-Die möglichen Aktienkurse zum Zeitpunkt $T$ sind:
+Die möglichen Aktienkursentwicklungen zum Zeitpunkt $T$ werden in Abbildung \ref{fig:binomialtree_options} gezeigt:
+\begin{figure}[H]
+\centering
 \begin{tikzpicture}[x=3.2cm,y=1.4cm,>=stealth]
     % styles
     \tikzset{price/.style={circle,draw,minimum size=6mm,inner sep=0pt,font=\small}}
@@ -210,7 +211,11 @@ Die möglichen Aktienkurse zum Zeitpunkt $T$ sind:
         $q \approx 0.628$ \\
         $p \ \ \mathrm{beliebig}$
     };
-\end{tikzpicture} \\ Die Auszahlungen der Call-Option zum Zeitpunkt $T$ sind:
+\end{tikzpicture} 
+\caption{Kursentwicklung mit Binomialmodell}
+\label{fig:binomialtree_options}
+\end{figure}
+Die Auszahlungen der Call-Option zum Zeitpunkt $T$ sind:
 $$
 \begin{aligned}
 C_{T,\text{up}} &= \max(144 - 100, 0) = 44\,€, \\
@@ -232,19 +237,22 @@ Der faire Preis der Call-Option ist also etwa 15.7\,€.
 \subsection{Das Black-Scholes-Modell als Grenzfall des Binomialmodells}
 Ziel ist es zu zeigen, dass die fairen Optionspreise
 beim Verfeinern der Zeitdiskretisierung gegen die geometrische brownsche Bewegung konvergieren.
-Dieses Modell wird auch als Black-Scholes-Modell bezeichnet. Hier wird der Grenzübergang im risikoneutralen Maß durchgeführt;
-die Modellannahme aus Kapitel 4 wird übernommen:
+Dieses Modell wird auch als Black-Scholes-Modell bezeichnet. Hier wird der Grenzübergang im risikoneutralen Maß durchgeführt.
+Die Modellannahme aus Kapitel 4 wird übernommen:
 $$
 S_t = S_0 \cdot e^{(\mu - \frac{1}{2}\sigma^2)t + \sigma W_t}
 $$
 und durch Zeitdiskretisierung:
 $$
-\begin{aligned}
-S_{t+\Delta t} &= S_t \cdot e^{(\mu - \frac{1}{2}\sigma^2)\Delta t + \sigma W_{t+\Delta t}}
-\end{aligned}
+S_{t+\Delta t} = S_t \cdot e^{(\mu - \frac{1}{2}\sigma^2)\Delta t + \sigma W_{t+\Delta t}}.
 $$
-\paragraph{Die risikoneutrale Wahrscheinlichkeit im Grenzübergang}
-Zur Vereinfachung der zeitdiskreten Sprunggrößen $u$ und $d$ wird der Drift vernachlässigt.
+
+\begin{satz}[das erweiterte Binomialmodell unter dem Risikoneutralen Maß]
+Unter $Q$ entspricht der Optionspreis der geometrischen Brownschen Bewegung mit den Parametern $r$ (Rendite)
+und $\sigma$ (Volatilität der Aktie).
+
+
+\textit{Beweis}. Zur Vereinfachung der zeitdiskreten Sprunggrößen $u$ und $d$ wird der Drift vernachlässigt.
 Das wird durch ein Arbitrage-Argument gerechtfertigt (vgl. Behrends\cite{behrends}, S. 133):
 Der deterministische Teil der Preisbewegung muss unter dem risikoneutralen Maß verschwinden, 
 sonst gäbe es eine risikolose Gewinnmöglichkeit (Arbitrage). 
@@ -281,8 +289,6 @@ $$
 q(\Delta t) = \frac{\sigma \sqrt{\Delta t} + \big(r - \tfrac12 \sigma^2\big)\Delta t + o(\Delta t)}{2\sigma \sqrt{\Delta t} + o(\sqrt{\Delta t})}
 = \tfrac12 + \frac{r - \tfrac12 \sigma^2}{2\sigma}\,\sqrt{\Delta t} + o(\sqrt{\Delta t}).
 $$
-
-\paragraph{Herleitung der geometrischen brownschen Bewegung unter $Q$}
 An dieser Stelle ist wichtig, dass die Anzahl der Schritte $N_u$ in denen die Aktie steigt, binomialverteilt ist.
 Und zwar zur Anzahl der Schritte $n=T/\Delta t$ mit festen Wahrscheinlichkeit $q(\Delta t)$.
 Dann gilt
@@ -352,6 +358,7 @@ $$
 d.\,h.\ unter $Q$ konvergiert der diskrete Prozess gegen die geometrische brownsche Bewegung. Der Drift-Term ist nicht mehr der
 Trend im Aktienkurs sondern der Zinssatz $r$.
 \qed
+\end{satz}
 
 \begin{satz}[Black–Scholes-Formel für europäische Call-Optionen]
 Sei $C_0^{(n)}$ der Preis der europäischen Call-Option mit Laufzeit $T$ und Strike $K$
