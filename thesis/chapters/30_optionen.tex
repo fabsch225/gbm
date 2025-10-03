@@ -7,7 +7,7 @@ eine Aktie zu einem vorher festgelegten Preis (dem Ausübungspreis) zu kaufen (C
 oder zu verkaufen (Put-Option). Europäische Optionen können nur am Fälligkeitstag ausgeübt 
 werden, während amerikanische Optionen während der gesamten Laufzeit bis zum Verfallsdatum 
 ausgeübt werden können. Den fairen Preis einer Option zu bestimmen ist eine Herausforderung,
-die man mit Hilfe der geometrischen brownschen Bewegung lösen kann. Im Folgenden wird dazu das Black-Scholes-Modell 
+die man mit Hilfe der geometrischen Brownschen Bewegung lösen kann. Im Folgenden wird dazu das Black-Scholes-Modell 
 vorgestellt.
 
 \begin{bsp}
@@ -236,7 +236,7 @@ Der faire Preis der Call-Option ist also etwa 15.7\,€.
 
 \subsection{Das Black-Scholes-Modell als Grenzfall des Binomialmodells}
 Ziel ist es zu zeigen, dass die fairen Optionspreise
-beim Verfeinern der Zeitdiskretisierung gegen die geometrische brownsche Bewegung konvergieren.
+beim Verfeinern der Zeitdiskretisierung gegen die geometrische Brownsche Bewegung konvergieren.
 Dieses Modell wird auch als Black-Scholes-Modell bezeichnet. Hier wird der Grenzübergang im risikoneutralen Maß durchgeführt.
 Die Modellannahme aus Kapitel 4 wird übernommen:
 $$
@@ -355,7 +355,7 @@ Im Grenzwert $n\to\infty$ (bzw.\ $\Delta t \to 0$) folgt damit
 $$
 \log S_T \sim \mathcal N\!\Big(\log S_0 + \big(r - \tfrac12 \sigma^2\big)T,\;\sigma^2 T\Big),
 $$
-d.\,h.\ unter $Q$ konvergiert der diskrete Prozess gegen die geometrische brownsche Bewegung. Der Drift-Term ist nicht mehr der
+d.\,h.\ unter $Q$ konvergiert der diskrete Prozess gegen die geometrische Brownsche Bewegung. Der Drift-Term ist nicht mehr der
 Trend im Aktienkurs sondern der Zinssatz $r$.
 \qed
 \end{satz}
@@ -514,14 +514,14 @@ $$
 \hat{C}_0^{(n)} = e^{-rT} \frac{1}{n} \sum_{i=1}^n f(S_T^{(i)}),
 $$
 wobei $S_T^{(i)}$, $i=1,\ldots,n$ unabhängige Realisierungen des Prozesses $S_T$ sind. Aus Kapitel 6 ist
-ein Algorithmus bekannt, um Realisierungen der geometrischen brownschen Bewegung $S_T$ zu erzeugen.
+ein Algorithmus bekannt, um Realisierungen der geometrischen Brownschen Bewegung $S_T$ zu erzeugen.
 
 \end{lemma}
 
 \begin{bsp}[Monte-Carlo-Simulation einer Call-Option auf den DAX]
 
 Das folgende R-Programm simuliert den Preis einer Call-Option auf den DAX
-mit dem Monte-Carlo-Verfahren. Dabei wird die geometrische brownsche Bewegung
+mit dem Monte-Carlo-Verfahren. Dabei wird die geometrische Brownsche Bewegung
 simuliert und der Erwartungswert der diskontierten Auszahlung approximiert.
 
 \begin{lstlisting}

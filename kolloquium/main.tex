@@ -34,7 +34,7 @@
 
 % Title page setup
 \title[Kolloquium]{Kolloquium}
-\subtitle[Die geometrische brownsche Bewegung und Anwendungen]{Die geometrische brownsche Bewegung und Anwendungen}
+\subtitle[Die geometrische Brownsche Bewegung und Anwendungen]{Die geometrische Brownsche Bewegung und Anwendungen}
 \author{Fabian Schuller}
 \date{\today}
 
@@ -64,9 +64,9 @@
   \begin{itemize}
     \item Presentation der Inhalte der Bachelorarbeit
     \begin{itemize}
-      \item Grundlagen zu Stochastischen Prozessen und der brownschen Bewegung
-      \item Herleitung der geometrischen brownschen Bewegung aus dem Binomialmodell
-      \item Modellierung von Finanzzeitreihen mit der geometrischen brownschen Bewegung
+      \item Grundlagen zu Stochastischen Prozessen und der Brownschen Bewegung
+      \item Herleitung der geometrischen Brownschen Bewegung aus dem Binomialmodell
+      \item Modellierung von Finanzzeitreihen mit der geometrischen Brownschen Bewegung
       \item Bewertung von Aktienoptionen mit Black Scholes
       \item Weiterführende Themen: Stochastische Differentialgleichungen und das CEV-Modell
     \end{itemize}
@@ -74,13 +74,13 @@
   \end{itemize}
 \end{frame}
 
-\section{Die brownsche Bewegung}
+\section{Die Brownsche Bewegung}
 
 \begin{frame}{Stochastische Prozesse}
     \begin{itemize}
       \item Folgen bzw. Familien von Zufallsvariablen $$X_t,\quad t \in \Bbb N \quad \mathrm{ bzw. } \quad  t \in \Bbb R_{\ge 0}$$
       \item Zeitdiskrete Prozesse: Wiederholter Münzwurf, Zufallsspaziergang
-      \item Zeitstetige Prozesse: brownsche Bewegung
+      \item Zeitstetige Prozesse: Brownsche Bewegung
     \end{itemize}
     \begin{figure}
       \centering
@@ -88,7 +88,7 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{Die diskrete brownsche Bewegung}
+\begin{frame}{Die diskrete Brownsche Bewegung}
   \begin{itemize}
     \item Konstruktion durch aufsummierte unabhängige Normalvariablen
     \item Skaliertes Interpolationsverfahren (N-ter Ordnung) ($\rightarrow$ Varianz $\to$ t)
@@ -100,7 +100,7 @@
   \end{figure}
 \end{frame}
 
-\begin{frame}{Die brownsche Bewegung}
+\begin{frame}{Die Brownsche Bewegung}
   \begin{itemize}
   \item Klassische Axiome
     \begin{enumerate}
@@ -110,16 +110,16 @@
       \item Die Zuwächse sind normalverteilt mit $W_{t_1} - W_{t_0} \sim N(0, t_1 - t_0)$
     \end{enumerate}
   \pause
-  \item brownsche Bewegung als Grenzwert
+  \item Brownsche Bewegung als Grenzwert
     \begin{itemize}
-      \item Diskrete brownsche Bewegung und dann $N \to \infty$
+      \item Diskrete Brownsche Bewegung und dann $N \to \infty$
       \item Um die Axiome Nachzuweisen: Satz von Donsker
       \item In der Arbeit: Existenz der endlich-dimensionalen Verteilungen (Cramér-Wold) und (eigener) Nachweis der Stetigkeit
     \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Kovarianzstruktur der brownschen Bewegung}
+\begin{frame}{Kovarianzstruktur der Brownschen Bewegung}
   \begin{itemize}
     \item Kovarianz: $\mathrm{Cov}(W_s,W_t)=\min(s,t)$
   \end{itemize}
@@ -129,16 +129,16 @@
   \end{figure}
 \end{frame}
 
-\begin{frame}{Eigenschaften der brownschen Bewegung}
+\begin{frame}{Eigenschaften der Brownschen Bewegung}
   \begin{itemize}
       \item Martingal-Eigenschaft
       \item stationäre, unabhängige Inkremente, Normalverteilung
       \item Pfade zwar nicht differenzierbar, aber stetig
-      \item Somit eignet sich die brownsche Bewegung zur Modellierung von Rauschen
+      \item Somit eignet sich die Brownsche Bewegung zur Modellierung von Rauschen
   \end{itemize}
 \end{frame}
 
-\section{Die geometrische brownsche Bewegung}
+\section{Die geometrische Brownsche Bewegung}
 
 \begin{frame}{Diskretes Modell}
   \begin{itemize}
@@ -200,7 +200,7 @@ $$
 
 \begin{frame}{Simulation}
   \begin{itemize}
-      \item Exakte Pfadsimulation für GBM mit der geschlossenen Formel und der diskreten brownsche Bewegung
+      \item Exakte Pfadsimulation für GBM mit der geschlossenen Formel und der diskreten Brownsche Bewegung
       \item Anwendung z. B. Monte-Carlo-Simulation für Optionspreise
       \item Numerik: Euler--Maruyama für verallgemeinerte Modelle (CEV etc.)
   \end{itemize}

@@ -2,7 +2,7 @@
 
 \subsection{Kalibrierung}
 Aus einem Datensatz lassen sich die Parameter $\mu$ und $\sigma$ der
-geometrischen brownschen Bewegung schätzen. 
+geometrischen Brownschen Bewegung schätzen. 
 Für reale Werte ist $\Delta t \gt 0$ und $n$ ist die Anzahl von Datenpunkten. 
 Zur Schätzung von $\mu$ und $\sigma$ werden die (unabhängigen) log-Rendite
 $$r_j := \log S_j - \log S_{j-1}= \big(\mu - \tfrac12 \sigma^2\big)\Delta t + \sigma (W_j - W_{j-1})$$
@@ -173,15 +173,15 @@ Man kann Backtests auch sequenziell durchführen: Für jedes Jahr wird aus den v
 
 \subsection{Monte-Carlo-Simulation}
 
-Genauso wie man eine brownsche Bewegung mit summierten Normalverteilungen simuliert, 
-wird eine geometrische brownsche Bewegung durch exponentiell transformierte
+Genauso wie man eine Brownsche Bewegung mit summierten Normalverteilungen simuliert, 
+wird eine geometrische Brownsche Bewegung durch exponentiell transformierte
 summierte Normalverteilungen simuliert. 
 
 
 \begin{bsp}[Monte-Carlo-Simulation des DAX]
 Theoretisch liegt das stetige Modell zugrunde, 
 aber in der Praxis wird eine diskrete Approximation verwendet, hier mit täglichen Schritten.
-Der folgende R-Code (Ausschnitt) simuliert 1000 Pfade der geometrischen brownschen Bewegung
+Der folgende R-Code (Ausschnitt) simuliert 1000 Pfade der geometrischen Brownschen Bewegung
 mit den oben geschätzten Parametern $\mu$ und $\sigma$ für den DAX, wieder für das nächste Jahr (252 Handelstage).
 
 \begin{lstlisting}

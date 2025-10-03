@@ -5,14 +5,15 @@
     \item $V(X)$ bzw. $V[X]$ - Varianz
     \item $X \sim \mathcal N(\mu, \sigma^2)$ - normalverteilte Zufallsvariable mit Erwartungswert $\mu$ und Varianz $\sigma^2$
     \item $(\Omega, \mathcal F, P)$ - Wahrscheinlichkeitsraum
-    \item $W_t$ - brownsche Bewegung (Wiener-Prozess)
+    \item $W_t$ - Brownsche Bewegung (Wiener-Prozess)
+    \item $\mathbf 1_A(\omega)$ - nimmt $1$ an, falls $\omega \in A$, sonst $0$. Mit $\mathbf 1_{\{f \gt 0\}}$ ist $1_A$ mit $A=f^{-1}([0, \infty))$ gemeint
     \item $O(x)$ - beliebiger Term, der sich (im Limes) linear zu $x$ verhält bzw. Menge der Funktionen die sich so verhalten.
 $$\lim_{x \to x_0} \left \vert \frac{f(x)}{g(x)} \right \vert  \lt M \iff f \in O(g(x))$$    
     \item $o(x)$ - beliebiger Term, der (im Limes) schneller als $x$ verschwindet
 $$\lim_{x \to x_0} \frac{f(x)}{g(x)} = 0 \iff f \in o(g(x))$$    
     \item $L^2(\Omega)$ - Der normierte Vektorraum der Zufallsvariablen $X : \Omega \to \Bbb R$, wobei $E(X^2) \lt \infty$ ist.
     \item i.i.d. - Die Zufallsvariablen sind stochastisch Unabhängig und identisch verteilt.
-    \item GBM - geometrische brownsche Bewegung
+    \item GBM - geometrische Brownsche Bewegung
     \item CEV - Constant Elasticity of Variance (Modell)
     \item MSE - Mean Squared Error
     \item NRMSE - Normalized Root Mean Squared Error
@@ -86,7 +87,7 @@ gegen den wahren Erwartungswert $I = E[f(X)]$, wenn $n \to \infty$.
 $$\hat{I}_n \longrightarrow E[f(X)] = I, \quad \text{fast sicher.}$$ \qed
 \end{defprop}
 
-\section{Vergleich von geometrischer brownscher Bewegung und Constant Elasticity of Variance Modell}
+\section{Vergleich von geometrischer Brownscher Bewegung und Constant Elasticity of Variance Modell}
 
 \begin{table}
     \centering
