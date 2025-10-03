@@ -5,8 +5,8 @@ dieser Arbeit nicht im Detail behandelt werden.
 Ausgangspunkt sind stochastische Differentialgleichungen (SDEs), welche die Grundlage für die 
 Modellierung und Simulation allgemeiner zeitstetiger 
 stochastischer Prozesse bilden. Die Herleitung von Itô-SDEs über Itô-Integrale wird skizziert. 
-Unter Verwendung des SDE-Kalkühls werden alternative Modelle zur geometrischen Brownschen Bewegung vorgestellt. 
-Beispielhaft wird das CEV-Modell (Constant Elastic Variance) untersucht, implementiert
+Unter Verwendung des SDE-Kalküls werden alternative Modelle zur geometrischen Brownschen Bewegung vorgestellt. 
+Beispielhaft wird das CEV-Modell (Constant Elasticity of Variance) untersucht, implementiert
 und mit der GBM verglichen.
 
 \begin{bem}[Motivation Stochastischer Differentialgleichungen]
@@ -205,7 +205,7 @@ Deterministisch zeit- und zustandsabhängige Volatilität:
 $$
 dS_t \;=\; \mu(t,S_t)\,S_t\,dt \;+\; \sigma_{\mathrm{loc}}(t,S_t)\,S_t\,dW_t.
 $$
-Spezialfall CEV:
+Spezialfall CEV (Constant Elasticity of Variance):
 $$
 dS_t \;=\; \mu S_t\,dt \;+\; \sigma\,S_t^{\beta}\,dW_t,\qquad \beta\in\mathbb R,
 $$
@@ -239,7 +239,7 @@ dX_t \;=\; a(X_t,t)\,dt \;+\; b(X_t,t)\,dW_t,\quad t\in[0,T],
 $$
 wird ein Zeitschrittgitter $t_n=n\Delta t$ eingeführt und der kontinuierliche Prozess durch eine zeitdiskrete Approximation ersetzt. Erwartungswerte werden via Monte‑Carlo über viele simulierte Pfade geschätzt.
 
-Die Differentialgleichung (DGL) wird dem Euler-Verfahren diskretisiert (vgl. \cite{Baerwolff2025}, S. 62).
+Die Differentialgleichung (DGL) wird dem Euler-Verfahren diskretisiert (vgl. \cite{iacus2008}, S. 62).
 Für die DGL $x^\prime(t)=a(x(t),t)$ liefert das Euler‑Schema
 $$
 x_{n+1} \;=\; x_n \;+\; a(x_n,t_n)\,\Delta t.
@@ -492,8 +492,7 @@ wird gemessen und über alle Gewichte hinweg als Mittelwert angegeben.
 Zum Anderen wird ein sequentieller Backtest mit einem festen Zeitintervall von 20 Tagen durchgeführt, bei dem jeweils 
 alle bis dahin verfügbaren Daten zur Prognose herangezogen werden.
 
-
-\paragraph{Interpretation der Ergebnisse}
+\paragraph{Interpretation der Ergebnisse (im Anhang B)}
 Für den DAX zeigen GBM und CEV ein sehr ähnliches Verhalten. Die Prognosequalität verbessert sich erwartungsgemäß 
 mit zunehmendem Gewicht. Dies steht im Einklang mit der Parameterschätzung, da $\beta$ nahe bei $1$ liegt (s. o.) und 
 sich das CEV-Modell in diesem Fall nahezu wie eine GBM verhält.

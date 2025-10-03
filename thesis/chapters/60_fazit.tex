@@ -1,6 +1,6 @@
 \section{Fazit}
 
-Die Arbeit spannte den Bogen von elementaren stochastischen Prozessen über das Binomialmodell und die diskrete Brownsche 
+Die Arbeit spannt den Bogen von elementaren stochastischen Prozessen über das Binomialmodell und die diskrete Brownsche 
 Bewegung bis zur geometrischen Brownschen Bewegung als kontinuierlichem Grenzfall. Zentrale stochastische Begriffe wie 
 Filtration, bedingter Erwartungswert und Martingal werden eingeführt und in diskreten Wahrscheinlichkeitsräumen verankert. 
 Durch Grenzwertbetrachtungen werden die Konzepte dann auf kontinuierliche Wahrscheinlichkeitsräume übertragen. Es wird gezeigt, dass im Grenzübergang $\Delta t \to 0$ die Kursdynamik durch
@@ -12,7 +12,7 @@ via Rückwärtsinduktion hergeleitet; im Grenzfall führt dies zum Black–Schol
 
 Empirisch werden die Parameter aus 
 Log-Renditen geschätzt, daraus Konfidenzintervalle und -bänder abgeleitet und mittels Monte-Carlo-Simulation validiert. 
-Ein Backtest auf DAX-Daten zeigte eine hohe Überdeckungsrate im 50\%-Band und nachvollziehbare Fehlermaße (MSE, MAPE, NRMSE), 
+Ein Backtest auf DAX-Daten zeigt eine hohe Überdeckungsrate im 50\%-Band und nachvollziehbare Fehlermaße (MSE, MAPE, NRMSE), 
 was die Praxistauglichkeit trotz der Modellvereinfachungen unterstreicht. 
 
 Letztlich wird gezeigt, wie die diskrete Modellierung durch Grenzübergang zur stochastischen Differentialgleichung führt, deren Lösung die 
@@ -22,7 +22,7 @@ heuristische Schreibweise $dS_t = a(S_t,t)\,dt + b(S_t,t)\,dW_t$ mathematisch pr
 Darauf aufbauend werden alternative Modelle wie lokale und stochastische Volatilität und Sprung-Diffusions-Modelle vorgestellt, die realistische Markteigenschaften wie Volatilitäts-Clustering oder Sprünge abbilden können. 
 Am Beispiel des CEV-Modells wird die Parameterschätzung aus diskreten Daten mittels (Quasi-)Maximum-Likelihood 
 erläutert und in R implementiert. Ein Vergleich von DAX, Lufthansa und dem Wechselkurs der türkischen Lira zeigt, dass GBM und CEV meist ähnliche Ergebnisse liefern, das CEV-Modell jedoch insbesondere bei ausgeprägter Korrelation zwischen Preis und Volatilität deutliche Vorteile bietet. Die Ergebnisse unterstreichen die Bedeutung der
- Modellauswahl und Kalibrierung für die praktische Anwendung in der Finanzmathematik.
+Modellauswahl und Kalibrierung für die praktische Anwendung in der Finanzmathematik.
 
 
 \paragraph{Methodik}

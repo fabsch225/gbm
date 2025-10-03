@@ -86,16 +86,17 @@ gegen den wahren Erwartungswert $I = E[f(X)]$, wenn $n \to \infty$.
 \textit{Beweis.} Nach dem Gesetz der großen Zahlen gilt
 $$\hat{I}_n \longrightarrow E[f(X)] = I, \quad \text{fast sicher.}$$ \qed
 \end{defprop}
-
+\newpage
 \section{Vergleich von geometrischer Brownscher Bewegung und Constant Elasticity of Variance Modell}
 
-\begin{table}
-    \centering
+\begin{center}
     \begin{sideways}
         \resizebox{0.8\textheight}{!}{
             \csvautotabular{../r/results/compare_models.csv}
         }
     \end{sideways}
-    \caption{Vergleich der Modelle GBM und CEV über verschiedene Backtests und Metriken: Hitratio - größer ist besser; RMSE - kleiner ist besser; MAPE - kleiner ist besser; NRMSE - kleiner ist besser} 
+    \captionof{table}{Vergleich der Modelle GBM und CEV über verschiedene Backtests und Metriken: 
+    Hitratio - größer ist besser; RMSE - kleiner ist besser; 
+    MAPE - kleiner ist besser; NRMSE - kleiner ist besser} 
     \label{fig:table_gbm_cev}
-\end{table}
+\end{center}

@@ -106,7 +106,7 @@ sei $I = \Bbb N_0$ im diskreten und $I = \Bbb R_{\ge 0}$ im stetigen Fall.
 
 \begin{defi}[Adaptiertheit]
 In der modernen Wahrscheinlichkeitsrechnung wird Information über den
-Wahrscheinlichkeitsraum $(\Omega, \mathcal F, P)$ als Teil-$\sigma$-Algebra 
+Wahrscheinlichkeitsraum $(\Omega, \mathcal A, P)$ als Teil-$\sigma$-Algebra 
 von $\mathcal A$ verschlüsselt (\cite{behrends} S. 13). Dazu wird der Begriff der Filtration 
 definiert: Eine Familie von $\sigma$-Algebren $\mathcal F_t, t \in I$ heißt \textit{Filtration}, 
 wenn $\mathcal F_s \subset \mathcal F_t$ für alle $s \lt t$ gilt. 
@@ -158,7 +158,7 @@ Für eine Zufallsvariable $Y$ wird durch den bedingten Erwartungswert $E(X_t|Y)$
 $$E(X_t|Y)(\omega) := E(X_t|Y=Y(\omega)).$$
 In der vorliegenden Arbeit wird der Fall $P(B) = 0$ nicht behandelt. Es sei auf die Literatur (z. B. \cite{shreve}, 2.3) verwiesen.
 
-Im Folgenden werden die Satze des totalen Erwartungswertes und des iterierten Erwartungswertprinzips bewiesen,
+Im Folgenden werden die Sätze des totalen Erwartungswertes und des iterierten Erwartungswertprinzips bewiesen,
 allerdings nur im diskreten Fall. Analoge Ergebnisse gelten im allgemeinen.
 
 \end{defi}
@@ -222,7 +222,7 @@ Die mathematische Definition erfolgt durch den Bedingten Erwartungswert:
 Ist ein fairer Kurs zum aktuellen Zeitpunkt $s$ auf einem bestimmten Wert, 
 liegt der Erwartungswert zur Messzeit $t \gt s$ bei dem selben Wert.
 
-Ein stochastischer Prozess $(X_t)_{t \in I}$ heißt \textit{Matringal}, 
+Ein stochastischer Prozess $(X_t)_{t \in I}$ heißt \textit{Martingal}, 
 wenn der bedingte Erwartungswert zu einer Stopzeit stets dem aktuellen Wert entsprcht, d.h $$E(X_t|X_s=v) = v.$$
 \end{defi}
 
@@ -234,7 +234,7 @@ Ansonsten ist das Binomialmodell ebenfalls ein Martingal falls $p=0.5$.
 Zuerst wird der Fall $t = s + 1$ gezeigt:
 Es gilt $S_{s+1}=S_s\,\xi_{s+1}$ für eine Zufallsvariable $\xi_{s+1}$ mit $\mathbb{P}(\xi_{s+1}=u)=p,\ \mathbb{P}(\xi_{s+1}=d)=1-p$. Es folgt
 $$E(S_{s+1}|S_s=v)= v \cdot E(\xi_{s+1})=v(pu+(1-p)d).$$
-Und setzt man die Matringaleigenschaft $E(S_{s+1}|S_s=v)=v$ ein, ergibt sich
+Und setzt man die Martingaleigenschaft $E(S_{s+1}|S_s=v)=v$ ein, ergibt sich
 $$pu+(1-p)d=1 \iff p=\frac{1-d}{u-d}.$$
 Seien nun $s \lt t \in \Bbb N_0$ beliebig. Dann gilt $S_t=\xi_{t-1}\cdot \xi_{t-2}\cdots \xi_{s+1}\cdot S_s$. 
 Da die $\xi_i$ unabhängig und identisch verteilt sind, gilt
