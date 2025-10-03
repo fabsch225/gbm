@@ -68,8 +68,16 @@ Es wird gezeigt, das der Differenzenquotient fast-sicher divergiert. Ohne Einsch
 $$\Delta_n W := \frac{W_{1/n} - W_0}{1/n}=n W_{1 / n} \sim \mathcal N(0, n).$$
 Für jedes $M \gt 0$ gilt daher (analoge Abschätzung in Kap. 3)
 $$P(\vert \Delta_n W \vert \lt M) \lt 2 \exp(- \frac{M^2}{2 n}).$$
-Für $n \to \infty$ konvergiert somit die Summe der Wahrscheinlichkeiten mit $M_n = 2^n$, und wegen dem Lemma von Borel-Cantelli
-folgt die Behauptung. \qed
+Für $n \to \infty$ konvergiert somit die Summe der Wahrscheinlichkeiten mit $M_n = 2^n$.
+Wegen dem Lemma von Borel-Cantelli (\ref{satz:borel_cantelli}) gilt, dass mit Wahrscheinlichkeit~1 nur endlich viele der Ereignisse $\{| \Delta_{n_k}W| < M\}$ eintreten. Das heißt: fast-sicher existiert ein $K(\omega)$, so dass für alle $k\ge K(\omega)$ gilt $|\Delta_{n_k}W(\omega)|\ge M$. Da $M>0$ beliebig war, folgt fast-sicher
+$$
+\lim_{k\to\infty} |\Delta_{n_k} W| = \infty,
+$$
+also divergiert der Differenzenquotient (zumindest auf der Teilfolge $n_k$) fast-sicher. Insbesondere kann der Grenzwert
+$$
+\lim_{n\to\infty} \Delta_n W
+$$
+nicht (fast-sicher) existieren als endlicher Wert; somit sind die Pfade der Brownschen Bewegung fast-sicher nicht differenzierbar. \qed
 \end{lemma}
 
 Wie kann man nun eine Differenzialgleichung definieren, wenn die vorliegenden Objekte nicht differenzierbar sind? Genauso wie man eine klassische Differentialgleichung, z. B
@@ -239,7 +247,7 @@ dX_t \;=\; a(X_t,t)\,dt \;+\; b(X_t,t)\,dW_t,\quad t\in[0,T],
 $$
 wird ein Zeitschrittgitter $t_n=n\Delta t$ eingeführt und der kontinuierliche Prozess durch eine zeitdiskrete Approximation ersetzt. Erwartungswerte werden via Monte‑Carlo über viele simulierte Pfade geschätzt.
 
-Die Differentialgleichung (DGL) wird dem Euler-Verfahren diskretisiert (vgl. \cite{iacus2008}, S. 62).
+Die Differentialgleichung (DGL) wird dem Euler-Verfahren\footnote{Die stochastische Erweiterung wird auch Euler-Maruyama-Verfahren genannt.} diskretisiert (vgl. \cite{iacus2008}, S. 62).
 Für die DGL $x^\prime(t)=a(x(t),t)$ liefert das Euler‑Schema
 $$
 x_{n+1} \;=\; x_n \;+\; a(x_n,t_n)\,\Delta t.
@@ -310,7 +318,7 @@ $$
 \widehat\theta\;=\;\underset{\theta}{\arg\max}\ \ell(\theta).
 $$
 Da $p_\theta$ (hier) nicht explizit bekannt ist, wird eine Quasi-Likelihood (QMLE)-Methode verwendet. 
-Hier mit Hilfe der Euler-Maruyama-Approximation.
+Hier mit Hilfe der Euler-Approximation.
 $$
 S_{t_{i+1}}-S_{t_i}\mid S_{t_i}\ \approx\ \mathcal N\!\big(a_\theta(S_{t_i},t_i)\,\Delta t,\; b_\theta^2(S_{t_i},t_i)\,\Delta t\big),
 $$

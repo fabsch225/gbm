@@ -173,7 +173,7 @@ $$
 $$
 Folglich konvergiert die Kovarianzmatrix der Vektoren gegen 
 $\Sigma=(\min(t_i,t_j))_{i,j}$.
-Mit der Cramér–Wold-Technik reicht es, lineare Formen zu betrachten. Sei also $a=(a_1,\dots,a_k)^\top\in\Bbb R^k$ und
+Mit der Cramér–Wold-Technik (\ref{satz:cramer_wold}) reicht es, lineare Formen zu betrachten. Sei also $a=(a_1,\dots,a_k)^\top\in\Bbb R^k$ und
 $$
 Y_N:=\sum_{i=1}^k a_i\,b^{(N)}(t_i),\qquad
 Y:=\sum_{i=1}^k a_i\,W_{t_i},
@@ -186,7 +186,7 @@ und damit
 $$
 V(Y_N)\xrightarrow[N\to\infty]{}\sum_{i,j=1}^k a_i a_j\,\min(t_i,t_j)=:\sigma^2(a).
 $$
-Jedes $Y_N$ ist eine lineare Kombination unabhängiger $\eta_i$. Mit dem Zentralen Grenzwertsatz (von Lindeberg-Feller) wird die Grenzverteilung von $Y_N$ bestimmt.
+Jedes $Y_N$ ist eine lineare Kombination unabhängiger $\eta_i$. Mit dem Zentralen Grenzwertsatz von Lindeberg-Feller (\ref{satz:lindeberg_feller}) wird die Grenzverteilung von $Y_N$ bestimmt.
 Da die Summanden zentriert und von endlicher Varianz sind, bleibt die Lindeberg-Bedingung zu zeigen. Zerlege
 $$
 Y_N=\sum_{i=1}^k a_i b^{(N)}(t_i)=\sum_{j=1}^{M_N} c_{N,j}\,\eta_j,
@@ -336,7 +336,7 @@ Für die unabhängigen Inkremente $Z_{n,k}$ mit
 $$
 Z_{n,k}\sim N\!\big(0,2^{-(n+2)}\big).
 $$
-Für eine Normalverteilung $Z\sim \mathcal N(0,\sigma^2)$ und jedes $\varepsilon>0$ gilt (siehe z. B. Boucheron 2013 \cite{boucheron_concentration_2013} S. 2)
+Für eine Normalverteilung $Z\sim \mathcal N(0,\sigma^2)$ und jedes $\varepsilon>0$ gilt (\cite{boucheron_concentration_2013} S. 2)
 $$
 P(|Z| >\varepsilon) \le 2\exp\!\Big(-\frac{\varepsilon^2}{2\sigma^2}\Big).
 $$
@@ -362,7 +362,7 @@ Da $2e^{-1}<1$ ist, ist die Folge auf der rechten Seite geometrisch und insbeson
 $$
 \sum_{n=1}^\infty P(M_n>\varepsilon_n) < \infty.
 $$
-Mit dem Reihenkriterium für fast sichere Konvergenz folgt, dass $M_n\to 0$ fast sicher.
+Mit dem Reihenkriterium für fast sichere Konvergenz (\ref{lemma:reihenkriterium}) folgt, dass $M_n\to 0$ fast sicher.
 Für $m \gt n \ge N$ beliebig gilt
 $$\sup_{t}|\hat W^{(m)}_t - \hat W^{(n)}_t| \leq \sum_{k=n}^{m-1} M_k. \underset{N \to \infty} \longrightarrow 0$$
 Weil jedes $\big(\hat W^{(n)}\big)_{n\in\Bbb N}$ eine stückweise lineare Funktion ist, folgt

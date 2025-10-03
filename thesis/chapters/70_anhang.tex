@@ -6,7 +6,7 @@
     \item $X \sim \mathcal N(\mu, \sigma^2)$ - normalverteilte Zufallsvariable mit Erwartungswert $\mu$ und Varianz $\sigma^2$
     \item $(\Omega, \mathcal F, P)$ - Wahrscheinlichkeitsraum
     \item $W_t$ - Brownsche Bewegung (Wiener-Prozess)
-    \item $\mathbf 1_A(\omega)$ - nimmt $1$ an, falls $\omega \in A$, sonst $0$. Mit $\mathbf 1_{\{f \gt 0\}}$ ist $1_A$ mit $A=f^{-1}([0, \infty))$ gemeint
+    \item $\mathbf 1_A(\omega)$ - nimmt $1$ an, falls $\omega \in A$, sonst $0$. Mit $\mathbf 1_{\{f \gt 0\}}$ ist $1_A$ mit $A=f^{-1}((0, \infty))$ gemeint
     \item $O(x)$ - beliebiger Term, der sich (im Limes) linear zu $x$ verhält bzw. Menge der Funktionen die sich so verhalten.
 $$\lim_{x \to x_0} \left \vert \frac{f(x)}{g(x)} \right \vert  \lt M \iff f \in O(g(x))$$    
     \item $o(x)$ - beliebiger Term, der (im Limes) schneller als $x$ verschwindet
@@ -35,7 +35,7 @@ Auf das Verhältnis zwischen den Konvergenzbegriffen wird bei Bedarf eingegangen
 
 \subsection{Ergebnisse aus der Stochastik}
 
-\begin{satz}[Cramér-Wold-Technik, Henze 2023 \cite{henze} S. 225]
+\begin{satz}[Cramér-Wold-Technik, Henze 2023 \cite{henze} S. 225]\label{satz:cramer_wold}
 Seien $(X_n)_{n \in \Bbb N}$ und $X$ Zufallsvektoren in $\Bbb R^d$. Dann sind folgende Aussagen äquivalent:
 \begin{enumerate}
     \item $X_n \xrightarrow{d} X$ für $n \to \infty$.
@@ -45,7 +45,7 @@ Wird hier nicht bewiesen. \qed \\
 Die Cramér-Wold-Technik erlaubt es, mehrdimensionale Verteilungskonvergenz auf eindimensionale Berechnungen zurückzuführen.
 \end{satz}
 
-\begin{satz}[Zentraler Grenzwertsatz von Lindeberg-Feller, Henze 2023 \cite{henze} S. 223]
+\begin{satz}[Zentraler Grenzwertsatz von Lindeberg-Feller, Henze 2023 \cite{henze} S. 223]\label{satz:lindeberg_feller}
 Die Zufallsvariablen $X_{ni}, 1 \le i \le k_n \to \infty$ seien für jedes $n \in \Bbb N$ stochastisch unabhängig mit
 $E(X_{ni})=0$ und $\sigma^2_{ni} = \text{Var}(X_{ni}) \lt \infty$.
 Setze $s_n^2 = \sum_{i=1}^{k_i} \sigma_{ni}^2$. Gilt die Lindeberg-Bedingung
@@ -55,7 +55,7 @@ $$\frac{1}{s_n} \sum_{i=1}^{k_n} X_{ni} \underset{n \to \infty}{\overset d \long
 Wird hier nicht bewiesen. \qed
 \end{satz}
 
-\begin{lemma}[Reihenkriterium für fast sichere Konvergenz, Henze 2023 \cite{henze} S. 201]
+\begin{lemma}[Reihenkriterium für fast sichere Konvergenz, Henze 2023 \cite{henze} S. 201]\label{lemma:reihenkriterium}
 Sei $(X_n)_{n \in \Bbb N}$ eine Folge von Zufallsvariablen. Wenn es eine Reihe $\sum_{n=1}^\infty a_n \lt \infty$ mit $a_n \geq 0$ gibt, so dass
 $$P(|X_n| > \varepsilon) \leq a_n \quad \text{für alle } n \in \Bbb N \text{ und jedes } \varepsilon > 0,$$
 dann konvergiert $X_n$ fast sicher gegen $0$, d.h.
@@ -63,7 +63,7 @@ $$P\left(\lim_{n \to \infty} X_n = 0\right) = 1.$$
 Wird hier nicht bewiesen. \qed
 \end{lemma}
 
-\begin{satz}[Satz von Pratt, Elstrod \cite{elstrod} S. 280, vereinfacht]
+\begin{satz}[Satz von Pratt, Elstrod \cite{elstrod} S. 280, vereinfacht]\label{satz:pratt}
 Dieser technische Satz erlaubt es, den Grenzübergang und den Erwartungswert zu vertauschen, und
 kommt im Folgenden bei der Herleitung der Black-Scholes-Formel zum Einsatz.
 Sei $(X_n) \longrightarrow X$ eine Folge von Zufallsvariablen, die fast-überall konvergiert,
@@ -72,7 +72,7 @@ Gilt (1) $Y_n \le X_n \le Z_n$ und (2) $E(Y_n) \longrightarrow E(Y)$, $E(Z_n) \l
 dann folgt $E(X_n) \longrightarrow E(X)$. Wird hier nicht bewiesen. \qed
 \end{satz}
 
-\begin{defprop}[Monte-Carlo-Verfahren]
+\begin{defprop}[Monte-Carlo-Verfahren]\label{def:monte_carlo}
 Monte-Carlo-Verfahren sind stochastische Simulationsmethoden, die zur numerischen
 Lösung von Problemen verwendet werden, insbesondere zur Berechnung von Integralen
 und Erwartungswerten. Sie basieren auf der Erzeugung von Zufallszahlen und
@@ -86,6 +86,39 @@ gegen den wahren Erwartungswert $I = E[f(X)]$, wenn $n \to \infty$.
 \textit{Beweis.} Nach dem Gesetz der großen Zahlen gilt
 $$\hat{I}_n \longrightarrow E[f(X)] = I, \quad \text{fast sicher.}$$ \qed
 \end{defprop}
+
+\begin{satz}[Borel-Cantelli-Lemma]\label{satz:borel_cantelli}
+Sei $(\Omega,\mathcal F, P)$ ein Wahrscheinlichkeitsraum und $(A_n)_{n\in\mathbb N}$ eine Folge von Ereignissen. Es bezeichne
+$$
+\limsup_{n\to\infty} A_n \;=\; \{\omega\in\Omega:\ \omega\in A_n\text{ für unendlich viele }n\}.
+$$
+Gilt
+$$
+\sum_{n=1}^\infty P(A_n) < \infty,
+$$
+so folgt
+$$
+P\bigl(\limsup_{n\to\infty} A_n\bigr) \;=\; 0.
+$$
+Das heißt die Ereignisse $A_n$ treten mit Wahrscheinlichkeit 1 nur endlich oft auf. Unter der zusätzlichen Annahme, dass die Ereignisse $A_n$ unabhängig sind, und gilt außerdem
+$$\sum_{n=1}^\infty P(A_n) = \infty,$$
+dann folgt
+$$
+P\bigl(\limsup_{n\to\infty} A_n\bigr) \;=\; 1.
+$$
+Also treten die $A_n$ mit Wahrscheinlichkeit 1 unendlich oft auf. Wird hier nicht bewiesen. \qed
+\end{satz}
+
+\begin{bem}
+Analog ist
+$$
+\liminf_{n\to\infty} A_n \;=\; \{\omega\in\Omega:\ \omega\in A_n\text{ für nur endlich viele }n\}.
+$$
+Mit den Regeln von de Morgan gilt
+$$P(\limsup_{n \to \infty} A_n) = 1 \iff P(\liminf_{n \to \infty} A_n) = 0,$$
+$$P(\limsup_{n \to \infty} A_n) = 0 \iff P(\liminf_{n \to \infty} A_n) = 1.$$
+\end{bem}
+
 \newpage
 \section{Vergleich von geometrischer Brownscher Bewegung und Constant Elasticity of Variance Modell}
 

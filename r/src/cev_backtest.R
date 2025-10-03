@@ -35,7 +35,7 @@ ggplot(seq_backtest$pred_results, aes(x = Date)) +
   geom_point(aes(y = Actual, color = "Actual"), size = 2) +  
   geom_point(aes(y = Median, color = "Predicted"), size = 2) +     
   geom_errorbar(aes(ymin = Lower, ymax = Upper, color = "Confidence Interval"), width = 5) +
-  labs(title = "Sequential CEV Backtest: DAX",
+  labs(title = "Sequential CEV Backtest: TRY/USD",
        y = "Price", x = "Period", color = "Series") +
   scale_color_manual(values = c(
     "Actual" = "black",
