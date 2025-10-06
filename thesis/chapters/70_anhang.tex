@@ -7,12 +7,12 @@
     \item $(\Omega, \mathcal F, P)$ - Wahrscheinlichkeitsraum
     \item $W_t$ - Brownsche Bewegung (Wiener-Prozess)
     \item $\mathbf 1_A(\omega)$ - nimmt $1$ an, falls $\omega \in A$, sonst $0$. Mit $\mathbf 1_{\{f \gt 0\}}$ ist $1_A$ mit $A=f^{-1}((0, \infty))$ gemeint
-    \item $O(x)$ - beliebiger Term, der sich (im Limes) linear zu $x$ verhält bzw. Menge der Funktionen die sich so verhalten.
+    \item $O(x)$ - beliebiger Term, der sich (im Limes) linear zu $x$ verhält bzw. Menge der Funktionen die sich so verhalten
 $$\lim_{x \to x_0} \left \vert \frac{f(x)}{g(x)} \right \vert  \lt M \iff f \in O(g(x))$$    
     \item $o(x)$ - beliebiger Term, der (im Limes) schneller als $x$ verschwindet
 $$\lim_{x \to x_0} \frac{f(x)}{g(x)} = 0 \iff f \in o(g(x))$$    
-    \item $L^2(\Omega)$ - Der normierte Vektorraum der Zufallsvariablen $X : \Omega \to \Bbb R$, wobei $E(X^2) \lt \infty$ ist.
-    \item i.i.d. - Die Zufallsvariablen sind stochastisch Unabhängig und identisch verteilt.
+    \item $L^2(\Omega)$ - Der normierte Vektorraum der Zufallsvariablen $X : \Omega \to \Bbb R$, wobei $E(X^2) \lt \infty$ ist
+    \item i.i.d. - Die Zufallsvariablen sind stochastisch Unabhängig und identisch verteilt
     \item GBM - geometrische Brownsche Bewegung
     \item CEV - Constant Elasticity of Variance (Modell)
     \item MSE - Mean Squared Error
@@ -27,7 +27,6 @@ $$\lim_{x \to x_0} \frac{f(x)}{g(x)} = 0 \iff f \in o(g(x))$$
     \item $X_n \xrightarrow{\mathrm{pktw.}} X$ - punktweise Konvergenz (Für jedes $\omega \in \Omega$ gilt: $X_n(\omega) \to X(\omega)$)
     \item $X_n \xrightarrow{\mathrm{glm.}} X$ - gleichmäßige Konvergenz (Für jede $\varepsilon > 0$ gilt: $\sup_{\omega \in \Omega} |X_n(\omega) - X(\omega)| < \varepsilon$ für $n$ groß genug)
     \item $X_n \xrightarrow{\mathrm{d}} X$ - Konvergenz in Verteilung (Die Verteilungsfunktion $F_{X_n}$ von $X_n$ konvergiert punktweise gegen die Verteilungsfunktion $F_X$ von $X$, mindestens an den Stetigkeitsstellen von $F_X$)
-    \item $X_n \xrightarrow{\mathrm{p}} X$ - Konvergenz in Wahrscheinlichkeit (Für jede $\varepsilon > 0$ gilt: $P(|X_n - X| > \varepsilon) \to 0$)
     \item $X_n \xrightarrow{\mathrm{f.s.}} X$ - fast sichere Konvergenz (Für fast alle $\omega \in \Omega$ gilt: $X_n(\omega) \to X(\omega)$)
 \end{itemize}
 
@@ -64,8 +63,7 @@ Wird hier nicht bewiesen. \qed
 \end{lemma}
 
 \begin{satz}[Satz von Pratt, Elstrod \cite{elstrod} S. 280, vereinfacht]\label{satz:pratt}
-Dieser technische Satz erlaubt es, den Grenzübergang und den Erwartungswert zu vertauschen, und
-kommt im Folgenden bei der Herleitung der Black-Scholes-Formel zum Einsatz.
+Dieser Satz erlaubt es, den Grenzübergang und den Erwartungswert zu vertauschen.
 Sei $(X_n) \longrightarrow X$ eine Folge von Zufallsvariablen, die fast-überall konvergiert,
 und $(Y_n) \longrightarrow Y$, $(Z_n) \longrightarrow Z$ ebenfalls.
 Gilt (1) $Y_n \le X_n \le Z_n$ und (2) $E(Y_n) \longrightarrow E(Y)$, $E(Z_n) \longrightarrow E(Z)$,
@@ -114,7 +112,7 @@ Analog ist
 $$
 \liminf_{n\to\infty} A_n \;=\; \{\omega\in\Omega:\ \omega\in A_n\text{ für nur endlich viele }n\}.
 $$
-Mit den Regeln von de Morgan gilt
+Und es gilt
 $$P(\limsup_{n \to \infty} A_n) = 1 \iff P(\liminf_{n \to \infty} A_n) = 0,$$
 $$P(\limsup_{n \to \infty} A_n) = 0 \iff P(\liminf_{n \to \infty} A_n) = 1.$$
 \end{bem}

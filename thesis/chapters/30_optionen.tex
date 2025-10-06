@@ -2,7 +2,7 @@
 
 \subsection{Finanzmathematische Grundlagen}
 
-Aktienoptionen sind Finanzderivate, die dem Inhaber das Recht, aber nicht die Pflicht geben, 
+Aktienoptionen sind Finanzderivate\footnote{Die wirtschaftlichen Aspekte werden in Hull, 2023 \cite{hull} vertieft.}, die dem Inhaber das Recht, aber nicht die Pflicht geben, 
 eine Aktie zu einem vorher festgelegten Preis (dem Ausübungspreis) zu kaufen (Call-Option) 
 oder zu verkaufen (Put-Option). Europäische Optionen können nur am Fälligkeitstag ausgeübt 
 werden, während amerikanische Optionen während der gesamten Laufzeit bis zum Verfallsdatum 
@@ -34,7 +34,7 @@ Das Binomialmodell wird erweitert. Zusätzlich zur Aktie und deren Kurs gibt es 
 Zusätzlich wird ein neues Wahrscheinlichkeitsmaß $Q$ eingeführt, das sogenannte risikoneutrale Maß.
 
 \begin{defi}[Arbitrage-Prinzip]
-Durch Arbitrage erzielt man Gewinne, in dem man Güter an einem Markt kauft, und dann fast gleichzeitig (teurer) an einem anderen Verkauft.
+Durch Arbitrage erzielt man Gewinne, indem man Güter an einem Markt kauft, und dann fast gleichzeitig (teurer) an einem anderen verkauft.
 Die Möglichkeit für Arbitrage existiert nur kurzfristig, da die Preise sich im Weltmarkt ausgleichen. Im vorliegenden Modell wird Arbitrage daher ausgeschlossen.  
 Es wird angenommen, dass man keine risikolosen Gewinne erzielen kann, ohne Kapital zu investieren.
 \end{defi}
@@ -252,8 +252,8 @@ Unter $Q$ entspricht der Optionspreis der geometrischen Brownschen Bewegung mit 
 und $\sigma$ (Volatilität der Aktie).
 
 
-\textit{Beweis}. Zur Vereinfachung der zeitdiskreten Sprunggrößen $u$ und $d$ wird der Drift vernachlässigt.
-Das wird durch ein Arbitrage-Argument gerechtfertigt (vgl. Behrends\cite{behrends}, S. 133):
+\textit{Beweis}. Zur Vereinfachung der zeitdiskreten Sprunggrößen $u$ und $d$ wird der Drift der Aktie $\mu$ vernachlässigt.
+Das wird durch ein Arbitrage-Argument gerechtfertigt (vgl. \cite{behrends}, S. 133 und \cite{hull}, S. 329):
 Der deterministische Teil der Preisbewegung muss unter dem risikoneutralen Maß verschwinden, 
 sonst gäbe es eine risikolose Gewinnmöglichkeit (Arbitrage). 
 Für einen Zeitschritt $\Delta t$ folgen damit die Sprunggrößen

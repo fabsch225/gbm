@@ -113,8 +113,8 @@
   \item Brownsche Bewegung als Grenzwert
     \begin{itemize}
       \item Diskrete Brownsche Bewegung und dann $N \to \infty$
-      \item Um die Axiome Nachzuweisen: Satz von Donsker
-      \item In der Arbeit: Existenz der endlich-dimensionalen Verteilungen (Cramér-Wold) und (eigener) Nachweis der Stetigkeit
+      \item Um die Axiome Nachzuweisen und Verteilungskonvergenz im Funktionenraum: Satz von Donsker
+      \item In der Arbeit: Existenz der endlich-dimensionalen Verteilungen (mit Cramér-Wold) und Nachweis der Stetigkeit
     \end{itemize}
 \end{itemize}
 \end{frame}
@@ -122,6 +122,7 @@
 \begin{frame}{Kovarianzstruktur der Brownschen Bewegung}
   \begin{itemize}
     \item Kovarianz: $\mathrm{Cov}(W_s,W_t)=\min(s,t)$
+    \item Bedingte Verteilung: $W_t \mid W_s \sim \mathcal N(W_s,\, t-s)$
   \end{itemize}
   \begin{figure}
     \centering
@@ -132,26 +133,30 @@
 \begin{frame}{Eigenschaften der Brownschen Bewegung}
   \begin{itemize}
       \item Martingal-Eigenschaft
-      \item stationäre, unabhängige Inkremente, Normalverteilung
-      \item Pfade zwar nicht differenzierbar, aber stetig
-      \item Somit eignet sich die Brownsche Bewegung zur Modellierung von Rauschen
+      \item Stationäre, unabhängige Inkremente, normalverteilt
+      \item Pfade sind stetig aber nicht differenzierbar (fast-sicher)
+      \item Somit eignet sich die Brownsche Bewegung zur Modellierung von Rauschen (Zufälliges Element in einem Prozess)
   \end{itemize}
 \end{frame}
 
 \section{Die geometrische Brownsche Bewegung}
 
-\begin{frame}{Diskretes Modell}
+\begin{frame}{Die geometrische Brownsche Bewegung}
   \begin{itemize}
       \item Multiplikatives Modell: $S_{k+1}=S_k(1+X_{k+1})$
       \item Annahme: $X_{k+1}=\mu\Delta t+\sigma\sqrt{\Delta t}\,\varepsilon_{k+1}$
+      \item $\varepsilon_k$ i.i.d mit $E(\varepsilon_k)=1$, $V(\varepsilon_k)=0$. (Z. B. $\mathcal N(0,1)$-Verteilt)
       \item Dies kann man als diskrete stochastische Differenzengleichung (SDE) interpretieren.
-      \item Genauer: Euler--Maruyama-Approximation der SDE $$dS_t = \mu S_t\,dt + \sigma S_t\,dW_t$$
+      \item Genauer: Euler-Maruyama-Approximation der SDE $$dS_t = \mu S_t\,dt + \sigma S_t\,dW_t$$
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Geschlossene Formel}
   \begin{itemize}
       \item Geschlossene Lösung der SDE / Grenzwert der diskreten Übergangsvariablen
+      \begin{itemize}
+        \item Limes: $\Delta t \to 0$ (Zeit-Schritt) und $n \to \infty$ (Anzahl der Messungen)
+      \end{itemize}
       \item $S_T = S_0 \exp\big((\mu-\tfrac12\sigma^2)T + \sigma W_T\big)$
       \item $S_T$ ist log-normalverteilt
   \end{itemize}
@@ -159,6 +164,7 @@
 
 \begin{frame}{Beweisskizze}
   \begin{itemize}
+      \item Ausgangspunkt: $S_{k+1}=S_k(1+X_{k+1})$ mit $X_{k+1}=\mu\Delta t+\sigma\sqrt{\Delta t}\,\varepsilon_{k+1}$
       \item Logarithmierung: $\log S_n = \log S_0 + \sum \log(1+X_j)$
       \item Taylor-Entwicklung bis 2. Ordnung, danach $$
 \begin{aligned}
@@ -229,6 +235,9 @@ $\frac{\sqrt{\text{MSE}}}{y_{max} - y_{min}}$ & $\frac{100\%}{n} \sum_{i=1}^n \l
 \end{tabular}
 \end{table}
 
+\end{frame}
+
+\begin{frame}{Visualisierung von Backtests}
   \begin{figure}
     \centering
   \includegraphics[width=0.49\textwidth]{../thesis/images/dax_backtest.png}
@@ -385,8 +394,7 @@ $$
   \end{itemize}
   \begin{figure}
     \centering
-  \includegraphics[width=0.48\textwidth]{../thesis/images/call_dax_bs.png}
-  \includegraphics[width=0.48\textwidth]{../thesis/images/call_dax_mc.png}
+  \includegraphics[width=0.88\textwidth]{../thesis/images/call_dax_mc.png}
   \end{figure}
 \end{frame}
 
@@ -396,7 +404,7 @@ $$
   \begin{itemize}
     \item Alternative zur GBM
     \item Stochastische Differentialgleichung: $$dS_t \;=\; \mu S_t\,dt \;+\; \sigma\,S_t^{\beta}\,dW_t$$
-    \item Diskretisierung: $$\Delta S_i \approx \mu S_{t_i}\Delta t + \sigma S_{t_i}^{\beta}\sqrt{\Delta t}\,\varepsilon_i,\quad \varepsilon_i\sim\mathcal N(0,1),\Delta S_i := S_{t_{i+1}} - S_{t_i}$$
+    \item Diskretisierung: $$\Delta S_i := S_{t_{i+1}} - S_{t_i} \approx \mu S_{t_i}\Delta t + \sigma S_{t_i}^{\beta}\sqrt{\Delta t}\,\varepsilon_i,\quad \varepsilon_i\sim\mathcal N(0,1)$$
     \item Übergangswahrscheinlichkeit: $$\Delta S_i \mid S_{t_i} \sim \mathcal N\left(\mu S_{t_i} \Delta t,\, \sigma^2 S_{t_i}^{2\beta} \Delta t\right)$$
   \end{itemize}
 \end{frame}
@@ -405,7 +413,7 @@ $$
   \begin{itemize}
     \item Übergangswahrscheinlichkeit: $$\Delta S_i \mid S_{t_i} \sim \mathcal N\left(\mu S_{t_i} \Delta t,\, \sigma^2 S_{t_i}^{2\beta} \Delta t\right)$$
     \item Dichte: $$p(x) = \frac{1}{\sqrt{2\pi v}} \exp\left(-\frac{(x-m)^2}{2v}\right),\quad m = \mu S_{t_i}, v = \sigma^2 S_{t_i}^{2 \beta}$$
-    \item MLE-Schätzer: Betrachte alle Realisierungen der Zeitreihe, und maximiere die Dichte in Abhängigkeit der Parameter
+    \item ML-Schätzer: Betrachte alle Realisierungen der Zeitreihe, und maximiere die Dichte in Abhängigkeit der Parameter
   $$L(\mu, \sigma, \beta) = \prod_{i=0}^{n-1} p(\Delta S_i \mid S_{t_i})$$
     \item Dies wurde in der Arbeit implementiert und mit der GBM verglichen
   \end{itemize}
