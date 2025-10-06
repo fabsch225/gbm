@@ -126,13 +126,17 @@
   \end{itemize}
   \begin{figure}
     \centering
-  \includegraphics[width=0.48\textwidth]{../thesis/images/bb_with_cov.png}
+  \includegraphics[width=0.88\textwidth]{../thesis/images/bb_with_cov_wide.png}
   \end{figure}
 \end{frame}
 
 \begin{frame}{Eigenschaften der Brownschen Bewegung}
   \begin{itemize}
       \item Martingal-Eigenschaft
+      \begin{itemize}
+        \item $E(W_t | W_s = v) = v$ bzw. $E(W_t | W_s) = W_s$
+        \item folgt aus der bedingten Verteilung
+      \end{itemize}
       \item Stationäre, unabhängige Inkremente, normalverteilt
       \item Pfade sind stetig aber nicht differenzierbar (fast-sicher)
       \item Somit eignet sich die Brownsche Bewegung zur Modellierung von Rauschen (Zufälliges Element in einem Prozess)

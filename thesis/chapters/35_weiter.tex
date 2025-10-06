@@ -185,8 +185,7 @@ und es gilt weiterhin die It\^o-Isometrie
 $$
 E\!\left[\Big(\int_0^T X_s\,dW_s\Big)^{\!2}\right] \;=\; E\!\left[\int_0^T X_s^{2}\,ds\right],
 $$
-sowie die Martingaleigenschaft von $M_t:=\int_0^t X_s\,dW_s$. Für lokal 
-quadratintegrierbare $X$ erhält man das Integral durch Lokalisierung via Stoppzeiten.
+sowie die Martingaleigenschaft von $M_t:=\int_0^t X_s\,dW_s$.
 \end{defi}
 
 \begin{defi}[Stochastische Differentialgleichungen]
@@ -236,7 +235,7 @@ Diffusion mit seltenen Sprüngen modelliert durch Poisson-Prozesse.
 $$
 \frac{dS_t}{S_t} \;=\; \big(\mu - \lambda \kappa_J\big)\,dt \;+\; \sigma\,dW_t \;+\; (J_t-1)\,dN_t,
 $$
-wobei $N_t$ Poisson mit Intensität $\lambda$ ist, $J_t$ die Sprunggröße (z.\,B. lognormal) 
+wobei $N_t$ Poisson-verteilt mit Intensität $\lambda$ ist, $J_t$ die Sprunggröße (z.\,B. lognormal) 
 und $\kappa_J= E(J_t-1)$; der Driftterm kompensiert die Sprünge.
 \end{bsp}
 
@@ -337,11 +336,11 @@ $$
 wobei $\varepsilon_{i+1} \sim \mathcal N(0,1)$ unabhängig sind.
 Definiere die Inkremente:
 $$
-\Delta S_i := S_{t_{i+1}} - S_{t_i}
+\Delta S_i := S_{t_{i+1}} - S_{t_i}.
 $$
 Nach obiger Diskretisierung gilt näherungsweise (in die man die deterministischen Terme in die Verteilung von $\varepsilon$ reinzieht):
 $$
-\Delta S_i \mid S_{t_i} \sim \mathcal N\left(\mu S_{t_i} \Delta t,\, \sigma^2 S_{t_i}^{2\beta} \Delta t\right)
+\Delta S_i \mid S_{t_i} \sim \mathcal N\left(\mu S_{t_i} \Delta t,\, \sigma^2 S_{t_i}^{2\beta} \Delta t\right).
 $$
 Das heißt: Für gegebenen Kurs $S_{t_i}$ ist der nächste Schritt normalverteilt mit 
 Mittelwert $\mu S_{t_i} \Delta t$ und Varianz $\sigma^2 S_{t_i}^{2\beta} \Delta t$.
@@ -352,11 +351,11 @@ $$
 Setze $m = \mu S_{t_i} \Delta t$, $v = \sigma^2 S_{t_i}^{2\beta} \Delta t$, $x = \Delta S_i$.
 Die gemeinsame Likelihood für alle Schritte ist das Produkt der Einzeldichten:
 $$
-L(\mu, \sigma, \beta) = \prod_{i=0}^{n-1} p(\Delta S_i \mid S_{t_i})
+L(\mu, \sigma, \beta) = \prod_{i=0}^{n-1} p(\Delta S_i \mid S_{t_i}).
 $$
 Da Produkte numerisch unhandlich sind, nimmt man den Logarithmus:
 $$
-\ell(\mu, \sigma, \beta) = \sum_{i=0}^{n-1} \log p(\Delta S_i \mid S_{t_i})
+\ell(\mu, \sigma, \beta) = \sum_{i=0}^{n-1} \log p(\Delta S_i \mid S_{t_i}).
 $$
 Setzt man die Dichte $p$ ein, ergibt sich die Funktion
 \begin{align*}
@@ -367,7 +366,7 @@ Setzt man die Dichte $p$ ein, ergibt sich die Funktion
 &= -\frac{1}{2} \sum_{i=0}^{n-1} \left[
     \log(2\pi \sigma^2 S_{t_i}^{2\beta} \Delta t)
     + \frac{(\Delta S_i - \mu S_{t_i} \Delta t)^2}{\sigma^2 S_{t_i}^{2\beta} \Delta t}
-\right]
+\right].
 \end{align*} 
 \qed
 \end{satz}

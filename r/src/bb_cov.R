@@ -36,8 +36,9 @@ p1 <- ggplot() +
 
 print(p1)
 
+
 # --- Plot 2: Proper Brownian Motion ---
-Sigma <- outer(t, t, FUN = function(s,u) pmin(s,u))
+Sigma <- outer(t, t, FUN = function(s, u) pmin(s, u))
 
 # Single BM path
 bm_path <- mvrnorm(1, mu = rep(0, n), Sigma = Sigma)
@@ -47,7 +48,7 @@ df_bm <- data.frame(t = t, y = bm_path)
 constant_variance <- 0.2
 df_polygons2 <- data.frame()
 for (i in 2:n) {
-  mean_i <- df_bm$y[i-1]  # current BM value at t[i]
+  mean_i <- df_bm$y[i - 1]  # mean = previous BM value
   dens <- dnorm(y_vals, mean = mean_i, sd = sqrt(constant_variance))
   df_polygons2 <- rbind(df_polygons2, data.frame(
     t = t[i],
@@ -57,11 +58,25 @@ for (i in 2:n) {
   ))
 }
 
+# --- Add horizontal dotted connectors ---
+df_connectors <- df_bm %>%
+  mutate(
+    t_next = lead(t),
+    y_next = lead(y)
+  ) %>%
+  filter(!is.na(t_next)) %>%
+  mutate(xend = t_next) %>%
+  # keep only columns needed for plotting
+  dplyr::select(t, xend, y)
+
 p2 <- ggplot() +
   geom_polygon(data = df_polygons2, aes(x = x, y = y, group = t, fill = "blue"),
                color = "blue", size = 0, alpha = 0.6) +
   geom_line(data = df_bm, aes(x = t, y = y), color = "red", size = 0.8) +
-  labs(title = "Discrete Brownian Motion with distributions",
+  geom_segment(data = df_connectors,
+               aes(x = t, xend = xend, y = y, yend = y),
+               linetype = "dashed", color = "black", size = 0.8) +
+  labs(title = "Discrete Brownian Motion with conditional distributions",
        x = "Time", y = "Value") +
   scale_fill_manual(values = c("blue" = "blue"), guide = "none") +
   theme_minimal()
