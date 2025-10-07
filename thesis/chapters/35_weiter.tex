@@ -104,7 +104,7 @@ Naturanaloge Prozesse sind meist vorhersagbar: Wenn man das Wetter jetzt kennt, 
 
 \begin{defi}[Elementare Prozesse und ihr Integral]
 Fixiere $T>0$. Ein Prozess $H$ heißt \emph{elementar} auf $[0,T]$, wenn es eine 
-Zerlegung $0=t_0<t_1<\dots<t_n=T$ und Zufallsvariablen $\xi_i\in L^2(\Omega,\mathcal F_{t_i},\mathbb P)$, $i=0,\dots,n-1$, gibt mit
+Zerlegung $0=t_0<t_1<\dots<t_n=T$ und Zufallsvariablen $\xi_i\in L^2(\Omega,\mathcal F_{t_i},P)$, $i=0,\dots,n-1$, gibt mit
 $$
 H_t \;=\; \sum_{i=0}^{n-1} \xi_i\,\mathbf 1_{(t_i,t_{i+1}]}(t),\qquad t\in[0,T].
 $$
@@ -143,7 +143,7 @@ Das It\^o-Integral ist nun für elementare Prozesse definiert, und für einen be
 eine passende Folge. So wird dann das It\^o-Integral für beliebige Prozesse definiert:
 Das It\^o-Integral ist der Grenzwert der Integrale der approximierenden elementaren Prozesse.
 Offen bleibt aber die Frage nach der Wohldefiniertheit dieses Integral-Begriffs. Konvergieren zwei Folgen $G_t^{(n)}$, $H_t^{(n)}$ von
-elementaren Prozessen gegen einen Prozess $X_t$ (in der Norm $\|\cdot\|_{2,T}^2$), so muss auch das Integral im Grenzwert übereinstimmen.
+elementaren Prozessen gegen einen Prozess $X_t$ (in der Norm $\|\cdot\|_{2,T}$), so muss auch das Integral im Grenzwert übereinstimmen.
 Hier wird die oben genannte It\^o-Isometrie genutzt.
 
 Für einen allgemeinen vorhersagbaren Prozess $X\in L^2_{\mathrm{pred}}(\Omega\times[0,T])$ wähle 
@@ -376,7 +376,7 @@ Die Log-Likelihood misst, wie gut die Parameter $(\mu, \sigma, \beta)$ die beoba
 Der erste Term bestraft große Varianzen, der zweite Term misst die Abweichung der beobachteten Inkremente von den erwarteten Werten.
 Die Schätzungen der Parameter erhält man durch Maximierung der Log-Likelihood:
 $$
-(\widehat{\mu}, \widehat{\sigma}, \widehat{\beta}) = \underset{\mu, \sigma, \beta}{\arg\max} \; \ell(\mu, \sigma, \beta)
+(\widehat{\mu}, \widehat{\sigma}, \widehat{\beta}) = \underset{\mu, \sigma, \beta}{\arg\max} \; \ell(\mu, \sigma, \beta).
 $$
 Die Funktion wird mit numerischen Optimierungsverfahren (z.B. L-BFGS-B) maximiert.
 \end{bem}

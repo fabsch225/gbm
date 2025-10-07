@@ -48,7 +48,7 @@ Die Cramér-Wold-Technik erlaubt es, mehrdimensionale Verteilungskonvergenz auf 
 Die Zufallsvariablen $X_{ni}, 1 \le i \le k_n \to \infty$ seien für jedes $n \in \Bbb N$ stochastisch unabhängig mit
 $E(X_{ni})=0$ und $\sigma^2_{ni} = \text{Var}(X_{ni}) \lt \infty$.
 Setze $s_n^2 = \sum_{i=1}^{k_i} \sigma_{ni}^2$. Gilt die Lindeberg-Bedingung
-$$(L) \quad \lim_{n \to \infty} L_n(\varepsilon) = \frac{1}{s_n^2} \sum_{i=1}^{k_n} E(X^2_{ni} 1_{\{\vert X_{ni} \vert \gt \varepsilon s_n\}})=0, \quad \forall \varepsilon \gt 0$$
+$$(L) \quad \lim_{n \to \infty} L_n(\varepsilon) = \lim_{n \to \infty} \frac{1}{s_n^2} \sum_{i=1}^{k_n} E(X^2_{ni} 1_{\{\vert X_{ni} \vert \gt \varepsilon s_n\}})=0, \quad \forall \varepsilon \gt 0,$$
 Dann folgt
 $$\frac{1}{s_n} \sum_{i=1}^{k_n} X_{ni} \underset{n \to \infty}{\overset d \longrightarrow} \mathcal N(0,1).$$
 Wird hier nicht bewiesen. \qed
@@ -85,7 +85,7 @@ gegen den wahren Erwartungswert $I = E[f(X)]$, wenn $n \to \infty$.
 $$\hat{I}_n \longrightarrow E[f(X)] = I, \quad \text{fast sicher.}$$ \qed
 \end{defprop}
 
-\begin{satz}[Borel-Cantelli-Lemma]\label{satz:borel_cantelli}
+\begin{satz}[Borel-Cantelli-Lemma, Henze 2023 \cite{henze} S. 65f.]\label{satz:borel_cantelli}
 Sei $(\Omega,\mathcal F, P)$ ein Wahrscheinlichkeitsraum und $(A_n)_{n\in\mathbb N}$ eine Folge von Ereignissen. Es bezeichne
 $$
 \limsup_{n\to\infty} A_n \;=\; \{\omega\in\Omega:\ \omega\in A_n\text{ für unendlich viele }n\}.

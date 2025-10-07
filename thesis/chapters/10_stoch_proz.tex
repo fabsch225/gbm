@@ -156,10 +156,13 @@ $$E(X_t|B):= \frac{1}{P(B)}\sum_{b \in B} X_t(b) \cdot P(\{ b \}).$$
 Mit dem bedingten Erwartungswert wird die Zufallsvariable $E(X_t)$.
 Für eine Zufallsvariable $Y$ wird durch den bedingten Erwartungswert $E(X_t|Y)$ eine neue Zufallsvariable definiert:
 $$E(X_t|Y)(\omega) := E(X_t|Y=Y(\omega)).$$
-An dieser Stelle wird der Fall $P(B) = 0$ nicht definiert. Es sei auf die Literatur (z. B. \cite{shreve}, 2.3) verwiesen.
+
+An dieser Stelle wird der Fall $P(B) = 0$ nicht definiert. Es sei auf die Literatur (z. B. \cite{shreve}, 2.3) verwiesen. Dort
+wird der bedingte Erwartungswert bezüglich einer Teil-Sigma-Algebra $\mathcal G \subset \mathcal F$ (ggf. ein Element der Filtration)
+als Zufallsvariable definiert.
 
 Im Folgenden werden die Sätze des totalen Erwartungswertes und des iterierten Erwartungswertprinzips bewiesen,
-allerdings nur im diskreten Fall. Analoge Ergebnisse gelten im allgemeinen.
+ebenfalls nur im diskreten Fall. Analoge Ergebnisse gelten im allgemeinen.
 
 \end{defi}
 
@@ -223,7 +226,7 @@ Ist ein fairer Kurs zum aktuellen Zeitpunkt $s$ auf einem bestimmten Wert,
 liegt der Erwartungswert zur Messzeit $t \gt s$ bei dem selben Wert.
 
 Ein stochastischer Prozess $(X_t)_{t \in I}$ heißt \textit{Martingal}, 
-wenn der bedingte Erwartungswert zu einer Stopzeit stets dem aktuellen Wert entsprcht, d.h $$E(X_t|X_s=v) = v.$$
+wenn der bedingte Erwartungswert zu einer Stopzeit stets (fast-sicher) dem aktuellen Wert entspricht\footnote{Bei nicht-diskreten Zufallsvariablen ist dies zu interpretieren als $E(X_t|X_s)=X_s$ fast-sicher.}, d.h $$E(X_t|X_s=v) = v.$$
 \end{defi}
 
 \begin{bsp}[Martingaleigenschaft des Binomialmodells]
