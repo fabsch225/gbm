@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1759759293.67405 "c:/UNI/bsc/kolloquium/main.tex" "build/main.pdf" "main" 1759759300.02231 0
+["pdflatex"] 1759944196.38491 "c:/UNI/bsc/kolloquium/main.tex" "build/main.pdf" "main" 1759944202.59256 0
   "../thesis/images/bb_with_cov_wide.png" 1759758989 12464 2acf8ce8857a319c83b7bc2420282b72 ""
   "../thesis/images/call_dax_mc.png" 1759222073 16572 3596cdd493f49cc81ef468d77189b9cc ""
   "../thesis/images/dax_backtest.png" 1759149553 11974 05044340caa41db52bf8956118c2969c ""
@@ -275,12 +275,12 @@
   "C:/Users/fschuller/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/fschuller/AppData/Local/Programs/MiKTeX/tex/latex/wrapfig/wrapfig.sty" 1044403200 26220 3701aebf80ccdef248c0c20dd062fea9 ""
   "C:/Users/fschuller/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
-  "build/main.aux" 1759759299 5693 7e55c1bb09c054ebe3be345fb6605432 "pdflatex"
-  "build/main.nav" 1759759299 3681 5eb163ad6260cf489a89eecff4c2f69c "pdflatex"
-  "build/main.out" 1759759299 768 d5ce564b8bcc25ad84453a770bb84e90 "pdflatex"
-  "c:/UNI/bsc/kolloquium/main.tex" 1759759292 16928 1ff8dec00e733afdd2a2b01af6062adf ""
+  "build/main.aux" 1759944202 5822 4c846cc60675e285fa21d4d1904a527b "pdflatex"
+  "build/main.nav" 1759944202 3774 91d7db9e2d97f621c55b27e59063d1be "pdflatex"
+  "build/main.out" 1759944202 768 d5ce564b8bcc25ad84453a770bb84e90 "pdflatex"
+  "c:/UNI/bsc/kolloquium/main.tex" 1759944196 17312 1ea1fa14231cb96684e1530e7a3c1c5f ""
   "images/bb_2d.png" 1758797754 41800 6ac4fe220458af6328c5be8a7279b82e ""
-  "main.tex" 1759759292 16928 1ff8dec00e733afdd2a2b01af6062adf ""
+  "main.tex" 1759944196 17312 1ea1fa14231cb96684e1530e7a3c1c5f ""
   (generated)
   "build/main.aux"
   "build/main.log"

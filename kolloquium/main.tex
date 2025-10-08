@@ -65,9 +65,9 @@
     \item Presentation der Inhalte der Bachelorarbeit
     \begin{itemize}
       \item Grundlagen zu Stochastischen Prozessen und der Brownschen Bewegung
-      \item Herleitung der geometrischen Brownschen Bewegung aus dem Binomialmodell
+      \item Motivation der geometrischen Brownschen Bewegung
       \item Modellierung von Finanzzeitreihen mit der geometrischen Brownschen Bewegung
-      \item Bewertung von Aktienoptionen mit Black Scholes
+      \item Bewertung von Aktienoptionen mit dem Black-Scholes-Modell
       \item Weiterführende Themen: Stochastische Differentialgleichungen und das CEV-Modell
     \end{itemize}
     \item Diskussion
@@ -91,12 +91,11 @@
 \begin{frame}{Die diskrete Brownsche Bewegung}
   \begin{itemize}
     \item Konstruktion durch aufsummierte unabhängige Normalvariablen
-    \item Skaliertes Interpolationsverfahren (N-ter Ordnung) ($\rightarrow$ Varianz $\to$ t)
-    \item Martingal-Eigenschaft und Varianzwachstum linear in der Zeit
+    \item Skaliertes Interpolationsverfahren (N-ter Ordnung)
   \end{itemize}
   \begin{figure}
     \centering
-  \includegraphics[width=0.4\textwidth]{../thesis/images/disrete_bb.png}
+  \includegraphics[width=0.55\textwidth]{../thesis/images/disrete_bb.png}
   \end{figure}
 \end{frame}
 
@@ -149,7 +148,7 @@
   \begin{itemize}
       \item Multiplikatives Modell: $S_{k+1}=S_k(1+X_{k+1})$
       \item Annahme: $X_{k+1}=\mu\Delta t+\sigma\sqrt{\Delta t}\,\varepsilon_{k+1}$
-      \item $\varepsilon_k$ i.i.d mit $E(\varepsilon_k)=1$, $V(\varepsilon_k)=0$. (Z. B. $\mathcal N(0,1)$-Verteilt)
+      \item $\varepsilon_k$ i.i.d mit $E(\varepsilon_k)=0$, $V(\varepsilon_k)=1$. (Z. B. $\mathcal N(0,1)$-Verteilt)
       \item Dies kann man als diskrete stochastische Differenzengleichung (SDE) interpretieren.
       \item Genauer: Euler-Maruyama-Approximation der SDE $$dS_t = \mu S_t\,dt + \sigma S_t\,dW_t$$
   \end{itemize}
@@ -184,7 +183,7 @@ $$
   \begin{itemize}
       \item Positivität: $S_t>0$ fast sicher
       \item fast sicher stetige Pfade
-      \item Log-Normalverteilt mit $\log S_t \sim N(\log S_0 + \mu - \tfrac12 \sigma^2, \sigma^2)$
+      \item Log-Normalverteilt mit $\log S_t \sim N(\log S_0 + (\mu - \tfrac12 \sigma^2)t, \sigma^2 t)$
   \end{itemize}
 \end{frame}
 
@@ -202,8 +201,8 @@ $$
       \item Konfidenzintervalle und Unsicherheitsschätzung (Bootstrap)
       \begin{itemize}
         \item Die Daten sind ggf. unrein
-        \item Schätze $\mu$ und $\sigma$ wiederholt sud einer Teilmenge der Daten schätzt
-        \item Ein Konfidenzband ergibt probabilistische Schätzung von $\mu$ und $\sigma$
+        \item Schätze $\mu$ und $\sigma$ wiederholt aus einer Teilmenge der Daten schätzt
+        \item Resultat ist ein Konfidenzintervall für $\mu$ und $\sigma$
       \end{itemize}
   \end{itemize}
 \end{frame}
@@ -216,7 +215,7 @@ $$
   \end{itemize}
   \begin{figure}
     \centering
-  \includegraphics[width=0.48\textwidth]{../thesis/images/dax_monte_carlo.png}
+  \includegraphics[width=0.88\textwidth]{../thesis/images/dax_monte_carlo.png}
   \end{figure}
 \end{frame}
 
@@ -272,8 +271,6 @@ $\frac{\sqrt{\text{MSE}}}{y_{max} - y_{min}}$ & $\frac{100\%}{n} \sum_{i=1}^n \l
       \pause
       \item 100€ jetzt, denn man könnte das Geld anlegen, und 2\% Zinsen erhalten
       \item Modellerweiterung: Bank bietet risikofreien Zinssatz $r$
-      \pause
-      \item Arbitrage-Prinzip: Der Trend der Aktie muss beim Preis der Option beachtet werden 
   \end{itemize}
 \end{frame}
 
@@ -330,12 +327,22 @@ $\frac{\sqrt{\text{MSE}}}{y_{max} - y_{min}}$ & $\frac{100\%}{n} \sum_{i=1}^n \l
 
 \end{frame}
 
-\begin{frame}{Bewertung von Optionen}
+
+\begin{frame}{Risikoneutrale Bewertung von Optionen}
   \begin{itemize}
-      \item Unter Beachtung des risikofreien Zinssatzes wird der Kurs diskontiert: $\tilde S_t = e^{-r t} S_t$ 
-      \pause
-      \item Arbitrage-Prinzip: Der Preis der Option muss unabhängig vom Trend der Aktie sein
-      \item Mathematisch Formuliert: Martingal-Eigenschaft: für $s < t$ gilt $$E(e^{-rt}S_t | S_s = v) = e^{-rs} v$$
+      \item Unterschiedliche Investoren haben unterschiedliche Risikopräferenzen
+      \item Modellannahme risiko-neutrale Welt: Der Investor braucht keine Prämien (Anreize) um riskante Positionen einzugehen
+      \item Das Bankkonto hat in der physikalischen Welt den Vorteil, das kein Risiko besteht.
+      \item Interpretation: Der Trend der Aktie $\mu$ ist eine Risiko-Prämie.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Risikoneutrale Bewertung von Optionen}
+  \begin{itemize}
+      \item Unter Beachtung des risikofreien Zinssatzes wird der Kurs diskontiert: $\tilde S_t = e^{-r t} S_t$
+      \item Der risikofreie Kurs kann nun keinen größeren Erwartungswert haben als das Bankkonto, sonst würde niemand zur Bank gehen.
+      \item Also hat der diskontierte Kurs (in der risiko-freien-Welt) den Erwartungswert $0$, sogar:
+      \item Die Martingal-Eigenschaft: für $s < t$ gilt $$E(e^{-rt}S_t | S_s = v) = e^{-rs} v$$
       \pause
       \item Man konstruirt das risikoneutrale Maß $Q$, um die Martingaleigenschaft des diskontierten Kurses zu garantieren, und nutzt dieses zur Bewertung der Option
   \end{itemize}
