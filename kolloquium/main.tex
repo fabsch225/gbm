@@ -194,8 +194,8 @@ $$
       \item Schätzung von $\mu,\sigma$ über Log-Returns
       \begin{itemize}
         \item Daten sind zu einem festen $\Delta t$ gegeben
-        \item Aus $\log S_{t + \Delta t} \vert \log S_t \sim N(\mu - \tfrac12 \sigma^2, \sqrt{\Delta t} \sigma^2)$ folgt der Schätzer
-        \item $\sigma^2 = s(\Delta \log S_t)$ und $\mu = m(\Delta \log S_t)$ wobei $s$ die empirische Varianz und $m$ das Mittel ist
+        \item Aus $\log S_{t + \Delta t} - \log S_t \sim \mathcal N((\mu - \tfrac12 \sigma^2)\Delta t, \sqrt{\sigma} \Delta t)$ folgt der Schätzer
+        \item $\sigma^2 = s^2(\Delta \log S_t) / \Delta t$ und $\mu = m(\Delta \log S_t) / \Delta t + \tfrac12 \sigma^2$ wobei $s^2$ die empirische Varianz und $m$ das Mittel ist
       \end{itemize}
       \pause
       \item Konfidenzintervalle und Unsicherheitsschätzung (Bootstrap)
@@ -211,7 +211,7 @@ $$
   \begin{itemize}
       \item Exakte Pfadsimulation für GBM mit der geschlossenen Formel und der diskreten Brownsche Bewegung
       \item Anwendung z. B. Monte-Carlo-Simulation für Optionspreise
-      \item Numerik: Euler--Maruyama für verallgemeinerte Modelle (CEV etc.)
+      \item Numerik: Euler-Maruyama für verallgemeinerte Modelle (CEV etc.)
   \end{itemize}
   \begin{figure}
     \centering
@@ -258,7 +258,6 @@ $\frac{\sqrt{\text{MSE}}}{y_{max} - y_{min}}$ & $\frac{100\%}{n} \sum_{i=1}^n \l
         \item Beispiel: Absicherung von Getreide-Ernte
       \end{itemize} 
       \item Auszahlungsfunktion $\max(S_T-K,0)$ (Call), $\max(K-S_T, 0)$ (Put)
-      \item Amerikanische Optionen: jederzeit Einlösbar
       \item Es gibt viele weitere Optionstypen mit anderen Auszahlungen
   \end{itemize}
 \end{frame}
@@ -274,120 +273,35 @@ $\frac{\sqrt{\text{MSE}}}{y_{max} - y_{min}}$ & $\frac{100\%}{n} \sum_{i=1}^n \l
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Herleitung des Black-Scholes Modells}
-  \begin{enumerate}
-      \item Diskretes Modell: Binomialmodell
-      \item Options-Bewertung Binomialmodell
-      \item Black-Scholes als Limes $N \to \infty$
-  \end{enumerate}
-\end{frame}
-
-\begin{frame}{Diskretes Modell: Binomialmodell}
-      $$S_{t+1} = \begin{cases} 
-    d \cdot S_t, & \text{mit Wahrscheinlichkeit }  p \\ 
-    u \cdot S_t, & \text{mit Wahrscheinlichkeit }  1-p
-\end{cases}$$
-     
-\begin{center}
-\begin{tikzpicture}[x=2.6cm,y=1cm,>=stealth]
-    % styles
-    \tikzset{price/.style={circle,draw,minimum size=6mm,inner sep=0pt,font=\small}}
-
-    % nodes
-    \node[price] (S0)  at (0,0)   {$S_0$};
-    \node[price] (Su)  at (1,1)   {$u S_0$};
-    \node[price] (Sd)  at (1,-1)  {$d S_0$};
-    \node[price] (Suu) at (2,2)   {$u^2 S_0$};
-    \node[price] (Sud) at (2,0)   {$u d S_0$};
-    \node[price] (Sdd) at (2,-2)  {$d^2 S_0$};
-
-    % edges with probabilities p and 1-p
-    \draw[->] (S0) -- node[sloped,above] {$p$} (Su);
-    \draw[->] (S0) -- node[sloped,below] {$1-p$} (Sd);
-
-    \draw[->] (Su) -- node[sloped,above] {$p$} (Suu);
-    \draw[->] (Su) -- node[sloped,below] {$1-p$} (Sud);
-
-    \draw[->] (Sd) -- node[sloped,above] {$p$} (Sud);
-    \draw[->] (Sd) -- node[sloped,below] {$1-p$} (Sdd);
-
-    % time axis labels
-    \node[font=\scriptsize] at (0,-2.6) {Zeit 0};
-    \node[font=\scriptsize] at (1,-2.6) {Zeit 1};
-    \node[font=\scriptsize] at (2,-2.6) {Zeit 2};
-
-    % parameter box
-    \node[anchor=west, align=left, font=\scriptsize] at (2.6,2.0) {Parameter:\\
-        Aufstieg $u>1$\\
-        Abstieg $0<d<1$\\
-        Wkt. $p\in(0,1)$
-    };
-\end{tikzpicture}
-\end{center}
-
-\end{frame}
-
-
-\begin{frame}{Risikoneutrale Bewertung von Optionen}
+\begin{frame}{Black-Scholes Modell}
   \begin{itemize}
-      \item Unterschiedliche Investoren haben unterschiedliche Risikopräferenzen
-      \item Modellannahme risiko-neutrale Welt: Der Investor braucht keine Prämien (Anreize) um riskante Positionen einzugehen
-      \item Das Bankkonto hat in der physikalischen Welt den Vorteil, das kein Risiko besteht.
-      \item Interpretation: Der Trend der Aktie $\mu$ ist eine Risiko-Prämie.
+      \item Im Black-Scholes Modell wird der Wert der Option durch eine GBM modelliert
+      \begin{itemize}
+        \item Der Diffusionsterm bleibt $\sigma$, wie bei der Aktie
+        \item Als Drift-Term setzt man den risiko-neutralen Zinsatz $r$
+      \end{itemize}
+      \item Black-Scholes Modell wird eine risiko-neutrale Welt angenommen, da man die Risikopräferenzen der Anleger nicht kennt
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Risikoneutrale Bewertung von Optionen}
   \begin{itemize}
-      \item Unter Beachtung des risikofreien Zinssatzes wird der Kurs diskontiert: $\tilde S_t = e^{-r t} S_t$
-      \item Der risikofreie Kurs kann nun keinen größeren Erwartungswert haben als das Bankkonto, sonst würde niemand zur Bank gehen.
-      \item Also hat der diskontierte Kurs (in der risiko-freien-Welt) den Erwartungswert $0$, sogar:
+      \item Der risikofreie Kurs kann nun keinen größeren Erwartungswert haben als das Bankkonto, sonst würde niemand bei der Bank Geld anlegen
+      \item In der physikalischen Welt hat die Bank den Vorteil, dass die Zinsen garantiert sind. In der risiko-neutralen Welt besteht dieser Vorteil nicht 
+      \pause
+      \item Die Zins-Erwartung wird ausgleicht (der Kurs diskontiert) $\tilde S_t = e^{-r t} S_t$
+      \item Der diskontierte Kurs (in der risiko-freien-Welt) den Erwartungswert $0$, sogar:
       \item Die Martingal-Eigenschaft: für $s < t$ gilt $$E(e^{-rt}S_t | S_s = v) = e^{-rs} v$$
       \pause
-      \item Man konstruirt das risikoneutrale Maß $Q$, um die Martingaleigenschaft des diskontierten Kurses zu garantieren, und nutzt dieses zur Bewertung der Option
+      \item Man konstruiert das risikoneutrale Maß $Q$, um die Martingaleigenschaft des diskontierten Kurses zu garantieren, und nutzt dieses zur Bewertung der Option
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Beispiel: risikoneutrale ein-Schritt-Wahrscheinlichkeit}
-Frage: wie muss $p$ aussehen, damit $e^{-r t} S_t$ im Binomialmodell ein Martingal ist? Diese Wahrscheinlichkeit wird im folgenden $q$ genannt.
 
-$$
-\begin{aligned}
-&E(e^{-r (n+1) \Delta t} S_{n+1} \mid S_n = v) = e^{-r n \Delta t} v
-\\ 
-\iff &E(e^{-r \Delta t} S_{n+1} \mid S_n=v) = v.
-\end{aligned}
-$$
-Setzt man die möglichen Werte für $S_{n+1}$ ein ($S_{n+1} = u S_n$ mit Wahrscheinlichkeit $q$, $S_{n+1} = d S_n$ mit Wahrscheinlichkeit $1-q$) folgt
-$$
-\begin{aligned}
-&e^{-r \Delta t} \left( q u S_n + (1-q) d S_n \right) = v.
-\\
-&e^{-r \Delta t} \left( q u + (1-q) d \right) = 1
-\\
-&q = \frac{e^{r \Delta t} - d}{u - d}
-\end{aligned}
-$$ \qed
-\end{frame}
-
-\begin{frame}{Bewertung von Optionen im Binomialmodell}
-  \begin{itemize}
-      \item Zum Zeitpunkt $N$ der Auszahlung ist der Wert der Option genau die Auszahlungsfunktion, z. B. $\max(S_T - K, 0)$
-      \item Zum Zeitpunkt $N-1$ und davor durch Rückwärtsinduktion gilt mit der risikoneutralen Wahrscheinlichkeit $q$
-      $$
-      \begin{aligned}
-C_{n-1} &= E_Q(e^{-r \Delta t} C_{n} \mid S_{n-1}) \\
-&= e^{-r \Delta t} \left( q C_{n}^\text{up} + (1-q) C_{n}^\text{down} \right)
-      \end{aligned}
-      $$
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Das Black-Scholes Modell}
+\begin{frame}{Fazit Black-Scholes Modell}
   \begin{itemize}
       \item Modellannahmen: GBM, konstante $r,\sigma$, keine Transaktionskosten
-      \item Die diskrete Zeit im Binomialmodell wird stetig durch den Limes $N \to \infty$
-      \item In der Arbeit wird gezeigt, dass $S_t$ unter $Q$ wieder eine GBM ist. Damit kann man Aktien direkt durch Simulation bewerten (Monte-Carlo-Verfahren)
+      \item In der Arbeit wird das Black-Scholes Modell als Grenzwert des Binomialmodells hergeleitet
       \item Für europäische Optionen gilt darüber hinaus die explizite Formel
       $$C_0^{\mathrm{BS}}= S_0\,\Phi(d_1) - K e^{-rT}\,\Phi(d_2)$$ mit
       $$
@@ -411,6 +325,21 @@ $$
 
 \section{Ausblick}
 
+\begin{frame}{Stochastische Differentialgleichungen}
+  \begin{itemize}
+    \item Die Brownsche Bewegung ist (fast-sicher) nicht differenzierbar, dennoch möchte man zeit-stetige Zeitreihen durch DGLs modellieren
+    \item Differentialgleichungen werden als Integralgleichung interpretiert
+    $$dS_t \;=\; a(S_t,t)\,dt \;+\; b(S_t,t)\,dW_t
+$$
+wird zu
+$$
+S_t \;=\; S_0 \;+\; \int_0^t a(S_s,s)\,ds \;+\; \int_0^t b(S_s,s)\,dW_s.
+$$
+  \item $\int_0^t b(S_s,s)\,dW_s$ heißt It\^o-Integral
+  \item Stochastische Integrale werden durch Folgen von "Treppenfunktionen" konstruiert
+  \end{itemize}
+\end{frame}
+
 \begin{frame}{CEV-Modell}
   \begin{itemize}
     \item Alternative zur GBM
@@ -423,7 +352,7 @@ $$
 \begin{frame}{Kalibrierung des CEV-Modell}
   \begin{itemize}
     \item Übergangswahrscheinlichkeit: $$\Delta S_i \mid S_{t_i} \sim \mathcal N\left(\mu S_{t_i} \Delta t,\, \sigma^2 S_{t_i}^{2\beta} \Delta t\right)$$
-    \item Dichte: $$p(x) = \frac{1}{\sqrt{2\pi v}} \exp\left(-\frac{(x-m)^2}{2v}\right),\quad m = \mu S_{t_i}, v = \sigma^2 S_{t_i}^{2 \beta}$$
+    \item Dichte: $$p(x) = \frac{1}{\sqrt{2\pi v}} \exp\left(-\frac{(x-m)^2}{2v}\right),\quad m = \mu S_{t_i}, v = \sigma^2 S_{t_i}^{2 \beta}, x=\Delta S_i$$
     \item ML-Schätzer: Betrachte alle Realisierungen der Zeitreihe, und maximiere die Dichte in Abhängigkeit der Parameter
   $$L(\mu, \sigma, \beta) = \prod_{i=0}^{n-1} p(\Delta S_i \mid S_{t_i})$$
     \item Dies wurde in der Arbeit implementiert und mit der GBM verglichen

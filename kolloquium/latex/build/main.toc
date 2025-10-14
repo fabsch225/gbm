@@ -2,5 +2,5 @@
 \beamer@sectionintoc {2}{Die Brownsche Bewegung}{3}{0}{2}
 \beamer@sectionintoc {3}{Die geometrische Brownsche Bewegung}{9}{0}{3}
 \beamer@sectionintoc {4}{Anwendungen}{13}{0}{4}
-\beamer@sectionintoc {5}{Black-Scholes}{17}{0}{5}
-\beamer@sectionintoc {6}{Ausblick}{31}{0}{6}
+\beamer@sectionintoc {5}{Black-Scholes}{18}{0}{5}
+\beamer@sectionintoc {6}{Ausblick}{28}{0}{6}
