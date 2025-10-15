@@ -215,7 +215,7 @@ $$
   \end{itemize}
   \begin{figure}
     \centering
-  \includegraphics[width=0.88\textwidth]{../thesis/images/dax_monte_carlo.png}
+  \includegraphics[width=0.88\textwidth]{../thesis/images/dax_sims_v2.png}
   \end{figure}
 \end{frame}
 
@@ -223,7 +223,6 @@ $$
   \begin{itemize}
       \item Validierung eines Modells anhand historischer Daten
       \item Metriken zur Bewertung
-  
   \end{itemize}
 \begin{table}[H]
 \centering
@@ -290,7 +289,7 @@ $\frac{\sqrt{\text{MSE}}}{y_{max} - y_{min}}$ & $\frac{100\%}{n} \sum_{i=1}^n \l
       \item In der physikalischen Welt hat die Bank den Vorteil, dass die Zinsen garantiert sind. In der risiko-neutralen Welt besteht dieser Vorteil nicht 
       \pause
       \item Die Zins-Erwartung wird ausgleicht (der Kurs diskontiert) $\tilde S_t = e^{-r t} S_t$
-      \item Der diskontierte Kurs (in der risiko-freien-Welt) den Erwartungswert $0$, sogar:
+      \item Der diskontierte Kurs hat (in der risiko-freien-Welt) den Erwartungswert $0$, sogar:
       \item Die Martingal-Eigenschaft: für $s < t$ gilt $$E(e^{-rt}S_t | S_s = v) = e^{-rs} v$$
       \pause
       \item Man konstruiert das risikoneutrale Maß $Q$, um die Martingaleigenschaft des diskontierten Kurses zu garantieren, und nutzt dieses zur Bewertung der Option

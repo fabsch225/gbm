@@ -36,12 +36,14 @@ sim_df <- data.frame(
 )
 sim_df_examples <- sim_df %>% filter(Path %in% 1:4)
 
+dax_recent <- dax %>% filter(Date >= (max(Date) - years(1)))
+
 ggplot() +
-  geom_line(data = dax, aes(x = Date, y = Price), color = "black") +
+  geom_line(data = dax_recent, aes(x = Date, y = Price), color = "black") +
   geom_line(data = sim_df_examples[-1, ], aes(x = Date, y = Price, group = Path, color = factor(Path)), alpha = 0.7) +
   theme_minimal() +
   guides(color = "none") +
-  labs(title = "DAX historical prices and simulations", x = "Date", y = "Price")
+  labs(title = "DAX historical prices and simulations (calibrated with data from 1990-2025)", x = "Date", y = "Price")
 
 
 alpha = 0.05
