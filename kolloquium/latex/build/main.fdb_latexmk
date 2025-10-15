@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1760465043.06556 "/home/fabian/uni/bsc/gbm/kolloquium/main.tex" "latex/build/main.pdf" "main" 1760465046.60289 0
+["pdflatex"] 1760568861.96127 "/home/fabian/uni/bsc/gbm/kolloquium/main.tex" "latex/build/main.pdf" "main" 1760568872.25402 0
   "../thesis/images/bb_with_cov_wide.png" 1759773401.11552 12464 e6ee09970660a816f521680bf0fce084 ""
   "../thesis/images/call_dax_mc.png" 1759247890.52505 16572 34acd805bac4c7326f131acb92c7dd25 ""
   "../thesis/images/dax_backtest.png" 1759247890.52605 11974 eff301ccaf3ba1984585bf6f16f8fbdd ""
@@ -7,7 +7,7 @@
   "../thesis/images/dax_sims_v2.png" 1760465040.24656 55625 fdbf5911e1106aed11428072f6092a01 ""
   "../thesis/images/disrete_bb.png" 1756330493.35262 22232 cad96afa4631942d3a8f9ec5341cd48c ""
   "/etc/texmf/web2c/texmf.cnf" 1758991188.26138 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/fabian/uni/bsc/gbm/kolloquium/main.tex" 1760465042.53837 14546 24318e023ad25320dfdb37e13d44d076 ""
+  "/home/fabian/uni/bsc/gbm/kolloquium/main.tex" 1760568860.62359 14553 d89a121e9aa81cc2b11c4764586c1bd9 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcss1095.tfm" 1136768653 1536 f0fa079cdc83a6ffeda21e42352cf1ea ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
@@ -279,10 +279,10 @@
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1758991349 5467255 9a64d1b40e0b893fc5588ecce9d8accf ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1758991438 3349095 f5da9aa28344538e333b14351ea90a06 ""
   "images/bb_2d.png" 1759093236.56127 41800 922ead7a6de6c4d5061d0677a455b425 ""
-  "latex/build/main.aux" 1760465046.50354 5437 01d144d39062ecc74ac974bd70e7daa5 "pdflatex"
-  "latex/build/main.nav" 1760465046.50354 3497 d3d4cc9a08d8c683c155217b87eec4f3 "pdflatex"
-  "latex/build/main.out" 1760465046.50354 768 d5ce564b8bcc25ad84453a770bb84e90 "pdflatex"
-  "main.tex" 1760465042.53837 14546 24318e023ad25320dfdb37e13d44d076 ""
+  "latex/build/main.aux" 1760568871.97772 5437 01d144d39062ecc74ac974bd70e7daa5 "pdflatex"
+  "latex/build/main.nav" 1760568871.98072 3497 d3d4cc9a08d8c683c155217b87eec4f3 "pdflatex"
+  "latex/build/main.out" 1760568871.97972 768 d5ce564b8bcc25ad84453a770bb84e90 "pdflatex"
+  "main.tex" 1760568860.62359 14553 d89a121e9aa81cc2b11c4764586c1bd9 ""
   (generated)
   "latex/build/main.aux"
   "latex/build/main.log"

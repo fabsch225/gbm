@@ -62,7 +62,7 @@
 
 \begin{frame}{Ablauf}
   \begin{itemize}
-    \item Presentation der Inhalte der Bachelorarbeit
+    \item Präsentation der Inhalte der Bachelorarbeit
     \begin{itemize}
       \item Grundlagen zu Stochastischen Prozessen und der Brownschen Bewegung
       \item Motivation der geometrischen Brownschen Bewegung
@@ -149,7 +149,7 @@
       \item Multiplikatives Modell: $S_{k+1}=S_k(1+X_{k+1})$
       \item Annahme: $X_{k+1}=\mu\Delta t+\sigma\sqrt{\Delta t}\,\varepsilon_{k+1}$
       \item $\varepsilon_k$ i.i.d mit $E(\varepsilon_k)=0$, $V(\varepsilon_k)=1$. (Z. B. $\mathcal N(0,1)$-Verteilt)
-      \item Dies kann man als diskrete stochastische Differenzengleichung (SDE) interpretieren.
+      \item Dies kann man als diskrete stochastische Differenzialgleichung (SDE) interpretieren.
       \item Genauer: Euler-Maruyama-Approximation der SDE $$dS_t = \mu S_t\,dt + \sigma S_t\,dW_t$$
   \end{itemize}
 \end{frame}
@@ -348,7 +348,7 @@ $$
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Kalibrierung des CEV-Modell}
+\begin{frame}{Kalibrierung des CEV-Modells}
   \begin{itemize}
     \item Übergangswahrscheinlichkeit: $$\Delta S_i \mid S_{t_i} \sim \mathcal N\left(\mu S_{t_i} \Delta t,\, \sigma^2 S_{t_i}^{2\beta} \Delta t\right)$$
     \item Dichte: $$p(x) = \frac{1}{\sqrt{2\pi v}} \exp\left(-\frac{(x-m)^2}{2v}\right),\quad m = \mu S_{t_i}, v = \sigma^2 S_{t_i}^{2 \beta}, x=\Delta S_i$$
